@@ -1,0 +1,7 @@
+<article>
+  <%= activity['actor'].name %>
+  <small><em>likes <%= activity['object'].class.to_s.downcase %></em></small>
+  <%= activity['object'].try(:title).try(:truncate, 25) %>
+  <%= "on #{activity['object'].commentable.class.to_s.downcase}" if activity['object'].class.to_s == "Comment" %>
+</article>
+<hr>

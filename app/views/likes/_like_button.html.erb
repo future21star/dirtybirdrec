@@ -1,0 +1,16 @@
+<% if object.likes.where(user_id: current_user.id).first.present? %>
+  <%= render partial: 'likes/unlike', 
+      locals: {like: object.likes.where(user_id: current_user.id).first} %>
+<% else %>
+  <%= render partial: 'likes/like', 
+      locals: { likeable_id: object.id, likeable_type: object.class.to_s } %>
+<% end %>
+
+<a href="#" tabindex="0" data-toggle="popover" data-placement="right" data-content='
+  <% object.likes.each do |like| %>
+    <%= link_to user_path(like.user_id) do %>
+      <%= like.user.name %>
+    <% end %>
+  <% end %>' data-trigger="focus" data-html="true" onclick="return false;">
+  <span class="badge badge-secondary"><%= object.likes.count %></span>
+</a>

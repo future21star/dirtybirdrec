@@ -1,0 +1,15 @@
+<% if action_name == 'create' %>
+  $('<%= "#like-#{like.likeable_type}-#{like.likeable_id}" %>')
+      .replaceWith(`
+        <%= escape_javascript(
+          render(partial: 'likes/unlike', locals: { like: like } )
+        ) %>
+      `);
+<% else %>
+  $('<%= "#like-#{likeable_type}-#{likeable_id}" %>')
+      .replaceWith(`
+        <%= escape_javascript(
+          render(partial: 'likes/like', locals: { likeable_type: likeable_type, likeable_id: likeable_id } )
+        ) %>
+      `);
+<% end %>

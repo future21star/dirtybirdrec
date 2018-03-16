@@ -16,3 +16,9 @@
 //= require popper
 //= require bootstrap-sprockets
 //= require_tree .
+
+$(document).on('turbolinks:load', function() {
+  $('[data-toggle="popover"]').popover({
+    trigger: 'focus'
+  })
+})

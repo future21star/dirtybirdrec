@@ -1,0 +1,4 @@
+<%= link_to "Like", likes_path(likeable_type: likeable_type, 
+    likeable_id: likeable_id), id: "like-#{likeable_type}-#{likeable_id}",
+    method: :post#, remote: true 
+%>

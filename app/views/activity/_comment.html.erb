@@ -1,0 +1,6 @@
+<article>
+  <%= activity['actor'].name %>
+  <small><em>comments <%= activity['object'].class.to_s.downcase %></em></small>
+  <%= activity['object'].title.truncate(25) %>
+</article>
+<hr>

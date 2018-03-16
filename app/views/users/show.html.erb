@@ -1,0 +1,7 @@
+<div class="container">
+  <h1><%= @user.name %></h1>
+  <p>User likes, comments</p>
+  <div>
+    <%= render 'follows/follow_button', user: @user %>
+  </div>
+</div>

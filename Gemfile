@@ -19,7 +19,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 4.0'
 
 gem 'pg'
-gem "stream_rails", '~> 2.2'
+gem "stream_rails"
 gem 'devise'
 gem 'cancancan', '~> 2.0'
 gem "rolify"
@@ -37,6 +37,7 @@ group :development, :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
+  gem 'faker'
 end
 
 group :development do
