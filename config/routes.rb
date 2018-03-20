@@ -4,8 +4,16 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
 
   mount Thredded::Engine => '/forum'
+
+  devise_scope :user do
+    unauthenticated do
+      root 'devise/sessions#new', as: :unauthenticated_root
+    end
+  end
   
   root "home#index"
+  
+  get "home", to: "home#index"
 
   get 'about', to: 'home#about'
 
