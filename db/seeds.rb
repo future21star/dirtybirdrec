@@ -49,7 +49,7 @@ new_release_track_2 = Track.create!(
 # Create recent post
 Post.create!(
   title: 'New Announcement!',
-  text: "<p>#{Faker::Lorem.paragraphs(4 + rand(4), true).join("</p>\n<p>")}</p>",
+  text: "Some text",
   created_at: DateTime.current - 3.hours,
   published_at: DateTime.current - 3.hours,
   image_url: 'http://via.placeholder.com/500/008800/ffffff.png?text=New%20Post'
@@ -58,7 +58,7 @@ Post.create!(
 # Create old post
 Post.create!(
   title: 'Old Announcement!',
-  text: "<p>#{Faker::Lorem.paragraphs(4 + rand(4), true).join("</p>\n<p>")}</p>",
+  text: "Some text",
   created_at: DateTime.current - 1.year,
   published_at: DateTime.current - 1.year,
   image_url: 'http://via.placeholder.com/500/880000/ffffff.png?text=Old%20Post'
@@ -67,8 +67,8 @@ Post.create!(
 # Create Topics
 3.times do |i|
   Topic.create!(
-    title: Faker::Lorem.sentence(4, true, 6),
-    text: Faker::Lorem.paragraphs(4 + rand(4), true).join("\r\n\r\n"),
+    title: "Topic #{i}",
+    text: "Some text",
     user_id: User.all.sample.id,
     created_at: DateTime.current - 10.hours + i.hours,
     updated_at: DateTime.current - 10.hours + i.hours,

@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
   def index
+    redirect_to thredded_path if current_user
     @slider = SliderImage.all.ordered
   end
 

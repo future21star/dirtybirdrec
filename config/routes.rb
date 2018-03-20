@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   devise_for :users#, ActiveAdmin::Devise.config
   resources :users, :only =>[:show]
   ActiveAdmin.routes(self)
+
+  mount Thredded::Engine => '/forum'
   
   root "home#index"
 
