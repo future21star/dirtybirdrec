@@ -21,6 +21,12 @@
   </div>
 
   <div class="form-label-group">
+    <%= f.email_field :name, autofocus: true, autocomplete: "name", 
+      class: 'form-control', placeholder: 'Name', required: true %>
+    <%= f.label :name %>
+  </div>
+
+  <div class="form-label-group">
     <%= f.password_field :password, autocomplete: "off", required: true, 
         class: 'form-control', placeholder: "Password" %>
     <%= f.label :password %>
@@ -35,6 +41,4 @@
   <%= f.submit "Sign up", class: "btn btn-lg btn-primary btn-block mb-3" %>
   
   <%= render "devise/shared/links" %>
-  
-  <p class="mt-5 mb-3 text-muted text-center">© 2018</p>
 <% end %>

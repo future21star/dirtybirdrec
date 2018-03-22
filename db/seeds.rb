@@ -5,14 +5,14 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-User.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password', name: "Admin") if Rails.env.development?
-User.create!(email: 'user2@example.com', password: 'password', password_confirmation: 'password', name: "User2") if Rails.env.development?
+User.create(email: 'admin@example.com', password: 'password', password_confirmation: 'password', name: "Admin")
+User.create(email: 'user2@example.com', password: 'password', password_confirmation: 'password', name: "User2")
 
 new_release = Release.create!(
   title: 'Works Well With Others',
   artist: "Claude VonStroke, Will Clarke, Sébastien V",
   catalog: 'DB157',
-  text: "<p>2016 was a banner year for Dirtybird’s founder, Claude VonStroke. He debuted his Get Real alias with Green Velvet in the winter, and followed up with another number one single in the spring with “The Rain Break”. He celebrated the 10th anniversary of “Who’s Afraid of Detroit” to kick off the Summer, and finished in the fall by being crowned ‘America’s Best DJ’ by Pioneer at a ceremony he shared with all the fans at the Dirtybird Campout.</p><p>After a relentless touring schedule the first half of 2017",
+  text: "<p>2016 was a banner year for Dirtybird’s founder, Claude VonStroke. He debuted his Get Real alias with Green Velvet in the winter, and followed up with another number one single in the spring with “The Rain Break”.",
   image_url: 'https://birdfeed-dev.s3.amazonaws.com/uploads/release-images/4dc22b70-b079-489c-9d42-594d4f62dc48/WorksWellWithOthers.jpg',
   facebook_img: 'https://birdfeed-dev.s3.amazonaws.com/uploads/facebook-images/18/ae2ea0be7c11e79b5f6f59ff01eb9b/Works Well With Others - Claude VonStroke Will Clarke Sbastien V - Dirtybird.jpg',
   created_at: DateTime.current - 2.hours,

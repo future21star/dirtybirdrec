@@ -8,51 +8,57 @@
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
       <ul class="navbar-nav mr-5">
-        <li class="nav-item <%= 'active' if current_page?(root_path) %>">
+  <!--       <li class="nav-item <%#= 'active' if current_page?(root_path) %>">
           <a class="nav-link" href="/">
             Home 
-            <%= '<span class="sr-only">(current)</span>'.html_safe if current_page?(root_path) %>
+            <%#= '<span class="sr-only">(current)</span>'.html_safe if current_page?(root_path) %>
           </a>
-        </li>
+        </li> -->
         <li class="nav-item <%= 'active' if current_page?(about_path) %>">
           <%= link_to about_path, class: "nav-link" do %>
-            About us
-            <%= '<span class="sr-only">(current)</span>'.html_safe if current_page?(root_path) %>
+            What is Birdfeed?
+            <%= '<span class="sr-only">(current)</span>'.html_safe if current_page?(about_path) %>
           <% end %>
         </li>
         <li class="nav-item <%= 'active' if current_page?(contacts_path) %>">
           <%= link_to contacts_path, class: "nav-link" do %>
             Contact
-            <%= '<span class="sr-only">(current)</span>'.html_safe if current_page?(root_path) %>
+            <%= '<span class="sr-only">(current)</span>'.html_safe if current_page?(contacts_path) %>
+          <% end %>
+        </li>
+        <li class="nav-item <%= 'active' if current_page?(users_path) %>">
+          <%= link_to users_path, class: "nav-link" do %>
+            Leaderboard
+            <%= '<span class="sr-only">(current)</span>'.html_safe if current_page?(users_path) %>
           <% end %>
         </li>
       </ul>
-      <form class="form-inline mt-2 mt-md-0 mr-3">
+<!--       <form class="form-inline mt-2 mt-md-0 mr-3">
         <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
+      </form> -->
 
       <% if current_user %>
-        <ul class="navbar-nav">
-          <li class="nav-item dropdown">
+         <ul class="navbar-nav"><li>
+<!--          <li class="nav-item dropdown">
             <div class="btn-group">
               <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Profile
               </button>
               <div class="dropdown-menu dropdown-menu-right">
-                <button class="dropdown-item" type="button"><%= current_user.email.split('@')[0] %></button>
-                <%= link_to "Admin dashboard", admin_root_path, class: "dropdown-item" %>
-                <%= link_to "Edit profile", edit_user_registration_path, class: "dropdown-item" %>
-                <div class="dropdown-divider"></div>
+                <button class="dropdown-item" type="button"><%#= current_user.email.split('@')[0] %></button>
+                <%#= link_to "Admin dashboard", admin_root_path, class: "dropdown-item" %>
+                <%#= link_to "Edit profile", edit_user_registration_path, class: "dropdown-item" %>
+                <div class="dropdown-divider"></div>-->
                 <%= link_to "Log out", destroy_user_session_path, 
                     class: "dropdown-item", method: :delete %>
-              </div>
-            </div>
+              <!--</div>
+            </div>-->
           </li>
         </ul>
-      <% else %>
-        <%= link_to "Sign in", user_session_path, class: 'btn btn-outline-secondary' %>
-      <% end %>
+<!--      <%# else %>
+        <%#= link_to "Sign in", user_session_path, class: 'btn btn-outline-secondary' %> -->
+      <% end %> 
     </div>
   </nav>
 </header>

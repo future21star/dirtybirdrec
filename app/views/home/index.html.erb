@@ -1,3 +1,4 @@
+<!-- CAROUSEL -->
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
   <ol class="carousel-indicators">
     <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -23,220 +24,148 @@
     <span class="sr-only">Next</span>
   </a>
 </div>
+<!-- CAROUSEL-END -->
 
-<!-- Marketing messaging and featurettes
-================================================== -->
-<!-- Wrap the rest of the page in another container to center all the content. -->
+<div class="container">
+  
+  <div class="notice"><%= notice %></div>
+  <div class="alert"><%= alert %></div>
 
-<div class="container marketing">
+  <!-- USER FUNCTIONS -->
+  <div class="row mb-4">
+    <div class="col">
+      <ul class="list-group">
+        <li class="list-group-item bg-light">
+          <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+            <%= devise_error_messages! %>
 
-  <!-- Three columns of text below the carousel -->
+            <div class="row">
+              <div class="col">
+                <div class="form-label-group">
+                  <%= f.email_field :email, autofocus: true, autocomplete: "email", 
+                    class: 'form-control', placeholder: 'Email address', required: true %>
+                  <%= f.label :email %>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-label-group">
+                  <%= f.text_field :name, autofocus: true, autocomplete: "name", 
+                    class: 'form-control', placeholder: 'Name', required: true %>
+                  <%= f.label :name %>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="col">
+                <div class="form-label-group">
+                  <%= f.password_field :password, autocomplete: "off", required: true, 
+                      class: 'form-control', placeholder: "Password" %>
+                  <%= f.label :password %>
+                </div>
+              </div>
+
+              <div class="col">
+                <div class="form-label-group">
+                  <%= f.password_field :password_confirmation, autocomplete: "off", required: true, 
+                      class: 'form-control', placeholder: "Password confirmation" %>
+                  <%= f.label :password_confirmation %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col offset-6">
+                <%= f.submit "Sign up", class: "btn btn-lg btn-primary btn-block mb-3" %>
+              </div>
+            </div>
+          <% end %>
+        </li>
+      </ul>
+    </div>
+    <div class="col">
+      <ul class="list-group">
+        <li class="list-group-item bg-light">
+          <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+            <%= devise_error_messages! %>
+
+            <div class="form-label-group">
+              <%= f.email_field :email, autocomplete: "email", 
+                class: 'form-control', placeholder: 'Email address', required: true, value: "admin@example.com" %>
+              <%= f.label :email %>
+            </div>
+
+            <div class="form-label-group">
+              <%= f.password_field :password, autocomplete: "off", required: true, 
+                  class: 'form-control', placeholder: "Password", value: "password" %>
+              <%= f.label :password %>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <% if devise_mapping.rememberable? %>
+                  <div class="checkbox mb-3">
+                    <%= f.check_box :remember_me %>
+                    <%= f.label :remember_me %>
+                  </div>
+                <% end %>
+              </div>
+              <div class="col">
+                <%= f.submit "Log in", class: "btn btn-lg btn-primary btn-block mb-3" %>
+              </div>
+            </div>
+          <% end %>
+        </li>
+      </ul>
+    </div>
+  </div>
+   <!-- USER FUNCTIONS-END -->
+
   <div class="row">
-    <div class="col-lg-3">
-      <%= image_tag "dummy/pic1-1.jpg", class: "rounded-circle", width: 140, height: 140 %>
-      <h2>Heading</h2>
-      <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-      <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-    </div><!-- /.col-lg-4 -->
-    <div class="col-lg-3">
-      <%= image_tag "dummy/pic1-1.jpg", class: "rounded-circle", width: 140, height: 140 %>
-      <h2>Heading</h2>
-      <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
-      <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-    </div><!-- /.col-lg-4 -->
-    <div class="col-lg-3">
-      <%= image_tag "dummy/pic1-1.jpg", class: "rounded-circle", width: 140, height: 140 %>
-      <h2>Heading</h2>
-      <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-      <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-    </div><!-- /.col-lg-4 -->
-    <div class="col-lg-3">
-      <%= image_tag "dummy/pic1-1.jpg", class: "rounded-circle", width: 140, height: 140 %>
-      <h2>Heading</h2>
-      <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-      <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-    </div><!-- /.col-lg-4 -->
-  </div><!-- /.row -->
-
-  <div class="row">
-    <div class="col-md-3">
-      <div class="card mb-4 box-shadow">
-        <%= image_tag "dummy/pic1-1.jpg", class: "card-img-top", 
-            data: {holder: {rendered: true}}, 
-            style: "height: 225px; width: 100%; display: block;" %>
-        <div class="card-body">
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="btn-group">
-              <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-              <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-            </div>
-            <small class="text-muted">9 mins</small>
-          </div>
+    <div class="col">
+      <div class="row">
+        <div class="col">
+          <ul class="list-group">
+            <li class="list-group-item bg-success">
+              <%= @release.title %>
+            </li>
+          </ul>
+          <%= link_to "See all tracks", releases_path %>
         </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="card mb-4 box-shadow">
-        <%= image_tag "dummy/pic1-1.jpg", class: "card-img-top", 
-            data: {holder: {rendered: true}}, 
-            style: "height: 225px; width: 100%; display: block;" %>
-        <div class="card-body">
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="btn-group">
-              <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-              <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-            </div>
-            <small class="text-muted">9 mins</small>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="card mb-4 box-shadow">
-        <%= image_tag "dummy/pic1-1.jpg", class: "card-img-top", 
-            data: {holder: {rendered: true}}, 
-            style: "height: 225px; width: 100%; display: block;" %>
-        <div class="card-body">
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="btn-group">
-              <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-              <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-            </div>
-            <small class="text-muted">9 mins</small>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="card mb-4 box-shadow">
-        <%= image_tag "dummy/pic1-1.jpg", class: "card-img-top", 
-            data: {holder: {rendered: true}}, 
-            style: "height: 225px; width: 100%; display: block;" %>
-        <div class="card-body">
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="btn-group">
-              <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-              <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-            </div>
-            <small class="text-muted">9 mins</small>
-          </div>
+        <div class="col">
+          <ul class="list-group">
+            <li class="list-group-item bg-warning">
+              <ol>
+                <% @users.each do |user| %>
+                  <li><%= user.name %></li>
+                <% end %>
+              </ol>
+            </li>
+          </ul>
+          <%= link_to "See all members", users_path %>
         </div>
       </div>
     </div>
 
-    <div class="col-md-3">
-      <div class="card mb-4 box-shadow">
-        <%= image_tag "dummy/pic1-1.jpg", class: "card-img-top", 
-            data: {holder: {rendered: true}}, 
-            style: "height: 225px; width: 100%; display: block;" %>
-        <div class="card-body">
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="btn-group">
-              <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-              <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-            </div>
-            <small class="text-muted">9 mins</small>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="card mb-4 box-shadow">
-        <%= image_tag "dummy/pic1-1.jpg", class: "card-img-top", 
-            data: {holder: {rendered: true}}, 
-            style: "height: 225px; width: 100%; display: block;" %>
-        <div class="card-body">
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="btn-group">
-              <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-              <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-            </div>
-            <small class="text-muted">9 mins</small>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="card mb-4 box-shadow">
-        <%= image_tag "dummy/pic1-1.jpg", class: "card-img-top", 
-            data: {holder: {rendered: true}}, 
-            style: "height: 225px; width: 100%; display: block;" %>
-        <div class="card-body">
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="btn-group">
-              <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-              <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-            </div>
-            <small class="text-muted">9 mins</small>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="card mb-4 box-shadow">
-        <%= image_tag "dummy/pic1-1.jpg", class: "card-img-top", 
-            data: {holder: {rendered: true}}, 
-            style: "height: 225px; width: 100%; display: block;" %>
-        <div class="card-body">
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="btn-group">
-              <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-              <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-            </div>
-            <small class="text-muted">9 mins</small>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- START THE FEATURETTES -->
-
-  <hr class="featurette-divider">
-
-  <div class="row featurette">
-    <div class="col-md-7">
-      <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your mind.</span></h2>
-      <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-    </div>
-    <div class="col-md-5">
-      <%= image_tag 'dummy/guitar1.png', class: 'featurette-image img-fluid mx-auto', alt: "Generic placeholder image" %>
+    <div class="col">
+      <ul class="list-group">
+        <li class="list-group-item bg-success">
+          <ol>
+            <% @leader_users.each do |leader| %>
+              <li>
+                <%= image_tag leader.avatar.thumb %>
+                <%= leader.name %>
+                some rates
+              </li>
+            <% end %>
+          </ol>
+        </li>
+        <%= link_to "See all acievements", "#" %>
+      </ul>
     </div>
   </div>
 
   <hr class="featurette-divider">
 
-  <div class="row featurette">
-    <div class="col-md-7 order-md-2">
-      <h2 class="featurette-heading">Oh yeah, it's that good. <span class="text-muted">See for yourself.</span></h2>
-      <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-    </div>
-    <div class="col-md-5 order-md-1">
-      <%= image_tag 'dummy/guitar2.jpg', class: 'featurette-image img-fluid mx-auto', alt: "Generic placeholder image" %>
-    </div>
-  </div>
-
-  <hr class="featurette-divider">
-
-  <div class="row featurette">
-    <div class="col-md-7">
-      <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
-      <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-    </div>
-    <div class="col-md-5">
-      <%= image_tag 'dummy/guitar3.jpg', class: 'featurette-image img-fluid mx-auto', alt: "Generic placeholder image" %>
-    </div>
-  </div>
-
-  <!-- /END THE FEATURETTES -->
-
-</div><!-- /.container -->
+</div><!-- /.container

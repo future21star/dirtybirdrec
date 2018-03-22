@@ -21,4 +21,14 @@ $(document).on('turbolinks:load', function() {
   $('[data-toggle="popover"]').popover({
     trigger: 'focus'
   })
+
+  $('[name="user[subscribtion_type]"]').click(function() {
+    $('#additional-user-info').removeClass('d-none');
+    if(this.value == '1') {
+      $('#payment-user-info').removeClass('d-none');
+    } else {
+      $('#payment-user-info').addClass('d-none');
+    }
+  });
 })
+

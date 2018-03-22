@@ -25,12 +25,13 @@ gem 'cancancan', '~> 2.0'
 gem "rolify"
 gem 'activeadmin'
 gem 'carrierwave', '~> 1.0'
+gem 'mini_magick'
 gem 'bootstrap', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 gem 'fog-aws'
-gem 'thredded', '~> 0.14.2'
+gem "gioco"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

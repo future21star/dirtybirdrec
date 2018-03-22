@@ -1,7 +1,31 @@
 class HomeController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :demo_index, :demo_login]
+  helper_method :resource_name, :resource, :devise_mapping, :resource_class
+
+  def resource_name
+    :user
+  end
+  
+  def resource
+    @resource ||= User.new
+  end
+
+  def resource_class
+    User
+  end
+  
+  def devise_mapping
+    @devise_mapping ||= Devise.mappings[:user]
+  end
+
+
+
+
   def index
-    redirect_to thredded_path if current_user
     @slider = SliderImage.all.ordered
+    @leader_users = User.all.order(created_at: :asc).limit(3)
+    @users = User.all.order(created_at: :desc).limit(3)
+    @release = Release.last
   end
 
   def about
