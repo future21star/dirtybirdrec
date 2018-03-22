@@ -11,14 +11,16 @@ class UsersController < ApplicationController
   end
 
   def home
-    redirect_to choose_profile_users_path && return if current_user.subscribtion_type.blank?
+    if current_user.subscribtion_type.blank?
+      redirect_to choose_profile_users_path && return
+    end
 
     feed = StreamRails.feed_manager
         .get_news_feeds(current_user.id)[:flat]
     results = feed.get()['results']
     @enricher = StreamRails::Enrich.new
     @activities = @enricher.enrich_activities(results)
-    
+
     logger.warn "+++++++++++++++++++++++"
     logger.warn @activities
   end
