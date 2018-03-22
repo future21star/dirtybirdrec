@@ -142,7 +142,10 @@
             <li class="list-group-item bg-warning">
               <ol>
                 <% @users.each do |user| %>
-                  <li><%= user.name %></li>
+                  <li>
+                    <%= image_tag user.avatar.thumb %>
+                    <%= user.name %>
+                  </li>
                 <% end %>
               </ol>
             </li>
