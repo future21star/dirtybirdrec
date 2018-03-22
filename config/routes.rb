@@ -29,7 +29,9 @@ Rails.application.routes.draw do
 
   root "home#index"
 
+
   
+  post 'demo_drop/:id', to: 'home#demo_drop', as: 'demo_drop'
   get 'demo', to: 'home#demo_index'
   post 'demo_login', to: 'home#demo_login'
 end
