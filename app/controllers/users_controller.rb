@@ -18,6 +18,9 @@ class UsersController < ApplicationController
     results = feed.get()['results']
     @enricher = StreamRails::Enrich.new
     @activities = @enricher.enrich_activities(results)
+    
+    logger.warn "+++++++++++++++++++++++"
+    logger.warn @activities
   end
 
   def update
