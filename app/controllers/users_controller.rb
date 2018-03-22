@@ -21,8 +21,6 @@ class UsersController < ApplicationController
     @enricher = StreamRails::Enrich.new
     @activities = @enricher.enrich_activities(results)
 
-    logger.warn "+++++++++++++++++++++++"
-    logger.warn @activities
   end
 
   def update

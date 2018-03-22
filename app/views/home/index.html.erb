@@ -128,7 +128,11 @@
         <div class="col">
           <ul class="list-group">
             <li class="list-group-item bg-success">
-              <%= @release.title %>
+              <% if @release %>
+                <%= @release.title %>
+              <% else %>
+                no releases yet
+              <% end %>
             </li>
           </ul>
           <%= link_to "See all tracks", releases_path %>
