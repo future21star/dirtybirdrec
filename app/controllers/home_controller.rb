@@ -34,7 +34,7 @@ class HomeController < ApplicationController
   def demo_index
     @users = User.all.order(id: :asc).limit(2)
     if current_user
-      feed = StreamRails.feed_manager.get_news_feeds(@users.where.not(id: current_user.id).first.id)[:flat]
+      feed = StreamRails.feed_manager.get_user_feed(@users.where.not(id: current_user.id).first.id)
       results = feed.get()['results']
       @enricher = StreamRails::Enrich.new
       @activities = @enricher.enrich_activities(results)

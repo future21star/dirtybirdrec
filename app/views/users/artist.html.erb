@@ -2,18 +2,15 @@
   <div class="row">
     <div class="col-sm-8">
       <div class="row">
-        <div class="col">
+        <div class="col-sm-5">
           <div class="card w-100 mb-1">
             <div class="card-body">
               <%= image_tag current_user.avatar.url if current_user.avatar.present? %>
-              <div>
-                <%= render 'follows/follow_button', user: @user %>
-              </div>
             </div>
           </div>
         </div>
         
-        <div class="col">
+        <div class="col-sm-7">
           <div class="card w-100 mb-1">
             <div class="card-body">
               Leaderboard stats

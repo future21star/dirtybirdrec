@@ -6,12 +6,8 @@ class Comment < ApplicationRecord
   include StreamRails::Activity
   as_activity
 
-  # def activity_notify
-  #   [StreamRails.feed_manager.get_notification_feed(self.target_id)]
-  # end
-
-  def activity_actor
-    self.user
+  def activity_notify
+    [StreamRails.feed_manager.get_notification_feed(self.commentable.id)]
   end
 
   def activity_object

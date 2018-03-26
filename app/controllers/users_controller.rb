@@ -8,18 +8,22 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+
+    feed = StreamRails.feed_manager.get_user_feed(current_user.id)
+    results = feed.get()['results']
+    @enricher = StreamRails::Enrich.new
+    @activities = @enricher.enrich_activities(results)
   end
 
   def home
     if current_user.subscribtion_type.blank?
       redirect_to choose_profile_users_path and return
     end
-    feed = StreamRails.feed_manager
-        .get_news_feeds(current_user.id)[:flat]
+
+    feed = StreamRails.feed_manager.get_news_feeds(current_user.id)[:aggregated]
     results = feed.get()['results']
     @enricher = StreamRails::Enrich.new
-    @activities = @enricher.enrich_activities(results)
-
+    @activities = @enricher.enrich_aggregated_activities(results)
   end
 
   def update
@@ -29,7 +33,43 @@ class UsersController < ApplicationController
     redirect_to home_users_path
   end
 
+  def activity_feed
+    #user_feed
+    feed = StreamRails.feed_manager.get_user_feed(current_user.id)
+    results = feed.get()['results']
+    @enricher = StreamRails::Enrich.new
+    @activities = @enricher.enrich_activities(results)
+
+    render :home
+  end
+
+  def chrip_feed
+    feed = StreamRails.feed_manager.get_news_feeds(current_user.id)[:aggregated]
+    results = feed.get()['results']
+    @enricher = StreamRails::Enrich.new
+    @activities = @enricher.enrich_aggregated_activities(results)
+
+    render :home
+  end
+
+  def track_feed
+    #track_feed
+    feed = StreamRails.feed_manager.get_news_feeds(current_user.id)[:track]
+    results = feed.get()['results']
+    @enricher = StreamRails::Enrich.new
+    @activities = @enricher.enrich_activities(results)
+
+    render :home
+  end
+
+  def artist_feed
+  end
+
   def choose_profile
+  end
+
+  def artist
+    @artist = User.find(params[:id])
   end
 
   private

@@ -1,5 +1,41 @@
-User home
-<%= link_to "Drop subscription", demo_drop_path(current_user.id), method: :post %>
-<%= image_tag current_user.avatar.thumb.url if current_user.avatar.present? %>
+<div class="container">  
+  <div class="row">
+    <div class="col-sm-8">
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <%= link_to "All", root_path, 
+              class: "nav-link #{'active' if current_page?(root_path)}" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "User Activity", activity_feed_users_path, 
+              class: "nav-link #{'active' if current_page?(activity_feed_users_path)}" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Chrip feed", chrip_feed_users_path, 
+              class: "nav-link #{'active' if current_page?(chrip_feed_users_path)}" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Track Feed", track_feed_users_path, 
+              class: "nav-link #{'active' if current_page?(track_feed_users_path)}" %>
+        </li>
+      </ul>
+      <% for activity in @activities %>
+        <%= render_activity activity  %>
+      <% end %>
+    </div>
 
-<%= render template: 'feeds/user' %>
+    <div class="col-sm-4">
+      <div class="card bg-success user-leaderboard mb-2">
+        <div class="card-body">
+          Leaderboard
+        </div>
+      </div>
+
+      <div class="card bg-primary user-signup-block">
+        <div class="card-body">
+          Sign up block
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

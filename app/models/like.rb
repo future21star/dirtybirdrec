@@ -5,12 +5,8 @@ class Like < ApplicationRecord
   include StreamRails::Activity
   as_activity
 
-  # def activity_notify
-  #   [StreamRails.feed_manager.get_notification_feed(self.likeable)]
-  # end
-
-  def activity_actor
-    self.user
+  def activity_notify
+    [StreamRails.feed_manager.get_notification_feed(self.likeable.id)]
   end
 
   def activity_object

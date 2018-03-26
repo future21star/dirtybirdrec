@@ -7,7 +7,8 @@ StreamRails.configure do |config|
   config.location     = 'us-east'           # Optional, defaults to 'us-east'
   # If you use custom feed names, e.g.: timeline_flat, timeline_aggregated,
   # use this, otherwise omit:
-  config.news_feeds = { flat: "user", aggregated: "timeline_aggregated" }
+  config.news_feeds = { aggregated: "timeline_aggregated", 
+      track: "Tracks", artist: "Artists" }
   # Point to the notifications feed group providing the name, omit if you don't
   # have a notifications feed
   config.notification_feed = "notification"

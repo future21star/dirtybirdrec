@@ -10,7 +10,9 @@
       <div class="carousel-item <%= "active" if index == 0%>">
         <%= image_tag item.image.url%>
         <div class="container">
-          <%= item.text.html_safe if item.text %>
+          <div class="carousel-caption">
+            <%= item.text.html_safe if item.text %>
+          </div>
         </div>
       </div>
     <% end %>
