@@ -1,5 +1,10 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:show, :parse_youtube]
+  before_action :set_leaderboard
+
+  def set_leaderboard
+    @leader_users = User.all.order(email: :desc).limit(3)
+  end
 
 
   def index
@@ -9,7 +14,11 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
 
-    feed = StreamRails.feed_manager.get_user_feed(current_user.id)
+    if @user.has_role? :artist
+      redirect_to artists_path(@user)
+    end
+
+    feed = StreamRails.feed_manager.get_user_feed(@user.id)
     results = feed.get()['results']
     @enricher = StreamRails::Enrich.new
     @activities = @enricher.enrich_activities(results)
@@ -70,6 +79,17 @@ class UsersController < ApplicationController
 
   def artist
     @artist = User.find(params[:id])
+
+    unless @artist.has_role? :artist
+      redirect_to users_path(@artist)
+    end
+
+    feed = StreamRails.feed_manager.get_user_feed(@artist.id)
+    results = feed.get()['results']
+    @enricher = StreamRails::Enrich.new
+    @activities = @enricher.enrich_activities(results)
+
+    @followers = @artist.followers
   end
 
   private

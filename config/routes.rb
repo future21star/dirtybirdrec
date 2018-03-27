@@ -1,9 +1,6 @@
 Rails.application.routes.draw do
 
   devise_for :users, controllers: { registrations: "registrations" }#, ActiveAdmin::Devise.config
-  constraints RoleRouteConstraint.new { |user| user.has_role? :artist } do
-    get 'artists/:id', to: 'users#artist', as: 'artists'
-  end
   resources :users, only: [:show, :index, :update] do
     collection do
       get "choose_profile"
@@ -21,6 +18,8 @@ Rails.application.routes.draw do
       root 'users#home', as: :authenticated_root
     end
   end
+  
+  get 'artists/:id', to: 'users#artist', as: 'artists'
   
   get 'about', to: 'home#about'
 

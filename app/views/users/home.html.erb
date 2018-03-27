@@ -28,6 +28,17 @@
       <div class="card bg-success user-leaderboard mb-2">
         <div class="card-body">
           Leaderboard
+          <ol>
+            <% @leader_users.each do |leader| %>
+              <li>
+                <%= link_to user_path(leader) do %>
+                  <%= image_tag leader.avatar.thumb %>
+                  <%= leader.name %>
+                <% end %>
+                some rates
+              </li>
+            <% end %>
+          </ol>
         </div>
       </div>
 
