@@ -19,14 +19,14 @@
             <div class="card-body">
               <div style="display: inline-block; border: 1px solid gray; padding: 5px;">
                 <!-- <div class="card-body"> -->
-                  <%= link_to "FB", @artist.artist_info.facebook %> /
-                  <%= link_to "Twitter", @artist.artist_info.twitter %> /
-                  <%= link_to "Insta", @artist.artist_info.instagram %>
+                  <%= link_to "FB", @artist.artist_info.facebook if @artist.artist_info %> /
+                  <%= link_to "Twitter", @artist.artist_info.twitter if @artist.artist_info %> /
+                  <%= link_to "Insta", @artist.artist_info.instagram if @artist.artist_info %>
                 <!-- </div> -->
               </div>
 
               <div class="mt-2">
-                <%= @artist.artist_info.bio_short %>
+                <%= @artist.artist_info.bio_short if @artist.artist_info %>
                 <a href="#">read more</a>
                 <br>
                 Dirtybird Artist Since <%= @artist.created_at.strftime("%Y-%m-%d") %>
@@ -47,7 +47,7 @@
       <div class="card w-100 mb-1">
         <div class="card-body">
           <iframe id="ytplayer" type="text/html" width="auto" height="auto"
-            src="http://www.youtube.com/embed/<%= @artist.artist_info.parse_youtube %>"
+            src="http://www.youtube.com/embed/<%= @artist.artist_info.parse_youtube if @artist.artist_info %>"
             frameborder="0"></iframe>
         </div>
       </div>
