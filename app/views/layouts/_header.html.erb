@@ -8,7 +8,7 @@
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
       <ul class="navbar-nav mr-5">
-        <% unless current_page?(root_path) %>
+        <% unless controller?('home') && action?('index') %>
           <li class="nav-item">
             <a class="nav-link" href="/">
               Home
@@ -33,7 +33,7 @@
             <% end %>
           </li>
         <% end %>
-        <% if current_page?(root_path) %>
+        <% if controller?('home') && action?('index') %>
           <li class="nav-item <%= 'active' if current_page?(about_path) %>">
             <%= link_to about_path, class: "nav-link" do %>
               What is Birdfeed?
