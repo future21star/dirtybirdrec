@@ -1,35 +1,56 @@
 <header>
   <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light d-flex">
     <a class="navbar-brand" href="/">
-      <%= image_tag 'logo-egg.png' %>
+      <%= image_tag 'logo-v2i.png' %>
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
       <ul class="navbar-nav mr-5">
-  <!--       <li class="nav-item <%#= 'active' if current_page?(root_path) %>">
-          <a class="nav-link" href="/">
-            Home 
-            <%#= '<span class="sr-only">(current)</span>'.html_safe if current_page?(root_path) %>
-          </a>
-        </li> -->
-        <li class="nav-item <%= 'active' if current_page?(about_path) %>">
-          <%= link_to about_path, class: "nav-link" do %>
-            What is Birdfeed?
-            <%= '<span class="sr-only">(current)</span>'.html_safe if current_page?(about_path) %>
+        <% unless current_page?(root_path) %>
+          <li class="nav-item">
+            <a class="nav-link" href="/">
+              Home
+            </a>
+          </li>
+          <li class="nav-item <%= 'active' if current_page?(chrip_path) %>">
+            <%= link_to chrip_path, class: "nav-link" do %>
+              Chrip
+              <%= '<span class="sr-only">(current)</span>'.html_safe if current_page?(chrip_path) %>
+            <% end %>
+          </li>
+          <li class="nav-item <%= 'active' if current_page?(releases_path) %>">
+            <%= link_to releases_path, class: "nav-link" do %>
+              Releases
+              <%= '<span class="sr-only">(current)</span>'.html_safe if current_page?(releases_path) %>
+            <% end %>
+          </li>
+          <li class="nav-item <%= 'active' if current_page?(artists_path) %>">
+            <%= link_to artists_path, class: "nav-link" do %>
+              Artists
+              <%= '<span class="sr-only">(current)</span>'.html_safe if current_page?(artists_path) %>
+            <% end %>
+          </li>
+        <% end %>
+        <% if current_page?(root_path) %>
+          <li class="nav-item <%= 'active' if current_page?(about_path) %>">
+            <%= link_to about_path, class: "nav-link" do %>
+              What is Birdfeed?
+              <%= '<span class="sr-only">(current)</span>'.html_safe if current_page?(about_path) %>
+            <% end %>
+          </li>
+        <% end %>
+        <li class="nav-item <%= 'active' if current_page?(users_path) %>">
+          <%= link_to users_path, class: "nav-link" do %>
+            Leaderboard
+            <%= '<span class="sr-only">(current)</span>'.html_safe if current_page?(users_path) %>
           <% end %>
         </li>
         <li class="nav-item <%= 'active' if current_page?(contacts_path) %>">
           <%= link_to contacts_path, class: "nav-link" do %>
             Contact
             <%= '<span class="sr-only">(current)</span>'.html_safe if current_page?(contacts_path) %>
-          <% end %>
-        </li>
-        <li class="nav-item <%= 'active' if current_page?(users_path) %>">
-          <%= link_to users_path, class: "nav-link" do %>
-            Leaderboard
-            <%= '<span class="sr-only">(current)</span>'.html_safe if current_page?(users_path) %>
           <% end %>
         </li>
       </ul>

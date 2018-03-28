@@ -9,13 +9,14 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all.order(created_at: :desc)
+    # @users = User.has_role(nil).order(created_at: :desc)
   end
 
   def show
     @user = User.find(params[:id])
 
     if @user.has_role? :artist
-      redirect_to artists_path(@user)
+      redirect_to artist_path(@user)
     end
 
     feed = StreamRails.feed_manager.get_user_feed(@user.id)
@@ -90,6 +91,10 @@ class UsersController < ApplicationController
     @activities = @enricher.enrich_activities(results)
 
     @followers = @artist.followers
+  end
+
+  def artists
+    
   end
 
   private

@@ -19,7 +19,9 @@ Rails.application.routes.draw do
     end
   end
   
-  get 'artists/:id', to: 'users#artist', as: 'artists'
+  get 'artists/:id', to: 'users#artist', as: 'artist'
+  get 'artists', to: 'users#artists', as: 'artists'
+  get 'chrip', to: 'home#chrip', as: 'chrip'
   
   get 'about', to: 'home#about'
 

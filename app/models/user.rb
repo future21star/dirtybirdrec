@@ -22,6 +22,8 @@ class User < ApplicationRecord
   has_many :followers, through: :reverse_follows, source: :user
   has_many :likes
   has_one :artist_info, foreign_key: "artist_id"
+  has_many :releases
+  has_many :tracks, through: :releases
 
   def followed(user = nil)
     self.follows.where(target: user).first

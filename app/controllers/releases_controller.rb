@@ -3,5 +3,6 @@ class ReleasesController < ApplicationController
   end
 
   def index
+    @releases = Release.all
   end
 end

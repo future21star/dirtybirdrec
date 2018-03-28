@@ -1,1 +1,28 @@
-<h1>Releases#index</h1>
+<div class="container">
+  <button class="mt-3">sort by</button>
+
+  <div class="row mt-4">
+    <% @releases.each do |release| %>
+      <div class="col-md-6 mb-2">
+        <div class="card card-release">
+          <%= image_tag release.image_url.url, class: "card-img-top", alt: release.title %>
+
+          <div class="card-release-ago">
+            Posted <%= time_ago_in_words(release.published_at) %> ago
+          </div>
+
+          <div class="card-body">
+            <b><%= release.title %></b>
+            <br>
+            <b>Catalog #:</b> <%= release.catalog %>
+            <br>
+            <b>Release date:</b> <%= release.release_date.strftime("%Y-%m-%d") %>
+            <br>
+            <br>
+            <%= release.text %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
