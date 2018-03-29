@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180328073104) do
+ActiveRecord::Schema.define(version: 20180329150432) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,15 @@ ActiveRecord::Schema.define(version: 20180328073104) do
     t.integer "artist_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "badges", force: :cascade do |t|
+    t.string "name"
+    t.integer "points"
+    t.boolean "default"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "image"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -56,6 +65,13 @@ ActiveRecord::Schema.define(version: 20180328073104) do
     t.datetime "updated_at", null: false
     t.index ["target_id"], name: "index_follows_on_target_id"
     t.index ["user_id"], name: "index_follows_on_user_id"
+  end
+
+  create_table "levels", force: :cascade do |t|
+    t.integer "badge_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "likes", force: :cascade do |t|
@@ -153,6 +169,7 @@ ActiveRecord::Schema.define(version: 20180328073104) do
     t.integer "gender"
     t.string "t_shirt_size"
     t.integer "subscribtion_type"
+    t.integer "points", default: 300
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

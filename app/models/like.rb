@@ -2,6 +2,8 @@ class Like < ApplicationRecord
   belongs_to :user
   belongs_to :likeable, polymorphic: true
   
+  after_create :add_points
+  
   include StreamRails::Activity
   as_activity
 
@@ -12,4 +14,10 @@ class Like < ApplicationRecord
   def activity_object
     self.likeable
   end
+
+  private
+
+    def add_points
+      self.user.change_points( 100 )
+    end
 end

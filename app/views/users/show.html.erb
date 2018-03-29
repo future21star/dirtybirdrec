@@ -6,9 +6,6 @@
           <div class="card w-100 mb-1">
             <div class="card-body">
               <%= image_tag @user.avatar.url if @user.avatar.present? %>
-              <div>
-                <%= render 'follows/follow_button', user: @user %>
-              </div>
             </div>
           </div>
         </div>
@@ -16,13 +13,20 @@
         <div class="col">
           <div class="card w-100 mb-1">
             <div class="card-body">
-              Leaderboard stats
+              <%= @user.points %> points 
             </div>
           </div>
 
           <div class="card w-100">
             <div class="card-body">
-              Achievement Badges
+              <% if @user.badges.present? %>
+                <% @user.badges.each do |badge| %>
+                  <%= image_tag badge.image.thumb.url %>
+                  <%= badge.name %>
+                <% end %>
+              <% else %>
+                No badges yet
+              <% end %>
             </div>
           </div>
         </div>
@@ -36,7 +40,7 @@
     <div class="col-sm-4">
       <div class="card w-100 mb-1">
         <div class="card-body">
-          Add Friend to my feed
+          Add Friend to my feed <%= render 'follows/follow_button', user: @user %>
         </div>
       </div>
 

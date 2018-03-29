@@ -3,6 +3,8 @@ class Comment < ApplicationRecord
   belongs_to :commentable, polymorphic: true
   has_many :likes, as: :likeable
 
+  after_create :add_points
+
   include StreamRails::Activity
   as_activity
 
@@ -13,4 +15,10 @@ class Comment < ApplicationRecord
   def activity_object
     self.commentable
   end
+
+  private
+
+    def add_points
+      self.user.change_points( 100 )
+    end
 end

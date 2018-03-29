@@ -79,3 +79,4 @@ Post.create!(
   )
 end
 
+require "#{Rails.root}/db/gioco/db.rb"

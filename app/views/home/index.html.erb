@@ -169,7 +169,8 @@
                   <%= image_tag leader.avatar.thumb %>
                   <%= leader.name %>
                 <% end %>
-                some rates
+                has <%= leader.points %> points 
+                <%= "and #{leader.badges.order(points: :desc).last.name}" if leader.badges.present? %>
               </li>
             <% end %>
           </ol>

@@ -28,5 +28,16 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
+
+    user ||= User.new # guest user (not logged in)
+    if user.has_role? :admin 
+      can :manage, :all
+      # can :access, :ckeditor
+    # Performed checks for actions:
+      # can [:read, :create, :destroy], Ckeditor::Picture
+      # can [:read, :create, :destroy], Ckeditor::AttachmentFile
+    else
+      cannot :manage, ActiveAdmin::Page
+    end
   end
 end

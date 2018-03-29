@@ -5,6 +5,8 @@ class Follow < ApplicationRecord
   validates :target_id, presence: true
   validates :user, presence: true
 
+  after_create :add_points
+
   include StreamRails::Activity
   as_activity
 
@@ -15,4 +17,10 @@ class Follow < ApplicationRecord
   def activity_object
     self.target
   end
+
+  private
+
+    def add_points
+      self.user.change_points( 100 )
+    end
 end

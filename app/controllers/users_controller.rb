@@ -1,15 +1,13 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, except: [:show, :parse_youtube]
+  before_action :authenticate_user!, except: [:index, :show, :parse_youtube]
   before_action :set_leaderboard
 
   def set_leaderboard
-    @leader_users = User.all.order(email: :desc).limit(3)
+    @leader_users = User.all.order(points: :desc).limit(3)
   end
 
 
   def index
-    @users = User.all.order(created_at: :desc)
-    # @users = User.has_role(nil).order(created_at: :desc)
   end
 
   def show
