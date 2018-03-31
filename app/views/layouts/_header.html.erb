@@ -14,10 +14,10 @@
               Home
             </a>
           </li>
-          <li class="nav-item <%= 'active' if current_page?(chrip_path) %>">
-            <%= link_to chrip_path, class: "nav-link" do %>
-              Chrip
-              <%= '<span class="sr-only">(current)</span>'.html_safe if current_page?(chrip_path) %>
+          <li class="nav-item <%= 'active' if current_page?(chirp_index_path) %>">
+            <%= link_to chirp_index_path, class: "nav-link" do %>
+              Chirp
+              <%= '<span class="sr-only">(current)</span>'.html_safe if current_page?(chirp_index_path) %>
             <% end %>
           </li>
           <li class="nav-item <%= 'active' if current_page?(releases_path) %>">

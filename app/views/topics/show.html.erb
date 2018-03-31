@@ -1,0 +1,29 @@
+ <div class="container"> 
+
+  <nav aria-label="breadcrumb">
+    <ol class='breadcrumb'>
+      <% breadcrumb_trail do |crumb| %>
+        <li class="breadcrumb-item <%= crumb.current? ? 'active' : '' %>">
+          <%= link_to_unless crumb.current?, crumb.name, crumb.url, (crumb.current? ? {'aria-current' => 'page'} : {}) %>
+        </li>
+      <% end %>
+    </ol>
+  </nav>
+
+  <h3><%= @topic.title %></h3>
+  <div class="card mb-3">
+    <div class="card-body">
+      <%= image_tag @topic.user.avatar.thumb.url %>
+      <%= @topic.text %>
+    </div>
+  </div>
+
+  <hr>
+  <div class="topic-posts">
+    <% @topic.posts.parents_posts.each do |post| %>
+      <%= render post %>
+    <% end %>
+  </div>
+
+  <%= render 'form', parent_id: nil %>
+</div>

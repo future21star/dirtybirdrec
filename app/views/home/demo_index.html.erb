@@ -19,10 +19,10 @@
     </ul>
 
     <hr>
-          <b>Release, track(?), topic, post</b> has <b>Like</b> button, <b>Comment</b> field<br>
+      <!-- # TODO     <b>Release, track(?), topic, post</b> has <b>Like</b> button, <b>Comment</b> field<br>
           Comments also likable<br>
           User can see who liked and who commented and visit their profile<br> 
-          where can follow them (leave private message?)
+          where can follow them (leave private message?) -->
     <div class="row">
       <div class="col">
         <h3 class="mt-4r">Releases and tracks</h3>
@@ -69,72 +69,7 @@
             </li>
           <% end %>
         </ul>
-        <h3 class="mt-4">Posts</h3>
-        <ul class="list-group">
-          <% @posts.each do |post| %>
-            <li class="list-group-item">
-              <div>
-                <b>Post:</b> <%= post.title %>
-                <%= render 'likes/like_button', object: post %>
 
-                <div style="display:flex;flex-direction:column;align-items:flex-start;">
-                  <b>Post comments:</b>
-                  <ol>
-                    <% post.comments.each do |comment| %>
-                      <li>
-                        <hr class="m-0">
-                        <%= comment.body %>
-                        <%= render 'likes/like_button', object: comment %>
-                      </li>
-                    <% end %>
-                  </ol>
-                </div>
-
-                <div>
-                  <%= form_for post.comments.build , html: { style: "display:flex;" } do |f| %>
-                    <%= f.hidden_field :commentable_type, value: "Post" %>
-                    <%= f.hidden_field :commentable_id, value: post.id %>
-                    <%= f.text_area :body, rows: 1, placeholder: "Leave a comment" %>
-                    <%= f.submit "Send" %>
-                  <% end %>
-                </div>
-              </div>
-            </li>
-          <% end %>
-        </ul>
-        <h3 class="mt-4">Topics</h3>
-        <ul class="list-group">
-          <% @topics.each do |topic| %>
-            <li class="list-group-item">
-              <div>
-                <b>Topic:</b> <%= topic.title %>
-                <%= render 'likes/like_button', object: topic %>
-
-                <div style="display:flex;flex-direction:column;align-items:flex-start;">
-                  <b>Topic comments:</b>
-                  <ol>
-                    <% topic.comments.each do |comment| %>
-                      <li>
-                        <hr class="m-0">
-                        <%= comment.body %>
-                        <%= render 'likes/like_button', object: comment %>
-                      </li>
-                    <% end %>
-                  </ol>
-                </div>
-
-                <div>
-                  <%= form_for topic.comments.build , html: { style: "display:flex;" } do |f| %>
-                    <%= f.hidden_field :commentable_type, value: "Topic" %>
-                    <%= f.hidden_field :commentable_id, value: topic.id %>
-                    <%= f.text_area :body, rows: 1, placeholder: "Leave a comment" %>
-                    <%= f.submit "Send" %>
-                  <% end %>
-                </div>
-              </div>
-            </li>
-          <% end %>
-        </ul>
       </div>
       <div class="col">
         <h3>Other user's feed:</h3>

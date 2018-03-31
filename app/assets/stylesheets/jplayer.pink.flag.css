@@ -29,6 +29,7 @@
 .jp-audio,
 .jp-audio-stream,
 .jp-video {
+  z-index: 2;
   font-size: 16px;
   font-family: Verdana, Arial, sans-serif;
   line-height: 1.6;

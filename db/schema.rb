@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180329150432) do
+ActiveRecord::Schema.define(version: 20180330180325) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,6 +89,9 @@ ActiveRecord::Schema.define(version: 20180329150432) do
     t.datetime "published_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "topic_id"
+    t.integer "user_id"
+    t.integer "parent_id"
   end
 
   create_table "releases", force: :cascade do |t|
@@ -124,6 +127,21 @@ ActiveRecord::Schema.define(version: 20180329150432) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "topic_categories", force: :cascade do |t|
+    t.string "title"
+    t.integer "prior", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "group_id"
+  end
+
+  create_table "topic_category_groups", force: :cascade do |t|
+    t.string "title"
+    t.integer "prior", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "topics", force: :cascade do |t|
     t.string "title"
     t.text "text"
@@ -132,13 +150,13 @@ ActiveRecord::Schema.define(version: 20180329150432) do
     t.boolean "locked"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "category_id"
   end
 
   create_table "tracks", force: :cascade do |t|
     t.string "title"
     t.string "url"
     t.integer "release_id"
-    t.string "artist"
     t.integer "track_number"
     t.string "genre"
     t.string "isrc_code"
@@ -146,6 +164,7 @@ ActiveRecord::Schema.define(version: 20180329150432) do
     t.string "waveform_image_uri"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "artist_id"
   end
 
   create_table "users", force: :cascade do |t|

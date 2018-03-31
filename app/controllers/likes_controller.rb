@@ -5,14 +5,14 @@ class LikesController < ApplicationController
     like.user_id = current_user.id
     like.save
 
-    redirect_to demo_path
+    redirect_back(fallback_location: root_path)
     # render 'toggle_like', locals: { like: like}
   end
 
   def destroy
     like = Like.find(params[:id]).destroy
 
-    redirect_to demo_path
+    redirect_back(fallback_location: root_path)
     # render 'toggle_like', 
     #     locals: {likeable_type: like.likeable_type, likeable_id: like.likeable_id}
   end

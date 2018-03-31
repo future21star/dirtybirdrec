@@ -1,0 +1,13 @@
+<%= form_for @post, remote: true, 
+    html: { id: (@topic_id.present? ? "new_post-#{@post_hash}" : "new_post") } do |f| %>
+  <% if parent_id.present? %>
+    <%= f.hidden_field :parent_id, value: parent_id %>
+    <%= f.hidden_field :post_hash, value: @post_hash %>
+  <% end %>
+  <%= f.hidden_field :topic_id, value: (@topic_id || @topic.id) %>
+  <div class="form-group">
+    <%= f.label :text, "Text", class: "sr-only" %>
+    <%= f.text_area :text, id: "post_text#{('-'+@topic_id) if @topic_id}", class: "form-control" %>
+  </div>
+  <%= f.submit "Add a Post", class: "btn" %>
+<% end %>

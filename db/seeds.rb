@@ -5,14 +5,26 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-User.create(email: 'admin@example.com', password: 'password', password_confirmation: 'password', name: "Admin")
-User.create(email: 'user2@example.com', password: 'password', password_confirmation: 'password', name: "User2")
+admin = User.create(email: 'admin@example.com', password: 'password', 
+    password_confirmation: 'password', name: "Admin")
+admin.remote_avatar_url = Faker::Avatar.image
+admin.save
+admin.add_role :admin
 
-User.create(email: 'artist@example.com', password: 'password', password_confirmation: 'password', name: "Artist 1")
+user = User.create(email: 'user2@example.com', password: 'password', 
+    password_confirmation: 'password', name: "User2")
+user.remote_avatar_url = Faker::Avatar.image
+user.save
+
+artist = User.create(email: 'artist@example.com', password: 'password', 
+    password_confirmation: 'password', name: "Artist 1")
+artist.remote_avatar_url = Faker::Avatar.image
+artist.save
+artist.add_role :artist
 
 new_release = Release.create!(
   title: 'Works Well With Others',
-  artist: "Claude VonStroke, Will Clarke, Sébastien V",
+  artist_id: 1,
   catalog: 'DB157',
   text: "<p>2016 was a banner year for Dirtybird’s founder, Claude VonStroke. He debuted his Get Real alias with Green Velvet in the winter, and followed up with another number one single in the spring with “The Rain Break”.",
   image_url: 'https://birdfeed-dev.s3.amazonaws.com/uploads/release-images/4dc22b70-b079-489c-9d42-594d4f62dc48/WorksWellWithOthers.jpg',
@@ -28,7 +40,7 @@ new_release_track_1 = Track.create!(
   title: 'Tiny Tambourine',
   release_id: new_release.id,
   created_at: DateTime.current - 2.hours,
-  artist: "Claude VonStroke, Will Clarke, Sébastien V",
+  artist_id: 1,
   track_number: 1,
   genre: 'Tech House',
   isrc_code: 'GBKQU1766270',
@@ -40,7 +52,7 @@ new_release_track_2 = Track.create!(
   title: 'Daylight Dark Room',
   release_id: new_release.id,
   created_at: DateTime.current - 2.hours,
-  artist: "Claude VonStroke, Will Clarke, Sébastien V",
+  artist_id: 1,
   track_number: 2,
   genre: 'Tech House',
   isrc_code: 'GBKQU1766271',
@@ -49,34 +61,62 @@ new_release_track_2 = Track.create!(
 )
 
 # Create recent post
-Post.create!(
-  title: 'New Announcement!',
-  text: "Some text",
-  created_at: DateTime.current - 3.hours,
-  published_at: DateTime.current - 3.hours,
-  image_url: 'http://via.placeholder.com/500/008800/ffffff.png?text=New%20Post'
-)
+# Post.create!(
+#   title: 'New Announcement!',
+#   text: "Some text",
+#   created_at: DateTime.current - 3.hours,
+#   published_at: DateTime.current - 3.hours,
+#   image_url: 'http://via.placeholder.com/500/008800/ffffff.png?text=New%20Post'
+# )
 
 # Create old post
-Post.create!(
-  title: 'Old Announcement!',
-  text: "Some text",
-  created_at: DateTime.current - 1.year,
-  published_at: DateTime.current - 1.year,
-  image_url: 'http://via.placeholder.com/500/880000/ffffff.png?text=Old%20Post'
-)
+# Post.create!(
+#   title: 'Old Announcement!',
+#   text: "Some text",
+#   created_at: DateTime.current - 1.year,
+#   published_at: DateTime.current - 1.year,
+#   image_url: 'http://via.placeholder.com/500/880000/ffffff.png?text=Old%20Post'
+# )
+
+group1 = TopicCategoryGroup.create!(title: "Events")
+group2 = TopicCategoryGroup.create!(title: "Music")
+group3 = TopicCategoryGroup.create!(title: "Artists")
+group4 = TopicCategoryGroup.create!(title: "Ask DirtyBird")
+
+categories = []
+
+categories << group1.categories.create(title: "Campout")
+categories << group1.categories.create(title: "Quarterlies")
+categories << group1.categories.create(title: "BBQs")
+categories << group1.categories.create(title: "BBP Club nights & Festival Stages")
+categories << group1.categories.create(title: "Tickets")
+
+categories << group2.categories.create(title: "Track IDs")
+categories << group2.categories.create(title: "Releases")
+categories << group2.categories.create(title: "Bird House")
+categories << group2.categories.create(title: "Dirtybird Radio Show (TBD)")
+categories << group2.categories.create(title: "Tickets")
+
+categories << group3.categories.create(title: "Claude VonStroke")
+categories << group3.categories.create(title: "AMAs")
+
+categories << group4.categories.create(title: "Birdfeed")
+categories << group4.categories.create(title: "General Questions")
+categories << group4.categories.create(title: "Merch")
 
 # Create Topics
-3.times do |i|
-  Topic.create!(
-    title: "Topic #{i}",
-    text: "Some text",
-    user_id: User.all.sample.id,
-    created_at: DateTime.current - 10.hours + i.hours,
-    updated_at: DateTime.current - 10.hours + i.hours,
-    pinned: (i == 3) ? true : false,
-    locked: (i == 1) ? true : false
-  )
+categories.each do |category|
+  3.times do |i|
+    category.topics.create!(
+      title: "Topic #{i}",
+      text: "Some text",
+      user_id: User.all.sample.id,
+      created_at: DateTime.current - 10.hours + i.hours,
+      updated_at: DateTime.current - 10.hours + i.hours,
+      pinned: (i == 3) ? true : false,
+      locked: (i == 1) ? true : false
+    )
+  end
 end
 
 require "#{Rails.root}/db/gioco/db.rb"

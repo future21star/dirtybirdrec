@@ -58,6 +58,7 @@ class User < ApplicationRecord
   validates :name, presence: true
 
   has_many :topics
+  has_many :posts
   has_many :comments
   has_many :follows
   has_many :reverse_follows,  foreign_key: "target_id",

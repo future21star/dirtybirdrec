@@ -1,0 +1,5 @@
+$('#topic-post-'+<%= @post_id %>).after(`
+    <%= escape_javascript(
+      render(partial:'topics/form', 
+        locals: { post: @post, topic_id: @topic_id, parent_id: @post_id })
+    ) %>`);

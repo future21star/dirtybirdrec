@@ -31,10 +31,6 @@ class HomeController < ApplicationController
   def about
   end
 
-  def chrip
-    
-  end
-
   def demo_index
     @users = User.all.order(id: :asc).limit(2)
     if current_user

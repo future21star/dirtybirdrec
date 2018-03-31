@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   
   get 'artists/:id', to: 'users#artist', as: 'artist'
   get 'artists', to: 'users#artists', as: 'artists'
-  get 'chrip', to: 'home#chrip', as: 'chrip'
+  # get 'chrip', to: 'home#chrip', as: 'chrip'
   
   get 'about', to: 'home#about'
 
@@ -29,11 +29,22 @@ Rails.application.routes.draw do
   resources :slider_images
   resources :releases, only: [:show, :index]
   resources :tracks
-  resources :topics
-  resources :posts
+  resources :topics # TODO remove it 
+  resources :posts do
+    get 'reply_form'
+  end
   resources :follows
   resources :comments
   resources :likes
+
+  resources :chirp, controller: 'topic_categories' do
+    # get 'category/:id', to: "topics#category"
+    resources :topics
+    # get 'pin'
+    # get 'unpin'
+    # get 'lock'
+    # get 'unlock'
+  end
 
   root "home#index"
 

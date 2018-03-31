@@ -1,0 +1,7 @@
+if("<%= @post.parent_id %>".length > 0) {
+  $('#topic-post-' + "<%= @post.parent_id %>").append("<%= escape_javascript(render(@post)) %>");
+  $('#new_post-'+ "<%= @post.post_hash %>").remove();
+} else {
+  $('.topic-posts').append("<%= escape_javascript(render(@post)) %>");
+  $('#post_text').val('').focus();
+}
