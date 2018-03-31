@@ -61,10 +61,12 @@
             <%#= '<span class="sr-only">(current)</span>'.html_safe if current_page?(contacts_path) %>
           <%# end %>
         </li> -->
-        <div class="nav-divider"></div>
+        <% unless current_user %>
+          <div class="nav-divider"></div>
 
-        <button class="btn nav-signup">SIGN UP</button>
-        <button class="btn nav-signin">LOG IN</button>
+          <button class="btn nav-signup">SIGN UP</button>
+          <button class="btn nav-signin">LOG IN</button>
+        <% end %>
       </ul>
 
       <% if current_user %>

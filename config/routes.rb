@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
 
-  get 'tracks/show'
-
   devise_for :users, controllers: { registrations: "registrations" }#, ActiveAdmin::Devise.config
   resources :users, only: [:show, :index, :update] do
     collection do

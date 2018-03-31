@@ -1,183 +1,150 @@
-<!-- CAROUSEL -->
-<div id="myCarousel" class="carousel slide" data-ride="carousel">
-  <ol class="carousel-indicators">
-    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-    <li data-target="#myCarousel" data-slide-to="1"></li>
-    <li data-target="#myCarousel" data-slide-to="2"></li>
-  </ol>
-  <div class="carousel-inner">
-    <% @slider.each_with_index do |item, index| %>
-      <div class="carousel-item <%= "active" if index == 0%>">
-        <%= image_tag item.image.url%>
-        <div class="container">
-          <div class="carousel-caption">
-            <%= item.text.html_safe if item.text %>
+<!-- USER FUNCTIONS -->
+<div class="row my-4">
+  <div class="col">
+    <ul class="list-group">
+      <li class="list-group-item bg-light">
+        <%= form_for(resource, as: resource_name, 
+            url: registration_path(resource_name), 
+            html: {id: "sign_in_user"}) do |f| %>
+          <%= devise_error_messages! %>
+
+          <div class="row">
+            <div class="col">
+              <div class="form-label-group">
+                <%= f.email_field :email, autofocus: true, autocomplete: "email", 
+                  class: 'form-control', id: "login_email", placeholder: 'Email address', required: true %>
+                <%= f.label :email %>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-label-group">
+                <%= f.text_field :name, autofocus: true, autocomplete: "name", 
+                  class: 'form-control', placeholder: 'Name', required: true %>
+                <%= f.label :name %>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    <% end %>
+
+
+          <div class="row">
+            <div class="col">
+              <div class="form-label-group">
+                <%= f.password_field :password, autocomplete: "off", required: true, 
+                    class: 'form-control', id: "login_password", placeholder: "Password" %>
+                <%= f.label :password %>
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="form-label-group">
+                <%= f.password_field :password_confirmation, autocomplete: "off", required: true, 
+                    class: 'form-control', placeholder: "Password confirmation" %>
+                <%= f.label :password_confirmation %>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col offset-6">
+              <%= f.submit "Sign up", class: "btn btn-lg btn-primary btn-block mb-3" %>
+            </div>
+          </div>
+        <% end %>
+      </li>
+    </ul>
   </div>
-  <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-</div>
-<!-- CAROUSEL-END -->
+  <div class="col">
+    <ul class="list-group">
+      <li class="list-group-item bg-light">
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+          <%= devise_error_messages! %>
 
-<div class="container">
-  <!-- USER FUNCTIONS -->
-  <div class="row my-4">
-    <div class="col">
-      <ul class="list-group">
-        <li class="list-group-item bg-light">
-          <%= form_for(resource, as: resource_name, 
-              url: registration_path(resource_name), 
-              html: {id: "sign_in_user"}) do |f| %>
-            <%= devise_error_messages! %>
+          <div class="form-label-group">
+            <%= f.email_field :email, autocomplete: "email", 
+              class: 'form-control', placeholder: 'Email address', required: true, value: "admin@example.com" %>
+            <%= f.label :email %>
+          </div>
 
-            <div class="row">
-              <div class="col">
-                <div class="form-label-group">
-                  <%= f.email_field :email, autofocus: true, autocomplete: "email", 
-                    class: 'form-control', id: "login_email", placeholder: 'Email address', required: true %>
-                  <%= f.label :email %>
+          <div class="form-label-group">
+            <%= f.password_field :password, autocomplete: "off", required: true, 
+                class: 'form-control', placeholder: "Password", value: "password" %>
+            <%= f.label :password %>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <% if devise_mapping.rememberable? %>
+                <div class="checkbox mb-3">
+                  <%= f.check_box :remember_me %>
+                  <%= f.label :remember_me %>
                 </div>
-              </div>
-              <div class="col">
-                <div class="form-label-group">
-                  <%= f.text_field :name, autofocus: true, autocomplete: "name", 
-                    class: 'form-control', placeholder: 'Name', required: true %>
-                  <%= f.label :name %>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="row">
-              <div class="col">
-                <div class="form-label-group">
-                  <%= f.password_field :password, autocomplete: "off", required: true, 
-                      class: 'form-control', id: "login_password", placeholder: "Password" %>
-                  <%= f.label :password %>
-                </div>
-              </div>
-
-              <div class="col">
-                <div class="form-label-group">
-                  <%= f.password_field :password_confirmation, autocomplete: "off", required: true, 
-                      class: 'form-control', placeholder: "Password confirmation" %>
-                  <%= f.label :password_confirmation %>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col offset-6">
-                <%= f.submit "Sign up", class: "btn btn-lg btn-primary btn-block mb-3" %>
-              </div>
-            </div>
-          <% end %>
-        </li>
-      </ul>
-    </div>
-    <div class="col">
-      <ul class="list-group">
-        <li class="list-group-item bg-light">
-          <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-            <%= devise_error_messages! %>
-
-            <div class="form-label-group">
-              <%= f.email_field :email, autocomplete: "email", 
-                class: 'form-control', placeholder: 'Email address', required: true, value: "admin@example.com" %>
-              <%= f.label :email %>
-            </div>
-
-            <div class="form-label-group">
-              <%= f.password_field :password, autocomplete: "off", required: true, 
-                  class: 'form-control', placeholder: "Password", value: "password" %>
-              <%= f.label :password %>
-            </div>
-
-            <div class="row">
-              <div class="col">
-                <% if devise_mapping.rememberable? %>
-                  <div class="checkbox mb-3">
-                    <%= f.check_box :remember_me %>
-                    <%= f.label :remember_me %>
-                  </div>
-                <% end %>
-              </div>
-              <div class="col">
-                <%= f.submit "Log in", class: "btn btn-lg btn-primary btn-block mb-3" %>
-              </div>
-            </div>
-          <% end %>
-        </li>
-      </ul>
-    </div>
-  </div>
-   <!-- USER FUNCTIONS-END -->
-
-  <div class="row">
-    <div class="col">
-      <div class="row">
-        <div class="col">
-          <ul class="list-group">
-            <li class="list-group-item bg-success">
-              <% if @release %>
-                <%= @release.title %>
-              <% else %>
-                no releases yet
               <% end %>
-            </li>
-          </ul>
-          <%= link_to "See all tracks", releases_path %>
-        </div>
-        <div class="col">
-          <ul class="list-group">
-            <li class="list-group-item bg-warning">
-              <ol>
-                <% @users.each do |user| %>
-                  <li>
-                    <%= link_to user_path(user) do %>
-                      <%= image_tag user.avatar.thumb %>
-                      <%= user.name %>
-                    <% end %>
-                  </li>
-                <% end %>
-              </ol>
-            </li>
-          </ul>
-          <%= link_to "See all members", users_path %>
-        </div>
-      </div>
-    </div>
+            </div>
+            <div class="col">
+              <%= f.submit "Log in", class: "btn btn-lg btn-primary btn-block mb-3" %>
+            </div>
+          </div>
+        <% end %>
+      </li>
+    </ul>
+  </div>
+</div>
+ <!-- USER FUNCTIONS-END -->
 
-    <div class="col">
-      <ul class="list-group">
-        <li class="list-group-item bg-success">
-          <ol>
-            <% @leader_users.each do |leader| %>
-              <li>
-                <%= link_to user_path(leader) do %>
-                  <%= image_tag leader.avatar.thumb %>
-                  <%= leader.name %>
-                <% end %>
-                has <%= leader.points %> points 
-                <%= "and #{leader.badges.order(points: :desc).last.name}" if leader.badges.present? %>
-              </li>
+<div class="row">
+  <div class="col">
+    <div class="row">
+      <div class="col">
+        <ul class="list-group">
+          <li class="list-group-item bg-success">
+            <% if @release %>
+              <%= @release.title %>
+            <% else %>
+              no releases yet
             <% end %>
-          </ol>
-        </li>
-        <%= link_to "See all acievements", "#" %>
-      </ul>
+          </li>
+        </ul>
+        <%= link_to "See all tracks", releases_path %>
+      </div>
+      <div class="col">
+        <ul class="list-group">
+          <li class="list-group-item bg-warning">
+            <ol>
+              <% @users.each do |user| %>
+                <li>
+                  <%= link_to user_path(user) do %>
+                    <%= image_tag user.avatar.thumb %>
+                    <%= user.name %>
+                  <% end %>
+                </li>
+              <% end %>
+            </ol>
+          </li>
+        </ul>
+        <%= link_to "See all members", users_path %>
+      </div>
     </div>
   </div>
 
-  <hr class="featurette-divider">
+  <div class="col">
+    <ul class="list-group">
+      <li class="list-group-item bg-success">
+        <ol>
+          <% @leader_users.each do |leader| %>
+            <li>
+              <%= link_to user_path(leader) do %>
+                <%= image_tag leader.avatar.thumb %>
+                <%= leader.name %>
+              <% end %>
+              has <%= leader.points %> points 
+              <%= "and #{leader.badges.order(points: :desc).last.name}" if leader.badges.present? %>
+            </li>
+          <% end %>
+        </ol>
+      </li>
+      <%= link_to "See all acievements", "#" %>
+    </ul>
+  </div>
+</div>
 
-</div><!-- /.container -->
+<hr class="featurette-divider">

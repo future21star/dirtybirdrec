@@ -1,19 +1,17 @@
-<div class="container">
-  <h1>What Is Birdfeed?</h1>
-  <p>
-    Birdfeed is a subscription service to DIRTYBIRD, the record label & events company and all-around awesome company.
-  </p>
-  <p>
-    We want to have a direct line to our most important people on earth - you, our fans - so we can get you the music releases first, exclusive releases that you can’t find anywhere else, ticket discounts to shows (and sometimes free tickets), meet and greets with the artists and discounts off label merchandise.
-  </p>
-  <p>
-    When you sign up for this service, you will be able to access 3 months worth of past releases, plus 2 back catalog releases of our choice. This service is only $6.99/month or $75.00 annually. You can quit at any time and the first month is FREE!
-  </p>
+<h1>What Is Birdfeed?</h1>
+<p>
+  Birdfeed is a subscription service to DIRTYBIRD, the record label & events company and all-around awesome company.
+</p>
+<p>
+  We want to have a direct line to our most important people on earth - you, our fans - so we can get you the music releases first, exclusive releases that you can’t find anywhere else, ticket discounts to shows (and sometimes free tickets), meet and greets with the artists and discounts off label merchandise.
+</p>
+<p>
+  When you sign up for this service, you will be able to access 3 months worth of past releases, plus 2 back catalog releases of our choice. This service is only $6.99/month or $75.00 annually. You can quit at any time and the first month is FREE!
+</p>
 
-  <% unless current_user %>
-    <p>
-      <%= link_to "Join The Birdfeed", new_user_registration_path, class: "btn btn-lg btn-danger" %>
-    </p>
-  <% end %>
+<% unless current_user %>
+  <p>
+    <%= link_to "Join The Birdfeed", new_user_registration_path, class: "btn btn-lg btn-danger" %>
+  </p>
+<% end %>
 
-</div>

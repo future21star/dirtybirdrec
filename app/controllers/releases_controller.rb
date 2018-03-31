@@ -18,7 +18,7 @@ class ReleasesController < ApplicationController
           @releases = @releases.where("release_date > ? AND release_date < ?", Date.today - 1.month, Date.today)
         when 'year' 
           @releases = @releases.where("release_date > ? AND release_date < ?", Date.today - 1.year, Date.today)
-        when 'artist' 
+        when 'artist' && value.present?
           @releases = @releases.where("artist_id = ?", value)
         when 'not_downloaded' 
           @releases = @releases.where("release_date > ? OR release_date = NULL")

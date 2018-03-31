@@ -1,63 +1,61 @@
-<div class="container">
-  Please complete the registration or 
-  <%= link_to "log out", destroy_user_session_path, method: :delete %>
+Please complete the registration or 
+<%= link_to "log out", destroy_user_session_path, method: :delete %>
 
-  <%= form_for current_user, id: "subscribe-form", 
-      html: {style: "width: 400px; margin-top: 30px;"} do |f| %>
+<%= form_for current_user, id: "subscribe-form", 
+    html: {style: "width: 400px; margin-top: 30px;"} do |f| %>
 
-    <div class="form-check">
-      <%= f.radio_button :subscribtion_type, '0' %>
-      <%= f.label(:subscribtion_type_0, 'Free account', class: "h3") %>
+  <div class="form-check">
+    <%= f.radio_button :subscribtion_type, '0' %>
+    <%= f.label(:subscribtion_type_0, 'Free account', class: "h3") %>
+  </div>
+
+  <div class="form-check">
+    <%= f.radio_button :subscribtion_type, '1' %>
+    <%= f.label(:subscribtion_type_1, 'Full Account', class: "h3") %>
+  </div>
+  
+  <p>(you will can listen full tracks, download it, and keep up with new releases)</p>
+
+  <div id="additional-user-info" class="d-none">
+    <div class="form-group">
+      <%= image_tag(current_user.avatar.thumb) if current_user.avatar? %>
+      <%= f.file_field :avatar %>
+      <%= f.hidden_field :avatar_cache %>
     </div>
 
-    <div class="form-check">
-      <%= f.radio_button :subscribtion_type, '1' %>
-      <%= f.label(:subscribtion_type_1, 'Full Account', class: "h3") %>
+    <div class="form-label-group">
+      <%= f.text_field :shipping_address, 
+          class: 'form-control', placeholder: 'Shipping Address', required: true %>
+      <%= f.label :shipping_address %>
     </div>
-    
-    <p>(you will can listen full tracks, download it, and keep up with new releases)</p>
 
-    <div id="additional-user-info" class="d-none">
-      <div class="form-group">
-        <%= image_tag(current_user.avatar.thumb) if current_user.avatar? %>
-        <%= f.file_field :avatar %>
-        <%= f.hidden_field :avatar_cache %>
-      </div>
-
-      <div class="form-label-group">
-        <%= f.text_field :shipping_address, 
-            class: 'form-control', placeholder: 'Shipping Address', required: true %>
-        <%= f.label :shipping_address %>
-      </div>
-
-      <div class="form-label-group">
-        <%= f.date_field :birthdate, 
-            class: 'form-control', placeholder: 'Birthday', required: true %>
-        <%= f.label :birthdate %>
-      </div>
-
-      <div class="form-group">
-        <%= f.label :gender, 'Gender' %>
-        <%= f.select :gender, User.genders.keys.reverse %>
-      </div>
-
-      <div class="form-group">
-        <%= f.label :t_shirt_size %>
-        <%= f.select :t_shirt_size, options_for_select(['s','m','l','xl']) %>
-      </div>
-      <div id="payment-user-info" class="d-none">
-        <div class="form-group">
-          <%= f.radio_button(:subscription, 'monthly', checked: true) %>
-          <%= f.label(:subscription_monthly, 'Monthly - $6.99/month') %>
-          <br>
-          <%= f.radio_button(:subscription, 'yearly') %>
-          <%= f.label(:subscription_yearly, 'Yearly - $75.00/year') %>
-          <br>
-          Both plans include a 30 day trial. You will not be billed if you cancel before it ends.
-        </div>
-      </div>
-
-      <%= f.submit 'Submit', class: 'btn btn-default' %>
+    <div class="form-label-group">
+      <%= f.date_field :birthdate, 
+          class: 'form-control', placeholder: 'Birthday', required: true %>
+      <%= f.label :birthdate %>
     </div>
-  <% end %>
-</div>
+
+    <div class="form-group">
+      <%= f.label :gender, 'Gender' %>
+      <%= f.select :gender, User.genders.keys.reverse %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :t_shirt_size %>
+      <%= f.select :t_shirt_size, options_for_select(['s','m','l','xl']) %>
+    </div>
+    <div id="payment-user-info" class="d-none">
+      <div class="form-group">
+        <%= f.radio_button(:subscription, 'monthly', checked: true) %>
+        <%= f.label(:subscription_monthly, 'Monthly - $6.99/month') %>
+        <br>
+        <%= f.radio_button(:subscription, 'yearly') %>
+        <%= f.label(:subscription_yearly, 'Yearly - $75.00/year') %>
+        <br>
+        Both plans include a 30 day trial. You will not be billed if you cancel before it ends.
+      </div>
+    </div>
+
+    <%= f.submit 'Submit', class: 'btn btn-default' %>
+  </div>
+<% end %>

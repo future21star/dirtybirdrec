@@ -1,22 +1,20 @@
- <div class="container"> 
-  <%= render 'topics/breadcrumbs' %>
+<%= render 'topics/breadcrumbs' %>
 
-  <h3><%= @topic.title %></h3>
-  <div class="card mb-3">
-    <div class="card-body">
-      <%= image_tag @topic.user.avatar.thumb.url %>
-      <%= @topic.text %>
-      <%= @topic.created_at.strftime("%Y-%m-%d") %>
-      <%= render 'likes/like_button', object: @topic %>
-    </div>
+<h3><%= @topic.title %></h3>
+<div class="card mb-3">
+  <div class="card-body">
+    <%= image_tag @topic.user.avatar.thumb.url %>
+    <%= @topic.text %>
+    <%= @topic.created_at.strftime("%Y-%m-%d") %>
+    <%= render 'likes/like_button', object: @topic %>
   </div>
-
-  <hr>
-  <div class="topic-posts">
-    <% @topic.posts.parents_posts.each do |post| %>
-      <%= render post %>
-    <% end %>
-  </div>
-
-  <%= render 'form', parent_id: nil %>
 </div>
+
+<hr>
+<div class="topic-posts">
+  <% @topic.posts.parents_posts.each do |post| %>
+    <%= render post %>
+  <% end %>
+</div>
+
+<%= render 'form', parent_id: nil %>

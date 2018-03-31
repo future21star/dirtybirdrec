@@ -1,18 +1,16 @@
-<div class="container">
-  <div class="row">
+<div class="row">
+    
+  <% @groups.each do |group| %>
+    <div class="col-md-6 mb-3">
+      <div class="list-group">
+      <%= group.title %>
       
-    <% @groups.each do |group| %>
-      <div class="col-md-6 mb-3">
-        <div class="list-group">
-        <%= group.title %>
-        
-          <% group.categories.each do |category| %>
-            <div class="list-group-item">
-              <%= link_to category.title, chirp_path( group ) %>
-            </div>
-          <% end %>
-        </div>
+        <% group.categories.each do |category| %>
+          <div class="list-group-item">
+            <%= link_to category.title, chirp_path( group ) %>
+          </div>
+        <% end %>
       </div>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
 </div>

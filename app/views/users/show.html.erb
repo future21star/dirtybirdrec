@@ -1,65 +1,63 @@
-<div class="container">
-  <div class="row">
-    <div class="col-sm-8">
-      <div class="row">
-        <div class="col">
-          <div class="card w-100 mb-1">
-            <div class="card-body">
-              <%= image_tag @user.avatar.url if @user.avatar.present? %>
-            </div>
-          </div>
-        </div>
-        
-        <div class="col">
-          <div class="card w-100 mb-1">
-            <div class="card-body">
-              <%= @user.points %> points 
-            </div>
-          </div>
-
-          <div class="card w-100">
-            <div class="card-body">
-              <% if @user.badges.present? %>
-                <% @user.badges.each do |badge| %>
-                  <%= image_tag badge.image.thumb.url if badge.image.present? %>
-                  <%= badge.name %>
-                <% end %>
-              <% else %>
-                No badges yet
-              <% end %>
-            </div>
+<div class="row">
+  <div class="col-sm-8">
+    <div class="row">
+      <div class="col">
+        <div class="card w-100 mb-1">
+          <div class="card-body">
+            <%= image_tag @user.avatar.url if @user.avatar.present? %>
           </div>
         </div>
       </div>
+      
+      <div class="col">
+        <div class="card w-100 mb-1">
+          <div class="card-body">
+            <%= @user.points %> points 
+          </div>
+        </div>
 
-      <% for activity in @activities %>
-        <%= render_activity activity  %>
-      <% end %>
+        <div class="card w-100">
+          <div class="card-body">
+            <% if @user.badges.present? %>
+              <% @user.badges.each do |badge| %>
+                <%= image_tag badge.image.thumb.url if badge.image.present? %>
+                <%= badge.name %>
+              <% end %>
+            <% else %>
+              No badges yet
+            <% end %>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="col-sm-4">
-      <div class="card w-100 mb-1">
-        <div class="card-body">
-          Add Friend to my feed <%= render 'follows/follow_button', user: @user %>
-        </div>
-      </div>
+    <% for activity in @activities %>
+      <%= render_activity activity  %>
+    <% end %>
+  </div>
 
-      <div class="card w-100 mb-1">
-        <div class="card-body">
-          Friends
-        </div>
+  <div class="col-sm-4">
+    <div class="card w-100 mb-1">
+      <div class="card-body">
+        Add Friend to my feed <%= render 'follows/follow_button', user: @user %>
       </div>
+    </div>
 
-      <div class="card w-100 mb-1">
-        <div class="card-body">
-          Artists following
-        </div>
+    <div class="card w-100 mb-1">
+      <div class="card-body">
+        Friends
       </div>
+    </div>
 
-      <div class="card w-100 mb-1">
-        <div class="card-body">
-          Playlist of favorite tracks
-        </div>
+    <div class="card w-100 mb-1">
+      <div class="card-body">
+        Artists following
+      </div>
+    </div>
+
+    <div class="card w-100 mb-1">
+      <div class="card-body">
+        Playlist of favorite tracks
       </div>
     </div>
   </div>

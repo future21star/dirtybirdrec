@@ -1,76 +1,74 @@
-<div class="container">
-  <div class="row">
-    <div class="col-sm-8">
-      <div class="row">
-        <div class="col-sm-4">
-          <div class="card w-100 mb-1">
-            <div class="card-body">
-              <% if @artist.artist_info && @artist.artist_info.avatar.present? %>
-                <%= image_tag  @artist.artist_info.avatar.url, style: "width: 150px;"%>
-              <% elsif @artist.avatar.present? %>
-                <%= image_tag @artist.avatar.url, style: "width: 150px;"%>
-              <% end %>
-            </div>
-          </div>
-        </div>
-        
-        <div class="col-sm-8">
-          <div class="card w-100 mb-1">
-            <div class="card-body">
-              <div style="display: inline-block; border: 1px solid gray; padding: 5px;">
-                <!-- <div class="card-body"> -->
-                  <%= link_to "FB", @artist.artist_info.facebook if @artist.artist_info %> /
-                  <%= link_to "Twitter", @artist.artist_info.twitter if @artist.artist_info %> /
-                  <%= link_to "Insta", @artist.artist_info.instagram if @artist.artist_info %>
-                <!-- </div> -->
-              </div>
-
-              <div class="mt-2">
-                <%= @artist.artist_info.bio_short if @artist.artist_info %>
-                <a href="#">read more</a>
-                <br>
-                Dirtybird Artist Since <%= @artist.created_at.strftime("%Y-%m-%d") %>
-              </div>
-
-
-            </div>
+<div class="row">
+  <div class="col-sm-8">
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="card w-100 mb-1">
+          <div class="card-body">
+            <% if @artist.artist_info && @artist.artist_info.avatar.present? %>
+              <%= image_tag  @artist.artist_info.avatar.url, style: "width: 150px;"%>
+            <% elsif @artist.avatar.present? %>
+              <%= image_tag @artist.avatar.url, style: "width: 150px;"%>
+            <% end %>
           </div>
         </div>
       </div>
+      
+      <div class="col-sm-8">
+        <div class="card w-100 mb-1">
+          <div class="card-body">
+            <div style="display: inline-block; border: 1px solid gray; padding: 5px;">
+              <!-- <div class="card-body"> -->
+                <%= link_to "FB", @artist.artist_info.facebook if @artist.artist_info %> /
+                <%= link_to "Twitter", @artist.artist_info.twitter if @artist.artist_info %> /
+                <%= link_to "Insta", @artist.artist_info.instagram if @artist.artist_info %>
+              <!-- </div> -->
+            </div>
 
-      <% for activity in @activities %>
-        <%= render_activity activity  %>
-      <% end %>
+            <div class="mt-2">
+              <%= @artist.artist_info.bio_short if @artist.artist_info %>
+              <a href="#">read more</a>
+              <br>
+              Dirtybird Artist Since <%= @artist.created_at.strftime("%Y-%m-%d") %>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="col-sm-4">
-      <div class="card w-100 mb-1">
-        <div class="card-body">
-          <iframe id="ytplayer" type="text/html" width="auto" height="auto"
-            src="https://www.youtube.com/embed/<%= @artist.artist_info.parse_youtube if @artist.artist_info %>"
-            frameborder="0"></iframe>
-        </div>
-      </div>
+    <% for activity in @activities %>
+      <%= render_activity activity  %>
+    <% end %>
+  </div>
 
-      <div class="card w-100 mb-1">
-        <div class="card-body">
-          <ol>
-            <% if @followers.count > 0 %>
-              Fans following this artist
-              <% @followers.each do |user| %>
-                <li><%= link_to user.name, user_path(user) %></li>
-              <% end %>
-            <% else %>
-              No followers yet
+  <div class="col-sm-4">
+    <div class="card w-100 mb-1">
+      <div class="card-body">
+        <iframe id="ytplayer" type="text/html" width="auto" height="auto"
+          src="https://www.youtube.com/embed/<%= @artist.artist_info.parse_youtube if @artist.artist_info %>"
+          frameborder="0"></iframe>
+      </div>
+    </div>
+
+    <div class="card w-100 mb-1">
+      <div class="card-body">
+        <ol>
+          <% if @followers.count > 0 %>
+            Fans following this artist
+            <% @followers.each do |user| %>
+              <li><%= link_to user.name, user_path(user) %></li>
             <% end %>
-          </ol>
-        </div>
+          <% else %>
+            No followers yet
+          <% end %>
+        </ol>
       </div>
+    </div>
 
-      <div class="card w-100 mb-1">
-        <div class="card-body">
-          Bird Feed Music Releases
-        </div>
+    <div class="card w-100 mb-1">
+      <div class="card-body">
+        Bird Feed Music Releases
       </div>
     </div>
   </div>

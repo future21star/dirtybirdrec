@@ -1,17 +1,15 @@
-<div class="container">
-  <%= render 'topics/breadcrumbs' %>
+<%= render 'topics/breadcrumbs' %>
 
-  <h3><%= @category.title %></h3>
+<h3><%= @category.title %></h3>
 
-  <%= link_to "Post a new topic", new_chirp_topic_path( chirp_id: @category.id ),
-      class: "btn btn-secondary mb-3" %>
+<%= link_to "Post a new topic", new_chirp_topic_path( chirp_id: @category.id ),
+    class: "btn btn-secondary mb-3" %>
 
-  <% @category.topics.each do |topic| %>
-    <div class="list-group w-50">
-      <div class="list-group-item mb-2">
-        <%= link_to topic.title, chirp_topic_path( @category, topic ) %>
-        <%= link_to "Follow", "#", class: "float-right" %>
-      </div>
+<% @category.topics.each do |topic| %>
+  <div class="list-group w-50">
+    <div class="list-group-item mb-2">
+      <%= link_to topic.title, chirp_topic_path( @category, topic ) %>
+      <%= link_to "Follow", "#", class: "float-right" %>
     </div>
-  <% end %>
-</div>
+  </div>
+<% end %>

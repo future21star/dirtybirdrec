@@ -92,7 +92,7 @@ class UsersController < ApplicationController
   end
 
   def artists
-    
+    @artists = User.with_role :artist
   end
 
   private

@@ -1,45 +1,45 @@
-<div class="container">
-  filter by
-  <%#= link_to "never released", %>
-  <%= form_tag releases_path, method: :get do %>
-    <%= check_box_tag "filters[never_released]", 'true', params[:filters][:never_released] %>
-    <%= label_tag "filters[never_released]", "never_released" %>
-    <br>
-    <%= check_box_tag "filters[month]", 'true', params[:filters][:month] %>
-    <%= label_tag "filters[month]", "last month" %>
-    <br>
-    <%= check_box_tag "filters[year]", 'true', params[:filters][:year] %>
-    <%= label_tag "filters[year]", "last year" %>
-    <br>
-    <%= select_tag "filters[artist]", 
-        options_from_collection_for_select(@artists, "id", "name"),
-        include_blank: true %>
-    <br>
-    <%= submit_tag "filter" %>
-  <% end %>
+filter by
+<% p = params[:filters].present? ? params[:filters] : {} %>
 
-  <div class="row mt-4">
-    <% @releases.each do |release| %>
-      <div class="col-md-6 mb-2">
-        <div class="card card-release">
-          <%= image_tag release.image_url.url, class: "card-img-top", alt: release.title %>
+<%= form_tag releases_path, method: :get do %>
+  <%= check_box_tag "filters[never_released]", 'true', p[:never_released] %>
+  <%= label_tag "filters[never_released]", "never_released" %>
+  <br>
+  <%= check_box_tag "filters[month]", 'true', p[:month] %>
+  <%= label_tag "filters[month]", "last month" %>
+  <br>
+  <%= check_box_tag "filters[year]", 'true', p[:year] %>
+  <%= label_tag "filters[year]", "last year" %>
+  <br>
+  <%= select_tag "filters[artist]", 
+      options_from_collection_for_select(@artists, "id", "name"),
+      include_blank: true %>
+  <br>
+  <%= submit_tag "filter" %>
+<% end %>
 
-          <div class="card-release-ago">
-            Posted <%= time_ago_in_words(release.published_at) %> ago
-          </div>
+<div class="row mt-4">
+  <% @releases.each do |release| %>
+    <div class="col-md-6 mb-2">
+      <div class="card card-release">
+        <%= (image_tag release.image_url.url, class: "card-img-top", 
+              alt: release.title) if release.image_url.present? %>
 
-          <div class="card-body">
-            <b><%= release.title %></b>
-            <br>
-            <b>Catalog #:</b> <%= release.catalog %>
-            <br>
-            <b>Release date:</b> <%= release.release_date.strftime("%Y-%m-%d") %>
-            <br>
-            <br>
-            <%= release.text %>
-          </div>
+        <div class="card-release-ago">
+          Posted <%= time_ago_in_words(release.published_at) %> ago
+        </div>
+
+        <div class="card-body">
+          <b><%= release.title %></b>
+          <br>
+          <b>Catalog #:</b> <%= release.catalog %>
+          <br>
+          <b>Release date:</b> <%= release.release_date.strftime("%Y-%m-%d") %>
+          <br>
+          <br>
+          <%= release.text %>
         </div>
       </div>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
 </div>

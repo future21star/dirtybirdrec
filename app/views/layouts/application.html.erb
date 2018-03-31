@@ -18,7 +18,14 @@
 
     <%= render "layouts/header" %>
     <main role="main">
-      <%= yield %>
+      <% if controller?('home') && action?('index') %>
+        <%= render 'layouts/carousel' %>
+      <% end %>
+
+      <div class="container py-4">
+        <%= yield %>
+      </div>
+
       <%= render "layouts/footer" %>
 
     </main>
