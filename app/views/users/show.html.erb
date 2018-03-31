@@ -21,7 +21,7 @@
             <div class="card-body">
               <% if @user.badges.present? %>
                 <% @user.badges.each do |badge| %>
-                  <%= image_tag badge.image.thumb.url %>
+                  <%= image_tag badge.image.thumb.url if badge.image.present? %>
                   <%= badge.name %>
                 <% end %>
               <% else %>

@@ -10,4 +10,10 @@ class Post < ApplicationRecord
 
   scope :parents_posts, -> { where(parent_id: nil) }
 
+  include AlgoliaSearch
+
+  algoliasearch do
+    attribute :text
+  end
+
 end

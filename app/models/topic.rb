@@ -7,4 +7,10 @@ class Topic < ApplicationRecord
 
   validates :user_id, :category_id, presence: true
 
+  include AlgoliaSearch
+
+  algoliasearch do
+    attribute :title, :text
+  end
+
 end

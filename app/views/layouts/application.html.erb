@@ -5,7 +5,12 @@
     <%= csrf_meta_tags %>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+<!--     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.3/dist/instantsearch.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.3"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.3/dist/instantsearch-theme-algolia.min.css"> -->
 
+    <script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
@@ -14,6 +19,7 @@
   <body>
     <div class="notice"><%= notice %></div>
     <div class="alert"><%= alert %></div>
+
     <%= render "layouts/header" %>
     <main role="main">
       <%= yield %>

@@ -33,6 +33,7 @@ gem 'will_paginate-bootstrap'
 gem 'fog-aws'
 gem "gioco"
 gem 'loaf'
+gem "algoliasearch-rails"
 gem 'faker'
 
 group :development, :test do

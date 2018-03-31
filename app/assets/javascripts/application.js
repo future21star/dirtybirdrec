@@ -15,4 +15,5 @@
 //= require jquery3
 //= require popper
 //= require bootstrap-sprockets
+//= require algolia/v3/algoliasearch.min
 //= require_tree .

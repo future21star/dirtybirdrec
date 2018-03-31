@@ -6,4 +6,10 @@ class Release < ApplicationRecord
 
   mount_uploader :image_url, AvatarUploader
 
+  include AlgoliaSearch
+
+  algoliasearch do
+    attribute :title, :catalog, :upc_code, :text
+  end
+
 end

@@ -3,12 +3,16 @@ class TopicsController < ApplicationController
   breadcrumb 'Categories', :chirp_index_path, match: :exact
 
   def show
-    @category = TopicCategory.find(params[:chirp_id])
     @topic = Topic.find(params[:id])
+    if params[:chirp_id].present?
+      @category = TopicCategory.find(params[:chirp_id])
+    else
+      @category = @topic.category
+    end
     @post = Post.new
 
     breadcrumb @category.title, chirp_path(@category), match: :exact
-    breadcrumb @topic.title, chirp_topic_path(@category,@topic), match: :exact
+    breadcrumb @topic.title, chirp_topic_path(@category, @topic), match: :exact
   end
 
   def new

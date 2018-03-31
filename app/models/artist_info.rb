@@ -8,4 +8,10 @@ class ArtistInfo < ApplicationRecord
       self.video.match(regex)[1]
     end
   end
+
+  include AlgoliaSearch
+
+  algoliasearch do
+    attribute :bio_short, :bio_long
+  end
 end
