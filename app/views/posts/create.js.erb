@@ -1,5 +1,6 @@
 if("<%= @post.parent_id %>".length > 0) {
-  $('#topic-post-' + "<%= @post.parent_id %>").append("<%= escape_javascript(render(@post)) %>");
+  $('#topic-post-' + "<%= @post.parent_id %>")
+    .append("<div class='nested-messages'><%= escape_javascript(render(@post)) %></div>");
   $('#new_post-'+ "<%= @post.post_hash %>").remove();
 } else {
   $('.topic-posts').append("<%= escape_javascript(render(@post)) %>");

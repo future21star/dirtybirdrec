@@ -1,20 +1,13 @@
  <div class="container"> 
-
-  <nav aria-label="breadcrumb">
-    <ol class='breadcrumb'>
-      <% breadcrumb_trail do |crumb| %>
-        <li class="breadcrumb-item <%= crumb.current? ? 'active' : '' %>">
-          <%= link_to_unless crumb.current?, crumb.name, crumb.url, (crumb.current? ? {'aria-current' => 'page'} : {}) %>
-        </li>
-      <% end %>
-    </ol>
-  </nav>
+  <%= render 'topics/breadcrumbs' %>
 
   <h3><%= @topic.title %></h3>
   <div class="card mb-3">
     <div class="card-body">
       <%= image_tag @topic.user.avatar.thumb.url %>
       <%= @topic.text %>
+      <%= @topic.created_at.strftime("%Y-%m-%d") %>
+      <%= render 'likes/like_button', object: @topic %>
     </div>
   </div>
 
