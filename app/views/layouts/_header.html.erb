@@ -1,39 +1,47 @@
 <header>
-  <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light d-flex">
+  <%= render 'layouts/player' %>
+  <nav class="navbar navbar-expand-md fixed-top d-flex">
     <a class="navbar-brand" href="/">
-      <%= image_tag 'logo-v2i.png' %>
+      <%= image_tag 'birdfeed-logo-white.png' %>
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
+    <span class="navbar-text">
+      THE <b>DIRTYBIRD</b> FAN GAME
+    </span>
+
     <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
-      <ul class="navbar-nav mr-5">
-        <% unless controller?('home') && action?('index') %>
+      <ul class="navbar-nav">
+        <% if current_user %>
           <li class="nav-item">
             <a class="nav-link" href="/">
               Home
             </a>
           </li>
+
           <li class="nav-item <%= 'active' if current_page?(chirp_index_path) %>">
             <%= link_to chirp_index_path, class: "nav-link" do %>
               Chirp
               <%= '<span class="sr-only">(current)</span>'.html_safe if current_page?(chirp_index_path) %>
             <% end %>
           </li>
+
           <li class="nav-item <%= 'active' if current_page?(releases_path) %>">
             <%= link_to releases_path, class: "nav-link" do %>
               Releases
               <%= '<span class="sr-only">(current)</span>'.html_safe if current_page?(releases_path) %>
             <% end %>
           </li>
+
           <li class="nav-item <%= 'active' if current_page?(artists_path) %>">
             <%= link_to artists_path, class: "nav-link" do %>
               Artists
               <%= '<span class="sr-only">(current)</span>'.html_safe if current_page?(artists_path) %>
             <% end %>
           </li>
-        <% end %>
-        <% if controller?('home') && action?('index') %>
+        <% else %>
           <li class="nav-item <%= 'active' if current_page?(about_path) %>">
             <%= link_to about_path, class: "nav-link" do %>
               What is Birdfeed?
@@ -47,12 +55,16 @@
             <%= '<span class="sr-only">(current)</span>'.html_safe if current_page?(users_path) %>
           <% end %>
         </li>
-        <li class="nav-item <%= 'active' if current_page?(contacts_path) %>">
-          <%= link_to contacts_path, class: "nav-link" do %>
+<!--         <li class="nav-item <%#= 'active' if current_page?(contacts_path) %>">
+          <%#= link_to contacts_path, class: "nav-link" do %>
             Contact
-            <%= '<span class="sr-only">(current)</span>'.html_safe if current_page?(contacts_path) %>
-          <% end %>
-        </li>
+            <%#= '<span class="sr-only">(current)</span>'.html_safe if current_page?(contacts_path) %>
+          <%# end %>
+        </li> -->
+        <div class="nav-divider"></div>
+
+        <button class="btn nav-signup">SIGN UP</button>
+        <button class="btn nav-signin">LOG IN</button>
       </ul>
 
       <% if current_user %>

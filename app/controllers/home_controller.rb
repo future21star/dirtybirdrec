@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :demo_index, :demo_login]
+  before_action :authenticate_user!, 
+      except: [:index, :demo_index, :demo_login, :about]
   helper_method :resource_name, :resource, :devise_mapping, :resource_class
 
   def resource_name

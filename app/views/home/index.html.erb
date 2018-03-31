@@ -34,14 +34,16 @@
     <div class="col">
       <ul class="list-group">
         <li class="list-group-item bg-light">
-          <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+          <%= form_for(resource, as: resource_name, 
+              url: registration_path(resource_name), 
+              html: {id: "sign_in_user"}) do |f| %>
             <%= devise_error_messages! %>
 
             <div class="row">
               <div class="col">
                 <div class="form-label-group">
                   <%= f.email_field :email, autofocus: true, autocomplete: "email", 
-                    class: 'form-control', placeholder: 'Email address', required: true %>
+                    class: 'form-control', id: "login_email", placeholder: 'Email address', required: true %>
                   <%= f.label :email %>
                 </div>
               </div>
@@ -59,7 +61,7 @@
               <div class="col">
                 <div class="form-label-group">
                   <%= f.password_field :password, autocomplete: "off", required: true, 
-                      class: 'form-control', placeholder: "Password" %>
+                      class: 'form-control', id: "login_password", placeholder: "Password" %>
                   <%= f.label :password %>
                 </div>
               </div>

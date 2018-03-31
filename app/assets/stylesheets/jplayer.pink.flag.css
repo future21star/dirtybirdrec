@@ -1,34 +1,10 @@
-/*! Pink Flag Skin for jPlayer 2.9.2 ~ (c) 2009-2014 Happyworm Ltd ~ MIT License */
-
-/*
- * Skin for jPlayer Plugin (jQuery JavaScript Library)
- * http://www.jplayer.org
- *
- * Skin Name: Pink Flag
- *
- * Copyright (c) 2012 - 2014 Happyworm Ltd
- * Licensed under the MIT license.
- *  - http://www.opensource.org/licenses/mit-license.php
- *
- * Author: Silvia Benvenuti
- * Skin Version: 2.1 (jPlayer 2.8.0)
- * Date: 13th November 2014
- */
-.jp-audio *:focus,
-.jp-audio-stream *:focus,
-.jp-video *:focus {
-  /* Disable the browser focus highlighting. */
+.jp-audio *:focus {
   outline: none; }
 
-.jp-audio button::-moz-focus-inner,
-.jp-audio-stream button::-moz-focus-inner,
-.jp-video button::-moz-focus-inner {
-  /* Disable the browser CSS3 focus highlighting. */
+.jp-audio button::-moz-focus-inner {
   border: 0; }
 
-.jp-audio,
-.jp-audio-stream,
-.jp-video {
+.jp-audio {
   z-index: 2;
   font-size: 16px;
   font-family: Verdana, Arial, sans-serif;
@@ -42,8 +18,9 @@
 
 .jp-audio {
   position: fixed;
-  bottom: 0;
-  opacity: 0.9;
+  top: 0;
+  height: 40px;
+  /*opacity: 0.9;*/
   width: 100%;
   padding: 10px; }
 

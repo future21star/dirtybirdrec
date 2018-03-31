@@ -1,0 +1,162 @@
+.jp-audio {
+  position: fixed;
+  top: -20px;
+  height: 40px;
+  width: 100%;
+  background-color: #3e3e3e;
+  font-family: "Roboto Mono";
+  transition: top 0.3s;
+  z-index: 16;
+
+  button {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    color: white;
+    font-size: 12px;
+    cursor: pointer;
+
+    svg {
+      width: 11px;
+      height: 11px;
+      path {
+        fill: white;
+      }
+    }
+  }
+}
+
+.jp-interface {
+  display: flex;
+  justify-content: space-between;
+}
+
+.jp-controls-holder {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  flex-grow: 1;
+}
+
+.jp-controls {
+  display: flex;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.jp-current-time, .jp-duration {
+  font-size: 10px;
+  font-weight: 700;
+  margin: 0 6px;
+}
+
+.jp-previous {
+  margin-left: 10px;
+  background: asset-data-url("icons/media-backward.svg") no-repeat;
+  &:hover {
+    background-image: asset-data-url("icons/media-backward-hover.svg");
+  }
+}
+
+.jp-play {
+  margin: 0px 4px;
+  background: asset-data-url("icons/media-play.svg") no-repeat;
+  &:hover {
+    background-image: asset-data-url("icons/media-play-hover.svg");
+  }
+}
+
+.jp-next {
+  margin-right: 10px;
+  background: asset-data-url("icons/media-forward.svg") no-repeat;
+  &:hover {
+    background-image: asset-data-url("icons/media-forward-hover.svg");
+  }
+}
+
+.jp-previous, .jp-play, .jp-next {
+  background-size: 12px 12px;
+  outline: none !important;
+  width: 12px;
+  height: 12px;
+  margin-top: 1px;
+}
+
+.jp-state-playing .jp-play {
+  background-image: asset-data-url("icons/media-pause.svg");
+}
+
+.jp-state-playing .jp-play:focus {
+  background-image: asset-data-url("icons/media-pause-hover.svg");
+}
+
+.jp-volume {
+  display: none;
+  position: absolute;
+  left: 20px;
+}
+
+.jp-volume-btn {
+  width: 10px;
+  height: 10px;
+  outline: none !important;
+  margin-left: 12px;
+  font-size: 11px !important;
+}
+
+.jp-volume-controls {
+  position: relative;
+}
+
+.jp-volume-bar {
+  background: asset-data-url("jplayer/jplayer.pink.flag.jpg") 0px -300px repeat-x;  
+  width: 197px;
+  height: 10px;
+  overflow: hidden;
+  cursor: pointer; 
+}
+
+.jp-volume-bar-value {
+  background: asset-data-url("jplayer/jplayer.pink.flag.jpg") 0px -320px repeat-x;
+  height: 10px; 
+}
+
+.jp-details {
+  font-size: 10px;
+  flex-grow: 1;
+  text-align: center;
+  position: relative;
+  top: 10px;
+  transition: top 0.3s;
+}
+
+.jp-title {
+  display: inline-block;
+}
+
+.jp-proggress-container {
+  background-color: #222;
+  padding: 12px 0 12px 76px;  
+}
+
+.jp-progress {
+  background: asset-data-url("jplayer/jplayer.pink.flag.jpg") 0px -240px no-repeat;
+  width: 197px;
+  height: 13px;
+  overflow: hidden; 
+}
+
+.jp-seek-bar {
+  background: asset-data-url("jplayer/jplayer.pink.flag.jpg") 0px -260px repeat-x;
+  width: 0px;
+  height: 100%;
+  overflow: hidden;
+  cursor: pointer; 
+}
+
+.jp-play-bar {
+  background: asset-data-url("jplayer/jplayer.pink.flag.jpg") 0px -280px repeat-x;
+  width: 0px;
+  height: 100%;
+  overflow: hidden; 
+}
