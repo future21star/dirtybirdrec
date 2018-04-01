@@ -6,58 +6,32 @@ header {
   a {
     color: white;
     &:hover {
-      color: darken(white, $amount);
+      color: darken(white, 8);
     }
   }
-}
-
-.navbar {
-  height: 60px;
-  background-color: #3ed4e0;
-  transition: top 0.3s;
-}
-
-.fixed-top {
-  top: 20px;
-}
-
-.navbar-nav {
-  font-size: 14px;
-}
-
-.active > .nav-link {
-  text-decoration: underline;
-}
-
-.navbar-brand {
-  padding-top: 8px;
-  img {
-    vertical-align: top;
-  }
-}
-
-.navbar-text {
-  font-size: 10px;
 }
 
 .nav-divider {
   width: 0;
   height: 33px;
   border: 1px solid white;
-  margin: 4px 20px 0;
+  margin: 2px 20px 0;
 }
 
-.nav-signup {
-  font-size: 10px;
+.nav-signup-btn {
   width: 78px;
   height: 28px;
   margin: 4px 15px 0 10px;
-  color: #3ed4e0;
-  background-color: white;
 }
 
-.nav-signin {
+.nav-signin-btn {
   font-size: 10px;
   background: transparent;
   color: white;
+  &:hover {
+    color: darken(white, 10);
+  }
+  &:focus, &:active {
+    color: black;
+  }
 }

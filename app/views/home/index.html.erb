@@ -12,8 +12,8 @@
             <div class="col">
               <div class="form-label-group">
                 <%= f.email_field :email, autofocus: true, autocomplete: "email", 
-                  class: 'form-control', id: "login_email", placeholder: 'Email address', required: true %>
-                <%= f.label :email %>
+                  class: 'form-control', id: "user_login_email", placeholder: 'Email address', required: true %>
+                <%= f.label :login_email %>
               </div>
             </div>
             <div class="col">
@@ -30,8 +30,8 @@
             <div class="col">
               <div class="form-label-group">
                 <%= f.password_field :password, autocomplete: "off", required: true, 
-                    class: 'form-control', id: "login_password", placeholder: "Password" %>
-                <%= f.label :password %>
+                    class: 'form-control', id: "user_login_password", placeholder: "Password" %>
+                <%= f.label :login_password %>
               </div>
             </div>
 

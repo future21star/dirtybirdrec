@@ -13,21 +13,26 @@
   </head>
 
   <body>
-    <div class="notice"><%= notice %></div>
-    <div class="alert"><%= alert %></div>
+    <div class="main-container">
 
-    <%= render "layouts/header" %>
-    <main role="main">
-      <% if controller?('home') && action?('index') %>
-        <%= render 'layouts/carousel' %>
-      <% end %>
+      <div class="notice"><%= notice %></div>
+      <div class="alert"><%= alert %></div>
 
-      <div class="container py-4">
-        <%= yield %>
-      </div>
+      <%= render "layouts/header" %>
+      <main role="main">
+        <% if controller?('home') && action?('index') %>
+          <%= render 'layouts/carousel' %>
+        <% end %>
 
-      <%= render "layouts/footer" %>
+        <div class="container py-4">
+          <%= yield %>
+        </div>
 
-    </main>
+        <%= render "layouts/footer" %>
+
+      </main>
+    </div>
+
+    <%= yield :body_area %>
   </body>
 </html>

@@ -41,6 +41,14 @@ $(document).on('turbolinks:load', function() {
   notify('.notice');
   notify('.alert');
 
+  $('.modal-blured').on('show.bs.modal', function () {
+    $(this).prev('.main-container').css({'filter': 'blur(15px)'});
+  });
+
+  $('.modal-blured').on('hide.bs.modal', function (e) {
+    $(this).prev('.main-container').css({'filter': 'blur(0px)'});
+  });
+
 
   var client = algoliasearch("TOQ4XQOWDP", "90f548a9f6bb9108464d081db4c6a29a")
   var tracks = client.initIndex('Track');

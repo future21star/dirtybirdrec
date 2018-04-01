@@ -1,0 +1,126 @@
+@import url("https://fonts.googleapis.com/css?family=Titillium+Web:400,700|Roboto+Mono:400,700");
+
+@mixin btn($b-color,$t-color,$a-color) {
+  font-size: 10px;
+  color: $t-color;
+  background-color: $b-color;
+  &:hover {
+    background-color: $t-color;
+    color: $b-color;
+    border: 1px solid $b-color;
+  }
+  &:focus, &:active {
+    background-color: $a-color;
+    color: $t-color;
+  }
+}
+
+body {
+  font-family: 'Titillium Web', sans-serif;
+}
+
+.notice, .alert {
+  position: fixed;
+  top: 90px;
+  right: 60px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  opacity: 0.7;
+  box-shadow: 0px 0px 7px;
+  color: white;
+  display: none;
+  z-index: 2;
+}
+.notice {
+  background-color: green;
+}
+.alert {
+  background-color: pink;
+}
+
+.c-btn-white {
+  @include btn(white,#3ed4e0,darken(white, 5));
+}
+
+.modal-dialog-wide {
+  min-width: 800px;
+}
+
+#signinModal ~ .modal-backdrop {
+  display: none;
+}
+
+.modal-dialog-right {
+  display: inline-block;
+  padding: 55px 15px 15px;
+  border-radius: 10px;
+  position: relative;
+  top: 60px;
+  background: asset-data-url("icons/login-bgrd.svg");
+  
+  .modal-content {
+    border: none;
+  }
+
+  .modal-body {
+    width: auto;
+    padding: 0;
+  }
+}
+
+.modal-text {
+  font-size: 12px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.modal-login {
+  margin: 25px 0;
+  color: #222222;
+  font-size: 14px;
+  &:hover {
+    text-decoration: none;
+    color: ligten(#222222, 20);
+  }
+  &:focus, &:active {
+    color: black;
+  }
+}
+
+.modal-button {
+  width: 338px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 3px;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  &:hover, &:focus, &:active {
+    text-decoration: none;
+    color: white;
+  }
+}
+
+.bg-red {
+  background-color: #ff575d;
+  &:hover {
+    background-color: #ff475d;
+  }
+  &:focus, &:active {
+    background-color: #ff375d;
+  }
+}
+
+.bg-blue {
+  background-color: #5764ff;
+  &:hover {
+    background-color: #5754ff;
+  }
+  &:focus, &:active {
+    background-color: #5744ff;
+  }
+}

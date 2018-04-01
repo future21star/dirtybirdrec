@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
 
-  devise_for :users, controllers: { registrations: "registrations" }#, ActiveAdmin::Devise.config
+  devise_for :users, path: 'usr', controllers: {
+        registrations: 'users/registrations',
+        omniauth_callbacks: 'users/omniauth_callbacks'
+      }
   resources :users, only: [:show, :index, :update] do
     collection do
       get "choose_profile"

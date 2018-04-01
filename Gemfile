@@ -21,6 +21,8 @@ gem 'jbuilder', '~> 2.5'
 gem 'pg'
 gem "stream_rails"
 gem 'devise'
+gem 'omniauth-facebook', '~> 4.0'
+gem "omniauth-google-oauth2"
 gem 'cancancan', '~> 2.0'
 gem "rolify"
 gem 'activeadmin'
