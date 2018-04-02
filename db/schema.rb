@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180401171823) do
+ActiveRecord::Schema.define(version: 20180402083636) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,7 +98,7 @@ ActiveRecord::Schema.define(version: 20180401171823) do
     t.string "title"
     t.string "catalog"
     t.text "text"
-    t.string "image_url"
+    t.string "avatar"
     t.string "facebook_img"
     t.datetime "published_at"
     t.string "upc_code"

@@ -22,11 +22,11 @@ filter by
   <% @releases.each do |release| %>
     <div class="col-md-6 mb-2">
       <div class="card card-release">
-        <%= (image_tag release.image_url.url, class: "card-img-top", 
-              alt: release.title) if release.image_url.present? %>
+        <%= (image_tag release.avatar.url, class: "card-img-top", 
+              alt: release.title) if release.avatar.present? %>
 
         <div class="card-release-ago">
-          Posted <%= time_ago_in_words(release.published_at) %> ago
+          <%= "Posted #{time_ago_in_words(release.published_at)} ago" if release.published_at.present? %>
         </div>
 
         <div class="card-body">

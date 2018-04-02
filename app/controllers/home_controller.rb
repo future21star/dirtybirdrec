@@ -26,7 +26,7 @@ class HomeController < ApplicationController
     @slider = SliderImage.all.ordered
     @leader_users = User.all.order(created_at: :asc).limit(3)
     @users = User.all.order(created_at: :desc).limit(3)
-    @release = Release.last
+    @releases = Release.released
   end
 
   def about

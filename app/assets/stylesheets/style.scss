@@ -4,6 +4,7 @@
   font-size: 10px;
   color: $t-color;
   background-color: $b-color;
+  border-radius: 6px;
   &:hover {
     background-color: $t-color;
     color: $b-color;
@@ -17,6 +18,10 @@
 
 body {
   font-family: 'Titillium Web', sans-serif;
+}
+
+main > div.container {
+  background-color: #f7f7f7;
 }
 
 .notice, .alert {
@@ -40,6 +45,28 @@ body {
 
 .c-btn-white {
   @include btn(white,#3ed4e0,darken(white, 5));
+}
+.c-btn-blue {
+  @include btn(#3ed4e0,white,darken(#3ed4e0, 5));
+}
+
+.c-btn-sm {
+  padding: 3px 10px;
+}
+
+.t-small {
+  font-size: 8px;
+}
+
+.c-link {
+  font-size: 10px;
+  color: white;
+  &:hover {
+    color: darken(white, 10);
+  }
+  &:focus, &:active {
+    color: black;
+  }
 }
 
 .modal-dialog-wide {
@@ -123,4 +150,19 @@ body {
   &:focus, &:active {
     background-color: #5744ff;
   }
+}
+
+.c-flag {
+  display: inline-block;
+  padding: 10px 0;
+  text-align: center;
+  background: asset-data-url("icons/c-flag.svg");
+  width: 186px;
+  height: 50px;
+  position: relative;
+  top: 0;
+  left: -25px;
+  color: #ffffff;
+  font-size: 14px;
+  letter-spacing: 1.4px;
 }

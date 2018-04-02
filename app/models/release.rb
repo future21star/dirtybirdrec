@@ -4,12 +4,15 @@ class Release < ApplicationRecord
   has_many :tracks
   belongs_to :user, foreign_key: "artist_id"
 
-  mount_uploader :image_url, AvatarUploader
+  mount_uploader :avatar, ReleaseUploader
 
   include AlgoliaSearch
 
   algoliasearch do
     attribute :title, :catalog, :upc_code, :text
   end
+
+  scope :released, -> { where("release_date < ?", DateTime.now) }
+
 
 end

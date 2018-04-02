@@ -19,12 +19,12 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 4.0'
 
 gem 'pg'
-gem "stream_rails"
+gem 'stream_rails'
 gem 'devise'
 gem 'omniauth-facebook', '~> 4.0'
-gem "omniauth-google-oauth2"
+gem 'omniauth-google-oauth2'
 gem 'cancancan', '~> 2.0'
-gem "rolify"
+gem 'rolify'
 gem 'activeadmin'
 gem 'carrierwave', '~> 1.0'
 gem 'mini_magick'
@@ -35,8 +35,9 @@ gem 'will_paginate-bootstrap'
 gem 'fog-aws'
 gem "gioco"
 gem 'loaf'
-gem "algoliasearch-rails"
+gem 'algoliasearch-rails'
 gem 'faker'
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -1,3 +1,30 @@
+<div class="releases-block mb-4">
+  <div class="c-flag">LATEST RELEASES</div>
+  <%= link_to "SEE ALL", releases_path, class: "btn c-btn-blue float-right mt-2" %>
+</div>
+
+<div class="h-carousel">
+  <% @releases.each do |release| %>
+    <div>
+      <div class="h-carousel-item-body">
+        <span class="t-small"><%= time_ago_in_words( release.release_date ).upcase %> AGO</span>
+        <h3><%= link_to release.title.upcase, release_path(release) %></h3>
+        <p><%= link_to release.text.html_safe, release_path(release) %></p>
+        <div class="h-carousel-item-footer">
+          <a href="#" class="c-link">
+            <%= release.tracks.count %>
+              <%= "Track".pluralize(release.tracks.count) %>
+            </a>
+          <button class="btn c-btn-white c-btn-sm">LISTEN</button>
+          <a href="#" class="c-link">Share</a>
+        </div>
+      </div>
+      <%= image_tag release.avatar.url if release.avatar.present? %>
+      <%= image_tag release.avatar.url, class: "h-carousel-blured-img" if release.avatar.present? %>
+    </div>
+  <% end %>
+</div>
+
 <!-- USER FUNCTIONS -->
 <div class="row my-4">
   <div class="col">
@@ -96,32 +123,11 @@
     <div class="row">
       <div class="col">
         <ul class="list-group">
-          <li class="list-group-item bg-success">
-            <% if @release %>
-              <%= @release.title %>
-            <% else %>
-              no releases yet
-            <% end %>
-          </li>
         </ul>
-        <%= link_to "See all tracks", releases_path %>
       </div>
       <div class="col">
         <ul class="list-group">
-          <li class="list-group-item bg-warning">
-            <ol>
-              <% @users.each do |user| %>
-                <li>
-                  <%= link_to user_path(user) do %>
-                    <%= image_tag user.avatar.thumb %>
-                    <%= user.name %>
-                  <% end %>
-                </li>
-              <% end %>
-            </ol>
-          </li>
         </ul>
-        <%= link_to "See all members", users_path %>
       </div>
     </div>
   </div>
