@@ -5,17 +5,7 @@
   color: #222;
   vertical-align: top;
   position: relative;
-
-  // &:after {
-  //   content: '';
-  //   width: 100%;
-  //   height: 40px;
-  //   position: absolute;
-  //   left: 0;
-  //   z-index: 2;
-  //   bottom: -5px;
-  //   background-color: white;
-  // }
+  margin-right: -15px;
 
   &::-webkit-scrollbar {
       -webkit-appearance: none;
@@ -26,6 +16,7 @@
   &::-webkit-scrollbar-track {
       background: #fff; 
       -webkit-border-radius: 7px;
+      margin-right: 15px;
   }
    
   &::-webkit-scrollbar-thumb {
