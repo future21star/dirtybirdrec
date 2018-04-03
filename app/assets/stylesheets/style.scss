@@ -271,14 +271,19 @@ main > div.container {
 }
 
 .fans-block {
-  height: 500px;
+  height: 450px;
   padding-left: 15px;
 
   & li {
     list-style-type: none;
     counter-increment: step-counter;
     font-size: 12px;
+    position: relative;
+    padding-left: 30px;
     &:before {
+      position: absolute;
+      top: 20px;
+      left: 0;
       content: counter(step-counter);
       margin-right: 20px;
       font-size: 24px;
@@ -287,7 +292,7 @@ main > div.container {
 }
 
 .artists-block {
-  height: 500px;
+  height: 450px;
 
   li {
     margin-bottom: 20px;
