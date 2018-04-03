@@ -10,17 +10,24 @@ admin = User.create(email: 'admin@example.com', password: 'password',
 admin.remote_avatar_url = Faker::Avatar.image
 admin.save
 admin.add_role :admin
+admin.remove_role :fan
 
-user = User.create(email: 'user2@example.com', password: 'password', 
-    password_confirmation: 'password', name: "User2")
-user.remote_avatar_url = Faker::Avatar.image
-user.save
+20.times do |i|
+  user = User.create(email: "user#{i+10}@example.com", password: 'password', 
+      password_confirmation: 'password', name: "User#{i+10}")
+  user.remote_avatar_url = Faker::Avatar.image
+  user.save
+end
 
-artist = User.create(email: 'artist@example.com', password: 'password', 
-    password_confirmation: 'password', name: "Artist 1")
-artist.remote_avatar_url = Faker::Avatar.image
-artist.save
-artist.add_role :artist
+
+20.times do |i|
+  artist = User.create(email: "artist#{i}@example.com", password: 'password', 
+      password_confirmation: 'password', name: "Artist #{i}")
+  artist.remote_avatar_url = Faker::Avatar.image
+  artist.save
+  artist.add_role :artist
+  artist.remove_role :fan
+end
 
 3.times do |i|
   new_release = Release.create!(

@@ -1,0 +1,31 @@
+footer {
+  height: 200px;
+  background-color: #333;
+  padding: 40px 17px 14px;
+  color: white;
+    font-size: 12px;
+
+  a {
+    color: white;
+    &:hover {
+      color: darken(white, 10);
+      text-decoration: none;
+    }
+    &:focus, &:active {
+      color: white;
+      text-decoration: underline;
+    }
+  }
+
+  & > .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    & > .row {
+      align-self: normal;
+    }
+  }
+
+}

@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       get "chrip_feed"
       get "track_feed"
       get "artist_feed"
+      post "change_avatar"
     end
   end
   ActiveAdmin.routes(self)
@@ -55,4 +56,5 @@ Rails.application.routes.draw do
   post 'demo_drop/:id', to: 'home#demo_drop', as: 'demo_drop'
   get 'demo', to: 'home#demo_index'
   post 'demo_login', to: 'home#demo_login'
+  get 'demo_get_100/:id', to: 'home#demo_get_100_points', as: "demo_get_100"
 end

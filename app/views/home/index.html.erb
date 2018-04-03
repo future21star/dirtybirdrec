@@ -1,156 +1,97 @@
-<div class="releases-block mb-4">
+<div class="release-flag-block ">
   <div class="c-flag">LATEST RELEASES</div>
-  <%= link_to "SEE ALL", releases_path, class: "btn c-btn-blue float-right mt-2" %>
+  <%= link_to "SEE ALL", releases_path, class: "btn c-btn-blue" %>
 </div>
 
-<div class="h-carousel">
+<div class="h-carousel mb-4">
   <% @releases.each do |release| %>
     <div>
-      <div class="h-carousel-item-body">
-        <span class="t-small"><%= time_ago_in_words( release.release_date ).upcase %> AGO</span>
-        <h3><%= link_to release.title.upcase, release_path(release) %></h3>
-        <p><%= link_to release.text.html_safe, release_path(release) %></p>
-        <div class="h-carousel-item-footer">
-          <a href="#" class="c-link">
-            <%= release.tracks.count %>
-              <%= "Track".pluralize(release.tracks.count) %>
-            </a>
-          <button class="btn c-btn-white c-btn-sm">LISTEN</button>
-          <a href="#" class="c-link">Share</a>
+      <div>
+        <div class="h-carousel-item-body">
+          <h3><%= link_to release.title.upcase, release_path(release) %></h3>
+          <p><%= link_to release.text.html_safe, release_path(release) %></p>
+          <div class="h-carousel-item-footer">
+            <a href="#" class="c-link">
+              <%= release.tracks.count %>
+                <%= "Track".pluralize(release.tracks.count) %>
+              </a>
+            <button class="btn c-btn-white c-btn-sm">LISTEN</button>
+            <a href="#" class="c-link">Share</a>
+          </div>
         </div>
+        <%= image_tag release.avatar.url if release.avatar.present? %>
+        <%= image_tag release.avatar.url, class: "h-carousel-blured-img" if release.avatar.present? %>
       </div>
-      <%= image_tag release.avatar.url if release.avatar.present? %>
-      <%= image_tag release.avatar.url, class: "h-carousel-blured-img" if release.avatar.present? %>
+      <mark class="t-small"><%= time_ago_in_words( release.release_date ).upcase %> AGO</mark>
     </div>
   <% end %>
 </div>
 
-<!-- USER FUNCTIONS -->
-<div class="row my-4">
-  <div class="col">
-    <ul class="list-group">
-      <li class="list-group-item bg-light">
-        <%= form_for(resource, as: resource_name, 
-            url: registration_path(resource_name), 
-            html: {id: "sign_in_user"}) do |f| %>
-          <%= devise_error_messages! %>
-
-          <div class="row">
-            <div class="col">
-              <div class="form-label-group">
-                <%= f.email_field :email, autofocus: true, autocomplete: "email", 
-                  class: 'form-control', id: "user_login_email", placeholder: 'Email address', required: true %>
-                <%= f.label :login_email %>
-              </div>
-            </div>
-            <div class="col">
-              <div class="form-label-group">
-                <%= f.text_field :name, autofocus: true, autocomplete: "name", 
-                  class: 'form-control', placeholder: 'Name', required: true %>
-                <%= f.label :name %>
-              </div>
-            </div>
-          </div>
-
-
-          <div class="row">
-            <div class="col">
-              <div class="form-label-group">
-                <%= f.password_field :password, autocomplete: "off", required: true, 
-                    class: 'form-control', id: "user_login_password", placeholder: "Password" %>
-                <%= f.label :login_password %>
-              </div>
-            </div>
-
-            <div class="col">
-              <div class="form-label-group">
-                <%= f.password_field :password_confirmation, autocomplete: "off", required: true, 
-                    class: 'form-control', placeholder: "Password confirmation" %>
-                <%= f.label :password_confirmation %>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col offset-6">
-              <%= f.submit "Sign up", class: "btn btn-lg btn-primary btn-block mb-3" %>
-            </div>
-          </div>
-        <% end %>
-      </li>
-    </ul>
-  </div>
-  <div class="col">
-    <ul class="list-group">
-      <li class="list-group-item bg-light">
-        <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-          <%= devise_error_messages! %>
-
-          <div class="form-label-group">
-            <%= f.email_field :email, autocomplete: "email", 
-              class: 'form-control', placeholder: 'Email address', required: true, value: "admin@example.com" %>
-            <%= f.label :email %>
-          </div>
-
-          <div class="form-label-group">
-            <%= f.password_field :password, autocomplete: "off", required: true, 
-                class: 'form-control', placeholder: "Password", value: "password" %>
-            <%= f.label :password %>
-          </div>
-
-          <div class="row">
-            <div class="col">
-              <% if devise_mapping.rememberable? %>
-                <div class="checkbox mb-3">
-                  <%= f.check_box :remember_me %>
-                  <%= f.label :remember_me %>
-                </div>
-              <% end %>
-            </div>
-            <div class="col">
-              <%= f.submit "Log in", class: "btn btn-lg btn-primary btn-block mb-3" %>
-            </div>
-          </div>
-        <% end %>
-      </li>
-    </ul>
-  </div>
-</div>
- <!-- USER FUNCTIONS-END -->
-
 <div class="row">
-  <div class="col">
-    <div class="row">
-      <div class="col">
-        <ul class="list-group">
-        </ul>
-      </div>
-      <div class="col">
-        <ul class="list-group">
-        </ul>
-      </div>
+  <!-- FANS LEADERBOARD -->
+  <div class="col-md-8">
+    <div class="c-panel bg-white">
+      <div class="c-flag mb-5">FANS LEADERBOARD</div>
+      <%= link_to "SEE ALL", releases_path, class: "btn c-btn-blue float-right" %>
+
+      <ol class="fans-block light-scroll">
+        <% @leader_users.each do |leader| %>
+          <li>
+            <%= link_to user_path(leader), class: "d-inline-block align-middle" do %>
+              <%= image_tag leader.avatar.thumb, class: "user-avatar" %>
+            <% end %>
+
+            <div style="display: inline-block; width: 80%; margin-left: 20px; margin-bottom: 20px; vertical-align: bottom;">
+            <%= leader.name.upcase %>
+            <%= image_tag 'icons/point-green.svg' if leader %>
+
+              <div>
+                <div style="display: inline-block; vertical-align: top; margin: 3px 20px 0 0; width: 64%">
+                  <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </div>
+                <% if leader.badges.present? %>
+                  <div style="display: inline-block;">
+                    <b><%= "#{leader.badges.order(points: :desc).count}" %></b>
+                    <b><%= "#{leader.badges.order(points: :desc).last.name}" %></b> 
+                    Badged Granted
+                  </div>
+                <% end %>
+                
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ol>
     </div>
   </div>
 
-  <div class="col">
-    <ul class="list-group">
-      <li class="list-group-item bg-success">
-        <ol>
-          <% @leader_users.each do |leader| %>
-            <li>
-              <%= link_to user_path(leader) do %>
-                <%= image_tag leader.avatar.thumb %>
-                <%= leader.name %>
-              <% end %>
-              has <%= leader.points %> points 
-              <%= "and #{leader.badges.order(points: :desc).last.name}" if leader.badges.present? %>
-            </li>
-          <% end %>
-        </ol>
-      </li>
-      <%= link_to "See all acievements", "#" %>
-    </ul>
+  <!-- ARTISTS -->
+  <div class="col-md-4">
+    <div class="c-panel bg-c-dark">
+      <div class="c-flag c-flag-inner mb-5"><b>DIRTYBIRD</b> ARTISTS</div>
+      <%= link_to "SEE ALL", releases_path, class: "btn c-btn-blue float-right" %>
+
+      <ol class="artists-block dark-scroll list-unstyled">
+        <% @artists.each do |artist| %>
+          <li>
+            <%= link_to artist_path(artist), class: "d-inline-block align-middle" do %>
+              <%= image_tag artist.avatar.thumb, class: "user-avatar" %>
+            <% end %>
+            <div>
+              <h5>
+                <%= artist.name %>
+                <%= image_tag 'icons/point-green.svg' if artist %>
+              </h5>
+              <div>
+                <%= artist.tracks.count %> Tracks /
+                <%= artist.followers.count %> Followers
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ol>
+    </div>
   </div>
 </div>
-
-<hr class="featurette-divider">

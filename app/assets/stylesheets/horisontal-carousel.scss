@@ -1,7 +1,7 @@
 .h-carousel {
   overflow: scroll;
   white-space: nowrap;
-  padding-bottom: 20px;
+  padding-bottom: 25px;
   color: #222;
   vertical-align: top;
   position: relative;
@@ -34,6 +34,23 @@
   }
 
   & > div {
+    position: relative;
+    display: inline-block;
+
+    & > mark.t-small {
+      display: inline-block;
+      position: absolute;
+      bottom: -18px;
+      left: calc(50% - 10px);
+      z-index: 2;
+      background-color: white;
+      padding: 3px 10px;
+      border-radius: 0 0 4px 4px;
+      transform: translateX(-50%);
+    }
+  }
+
+  & > div > div {
     position: relative;
     overflow: hidden;
     white-space: normal;

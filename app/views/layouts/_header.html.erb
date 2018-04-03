@@ -117,12 +117,16 @@
           <p class="modal-text">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
           </p>
-          <%= link_to user_facebook_omniauth_authorize_path, class: "modal-button bg-blue" do %>
+          <%= link_to user_facebook_omniauth_authorize_path, 
+              class: "modal-button btn-bg-blue" do %>
             Sign up with Facebook
           <% end %>
-          <%= link_to user_google_oauth2_omniauth_authorize_path, class: "modal-button bg-red" do %>
+          <%= link_to user_google_oauth2_omniauth_authorize_path, 
+              class: "modal-button btn-bg-red" do %>
             Sign up with Google+
           <% end %>
+          <%= link_to "Sign up with email", new_user_registration_path, 
+              class: "modal-button btn-bg-gray" %>
           <%= link_to "Log in", user_session_path, class: "modal-login" %>
         </div>
       </div>
@@ -134,11 +138,39 @@
       <div class="modal-dialog-right" role="document">
         <div class="modal-content">
           <div class="modal-body">
-            <%= link_to user_facebook_omniauth_authorize_path, class: "modal-button bg-blue" do %>
+            <%= link_to user_facebook_omniauth_authorize_path, class: "modal-button btn-bg-blue" do %>
               Log in with Facebook
             <% end %>
-            <%= link_to user_google_oauth2_omniauth_authorize_path, class: "modal-button bg-red" do %>
+
+            <%= link_to user_google_oauth2_omniauth_authorize_path, class: "modal-button btn-bg-red" do %>
               Log in with Google+
+            <% end %>
+
+
+            <%= form_for(resource, as: resource_name, 
+                url: session_path(resource_name),
+                html: {id: "sign_in_user", class: "sign_in_user"}) do |f| %>
+              <%= devise_error_messages! %>
+
+              <p>Sign in with your e-mail adress</p>
+
+              <div class="form-label-group">
+                <%= f.email_field :email, autocomplete: "email", 
+                    class: 'form-control', id: "user_login_email", 
+                    placeholder: 'E-mail', required: true, 
+                    value: "admin@example.com" %>
+                <%= f.label :login_email, "E-mail" %>
+              </div>
+
+              <div class="form-label-group">
+                <%= f.password_field :password, autocomplete: "off", 
+                    required: true, class: 'form-control', 
+                    placeholder: "Password", id: "user_login_password", 
+                    value: "password" %>
+                <%= f.label :password, "Password" %>
+              </div>
+
+              <%= f.submit "Sign in", class: "modal-button btn-bg-dark" %>
             <% end %>
           </div>
         </div>

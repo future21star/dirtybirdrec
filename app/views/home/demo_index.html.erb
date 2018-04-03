@@ -7,15 +7,20 @@
 <hr>
 
 <% if current_user %>
-  <h3>Users list (maybe some rated table):</h3>
-  <ul class="list-group" style="width: 200px;">
-    <% @users.each do |user| %>
-      <li class="list-group-item" style="display:flex;">
-        <%= user.name %>&nbsp;
-        <%= render 'follows/follow_button', user: user %>
-      </li>
-    <% end %>
-  </ul>
+  <h3>Users list:</h3>
+  <div style="height: 200px; overflow: scroll;">
+    <ul class="list-group" style="width: 500px;">
+      <% @users.each do |user| %>
+        <li class="list-group-item" style="display:flex;">
+          <span style="display: inline-block; width: 70px"><%= user.name %></span>&nbsp;
+          <%= render 'follows/follow_button', user: user %>&nbsp;
+          <%= user.points %> points&nbsp;
+          <%= link_to "accure 100 points", demo_get_100_path(user) %>&nbsp;
+          <%= user.roles.pluck(:name).join %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
 
   <hr>
     <!-- # TODO     <b>Release, track(?), topic, post</b> has <b>Like</b> button, <b>Comment</b> field<br>

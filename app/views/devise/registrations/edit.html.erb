@@ -1,12 +1,23 @@
+<div class="text-center mb-4">
+  <h1 class="h3 mt-5 mb-3 font-weight-normal">Edit <%= resource_name.to_s.humanize %></h1>
+  <p>You can edit the following fields</p>
+</div>
+
+<%= form_for(resource, 
+    html: { id: 'change-avatar', class: 'form-signin', method: :put } ) do |f| %>
+    
+  <div class="form-group">
+    <%= image_tag resource.avatar %>
+    <%= f.file_field :avatar, class: 'form-control-file' %>
+    <%= f.hidden_field :avatar_cache %>
+  </div>
+
+<% end %>
+
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), 
     html: { class: 'form-signin', method: :put } ) do |f| %>
   
   <%= devise_error_messages! %>
-
-  <div class="text-center mb-4">
-    <h1 class="h3 mt-5 mb-3 font-weight-normal">Edit <%= resource_name.to_s.humanize %></h1>
-    <p>You can edit the following fields</p>
-  </div>
 
   <div class="form-label-group">
     <%= f.email_field :email, autofocus: true, autocomplete: "email", 
@@ -15,7 +26,7 @@
   </div>
 
   <div class="form-label-group">
-    <%= f.email_field :name, autofocus: true, autocomplete: "name", 
+    <%= f.text_field :name, autofocus: true, autocomplete: "name", 
       class: 'form-control', placeholder: 'Name', required: true %>
     <%= f.label :name %>
   </div>

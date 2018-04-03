@@ -1,5 +1,7 @@
 ActiveAdmin.register User do
-  permit_params :email, :password, :password_confirmation, :points, role_ids: []
+  permit_params :email, :password, :password_confirmation, :points, :avatar, 
+      :avatar_cache, :shipping_address, :birthdate, :gender, :t_shirt_size, 
+      :subscription, :subscribtion_type, role_ids: []
 
   index do
     selectable_column
@@ -23,6 +25,13 @@ ActiveAdmin.register User do
       f.input :password_confirmation
       f.input :roles, as: :check_boxes
       f.input :points
+      f.input :avatar
+      f.input :shipping_address
+      f.input :birthdate
+      f.input :gender
+      f.input :t_shirt_size
+      f.input :subscription
+      f.input :subscribtion_type
     end
     f.actions
   end

@@ -8,6 +8,7 @@ class User < ApplicationRecord
   rolify
 
   before_create :set_default_avatar, only: :create
+  after_create :set_fan_role, only: :create
 
   attr_accessor :subscription
   enum gender: [:female, :male]
@@ -26,7 +27,7 @@ class User < ApplicationRecord
   has_many :followers, through: :reverse_follows, source: :user
   has_many :likes
   has_one :artist_info, foreign_key: "artist_id"
-  has_many :releases
+  has_many :releases, foreign_key: "artist_id"
   has_many :tracks, through: :releases
 
   include AlgoliaSearch
@@ -99,5 +100,9 @@ class User < ApplicationRecord
 
     def set_default_avatar
       self.remote_avatar_url = Faker::Avatar.image
+    end
+
+    def set_fan_role
+      self.add_role :fan
     end
 end

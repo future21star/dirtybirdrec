@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show, :parse_youtube]
+  before_action :authenticate_user!, except: [:index, :show, :parse_youtube, :artist]
   before_action :set_leaderboard
 
   def set_leaderboard

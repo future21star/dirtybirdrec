@@ -117,5 +117,10 @@ $(document).on('turbolinks:load', function() {
       }
   ]);
 
+  let avatar_form = $('#change-avatar')
+  avatar_form.find('#user_avatar').change(function(){
+    avatar_form.submit();
+  });
+
 });
 
