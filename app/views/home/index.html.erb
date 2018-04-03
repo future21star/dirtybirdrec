@@ -31,10 +31,10 @@
   <!-- FANS LEADERBOARD -->
   <div class="col-md-8">
     <div class="c-panel bg-white">
-      <div class="c-flag mb-5">FANS LEADERBOARD</div>
+      <div class="c-flag mb-4">FANS LEADERBOARD</div>
       <%= link_to "SEE ALL", releases_path, class: "btn c-btn-blue float-right" %>
 
-      <ol class="fans-block light-scroll">
+      <ol class="fans-block light-scroll mt-1">
         <% @leader_users.each do |leader| %>
           <li>
             <%= link_to user_path(leader), class: "d-inline-block align-middle" do %>
@@ -70,10 +70,10 @@
   <!-- ARTISTS -->
   <div class="col-md-4">
     <div class="c-panel bg-c-dark">
-      <div class="c-flag c-flag-inner mb-5"><b>DIRTYBIRD</b> ARTISTS</div>
+      <div class="c-flag c-flag-inner mb-4"><b>DIRTYBIRD</b> ARTISTS</div>
       <%= link_to "SEE ALL", releases_path, class: "btn c-btn-blue float-right" %>
 
-      <ol class="artists-block dark-scroll list-unstyled">
+      <ol class="artists-block dark-scroll list-unstyled mt-1">
         <% @artists.each do |artist| %>
           <li>
             <%= link_to artist_path(artist), class: "d-inline-block align-middle" do %>
