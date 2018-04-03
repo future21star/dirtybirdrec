@@ -57,8 +57,9 @@
                     <b><%= "#{leader.badges.order(points: :desc).last.name}" %></b> 
                     Badged Granted
                   </div>
+                <% else %>
+                  No Badges
                 <% end %>
-                
               </div>
             </div>
           </li>
