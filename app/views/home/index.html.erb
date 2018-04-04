@@ -27,7 +27,7 @@
   <% end %>
 </div>
 
-<div class="row">
+<div class="row mb-2">
   <!-- FANS LEADERBOARD -->
   <div class="col-md-8">
     <div class="c-panel bg-white">
@@ -43,7 +43,7 @@
 
             <div style="display: inline-block; width: 80%; margin-left: 20px; margin-bottom: 20px; vertical-align: bottom;">
             <%= leader.name.upcase %>
-            <%= image_tag 'icons/point-green.svg' if leader %>
+            <%= image_tag 'icons/point-green.svg', class: "point-green" if leader %>
 
               <div>
                 <div style="display: inline-block; vertical-align: top; margin: 3px 20px 0 0; width: 64%">
@@ -51,15 +51,15 @@
                     <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
                 </div>
-                <% if leader.badges.present? %>
-                  <div style="display: inline-block;">
-                    <b><%= "#{leader.badges.order(points: :desc).count}" %></b>
-                    <b><%= "#{leader.badges.order(points: :desc).last.name}" %></b> 
+                  <div style="display: inline-block; margin-top: 5px;">
+                    <% if leader.badges.present? %>
+                      <b><%= "#{leader.badges.order(points: :desc).count}" %></b>
+                      <b><%= "#{leader.badges.order(points: :desc).last.name}" %></b> 
                     Badged Granted
-                  </div>
-                <% else %>
-                  No Badges
+                    <% else %>
+                      No Badges
                 <% end %>
+                </div>
               </div>
             </div>
           </li>
@@ -83,7 +83,7 @@
             <div>
               <h5>
                 <%= artist.name %>
-                <%= image_tag 'icons/point-green.svg' if artist %>
+                <%= image_tag 'icons/point-green.svg', class: "point-green" if artist %>
               </h5>
               <div>
                 <%= artist.tracks.count %> Tracks /

@@ -5,7 +5,7 @@ class HomeController < ApplicationController
   def index
     @slider = SliderImage.all.ordered
     @leader_users = User.with_role(:fan).includes(:badges).order(points: :desc).limit(20)
-    @artists = User.with_role(:artist).includes(:tracks).includes(:followers).order(points: :desc).limit(20)
+    @artists = User.with_role(:artist).order(points: :desc).limit(20)
     @releases = Release.released
   end
 

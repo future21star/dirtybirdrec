@@ -44,7 +44,8 @@
 }
 
 .navbar-nav {
-  font-size: 14px;
+  font-size: 12px;
+  text-transform: uppercase;
 }
 
 .active > .nav-link {
@@ -60,4 +61,30 @@
 
 .navbar-text {
   font-size: 10px;
+}
+
+.carousel-indicators {
+  .active:after {
+    left: 1px;
+    top: 1px;
+    width: 12px;
+    height: 12px;
+    background-color: #222;
+    border-radius: 8px;
+  }
+
+  & li {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+    margin-left: 5px;
+    background-color: white;
+    border-radius: 8px;
+    border: 1px solid #222;
+    opacity: 0.8;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
 }
