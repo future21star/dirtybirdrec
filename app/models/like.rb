@@ -2,7 +2,7 @@ class Like < ApplicationRecord
   belongs_to :user
   belongs_to :likeable, polymorphic: true
   
-  after_create :add_points, :feed_track
+  after_create :add_points, :feed_release
   
   include StreamRails::Activity
   as_activity
@@ -21,14 +21,14 @@ class Like < ApplicationRecord
       self.user.change_points( 100 )
     end
 
-    def feed_track
+    def feed_release
       if self.likeable_type == "Comment"
         comment = self.likeable
-        track_feed = StreamRails.feed_manager.get_feed( 'track', comment.commentable_id )
+        feed = StreamRails.feed_manager.get_feed( 'release', comment.commentable_id )
         activity = create_activity
-        activity[:actor] = "Track:#{self.likeable_id}"
+        activity[:actor] = "Release:#{self.likeable_id}"
         activity[:object] = "User:#{self.user_id}"
-        track_feed.add_activity(activity)
+        feed.add_activity(activity)
       end
     end
 end

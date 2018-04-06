@@ -6,15 +6,15 @@ Rails.application.routes.draw do
       }
   resources :users, only: [:show, :index, :update] do
     collection do
-      get "choose_profile"
-      get "home"
-      get "activity_feed"
-      get "chrip_feed"
-      get "track_feed"
-      get "artist_feed"
       post "change_avatar"
     end
   end
+  get "choose_profile", to: "users#choose_profile"
+  get "home", to: "users#home"
+  get "activity_feed", to: "users#activity_feed"
+  get "chrip_feed", to: "users#chrip_feed"
+  get "release_feed", to: "users#release_feed"
+  get "artist_feed", to: "users#artist_feed"
   ActiveAdmin.routes(self)
 
   devise_scope :user do

@@ -3,8 +3,8 @@ class Follow < ApplicationRecord
   belongs_to :followable, polymorphic: true
   validates :user_id, :followable_id, :followable_type, presence: true
 
-  after_create :add_points, :feed_track
-  after_destroy :unfeed_track
+  after_create :add_points, :feed_release
+  after_destroy :unfeed_release
 
   include StreamRails::Activity
   as_activity
@@ -23,22 +23,22 @@ class Follow < ApplicationRecord
       self.user.change_points( 100 )
     end
 
-    def feed_track
-      if self.followable_type == "Track"
-        track_feed = StreamRails.feed_manager.get_feed( 'track', self.followable_id )
-        user_feed = StreamRails.feed_manager.get_feed( 'track_user_feed', self.user_id)
-        user_feed.follow(track_feed.slug, self.followable_id)
+    def feed_release
+      if self.followable_type == "Release"
+        release_feed = StreamRails.feed_manager.get_feed( 'release', self.followable_id )
+        user_feed = StreamRails.feed_manager.get_feed( 'release_user_feed', self.user_id)
+        user_feed.follow(release_feed.slug, self.followable_id)
 
         activity = create_activity
-        activity[:actor] = "Track:#{self.followable_id}"
+        activity[:actor] = "Release:#{self.followable_id}"
         activity[:object] = "User:#{self.user_id}"
-        track_feed.add_activity(activity)
+        release_feed.add_activity(activity)
       end
     end
 
-    def unfeed_track
-      track_feed = StreamRails.feed_manager.get_feed( 'track', self.id )
+    def unfeed_release
+      release_feed = StreamRails.feed_manager.get_feed( 'track', self.id )
       user_feed = StreamRails.feed_manager.get_feed( 'track_user_feed', self.user_id)
-      user_feed.unfollow(track_feed.slug, self.id)
+      user_feed.unfollow(release_feed.slug, self.id)
     end
 end

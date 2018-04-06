@@ -6,16 +6,16 @@
             class: "nav-link #{'active' if current_page?(root_path)}" %>
       </li>
       <li class="nav-item">
-        <%= link_to "User Activity", activity_feed_users_path, 
-            class: "nav-link #{'active' if current_page?(activity_feed_users_path)}" %>
+        <%= link_to "User Activity", activity_feed_path, 
+            class: "nav-link #{'active' if current_page?(activity_feed_path)}" %>
       </li>
       <li class="nav-item">
-        <%= link_to "Chrip feed", chrip_feed_users_path, 
-            class: "nav-link #{'active' if current_page?(chrip_feed_users_path)}" %>
+        <%= link_to "Chrip feed", chrip_feed_path, 
+            class: "nav-link #{'active' if current_page?(chrip_feed_path)}" %>
       </li>
       <li class="nav-item">
-        <%= link_to "Track Feed", track_feed_users_path, 
-            class: "nav-link #{'active' if current_page?(track_feed_users_path)}" %>
+        <%= link_to "Release Feed", release_feed_path, 
+            class: "nav-link #{'active' if current_page?(release_feed_path)}" %>
       </li>
     </ul>
     <% for activity in @activities %>

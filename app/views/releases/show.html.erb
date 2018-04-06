@@ -1,8 +1,32 @@
 <h1>Release</h1>
 <p>Release title: <%= @release.title %></p>
+<p><%= render 'follows/follow_button', target: @release %></p>
 <h2>Release tracks</h2>
 <ol>
   <% @release.tracks.each do |track| %>
-    <li><%= link_to track.title, track %></li>
+    <li><%= track.title %> <a href="#">play</a> </li>
   <% end %>
 </ol>
+<div>
+  <b>Release comments:</b>
+  <ol>
+    <% @release.comments.each do |comment| %>
+      <li>
+        <hr class="m-0">
+        <%= comment.body %>
+        <%= render 'likes/like_button', object: comment %>
+      </li>
+    <% end %>
+  </ol>
+</div>
+
+<% if current_user.present? %>
+  <div>
+    <%= form_for @release.comments.build , html: { style: "display:flex;" } do |f| %>
+      <%= f.hidden_field :commentable_type, value: "Release" %>
+      <%= f.hidden_field :commentable_id, value: @release.id %>
+      <%= f.text_area :body, rows: 1, placeholder: "Leave a comment" %>
+      <%= f.submit "Send" %>
+    <% end %>
+  </div>
+<% end %>
