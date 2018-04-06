@@ -36,7 +36,7 @@ gem 'fog-aws'
 gem "gioco"
 gem 'loaf'
 gem 'algoliasearch-rails'
-gem 'faker'
+gem "avatarly"
 
 
 group :development, :test do

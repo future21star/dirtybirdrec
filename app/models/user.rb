@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  include HomeHelper
   mount_uploader :avatar, AvatarUploader
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -96,7 +97,7 @@ class User < ApplicationRecord
   private
 
     def set_default_avatar
-      self.remote_avatar_url = Faker::Avatar.image
+      self.avatar = primary_avatar(self.name)
     end
 
     def set_fan_role

@@ -3,6 +3,7 @@
   <% @leader_users.each do |user| %>
     <li>
       <%= link_to user_path(user) do %>
+        <%= image_tag user.avatar.thumb, class: "user-avatar" %>
         <%= user.name %>
       <% end %>
       has <%= user.points %> points 

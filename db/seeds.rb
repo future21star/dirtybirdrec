@@ -5,9 +5,11 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+include HomeHelper
+
 admin = User.create(email: 'admin@example.com', password: 'password', 
     password_confirmation: 'password', name: "Admin")
-admin.remote_avatar_url = Faker::Avatar.image
+admin.avatar = primary_avatar(admin.name)
 admin.save
 admin.add_role :admin
 admin.remove_role :fan
@@ -15,7 +17,7 @@ admin.remove_role :fan
 20.times do |i|
   user = User.create(email: "user#{i+10}@example.com", password: 'password', 
       password_confirmation: 'password', name: "User#{i+10}")
-  user.remote_avatar_url = Faker::Avatar.image
+  user.avatar = primary_avatar(user.name)
   user.save
 end
 
@@ -23,7 +25,7 @@ end
 20.times do |i|
   artist = User.create(email: "artist#{i}@example.com", password: 'password', 
       password_confirmation: 'password', name: "Artist #{i}")
-  artist.remote_avatar_url = Faker::Avatar.image
+  artist.avatar = primary_avatar(artist.name)
   artist.save
   artist.add_role :artist
   artist.remove_role :fan
@@ -42,7 +44,7 @@ end
     compilation: false,
     release_date: Time.zone.today
   )
-  new_release.remote_avatar_url = Faker::Avatar.image
+  new_release.remote_avatar_url = primary_avatar(new_release.title)
   new_release.save
 
   new_release_track_1 = Track.create!(
