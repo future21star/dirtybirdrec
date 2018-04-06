@@ -7,10 +7,12 @@
   <% @releases.each do |release| %>
     <div>
       <div>
-        <div class="h-carousel-item-body">
-          <h3><%= link_to release.title.upcase, release_path(release) %></h3>
-          <p><%= link_to release.text.html_safe, release_path(release) %></p>
-          <div class="h-carousel-item-footer">
+        <div class="h-carousel-body">
+          <div class="h-carousel-panel">
+            <h3><%= link_to release.title.upcase, release_path(release) %></h3>
+            <p><%= link_to release.text.html_safe.truncate(350), release_path(release) %></p>
+          </div>
+          <div class="h-carousel-footer">
             <a href="#" class="c-link">
               <%= release.tracks.count %>
                 <%= "Track".pluralize(release.tracks.count) %>

@@ -48,6 +48,10 @@
   text-transform: uppercase;
 }
 
+li.nav-item {
+  margin: 0 8px;
+}
+
 .active > .nav-link {
   text-decoration: underline;
 }

@@ -3,9 +3,8 @@ class UsersController < ApplicationController
   before_action :set_leaderboard
 
   def set_leaderboard
-    @leader_users = User.all.order(points: :desc).limit(10)
+    @leader_users = User.all.order(points: :desc).limit(6)
   end
-
 
   def index
   end
