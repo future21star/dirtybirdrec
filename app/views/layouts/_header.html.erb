@@ -81,7 +81,7 @@
             <li class="nav-item dropdown">
               <div class="btn-group">
                 <a href="#" class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <%= image_tag current_user.avatar.thumb.url if current_user.avatar.present? %>
+                  <%= image_tag(current_user.avatar.thumb, class: "user-avatar w-25 h-100") if current_user.avatar.present? %>
                   <%= current_user.email.split('@')[0] %>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">

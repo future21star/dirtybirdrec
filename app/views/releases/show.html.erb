@@ -13,6 +13,7 @@
     <% @release.comments.each do |comment| %>
       <li>
         <hr class="m-0">
+        <%= link_to image_tag(comment.user.avatar.thumb, class: 'user-avatar', title: comment.user.name), comment.user %>
         <%= comment.body %>
         <%= render 'likes/like_button', object: comment %>
       </li>
