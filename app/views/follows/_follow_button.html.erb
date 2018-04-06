@@ -1,11 +1,12 @@
 <% if current_user.nil? %>
   &nbsp;
-<% elsif current_user.followed(user) %>
-  <%= button_to "Unfollow", follow_path(current_user.followed(user)),
+<% elsif current_user.followed(target) %>
+  <%= button_to "Unfollow", follow_path(current_user.followed(target)),
       method: :delete %>
-<% elsif user == current_user %>
+<% elsif target == current_user %>
   (this is me)
 <% else %>
-  <%= button_to "Follow", follows_path, params: {target_id: user.id},
+  <%= button_to "Follow", follows_path, 
+      params: {followable_id: target.id, followable_type: target.class.to_s},
       method: :post %>
 <% end %>

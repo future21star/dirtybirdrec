@@ -1,2 +1,8 @@
 <h1>Release</h1>
-<p><%= @release.title %></p>
+<p>Release title: <%= @release.title %></p>
+<h2>Release tracks</h2>
+<ol>
+  <% @release.tracks.each do |track| %>
+    <li><%= link_to track.title, track %></li>
+  <% end %>
+</ol>

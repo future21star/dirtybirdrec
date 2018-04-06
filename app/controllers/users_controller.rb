@@ -61,8 +61,7 @@ class UsersController < ApplicationController
   end
 
   def track_feed
-    #track_feed
-    feed = StreamRails.feed_manager.get_news_feeds(current_user.id)[:track]
+    feed = StreamRails.feed_manager.get_feed('track_user_feed', current_user.id)
     results = feed.get()['results']
     @enricher = StreamRails::Enrich.new
     @activities = @enricher.enrich_activities(results)

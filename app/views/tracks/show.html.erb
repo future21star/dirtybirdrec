@@ -1,2 +1,26 @@
 <h1>Track</h1>
 <p><%= @track.title %></p>
+<p><%= render 'follows/follow_button', target: @track %></p>
+<div>
+  <b>Track comments:</b>
+  <ol>
+    <% @track.comments.each do |comment| %>
+      <li>
+        <hr class="m-0">
+        <%= comment.body %>
+        <%= render 'likes/like_button', object: comment %>
+      </li>
+    <% end %>
+  </ol>
+</div>
+
+<% if current_user.present? %>
+  <div>
+    <%= form_for @track.comments.build , html: { style: "display:flex;" } do |f| %>
+      <%= f.hidden_field :commentable_type, value: "Track" %>
+      <%= f.hidden_field :commentable_id, value: @track.id %>
+      <%= f.text_area :body, rows: 1, placeholder: "Leave a comment" %>
+      <%= f.submit "Send" %>
+    <% end %>
+  </div>
+<% end %>

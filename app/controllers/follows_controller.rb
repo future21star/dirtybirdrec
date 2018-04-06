@@ -4,7 +4,7 @@ class FollowsController < ApplicationController
     follow = Follow.new(follow_params)
     follow.user = current_user
     if follow.save
-      StreamRails.feed_manager.follow_user(follow.user_id, follow.target_id)
+      StreamRails.feed_manager.follow_user(follow.user_id, follow.followable_id)
     end
     session[:return_to] ||= request.referer
     redirect_to session.delete(:return_to)
@@ -14,7 +14,7 @@ class FollowsController < ApplicationController
     follow = Follow.find(params[:id])
     if follow.user_id == current_user.id
       follow.destroy!
-      StreamRails.feed_manager.unfollow_user(follow.user_id, follow.target_id)
+      StreamRails.feed_manager.unfollow_user(follow.user_id, follow.followable_id)
     end
     session[:return_to] ||= request.referer
     redirect_to session.delete(:return_to)
@@ -22,7 +22,7 @@ class FollowsController < ApplicationController
 
   private
     def follow_params
-      params.permit(:target_id)
+      params.permit(:followable_id, :followable_type)
     end
 
 end

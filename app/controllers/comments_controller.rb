@@ -5,7 +5,7 @@ class CommentsController < ApplicationController
 
     logger.warn(comment.errors.inspect) unless comment.save
 
-    redirect_to demo_path
+    redirect_back(fallback_location: root_path)
   end
 
   private

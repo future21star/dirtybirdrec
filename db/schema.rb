@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180402083636) do
+ActiveRecord::Schema.define(version: 20180405155339) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,10 +60,11 @@ ActiveRecord::Schema.define(version: 20180402083636) do
 
   create_table "follows", force: :cascade do |t|
     t.integer "user_id"
-    t.integer "target_id"
+    t.integer "followable_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["target_id"], name: "index_follows_on_target_id"
+    t.string "followable_type"
+    t.index ["followable_id"], name: "index_follows_on_followable_id"
     t.index ["user_id"], name: "index_follows_on_user_id"
   end
 
@@ -164,7 +165,15 @@ ActiveRecord::Schema.define(version: 20180402083636) do
     t.string "waveform_image_uri"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "artist_id"
+    t.integer "user_id"
+    t.string "avatar"
+  end
+
+  create_table "tracks_users", id: false, force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "track_id"
+    t.index ["track_id"], name: "index_tracks_users_on_track_id"
+    t.index ["user_id"], name: "index_tracks_users_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

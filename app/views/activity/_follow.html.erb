@@ -2,7 +2,18 @@
   <div class="card-body">
     <%= activity['actor'].name %> 
     <small><em>is watching</em></small>
-    <%= activity['object'].name %>
+    <% if activity['object'].class.to_s == "User" %>
+      <% if activity['object'].has_role?(:artist) %>
+        artist
+      <% elsif activity['object'].has_role?(:admin) %>
+        admin
+      <% elsif activity['object'].has_role?(:fan) %>
+        user
+      <% end %>
+      <%= activity['object'].name %>
+    <% elsif activity['object'].class.to_s == "Track" %>
+      track <%= activity['object'].title %>
+    <% end %>
     <small><em>now</em></small>
   </div>
 </article>

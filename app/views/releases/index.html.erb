@@ -22,8 +22,12 @@ filter by
   <% @releases.each do |release| %>
     <div class="col-md-6 mb-2">
       <div class="card card-release">
-        <%= (image_tag release.avatar.url, class: "card-img-top", 
-              alt: release.title) if release.avatar.present? %>
+        <% if release.avatar.present?  %>
+          <%= link_to release do %>
+           <%= image_tag release.avatar.url, 
+                class: "card-img-top", alt: release.title %>
+          <% end %>
+        <% end %>
 
         <div class="card-release-ago">
           <%= "Posted #{time_ago_in_words(release.published_at)} ago" if release.published_at.present? %>

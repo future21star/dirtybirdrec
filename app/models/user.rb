@@ -21,14 +21,11 @@ class User < ApplicationRecord
   has_many :posts
   has_many :comments
   has_many :follows
-  has_many :reverse_follows,  foreign_key: "target_id",
-                              class_name:  "Follow",
-                              dependent:   :destroy
-  has_many :followers, through: :reverse_follows, source: :user
+  has_many :followers, as: :followable, class_name: "Follow"
   has_many :likes
   has_one :artist_info, foreign_key: "artist_id"
   has_many :releases, foreign_key: "artist_id"
-  has_many :tracks, through: :releases
+  has_and_belongs_to_many :tracks
 
   include AlgoliaSearch
 
@@ -78,8 +75,8 @@ class User < ApplicationRecord
     end
   end
 
-  def followed(user = nil)
-    self.follows.where(target: user).first
+  def followed(object = nil)
+    self.follows.where(followable_id: object.id, followable_type: object.class.to_s).first
   end
 
   def self.from_omniauth(auth)

@@ -71,5 +71,15 @@
         Bird Feed Music Releases
       </div>
     </div>
+
+    <div class="card w-100 mb-1">
+      <div class="card-body">
+        Artist Tracks
+
+        <% @artist.tracks.each do |track| %>
+          <%= link_to track.title, track %>
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>

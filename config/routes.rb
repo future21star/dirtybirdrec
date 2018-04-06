@@ -32,7 +32,9 @@ Rails.application.routes.draw do
   resources :slider_images
   resources :releases, only: [:show, :index]
   resources :tracks
-  resources :topics # TODO remove it 
+  get 'get_track/:id', to: 'tracks#get_track', as: "get_track"
+
+  resources :topics
   resources :posts do
     get 'reply_form'
   end
