@@ -37,8 +37,8 @@ class Follow < ApplicationRecord
     end
 
     def unfeed_release
-      release_feed = StreamRails.feed_manager.get_feed( 'track', self.id )
-      user_feed = StreamRails.feed_manager.get_feed( 'track_user_feed', self.user_id)
-      user_feed.unfollow(release_feed.slug, self.id)
+      release_feed = StreamRails.feed_manager.get_feed( 'release', self.followable_id )
+      user_feed = StreamRails.feed_manager.get_feed( 'release_user_feed', self.user_id)
+      user_feed.unfollow(release_feed.slug, self.user_id)
     end
 end
