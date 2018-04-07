@@ -24,7 +24,7 @@ class UsersController < ApplicationController
 
   def home
     if current_user.subscribtion_type.blank?
-      redirect_to choose_profiler_path and return
+      redirect_to choose_profile_path and return
     end
 
     feed = StreamRails.feed_manager.get_news_feeds(current_user.id)[:aggregated]
