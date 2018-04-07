@@ -12,15 +12,15 @@
 
   <%= render 'follows/follow_button', target: @artist %>
 
-  <% if @artist.artist_info %>
     <div class="artist-name">
       <h1><%= @artist.name.upcase %></h1>
       <span>
-        <%= "#{@artist.artist_info.genre} / " if @artist.artist_info.genre.present? %>
-        <b><%= @artist.followers.count %></b>
+        <%= "#{@artist.artist_info.genre} / " if @artist.artist_info && @artist.artist_info.genre.present? %>
+        <b><%= @artist.followers.count %> Followers</b>
       </span>
     </div>
 
+  <% if @artist.artist_info %>
     <div class="artist-social">
       <%= link_to image_tag('icons/artist-dirtybird.svg'), 
             @artist.artist_info.instagram if @artist.artist_info.instagram %>
