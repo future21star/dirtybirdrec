@@ -19,6 +19,10 @@
   }
 }
 
+.form-label-group label {
+  cursor: text;
+}
+
 .modal-title {
   font-size: 22px;
   font-weight: 700;
@@ -45,7 +49,6 @@
 
 .navbar-nav {
   font-size: 12px;
-  text-transform: uppercase;
 }
 
 li.nav-item {

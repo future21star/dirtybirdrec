@@ -17,12 +17,20 @@ class User < ApplicationRecord
   validates :name, presence: true
 
   has_many :levels  
-  has_many :badges , :through => :levels 
+  has_many :badges, through: :levels 
   has_many :topics
   has_many :posts
   has_many :comments
+
   has_many :follows
-  has_many :followers, as: :followable, class_name: "Follow"
+  has_many :followed_users, through: :follows, source: :followable, source_type: "User"
+  # has_many :reverse_follows, foreign_key:  "followable_id",
+  #                            foreign_type: "followable_type",
+  #                               source_type: "User",
+  #                            class_name:   "Follow",
+  #                            dependent:    :destroy
+  # has_many :followers, through: :reverse_follows, source: :user
+
   has_many :likes
   has_one :artist_info, foreign_key: "artist_id"
   has_many :releases, foreign_key: "artist_id"
@@ -32,6 +40,10 @@ class User < ApplicationRecord
 
   algoliasearch do
     attribute :name
+  end
+
+  def followers
+    User.joins(:follows).where("follows.followable_id = ? AND follows.followable_type = 'User'", self.id)
   end
 
 

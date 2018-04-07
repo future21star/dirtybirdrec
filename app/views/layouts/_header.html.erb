@@ -14,7 +14,7 @@
       </span>
 
       <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav nav-menu">
           <% if current_user %>
             <li class="nav-item">
               <a class="nav-link" href="/">
@@ -42,6 +42,7 @@
                 <%= '<span class="sr-only">(current)</span>'.html_safe if current_page?(artists_path) %>
               <% end %>
             </li>
+
           <% else %>
             <li class="nav-item <%= 'active' if current_page?(about_path) %>">
               <%= link_to about_path, class: "nav-link" do %>
@@ -50,11 +51,18 @@
               <% end %>
             </li>
           <% end %>
+
           <li class="nav-item <%= 'active' if current_page?(users_path) %>">
             <%= link_to users_path, class: "nav-link" do %>
               Leaderboard
               <%= '<span class="sr-only">(current)</span>'.html_safe if current_page?(users_path) %>
             <% end %>
+          </li>
+
+          <li class="nav-item">
+            <button class="nav-link search-button">
+              <%= image_tag 'icons/icon-search.svg' %>
+            </button>
           </li>
            <!--<li class="nav-item <%#= 'active' if current_page?(contacts_path) %>">
             <%#= link_to contacts_path, class: "nav-link" do %>
@@ -62,41 +70,82 @@
               <%#= '<span class="sr-only">(current)</span>'.html_safe if current_page?(contacts_path) %>
             <%# end %>
           </li> -->
-          <% unless current_user %>
-            <div class="nav-divider"></div>
-
-            <button class="btn c-btn-white nav-signup-btn" type="button" data-toggle="modal" data-target="#signupModal">
-              SIGN UP
-            </button>
-            <button class="btn nav-signin-btn" type="button" data-toggle="modal" data-target="#signinModal">LOG IN</button>
-          <% end %>
+          <div class="nav-divider"></div>
         </ul>
 
         <% if current_user %>
-          <div class="aa-input-container" id="aa-input-container">
+<!--           <div class="aa-input-container" id="aa-input-container">
               <input type="search" id="aa-search-input" class="aa-input-search" placeholder="Search..." name="search" autocomplete="off" />
-          </div>
+          </div> -->
 
           <ul class="navbar-nav">
-            <li class="nav-item dropdown">
-              <div class="btn-group">
-                <a href="#" class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <%= image_tag(current_user.avatar.thumb, class: "user-avatar w-25 h-100") if current_user.avatar.present? %>
-                  <%= current_user.email.split('@')[0] %>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                  <%= link_to "My profile", user_path(current_user), class: "dropdown-item" %>
-                  <%= link_to "Admin dashboard", admin_root_path, class: "dropdown-item" %>
-                  <%= link_to "Edit profile", edit_user_registration_path, class: "dropdown-item" %>
-                  <div class="dropdown-divider"></div>
-                  <%= link_to "Log out", destroy_user_session_path, 
-                      class: "dropdown-item", method: :delete %>
-                </div>
+            <div class="header-user">
+              <%= image_tag(current_user.avatar.thumb, class: "user-avatar") if current_user.avatar.present? %>
+              <span><%= current_user.email.split('@')[0] %></span>
+              <%= image_tag "icons/icon-notifications.svg" %>
+            </div>
+            <li class="nav-item dropdown dropdown-usermenu">
+              <a href="#" class="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <%= image_tag "icons/icon-chevron.svg" %>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right">
+                <%= link_to "My Profile", user_path(current_user), class: "modal-button btn-bg-gray" %>
+                <% if current_user.has_role?(:admin) || current_user.has_role?(:artist) %>
+                  <%= link_to "Dashboard", admin_root_path, class: "modal-button btn-bg-gray" %>
+                <% end %>
+                <%= link_to "Edit Profile", edit_user_registration_path, class: "modal-button btn-bg-gray" %>
+                <%= link_to "Sign Out", destroy_user_session_path, 
+                    class: "modal-button btn-bg-red", method: :delete %>
               </div>
             </li>
           </ul>
-          <!--  <%# else %>
-          <%#= link_to "Sign in", user_session_path, class: 'btn btn-outline-secondary' %> -->
+        <% else %>
+          <button class="btn c-btn-white nav-signup-btn" type="button" data-toggle="modal" data-target="#signupModal">
+            SIGN UP
+          </button>
+
+          <ul class="navbar-nav">
+            <li class="nav-item dropdown dropdown-login">
+              <a href="#" class="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                LOG IN
+              </a>
+              <div class="dropdown-menu dropdown-menu-right">
+                <%= link_to user_facebook_omniauth_authorize_path, class: "modal-button btn-bg-blue" do %>
+                  Log in with Facebook
+                <% end %>
+
+                <%= link_to user_google_oauth2_omniauth_authorize_path, class: "modal-button btn-bg-red" do %>
+                  Log in with Google+
+                <% end %>
+
+                <%= form_for(resource, as: resource_name, 
+                    url: session_path(resource_name),
+                    html: {id: "sign_in_user", class: "sign_in_user"}) do |f| %>
+                  <%= devise_error_messages! %>
+
+                  <p>Sign in with your e-mail adress</p>
+
+                  <div class="form-label-group">
+                    <%= f.email_field :email, autocomplete: "email", 
+                        class: 'form-control', id: "user_login_email", 
+                        placeholder: 'E-mail', required: true, 
+                        value: "admin@example.com" %>
+                    <%= f.label :login_email, "E-mail" %>
+                  </div>
+
+                  <div class="form-label-group">
+                    <%= f.password_field :password, autocomplete: "off", 
+                        required: true, class: 'form-control', 
+                        placeholder: "Password", id: "user_login_password", 
+                        value: "password" %>
+                    <%= f.label :login_password, "Password" %>
+                  </div>
+
+                  <%= f.submit "Sign in", class: "modal-button btn-bg-dark" %>
+                <% end %>
+              </div>
+            </li>
+          </ul>
         <% end %>
       </div>
     </div>
@@ -128,51 +177,6 @@
           <%= link_to "Sign up with email", new_user_registration_path, 
               class: "modal-button btn-bg-gray" %>
           <%= link_to "Log in", user_session_path, class: "modal-login" %>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal" id="signinModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="container text-right" style="height: 1px;">
-      <div class="modal-dialog-right" role="document">
-        <div class="modal-content">
-          <div class="modal-body">
-            <%= link_to user_facebook_omniauth_authorize_path, class: "modal-button btn-bg-blue" do %>
-              Log in with Facebook
-            <% end %>
-
-            <%= link_to user_google_oauth2_omniauth_authorize_path, class: "modal-button btn-bg-red" do %>
-              Log in with Google+
-            <% end %>
-
-
-            <%= form_for(resource, as: resource_name, 
-                url: session_path(resource_name),
-                html: {id: "sign_in_user", class: "sign_in_user"}) do |f| %>
-              <%= devise_error_messages! %>
-
-              <p>Sign in with your e-mail adress</p>
-
-              <div class="form-label-group">
-                <%= f.email_field :email, autocomplete: "email", 
-                    class: 'form-control', id: "user_login_email", 
-                    placeholder: 'E-mail', required: true, 
-                    value: "admin@example.com" %>
-                <%= f.label :login_email, "E-mail" %>
-              </div>
-
-              <div class="form-label-group">
-                <%= f.password_field :password, autocomplete: "off", 
-                    required: true, class: 'form-control', 
-                    placeholder: "Password", id: "user_login_password", 
-                    value: "password" %>
-                <%= f.label :password, "Password" %>
-              </div>
-
-              <%= f.submit "Sign in", class: "modal-button btn-bg-dark" %>
-            <% end %>
-          </div>
         </div>
       </div>
     </div>

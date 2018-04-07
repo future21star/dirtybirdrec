@@ -6,7 +6,7 @@ ActiveAdmin.register ArtistInfo do
 #
 # permit_params :list, :of, :attributes, :on, :model
   permit_params :avatar, :bio_short, :bio_long, :facebook, :twitter, 
-      :instagram, :video, :artist_id
+      :instagram, :video, :artist_id, :genre
 #
 # or
 #

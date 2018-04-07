@@ -11,7 +11,9 @@ class FollowsController < ApplicationController
   end
 
   def destroy
-    follow = Follow.find(params[:id])
+    follow = Follow.find_by_id(params[:id])
+    redirect_back(fallback_location: root_path) and return unless follow
+
     if follow.user_id == current_user.id
       follow.destroy!
       StreamRails.feed_manager.unfollow_user(follow.user_id, follow.followable_id)

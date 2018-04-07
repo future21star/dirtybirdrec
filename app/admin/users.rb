@@ -32,7 +32,7 @@ ActiveAdmin.register User do
       f.input :t_shirt_size
       f.input :subscription
       f.input :subscribtion_type
-      f.input :track
+      f.input :tracks
     end
     f.actions
   end

@@ -1,0 +1,117 @@
+.artist-present {
+  margin-top: -24px;
+  margin-right: -15px;
+  margin-left: -15px;
+  overflow: hidden;
+  position: relative;
+  padding-top: 170px;
+
+  .artist-bgrd {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    img {
+      height: 157px;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+.artist-avatar {
+  width: 182px;
+  height: 182px;
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  border-radius: 10px;
+}
+
+.artist-online {
+  position: absolute;
+  top: 37px;
+  left: 42.5%;
+  z-index: 3;
+}
+
+@mixin follow-artist {
+  @include btn(#3ed4e0,white,darken(#3ed4e0, 5));
+  width: 154px;
+  height: 28px;
+  position: absolute;
+  right: 15px;
+  top: 111px;
+  z-index: 2;
+}
+
+.follow-artist {
+  @include follow-artist;
+}
+
+.unfollow-artist {
+  @include follow-artist;
+  opacity: 0.4;
+}
+
+.artist-name {
+  position: absolute;
+  z-index: 2;
+  top: 105px;
+  left: 20px;
+  color: white;
+
+  h1 {
+    font-size: 20px;
+    font-weight: normal;
+    letter-spacing: 2px;
+    margin-bottom: 0;
+    line-height: 12px;
+  }
+
+  span {
+    font-size: 12px;
+    text-transform: capitalize;
+  }
+}
+
+.artist-since {
+  font-size: 12px;
+  line-height: 14px;
+  margin: 10px 0 0 15px;
+
+  span {
+    font-size: 10px;
+    line-height: 8px;
+  }
+
+  img {
+    margin-right: 7px;
+    float: left;
+  }
+}
+
+.artist-social {
+  float: right;
+  margin-right: 16px;
+}
+
+.artist-bio {
+  padding-top: 27px;
+  width: 560px;
+  margin: 0 auto;
+  font-size: 12px;
+  text-align: center;
+
+  a {
+    color: #222;
+    text-decoration: underline;
+  }
+}
+
+.artist-bio-long + span, .artist-bio-short {
+  display: none;
+}
+

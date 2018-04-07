@@ -1,15 +1,25 @@
+var button = $('<%= "#like-#{like.likeable_type}-#{like.likeable_id}" %>');
+
+button.siblings('.likes-count').replaceWith(`
+      <%= escape_javascript(
+        render 'likes/likes_count', object: like.likeable 
+      ) %>
+  `);
+
+button.siblings('.likes-count').find('.likes-count-btn').popover({
+  trigger: 'focus'
+});
+
 <% if action_name == 'create' %>
-  $('<%= "#like-#{like.likeable_type}-#{like.likeable_id}" %>')
-      .replaceWith(`
-        <%= escape_javascript(
-          render(partial: 'likes/unlike', locals: { like: like } )
-        ) %>
-      `);
+  button.replaceWith(`
+      <%= escape_javascript(
+        render(partial: 'likes/unlike', locals: { like: like } )
+      ) %>
+    `);
 <% else %>
-  $('<%= "#like-#{likeable_type}-#{likeable_id}" %>')
-      .replaceWith(`
-        <%= escape_javascript(
-          render(partial: 'likes/like', locals: { likeable_type: likeable_type, likeable_id: likeable_id } )
-        ) %>
-      `);
+  button.replaceWith(`
+      <%= escape_javascript(
+        render(partial: 'likes/like', locals: { like: like } )
+      ) %>
+    `);
 <% end %>

@@ -37,7 +37,7 @@ class UsersController < ApplicationController
     user = User.find(params[:id])
     user.update_attributes(user_params)
 
-    redirect_to home_users_path
+    redirect_to home_path
   end
 
   def activity_feed
@@ -87,6 +87,7 @@ class UsersController < ApplicationController
     @activities = @enricher.enrich_activities(results)
 
     @followers = @artist.followers
+    @releases = @artist.releases
   end
 
   def artists

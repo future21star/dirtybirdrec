@@ -117,9 +117,25 @@ $(document).on('turbolinks:load', function() {
       }
   ]);
 
-  let avatar_form = $('#change-avatar')
+  let avatar_form = $('#change-avatar');
   avatar_form.find('#user_avatar').change(function(){
     avatar_form.submit();
+  });
+
+  $('.artist-bio').on('click', '.artist-bio-long', function(){
+    $(this).hide();
+    $(this).prev('span').hide();
+    $(this).next('span').show();
+    $('.artist-bio-short').show();
+    return false;
+  });
+
+  $('.artist-bio').on('click', '.artist-bio-short', function(){
+    $(this).prev('span')[1].hide();
+    $(this).prev('span')[0].show();
+    $(this).hide();
+    $('.artist-bio-long').show();
+    return false;
   });
 
 });

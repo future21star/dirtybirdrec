@@ -1,0 +1,10 @@
+<div class="likes-count d-inline-block">
+  <a href="#" tabindex="0" data-toggle="popover" data-placement="right" data-content='
+    <% object.likes.each do |like| %>
+      <%= link_to user_path(like.user_id) do %>
+        <%= like.user.name %>
+      <% end %>
+    <% end %>' data-trigger="focus" data-html="true" onclick="return false;" class="likes-count-btn">
+    <span class="badge badge-secondary"><%= object.likes.count %></span>
+  </a>
+</div>

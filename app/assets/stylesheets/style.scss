@@ -5,6 +5,9 @@
   color: $t-color;
   background-color: $b-color;
   border-radius: 6px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
   &:hover {
     background-color: $t-color;
     color: $b-color;
@@ -110,85 +113,6 @@ main > div.container {
   }
   &:focus, &:active {
     color: black;
-  }
-}
-
-.modal-dialog-wide {
-  min-width: 800px;
-}
-
-#signinModal ~ .modal-backdrop {
-  display: none;
-}
-
-.modal-dialog-right {
-  display: inline-block;
-  padding: 55px 15px 15px;
-  position: relative;
-  top: 60px;
-  background: asset-data-url("icons/login-bgrd1.svg");
-
-  .modal-content {
-    border: none;
-    background: none;
-  }
-
-  .modal-body {
-    width: auto;
-    padding: 0;
-  }
-}
-
-.modal-text {
-  font-size: 12px;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.modal-login {
-  margin: 25px 0;
-  color: #222;
-  font-size: 14px;
-  &:hover {
-    text-decoration: none;
-    color: ligten(#222, 20);
-  }
-  &:focus, &:active {
-    color: black;
-  }
-}
-
-.sign_in_user {
-  font-size: 14px;
-  text-align: center;
-  width: 100%;
-  padding-top: 12px;
-
-  .form-label-group {
-    margin-bottom: 10px;
-  }
-
-  input.form-control {
-    text-align: center;
-    border: none;
-  }
-}
-
-.modal-button {
-  width: 338px;
-  height: 50px;
-  line-height: 50px;
-  text-align: center;
-  margin-bottom: 10px;
-  border: none;
-  border-radius: 3px;
-  color: white;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  &:hover, &:focus, &:active {
-    text-decoration: none;
-    color: white;
   }
 }
 

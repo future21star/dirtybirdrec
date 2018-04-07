@@ -6,6 +6,9 @@ class ApplicationController < ActionController::Base
     redirect_to root_path, :alert => exception.message
   end
 
+  rescue_from ActiveRecord::RecordNotUnique, :with => :record_not_uniq
+  
+
   helper_method :resource_name, :resource, :devise_mapping, :resource_class
 
   def resource_name
@@ -26,8 +29,12 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :provider, :uid])
-  end
+    def configure_permitted_parameters
+      devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :provider, :uid])
+    end
+
+    def record_not_uniq
+      redirect_back(fallback_location: root_path) 
+    end
 
 end

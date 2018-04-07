@@ -1,3 +1,4 @@
-<%= link_to "Unlike", like_path(like), id: "like-#{like.likeable_type}-#{like.likeable_id}",
-    method: :delete#, remote: true 
+<%= link_to "Unlike", like_path(like), 
+    id: "like-#{like.likeable_type}-#{like.likeable_id}",
+    method: :delete, remote: true 
 %>
