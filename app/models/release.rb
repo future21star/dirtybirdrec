@@ -2,7 +2,7 @@ class Release < ApplicationRecord
   has_many :likes, as: :likeable
   has_many :comments, as: :commentable
   has_many :tracks
-  belongs_to :user, foreign_key: "artist_id"
+  has_and_belongs_to_many :users
 
   mount_uploader :avatar, ReleaseUploader
 

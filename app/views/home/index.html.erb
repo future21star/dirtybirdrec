@@ -5,14 +5,14 @@
 
 <div class="h-carousel mb-4">
   <% @releases.each do |release| %>
-    <div>
+    <div class="item with-tongue">
       <div>
-        <div class="h-carousel-body">
-          <div class="h-carousel-panel">
+        <div class="item-body">
+          <div class="item-panel">
             <h3><%= link_to release.title.upcase, release_path(release) %></h3>
             <p><%= link_to release.text.html_safe.truncate(350), release_path(release) %></p>
           </div>
-          <div class="h-carousel-footer">
+          <div class="item-footer">
             <a href="#" class="c-link">
               <%= release.tracks.count %>
                 <%= "Track".pluralize(release.tracks.count) %>
@@ -22,7 +22,7 @@
           </div>
         </div>
         <%= image_tag release.avatar.url if release.avatar.present? %>
-        <%= image_tag release.avatar.url, class: "h-carousel-blured-img" if release.avatar.present? %>
+        <%= image_tag release.avatar.url, class: "item-blured-img" if release.avatar.present? %>
       </div>
       <mark class="t-small"><%= time_ago_in_words( release.release_date ).upcase %> AGO</mark>
     </div>
@@ -84,7 +84,7 @@
             <% end %>
             <div>
               <h5>
-                <%= artist.name %>
+                <%= link_to artist.name, artist_path(artist) %>
                 <%= image_tag 'icons/point-green.svg', class: "point-green" if artist %>
               </h5>
               <div>

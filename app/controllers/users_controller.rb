@@ -87,7 +87,7 @@ class UsersController < ApplicationController
     @activities = @enricher.enrich_activities(results)
 
     @followers = @artist.followers
-    @releases = @artist.releases
+    @releases = @artist.releases.released
   end
 
   def artists

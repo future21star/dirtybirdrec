@@ -1,6 +1,14 @@
 <h1>Release</h1>
 <p>Release title: <%= @release.title %></p>
 <p><%= render 'follows/follow_button', target: @release %></p>
+
+<%= "Artist".pluralize(@release.users.count) %>
+<ol>
+  <% @release.users.each do |artist| %>
+    <li><%= link_to artist.name, artist %></li>
+  <% end %>
+</ol>
+
 <h2>Release tracks</h2>
 <ol>
   <% @release.tracks.each do |track| %>

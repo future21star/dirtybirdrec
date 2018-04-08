@@ -12,15 +12,15 @@
 
   <%= render 'follows/follow_button', target: @artist %>
 
-    <div class="artist-name">
-      <h1><%= @artist.name.upcase %></h1>
-      <span>
-        <%= "#{@artist.artist_info.genre} / " if @artist.artist_info && @artist.artist_info.genre.present? %>
-        <b><%= @artist.followers.count %> Followers</b>
-      </span>
-    </div>
+  <div class="artist-name">
+    <h1><%= @artist.name.upcase %></h1>
+    <span>
+      <%= "#{@artist.artist_info.genre} / " if @artist.artist_info && @artist.artist_info.genre.present? %>
+      <b><%= @artist.followers.count %> Followers</b>
+    </span>
+  </div>
 
-  <% if @artist.artist_info %>
+  <% if @artist.artist_info.present? %>
     <div class="artist-social">
       <%= link_to image_tag('icons/artist-dirtybird.svg'), 
             @artist.artist_info.instagram if @artist.artist_info.instagram %>
@@ -41,32 +41,50 @@
       <span><%= @artist.artist_info.bio_short %></span>
       <a href="#" class="artist-bio-long">Read more</a>
       <span><%= @artist.artist_info.bio_long %></span>
-      <a href="#" class="artist-bio-short"><br>Read less</a>
+      <a href="#" class="artist-bio-short"><br><br>Read less</a>
     </div>
-
   <% end %>
 </div>
 
+<% if @releases.any? %>
+  <div class="release-flag-block mt-4">
+    <div class="c-flag">RELEASES FEED</div>
+  </div>
+
+  <div class="h-carousel mb-4">
+    <% @releases.each do |release| %>
+      <div class="item item-wide">
+        <%= image_tag release.avatar.url if release.avatar.present? %>
+        <div class="item-body">
+          <%= link_to image_tag('icons/icon-expand.svg'), release, class: "item-expand" %>
+          <h3>
+            <%= release.title.truncate(70).upcase %>
+            <%= render 'likes/like_button', object: release %>
+          </h3>
+
+          <p>Released date: <%= time_ago_in_words( release.release_date ) %> ago</p>
+
+          <p class="item-text"><%= release.text.html_safe.truncate(220) %></p>
+
+          <%= render 'layouts/artist_player', object: release %>
+
+          <%= link_to image_tag('icons/icon-download.svg'), "#", class: "icon-download" %>
+          <%= link_to image_tag('icons/icon-share.svg'), "#", class: "icon-share" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
 
 <ol>
-  <% if @followers.count > 0 %>
+  <% if @followers.any? %>
     Fans following this artist
     <% @followers.each do |user| %>
       <li><%= link_to user.name, user_path(user) %></li>
     <% end %>
   <% else %>
     No followers yet
-  <% end %>
-</ol>
-
-<ol>
-  <% if @releases.count > 0 %>
-    Releases
-    <% @releases.each do |release| %>
-      <li><%= link_to release.title, release_path(release) %></li>
-    <% end %>
-  <% else %>
-    No releases yet
   <% end %>
 </ol>
 

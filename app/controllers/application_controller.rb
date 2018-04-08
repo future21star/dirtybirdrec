@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
     end
 
     def record_not_uniq
-      redirect_back(fallback_location: root_path) 
+      redirect_back(fallback_location: root_path)
     end
 
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180407124814) do
+ActiveRecord::Schema.define(version: 20180408080226) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(version: 20180407124814) do
     t.string "likeable_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id", "likeable_id", "likeable_type"], name: "index_likes_on_user_id_and_likeable_id_and_likeable_type", unique: true
   end
 
   create_table "posts", force: :cascade do |t|
@@ -109,7 +110,13 @@ ActiveRecord::Schema.define(version: 20180407124814) do
     t.datetime "release_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "artist_id"
+  end
+
+  create_table "releases_users", id: false, force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "release_id"
+    t.index ["release_id"], name: "index_releases_users_on_release_id"
+    t.index ["user_id"], name: "index_releases_users_on_user_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -167,7 +174,6 @@ ActiveRecord::Schema.define(version: 20180407124814) do
     t.string "waveform_image_uri"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
     t.string "avatar"
   end
 

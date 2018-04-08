@@ -116,6 +116,12 @@ main > div.container {
   }
 }
 
+.avatar-micro {
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+}
+
 .btn-bg-red {
   background-color: #ff575d;
   &:hover {
@@ -199,6 +205,10 @@ main > div.container {
   margin-top: 2px;
 }
 
+.likes-count {
+  display: inline-block;
+}
+
 .fans-block {
   height: 450px;
   padding-left: 15px;
@@ -240,6 +250,10 @@ main > div.container {
         line-height: 15px;
         margin-bottom: 0;
         text-transform: uppercase;
+
+        a {
+          color: white;
+        }
       }
     }
   }

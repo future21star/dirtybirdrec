@@ -1,12 +1,13 @@
+<% label = target.try(:roles) ? target.roles.first.name.to_s : target.class.to_s %>
 <% if current_user.nil? %>
   &nbsp;
 <% elsif current_user.followed(target) %>
   <%= button_to "Unfollow", follow_path(current_user.followed(target)),
-      method: :delete, class: "unfollow-#{target.roles.first.name.to_s}" %>
+      method: :delete, class: "unfollow-#{label}" %>
 <% elsif target == current_user %>
   (this is me)
 <% else %>
   <%= button_to "Follow", follows_path, 
       params: {followable_id: target.id, followable_type: target.class.to_s},
-      method: :post, class: "follow-#{target.roles.first.name.to_s}" %>
+      method: :post, class: "follow-#{label}" %>
 <% end %>

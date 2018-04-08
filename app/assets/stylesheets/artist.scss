@@ -32,7 +32,7 @@
 .artist-online {
   position: absolute;
   top: 37px;
-  left: 42.5%;
+  left: calc(50% - 85px);
   z-index: 3;
 }
 
@@ -52,7 +52,11 @@
 
 .unfollow-artist {
   @include follow-artist;
-  opacity: 0.4;
+  opacity: 0.6;
+
+  &:hover {
+    opacity: 1;
+  }
 }
 
 .artist-name {

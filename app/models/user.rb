@@ -24,16 +24,10 @@ class User < ApplicationRecord
 
   has_many :follows
   has_many :followed_users, through: :follows, source: :followable, source_type: "User"
-  # has_many :reverse_follows, foreign_key:  "followable_id",
-  #                            foreign_type: "followable_type",
-  #                               source_type: "User",
-  #                            class_name:   "Follow",
-  #                            dependent:    :destroy
-  # has_many :followers, through: :reverse_follows, source: :user
 
   has_many :likes
   has_one :artist_info, foreign_key: "artist_id"
-  has_many :releases, foreign_key: "artist_id"
+  has_and_belongs_to_many :releases
   has_and_belongs_to_many :tracks
 
   include AlgoliaSearch
