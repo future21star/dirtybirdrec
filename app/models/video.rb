@@ -1,7 +1,7 @@
 class Video < ApplicationRecord
   belongs_to :user
 
-  validates :user_id, :tilte, :video_link, presence: true
+  validates :user_id, :title, :video_link, presence: true
 
   include StreamRails::Activity
   as_activity
