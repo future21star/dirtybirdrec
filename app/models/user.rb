@@ -21,6 +21,8 @@ class User < ApplicationRecord
   has_many :topics
   has_many :posts
   has_many :comments
+  has_many :commented, as: :commentable, class_name: 'Comment'
+  has_many :videos
 
   has_many :follows
   has_many :followed_users, through: :follows, source: :followable, source_type: "User"

@@ -20,7 +20,7 @@ class HomeController < ApplicationController
       @enricher = StreamRails::Enrich.new
       @activities = @enricher.enrich_activities(results)
 
-      @releases = Release.all
+      @releases = Release.limit(3)
       @posts = Post.all
       @topics = Topic.all
     end

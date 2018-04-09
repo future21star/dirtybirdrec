@@ -29,21 +29,22 @@
       <%= link_to image_tag('icons/artist-twitter.svg'), 
             @artist.artist_info.twitter if @artist.artist_info.twitter %>
     </div>
+  <% end %>
 
-    <div class="artist-since">
-      <%= image_tag 'icons/egg.svg' %>
-      DIRTYBIRD ARTIST<br>
-      <span>Since <%= @artist.created_at.strftime("%Y") %></span>
-    </div>
+  <div class="artist-since">
+    <%= image_tag 'icons/egg.svg' %>
+    DIRTYBIRD ARTIST<br>
+    <span>Since <%= @artist.created_at.strftime("%Y") %></span>
+  </div>
 
-    <div class="artist-bio">
-
+  <div class="artist-bio">
+    <% if @artist.artist_info.present? %>
       <span><%= @artist.artist_info.bio_short %></span>
       <a href="#" class="artist-bio-long">Read more</a>
       <span><%= @artist.artist_info.bio_long %></span>
       <a href="#" class="artist-bio-short"><br><br>Read less</a>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 </div>
 
 <% if @releases.any? %>
@@ -78,33 +79,102 @@
   </div>
 <% end %>
 
+<div class="row mb-2">
+  <!-- ARTIST FEED -->
+  <div class="col-md-8" id="artist-feed">
+    <div class="c-panel bg-white">
+      <div class="c-flag mb-4">ARTIST FEED</div>
+        <button class="btn c-btn-blue mt-1" type="button" data-toggle="modal" data-target="#whatsinyourmindModal">
+          WHAT’S IN YOUR MIND
+        </button>
+      <div class="feed-block light-scroll">
+        <ul class="feed-tabs">
+          <li class="nav-item">
+            <%= link_to "All", artist_path(@artist, anchor: "artist-feed"),
+                class: "#{'active' if current_page?(artist_path(@artist))}" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Announcements", announcements_feed_path(@artist, anchor: "artist-feed"), 
+                class: "#{'active' if current_page?(announcements_feed_path)}" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Interviews", interviews_feed_path(@artist, anchor: "artist-feed"), 
+                class: "#{'active' if current_page?(interviews_feed_path)}" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Videos", videos_feed_path(@artist, anchor: "artist-feed"), 
+                class: "#{'active' if current_page?(videos_feed_path)}" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Others", others_feed_path(@artist, anchor: "artist-feed"),
+                class: "#{'active' if current_page?(others_feed_path)}" %>
+          </li>
+        </ul>
+        <%= render 'feeds/user' %>
+      </div>
+    </div>
+  </div>
 
-<ol>
-  <% if @followers.any? %>
-    Fans following this artist
-    <% @followers.each do |user| %>
-      <li><%= link_to user.name, user_path(user) %></li>
+  <!-- FOLLOWERS -->
+  <div class="col-md-4">
+    <% if @artist_video.present? %>
+      <div class="c-panel bg-white mb-4">
+        <iframe id="ytplayer" type="text/html" width="100%" height="100%"
+          src="https://www.youtube.com/embed/<%= @artist_video.parse_youtube %>"
+          frameborder="0"></iframe>
+        <div class="panel-sign">
+          <h4><%= @artist_video.title.upcase %></h4>
+          <p>Published on <%= @artist_video.created_at.strftime("%B, %-d, %Y") %></p>
+        </div>
+      </div>
     <% end %>
-  <% else %>
-    No followers yet
-  <% end %>
-</ol>
 
+    <% if @followers.any? %>
+      <div class="c-panel bg-white">
+        <div class="c-flag c-flag-inner mb-4">FOLLOWERS</div>
 
-<div>
-  <iframe id="ytplayer" type="text/html" width="auto" height="auto"
-    src="https://www.youtube.com/embed/<%= @artist.artist_info.parse_youtube if @artist.artist_info %>"
-    frameborder="0"></iframe>
-</div>
-
-
-
-<!-- 
-<div class="row">
-  <div class="col-sm-8">
-    <% for activity in @activities %>
-      <%= render_activity activity  %>
+        <ol class="artists-block light-scroll list-unstyled mt-1">
+          <% @followers.each do |user| %>
+            <li>
+              <%= link_to user_path(user), class: "d-inline-block align-middle" do %>
+                <%= image_tag user.avatar.thumb, class: "user-avatar" %>
+              <% end %>
+              <div>
+                <h5>
+                  <%= link_to user.name, user_path(user) %>
+                  <%= image_tag 'icons/point-green.svg', class: "point-green" if user %>
+                </h5>
+                <div>
+                  <% if user.shipping_address.present? 
+                    address = user.shipping_address.match(/[^,]+,[^,]+,\s?USA$|[^,]+,[^,]+$/)
+                    end %>
+                  <%= "from #{address}" if address.present? %> 
+                </div>
+              </div>
+            </li>
+          <% end %>
+        </ol>
+      </div>
     <% end %>
   </div>
 </div>
- -->
+
+<% content_for :body_area do %>
+  <div class="modal modal-blured" id="whatsinyourmindModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-wide" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h5 class="modal-title">What's in your mind?</h5>
+          <input type="text">
+          <textarea name="" id="" cols="30" rows="10"></textarea>
+          <%= link_to "ADD TO FEED", "#", class: "btn c-btn-blue" %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

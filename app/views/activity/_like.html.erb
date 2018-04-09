@@ -1,8 +1,5 @@
-<article class="card w-100 mb-2">
-  <div class="card-body">
     <%= activity['actor'].name %>
     <small><em>likes <%= activity['object'].class.to_s.downcase %></em></small>
     <%= activity['object'].try(:title).try(:truncate, 25) %>
-    <%= "on #{activity['object'].commentable.class.to_s.downcase} #{activity['object'].commentable.title}" if activity['object'].class.to_s == "Comment" %>
-  </div>
-</article>
+    <%= "on #{activity['object'].commentable.roles.first.name} #{activity['object'].commentable.try(:name)}" if activity['object'].class.to_s == "Comment" %>
+<hr>

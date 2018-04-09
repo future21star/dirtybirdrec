@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180408080226) do
+ActiveRecord::Schema.define(version: 20180409135113) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,7 +22,6 @@ ActiveRecord::Schema.define(version: 20180408080226) do
     t.string "facebook"
     t.string "twitter"
     t.string "instagram"
-    t.string "video"
     t.integer "artist_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -44,10 +43,9 @@ ActiveRecord::Schema.define(version: 20180408080226) do
     t.text "body"
     t.integer "user_id"
     t.integer "parent_id"
-    t.integer "lft"
-    t.integer "rgt"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "title"
   end
 
   create_table "contacts", force: :cascade do |t|
@@ -218,6 +216,14 @@ ActiveRecord::Schema.define(version: 20180408080226) do
     t.index ["role_id"], name: "index_users_roles_on_role_id"
     t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id"
     t.index ["user_id"], name: "index_users_roles_on_user_id"
+  end
+
+  create_table "videos", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "title"
+    t.string "video_link"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

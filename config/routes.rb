@@ -15,6 +15,10 @@ Rails.application.routes.draw do
   get "chrip_feed", to: "users#chrip_feed"
   get "release_feed", to: "users#release_feed"
   get "artist_feed", to: "users#artist_feed"
+  get "announcements_feed/:id", to: "users#announcements_feed", as: "announcements_feed"
+  get "interviews_feed/:id", to: "users#interviews_feed", as: "interviews_feed"
+  get "videos_feed/:id", to: "users#videos_feed", as: "videos_feed"
+  get "others_feed/:id", to: "users#others_feed", as: "others_feed"
   ActiveAdmin.routes(self)
 
   devise_scope :user do

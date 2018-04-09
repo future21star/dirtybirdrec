@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show, :parse_youtube, :artist]
+  before_action :authenticate_user!, except: 
+      [:index, :show, :parse_youtube, :artist, :announcements_feed,
+        :interviews_feed, :videos_feed, :others_feed]
   before_action :set_leaderboard
 
   def set_leaderboard
@@ -78,7 +80,7 @@ class UsersController < ApplicationController
     @artist = User.find(params[:id])
 
     unless @artist.has_role? :artist
-      redirect_to users_path(@artist)
+      redirect_to users_path(@artist) and return
     end
 
     feed = StreamRails.feed_manager.get_user_feed(@artist.id)
@@ -86,8 +88,63 @@ class UsersController < ApplicationController
     @enricher = StreamRails::Enrich.new
     @activities = @enricher.enrich_activities(results)
 
+    artist_vars
+  end
+
+  def announcements_feed
+    @artist = User.find(params[:id])
+    artist_vars
+
+    get_feed_from @artist.videos
+
+    render :artist
+  end
+
+  def interviews_feed
+    @artist = User.find(params[:id])
+    artist_vars
+
+    get_feed_from @artist.videos
+
+    render :artist
+  end
+
+  def videos_feed
+    @artist = User.find(params[:id])
+    artist_vars
+
+    get_feed_from @artist.videos
+
+    render :artist
+  end
+
+  def others_feed
+    @artist = User.find(params[:id])
+    artist_vars
+
+    get_feed_from @artist.videos
+
+    render :artist
+  end
+
+  def artist_vars
     @followers = @artist.followers
     @releases = @artist.releases.released
+    @artist_video = @artist.videos.last
+  end
+
+  def get_feed_from objects
+    results = objects.map do |object|
+      {
+        'actor' => @artist,
+        'object' => object,
+        'verb' =>"Addvideo",
+        'foreign_id' => "Addvideo:#{object.id}"
+      }
+    end
+      
+    @enricher = StreamRails::Enrich.new
+    @activities = @enricher.enrich_activities(results)
   end
 
   def artists

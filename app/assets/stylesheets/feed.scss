@@ -1,0 +1,40 @@
+#artist-feed {
+  border-top: 100px solid transparent;
+  margin-top: -100px;
+  background-clip: padding-box;
+}
+
+
+.feed-tabs {
+  list-style-type: none;
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  li {
+    display: inline-block;
+    font-size: 12px;
+
+    a.active {
+      font-weight: 700;
+    }
+  }
+}
+
+.feed-posted {
+  position: relative;
+  padding-left: 28px;
+  font-size: 12px;
+
+  &:before {
+    content: '';
+    z-index: 1;
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background-color: #222;
+    left: 3px;
+    top: 2px;
+    border-radius: 8px;
+  }
+}

@@ -1,5 +1,3 @@
-<article class="card w-100 mb-2">
-  <div class="card-body">
     <%= activity['actor'].name %> 
     <small><em>is watching</em></small>
     <% if activity['object'].class.to_s == "User" %>
@@ -15,5 +13,4 @@
       track <%= activity['object'].title %>
     <% end %>
     <small><em>now</em></small>
-  </div>
-</article>
+<hr>

@@ -75,12 +75,46 @@
         <% end %>
       </ul>
 
+
+      <h3 class="mt-4r">To Users comments</h3>
+      <ul class="list-group">
+        <% User.order(id: :asc).limit(3).each do |user| %>
+          <li class="list-group-item">
+            <div>
+              <b>User:</b> <%= user.name %>
+            </div>
+
+            <div style="display:flex;flex-direction:column;align-items:flex-start;">
+              <b>User comments:</b>
+              <ol>
+                <% user.commented.each do |comment| %>
+                  <li>
+                    <hr class="m-0">
+                    <%= comment.body %>
+                    <%= render 'likes/like_button', object: comment %>
+                  </li>
+                <% end %>
+              </ol>
+            </div>
+
+            <div>
+              <%= form_for user.comments.build , html: { style: "display:flex;" } do |f| %>
+                <%= f.hidden_field :commentable_type, value: "User" %>
+                <%= f.hidden_field :commentable_id, value: user.id %>
+                <%= f.text_field :title %>
+                <%= f.text_area :body, rows: 1, placeholder: "Leave a comment" %>
+                <%= f.submit "Send" %>
+              <% end %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+
     </div>
     <div class="col">
       <h3>Other user's feed:</h3>
-      <%= render template: 'feeds/user' %>
+      <%= render 'feeds/user' %>
     </div>
   </div>
-  
   
 <% end %>

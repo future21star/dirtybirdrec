@@ -1,7 +1,9 @@
-<article class="card w-100 mb-2">
-  <div class="card-body">
-    <%= activity['actor'].name %>
-    <small><em>comments <%= activity['object'].class.to_s.downcase %></em></small>
-    <%= activity['object'].title.truncate(25) %>
-  </div>
-</article>
+<% if activity['object'].class == User %>
+  <% comment = Comment.find activity['foreign_id'].split(':')[1] %>
+  <p class="feed-posted">Posted <%= time_ago_in_words(comment.created_at) %> ago</p>
+    <h3><%= comment.title %></h3>
+    <%= comment.body.truncate(200) %>
+<% end %>
+<hr>
+
+<%#= activity.inspect %>
