@@ -1,11 +1,21 @@
+<% style = style.present? ? style : nil %>
+
 <% if current_user %>
-  <% if object.likes.where(user_id: current_user.id).first.present? %>
-    <%= render partial: 'likes/unlike', 
-        locals: {like: object.likes.where(user_id: current_user.id).first} %>
+  <% if current_user.already_liked(object).present? %>
+    <%= render partial: 'likes/unlike',
+        locals: {
+            like: current_user.already_liked(object), 
+            style: style } %>
   <% else %>
     <%= render partial: 'likes/like', 
-        locals: {like: { likeable_id: object.id, likeable_type: object.class.to_s } } %>
+        locals: {
+            like: { likeable_id: object.id, likeable_type: object.class.to_s },
+            style: style } %>
   <% end %>
+<% else %>
+ <%= image_tag('icons/like-thumbup', class: "align-top") if style == 'thumbup' %>
 <% end %>
 
-<%= render 'likes/likes_count', object: object %>
+<% if style == 'thumbup' %>
+  <%= render 'likes/likes_count', object: object %>
+<% end %>

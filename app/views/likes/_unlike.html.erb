@@ -1,4 +1,5 @@
-<%= link_to image_tag('icons/liked.svg'), like_path(like), 
+<% image = style == 'thumbup' ? 'icons/like-thumbdown.svg' : 'icons/liked.svg' %>
+<%= link_to image_tag(image, class: "align-top"), like_path(like, style: style), 
     id: "like-#{like.likeable_type}-#{like.likeable_id}",
-    method: :delete, remote: true 
+    method: :delete, remote: true
 %>

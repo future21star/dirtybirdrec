@@ -1,0 +1,11 @@
+<% if comment.user == comment.commentable %>
+<div class="text-right">
+  <p class="feed-reply feed-owner"><%= comment.body %></p>
+  <%= image_tag(comment.user.avatar.thumb, class: "post-user-avatar") %>
+</div>
+<% else %>
+  <div class="nested-messages">
+    <%= link_to image_tag(comment.user.avatar.thumb, class: "post-user-avatar"), comment.user %>
+    <p class="feed-reply"><%= comment.body %></p>
+  </div>
+<% end %>

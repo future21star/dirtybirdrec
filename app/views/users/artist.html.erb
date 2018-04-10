@@ -15,19 +15,21 @@
   <div class="artist-name">
     <h1><%= @artist.name.upcase %></h1>
     <span>
-      <%= "#{@artist.artist_info.genre} / " if @artist.artist_info && @artist.artist_info.genre.present? %>
-      <b><%= "#{@artist.followers.count} #{'Follower'.pluralize(@artist.followers.count)}" %> </b>
+      <% if @artist.artist_info %>
+        <%= "#{@artist.artist_info.genre} / " if @artist.artist_info.genre.present? %>
+        <b><%= "#{@artist.followers.count} #{'Follower'.pluralize(@artist.artist_info.followers_count)}" %></b>
+      <% end %>
     </span>
   </div>
 
   <% if @artist.artist_info.present? %>
     <div class="artist-social">
       <%= link_to image_tag('icons/artist-dirtybird.svg'), 
-            @artist.artist_info.instagram if @artist.artist_info.instagram %>
+            @artist.artist_info.instagram if @artist.artist_info.instagram.present? %>
       <%= link_to image_tag('icons/artist-facebook.svg'), 
-            @artist.artist_info.facebook if @artist.artist_info.facebook %>
+            @artist.artist_info.facebook if @artist.artist_info.facebook.present? %>
       <%= link_to image_tag('icons/artist-twitter.svg'), 
-            @artist.artist_info.twitter if @artist.artist_info.twitter %>
+            @artist.artist_info.twitter if @artist.artist_info.twitter.present? %>
     </div>
   <% end %>
 
@@ -170,9 +172,17 @@
         </div>
         <div class="modal-body">
           <h5 class="modal-title">What's in your mind?</h5>
-          <input type="text">
-          <textarea name="" id="" cols="30" rows="10"></textarea>
-          <%= link_to "ADD TO FEED", "#", class: "btn c-btn-blue" %>
+
+          <%= form_for current_user.comments.build, html: { class: "feed-form" } do |f| %>
+            <%= f.hidden_field :commentable_type, value: "User" %>
+            <%= f.hidden_field :commentable_id, value: @artist.id %>
+            <%= f.label :title, class: "sr-only" %>
+            <%= f.text_field :title, placeholder: "Type the title here" %>
+            <%= f.label :body, class: "sr-only" %>
+            <%= f.text_area :body, rows: 10, placeholder: "Type text", max: 200 %>
+            <%= f.submit "ADD TO FEED", class: "btn c-btn-blue btn-wide" %>
+          <% end %>
+
         </div>
       </div>
     </div>

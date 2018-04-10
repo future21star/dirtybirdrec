@@ -4,6 +4,8 @@ class Follow < ApplicationRecord
   validates :user_id, :followable_id, :followable_type, presence: true
 
   after_create :add_points, :feed_release
+  after_save :trigger_followers_count
+  before_destroy :trigger_followers_count
   after_destroy :unfeed_release
 
   include StreamRails::Activity
@@ -40,5 +42,12 @@ class Follow < ApplicationRecord
       release_feed = StreamRails.feed_manager.get_feed( 'release', self.followable_id )
       user_feed = StreamRails.feed_manager.get_feed( 'release_user_feed', self.user_id)
       user_feed.unfollow(release_feed.slug, self.user_id)
+    end
+
+    def trigger_followers_count
+      if self.user.has_role?(:artist)
+        artist_info = ArtistInfo.find_or_create_by(artist_id: self.user.id)
+        artist_info.update_attributes(followers_count: self.user.followers.count - 1)
+      end
     end
 end

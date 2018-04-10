@@ -129,7 +129,7 @@ class UsersController < ApplicationController
 
   def artist_vars
     @followers = @artist.followers
-    @releases = @artist.releases.released
+    @releases = @artist.releases.released.limit(30)
     @artist_video = @artist.videos.last
   end
 

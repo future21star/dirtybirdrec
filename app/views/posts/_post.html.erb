@@ -2,7 +2,7 @@
   <%= image_tag post.user.avatar.thumb.url %>
   <%= post.text %>
   <%= post.created_at.strftime("%Y-%m-%d") %>
-  <%= render 'likes/like_button', object: post %>
+  <%= render partial: 'likes/like_button', locals: { object: post,  style: 'thumbup' } %>
   <%= link_to "Reply", 
     post_reply_form_path( post_id: post.id, topic_id: @topic.id ), 
     remote: true %>

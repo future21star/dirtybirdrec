@@ -1,9 +1,45 @@
-<% if activity['object'].class == User %>
-  <% comment = Comment.find activity['foreign_id'].split(':')[1] %>
-  <p class="feed-posted">Posted <%= time_ago_in_words(comment.created_at) %> ago</p>
-    <h3><%= comment.title %></h3>
-    <%= comment.body.truncate(200) %>
+<% if activity['target'].class == User %>
+  <p class="feed-posted">Posted <%= time_ago_in_words(activity['object'].created_at) %> ago</p>
+    <h3><%= activity['object'].title %></h3>
+    <p><%= activity['object'].body.truncate(200) %></p>
+<% else %>
+  comment <%= activity['object'].class.to_s %>
 <% end %>
-<hr>
 
-<%#= activity.inspect %>
+<div class="comment-footer">
+  <span>
+    <%= render partial: 'likes/like_button', locals: { object: activity['object'],  style: 'thumbup' } %>
+  </span>
+
+  <span>
+    <%= image_tag('icons/icon-comment.svg', title: 'Comments', class: "align-top") %>
+    <%= activity['object'].try(:comments_count) %>
+  </span>
+
+  <span>
+    <%= image_tag('icons/icon-share-comment.svg', title: 'Share', class: "align-top") %>
+    <%= activity['object'].try(:shares_count) %>
+  </span>
+</div>
+
+<% if activity['target'].class == User %>
+  <div class="feed-replies">
+    <% if activity['object'].replies.any? %>
+
+      <%= render activity['object'].replies %>
+    <% end %>
+
+    <div class="feed-form">
+      <%= form_for current_user.comments.build do |f| %>
+        <%= f.hidden_field :commentable_type, value: activity['target'].class.to_s %>
+        <%= f.hidden_field :commentable_id, value: activity['target'].id %>
+        <%= f.hidden_field :parent_id, value: activity['object'].id %>
+        <%= f.label :body, class: "sr-only" %>
+        <%= f.text_area :body, rows: 3, placeholder: "Leave a comment" %>
+        <%= f.submit "SEND", class: "btn c-btn-blue btn-wide" %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<hr class="feed-divider">

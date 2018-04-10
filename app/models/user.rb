@@ -30,7 +30,8 @@ class User < ApplicationRecord
   has_many :likes
   has_one :artist_info, foreign_key: "artist_id"
   has_and_belongs_to_many :releases
-  has_and_belongs_to_many :tracks
+  has_many :tracks_users
+  has_many :tracks, through: :tracks_users
 
   include AlgoliaSearch
 
@@ -40,6 +41,10 @@ class User < ApplicationRecord
 
   def followers
     User.joins(:follows).where("follows.followable_id = ? AND follows.followable_type = 'User'", self.id)
+  end
+
+  def already_liked object
+    likes.where("likeable_id = ? AND likeable_type = ?", object.id, object.class.to_s).first
   end
 
 

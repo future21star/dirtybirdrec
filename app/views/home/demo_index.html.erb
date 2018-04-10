@@ -36,7 +36,7 @@
           <li class="list-group-item">
             <div>
               <b>Release:</b> <%= release.title %>
-              <%= render 'likes/like_button', object: release %>
+              <%= render partial: 'likes/like_button', locals: { object: release,  style: 'thumbup' } %>
             </div>
 
             <div style="display:flex;flex-direction:column;align-items:flex-start;">
@@ -46,7 +46,7 @@
                   <li>
                     <hr class="m-0">
                     <%= comment.body %>
-                    <%= render 'likes/like_button', object: comment %>
+                    <%= render partial: 'likes/like_button', locals: { object: comment,  style: 'thumbup' } %>
                   </li>
                 <% end %>
               </ol>
@@ -67,14 +67,12 @@
               <% release.tracks.each do |track| %>
                 <li>
                   <%= track.title %>
-                  <%= render 'likes/like_button', object: track %>
                 </li>
               <% end %>
             </ol>
           </li>
         <% end %>
       </ul>
-
 
       <h3 class="mt-4r">To Users comments</h3>
       <ul class="list-group">
@@ -91,7 +89,7 @@
                   <li>
                     <hr class="m-0">
                     <%= comment.body %>
-                    <%= render 'likes/like_button', object: comment %>
+                    <%= render partial: 'likes/like_button', locals: { object: comment,  style: 'thumbup' } %>
                   </li>
                 <% end %>
               </ol>
@@ -112,7 +110,7 @@
 
     </div>
     <div class="col">
-      <h3>Other user's feed:</h3>
+      <h3>Other user's (<%= @other_user.name %>) feed:</h3>
       <%= render 'feeds/user' %>
     </div>
   </div>

@@ -15,7 +15,8 @@ class HomeController < ApplicationController
   def demo_index
     @users = User.all.order(id: :asc)
     if current_user
-      feed = StreamRails.feed_manager.get_user_feed(@users.where.not(id: current_user.id).first.id)
+      @other_user = @users.where.not(id: current_user.id).first
+      feed = StreamRails.feed_manager.get_user_feed(@other_user.id)
       results = feed.get()['results']
       @enricher = StreamRails::Enrich.new
       @activities = @enricher.enrich_activities(results)

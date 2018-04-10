@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180409135113) do
+ActiveRecord::Schema.define(version: 20180410063559) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,8 @@ ActiveRecord::Schema.define(version: 20180409135113) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "genre"
+    t.integer "followers_count", default: 0
+    t.integer "tracks_count", default: 0
   end
 
   create_table "badges", force: :cascade do |t|
@@ -46,6 +48,9 @@ ActiveRecord::Schema.define(version: 20180409135113) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "title"
+    t.integer "likes_count", default: 0
+    t.integer "comments_count", default: 0
+    t.integer "shares_count", default: 0
   end
 
   create_table "contacts", force: :cascade do |t|
@@ -175,10 +180,11 @@ ActiveRecord::Schema.define(version: 20180409135113) do
     t.string "avatar"
   end
 
-  create_table "tracks_users", id: false, force: :cascade do |t|
+  create_table "tracks_users", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "track_id"
     t.index ["track_id"], name: "index_tracks_users_on_track_id"
+    t.index ["user_id", "track_id"], name: "index_tracks_users_on_user_id_and_track_id", unique: true
     t.index ["user_id"], name: "index_tracks_users_on_user_id"
   end
 
@@ -224,6 +230,8 @@ ActiveRecord::Schema.define(version: 20180409135113) do
     t.string "video_link"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "comments_count", default: 0
+    t.integer "shares_count", default: 0
   end
 
 end

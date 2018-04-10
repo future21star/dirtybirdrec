@@ -15,8 +15,8 @@
           <div class="item-footer">
             <a href="#" class="c-link">
               <%= release.tracks.count %>
-                <%= "Track".pluralize(release.tracks.count) %>
-              </a>
+              <%= "Track".pluralize(release.tracks.count) %>
+            </a>
             <button class="btn c-btn-white c-btn-sm">LISTEN</button>
             <a href="#" class="c-link">Share</a>
           </div>
@@ -87,8 +87,11 @@
                 <%= image_tag 'icons/point-green.svg', class: "point-green" if artist %>
               </h5>
               <div>
-                <%= artist.tracks.count %> Tracks /
-                <%= artist.followers.count %> Followers
+                <%= artist.try(:artist_info).try(:tracks_count) || 0 %>
+                <%= "Track".pluralize(artist.try(:artist_info).try(:tracks_count)) %>
+                /
+                <%= artist.try(:artist_info).try(:followers_count) || 0 %>
+                <%= "Follower".pluralize(artist.try(:artist_info).try(:followers_count)) %>
               </div>
             </div>
           </li>

@@ -1,7 +1,7 @@
 class AddArtistsToReleases < ActiveRecord::Migration[5.1]
   def change
-    remove_column :tracks, :user_id
-    remove_column :releases, :artist_id
+    remove_column :tracks, :user_id, :integer
+    remove_column :releases, :artist_id, :integer
     create_table :releases_users, id: false do |t|
       t.belongs_to :user, index: true
       t.belongs_to :release, index: true

@@ -1,5 +1,6 @@
-<%= link_to image_tag('icons/like.svg'), likes_path(likeable_type: like[:likeable_type], 
-    likeable_id: like[:likeable_id]), 
+<% image = style == 'thumbup' ? 'icons/like-thumbup.svg' : 'icons/like.svg' %>
+<%= link_to image_tag(image, class: "align-top"), likes_path(likeable_type: like[:likeable_type], 
+    likeable_id: like[:likeable_id], style: style), 
     id: "like-#{like[:likeable_type]}-#{like[:likeable_id]}",
-    method: :post, remote: true 
+    method: :post, remote: true
 %>

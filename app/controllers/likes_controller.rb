@@ -5,13 +5,13 @@ class LikesController < ApplicationController
     like.user_id = current_user.id
     like.save
 
-    render 'toggle_like', locals: { like: like }
+    render 'toggle_like', locals: { like: like, style: params[:style] }
   end
 
   def destroy
     like = Like.find(params[:id]).destroy
 
-    render 'toggle_like', locals: { like: like }
+    render 'toggle_like', locals: { like: like, style: params[:style] }
   end
 
   private

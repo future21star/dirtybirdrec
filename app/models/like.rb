@@ -2,7 +2,9 @@ class Like < ApplicationRecord
   belongs_to :user
   belongs_to :likeable, polymorphic: true
   
-  after_create :add_points, :feed_release
+  after_create :add_points, :feed_release, :trigger_likes_count
+  after_destroy :trigger_likes_count
+
   
   include StreamRails::Activity
   as_activity
@@ -29,6 +31,13 @@ class Like < ApplicationRecord
         activity[:actor] = "Release:#{self.likeable_id}"
         activity[:object] = "User:#{self.user_id}"
         feed.add_activity(activity)
+      end
+    end
+
+    def trigger_likes_count
+      case self.likeable_type
+      when "Comment" || "Video"
+        self.likeable.update_attributes(likes_count: self.likeable.likes.count)
       end
     end
 end
