@@ -161,30 +161,32 @@
   </div>
 </div>
 
-<% content_for :body_area do %>
-  <div class="modal modal-blured" id="whatsinyourmindModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-wide" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <h5 class="modal-title">What's in your mind?</h5>
+<% if current_user %>
+  <% content_for :body_area do %>
+    <div class="modal modal-blured" id="whatsinyourmindModal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-wide" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <h5 class="modal-title">What's in your mind?</h5>
 
-          <%= form_for current_user.comments.build, html: { class: "feed-form" } do |f| %>
-            <%= f.hidden_field :commentable_type, value: "User" %>
-            <%= f.hidden_field :commentable_id, value: @artist.id %>
-            <%= f.label :title, class: "sr-only" %>
-            <%= f.text_field :title, placeholder: "Type the title here" %>
-            <%= f.label :body, class: "sr-only" %>
-            <%= f.text_area :body, rows: 10, placeholder: "Type text", max: 200 %>
-            <%= f.submit "ADD TO FEED", class: "btn c-btn-blue btn-wide" %>
-          <% end %>
+            <%= form_for current_user.comments.build, html: { class: "feed-form" } do |f| %>
+              <%= f.hidden_field :commentable_type, value: "User" %>
+              <%= f.hidden_field :commentable_id, value: @artist.id %>
+              <%= f.label :title, class: "sr-only" %>
+              <%= f.text_field :title, placeholder: "Type the title here" %>
+              <%= f.label :body, class: "sr-only" %>
+              <%= f.text_area :body, rows: 10, placeholder: "Type text", max: 200 %>
+              <%= f.submit "ADD TO FEED", class: "btn c-btn-blue btn-wide" %>
+            <% end %>
 
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  <% end %>
 <% end %>
