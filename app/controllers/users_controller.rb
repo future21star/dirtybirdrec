@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!, except: 
       [:index, :show, :parse_youtube, :artist, :announcements_feed,
-        :interviews_feed, :videos_feed, :others_feed]
+        :interviews_feed, :videos_feed, :others_feed, :artists]
   before_action :set_leaderboard
 
   def set_leaderboard
@@ -22,6 +22,9 @@ class UsersController < ApplicationController
     results = feed.get()['results']
     @enricher = StreamRails::Enrich.new
     @activities = @enricher.enrich_activities(results)
+
+    @followed_users = @user.followed_users.with_role(:fan).limit(4)
+    @followed_artists = @user.followed_users.with_role(:artist).limit(4)
   end
 
   def home
@@ -29,10 +32,12 @@ class UsersController < ApplicationController
       redirect_to choose_profile_path and return
     end
 
-    feed = StreamRails.feed_manager.get_news_feeds(current_user.id)[:aggregated]
-    results = feed.get()['results']
-    @enricher = StreamRails::Enrich.new
-    @activities = @enricher.enrich_aggregated_activities(results)
+    redirect_to current_user
+
+    # feed = StreamRails.feed_manager.get_news_feeds(current_user.id)[:aggregated]
+    # results = feed.get()['results']
+    # @enricher = StreamRails::Enrich.new
+    # @activities = @enricher.enrich_aggregated_activities(results)
   end
 
   def update
@@ -149,6 +154,16 @@ class UsersController < ApplicationController
 
   def artists
     @artists = User.with_role :artist
+  end
+
+  def friends
+    @user = User.find(params[:id])
+    @friends = @user.followed_users.with_role(:fan)
+  end
+
+  def idols
+    @user = User.find(params[:id])
+    @idols = @user.followed_users.with_role(:artist)
   end
 
   private

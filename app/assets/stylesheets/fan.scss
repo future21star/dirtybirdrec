@@ -1,0 +1,65 @@
+.left-avatar {
+  left: 30px;
+  transform: translate(0, 0);
+}
+
+.left-name {
+  @media(min-width: 720px) {
+    margin-left: 230px;
+  }
+}
+
+.user-info {
+  display: flex;
+  height: 100%;
+  align-items: flex-end;
+  padding-bottom: 22px;
+  color: white;
+  font-size: 12px;
+
+  h1 {
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    margin-bottom: 3px;
+    line-height: 16px;
+  }
+
+  h4 {
+    color: #e3e3e3;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 16px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+}
+
+.user-since {
+  width: 150px;
+  margin-left: 20px;
+
+  p {
+    margin-bottom: 0;
+  }
+}
+
+.user-info-divider {
+  width: 3px;
+  height: 40px;
+  background-color: #707070;
+  margin: 0 25px 0 15px;
+}
+
+.fan-position {
+  margin-left: 15px;
+
+  h4 {
+    color: #3ed4e0;
+  }
+}
+
+.fan-badge {
+  display: inline-block;
+  margin-right: 10px;
+}

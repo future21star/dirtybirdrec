@@ -1,10 +1,36 @@
-<h1>Artists</h1>
-<ol>
-  <% @artists.each do |user| %>
-    <li>
-      <%= link_to user_path(user) do %>
-        <%= user.name %>
+<div class="mt-4 mb-2">
+  <div class="c-flag">ARTISTS</div>
+</div>
+
+<ol class="artists-list-block dark-scroll">
+  <% @artists.each do |artist| %>
+    <li class="item-wide">
+      <%= link_to user_path(artist), class: "item-avatar"  do %>
+        <% if artist.artist_info && artist.artist_info.avatar.present? %>
+          <%= image_tag  artist.artist_info.avatar.url%>
+        <% elsif artist.avatar.present? %>
+          <%= image_tag artist.avatar.url %>
+        <% end %>
       <% end %>
+
+      <div class="item-body">
+
+        <h3><%= link_to artist.name.upcase, user_path(artist) %></h3>
+
+        <div>
+          <b>
+            <%= artist.try(:artist_info).try(:tracks_count) || 0 %>
+            <%= "Track".pluralize(artist.try(:artist_info).try(:tracks_count)) %>
+            /
+            <%= artist.try(:artist_info).try(:followers_count) || 0 %>
+            <%= "Follower".pluralize(artist.try(:artist_info).try(:followers_count)) %>
+          </b>
+        </div>
+
+        <%= render 'follows/follow_button', target: artist %>
+        
+      </div>
+
     </li>
   <% end %>
 </ol>

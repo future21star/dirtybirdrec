@@ -1,10 +1,169 @@
+<div class="user-present mb-5">
+  <%= image_tag(@user.avatar.url, class: "userpage-avatar left-avatar") if @user.avatar.present? %>
+  
+  <div class="user-bgrd">
+    <%#= image_tag 'dj.jpg' %>
+
+    <div class="user-info">
+      <div class="userpage-name left-name">
+        <h1><%= @user.name.upcase %></h1>
+        <span>
+          <% if @user.shipping_address.present? 
+            address = @user.shipping_address.match(/[^,]+,[^,]+,\s?USA$|[^,]+,[^,]+$/)
+            end %>
+          <%= "#{address} / " if address.present? %>
+          <b><%= "#{@user.followers.count} #{'Follower'.pluralize(@user.followers.count)}" %></b>
+        </span>
+      </div>
+
+      <div class="user-since">
+        <%= image_tag 'icons/user-logo-icon.svg' %>
+        CHIRP <%= @user.has_role?(:paid) ? "PAID" : "FREE" %><br>
+        <p>Member Since <%= @user.created_at.strftime("%Y") %></p>
+      </div>
+
+      <div class="user-info-divider"></div>
+
+      <div class="fan-points">
+        <small>Fan Status</small>
+        <h4><%= @user.points %> POINTS&nbsp;&nbsp;/</h4>
+      </div>
+
+      <div class="fan-position">
+        <small>Leaderboard</small>
+        <h4>#<%= User.order(points: :desc).pluck(:id).index(@user.id) + 1 %></h4>
+      </div>
+    </div>
+
+    <%= render 'follows/follow_button', target: @user %>
+  </div>
+</div>
+
+<div class="row mb-2">
+  <!-- FAN FEED -->
+  <div class="col-md-8" id="user-feed">
+    <div class="c-panel bg-white">
+      <div class="c-flag mb-4">BIRDFEED</div>
+   <!--      <button class="btn c-btn-blue mt-1" type="button" data-toggle="modal" data-target="#whatsinyourmindModal">
+          WHAT’S IN YOUR MIND
+        </button> -->
+      <div class="feed-block light-scroll">
+        <ul class="feed-tabs">
+          <li class="nav-item">
+            <%= link_to "All", user_path(@user, anchor: "user-feed"),
+                class: "#{'active' if current_page?(user_path(@user))}" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Announcements", announcements_feed_path(@user, anchor: "user-feed"), 
+                class: "#{'active' if current_page?(announcements_feed_path)}" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Interviews", interviews_feed_path(@user, anchor: "user-feed"), 
+                class: "#{'active' if current_page?(interviews_feed_path)}" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Videos", videos_feed_path(@user, anchor: "user-feed"), 
+                class: "#{'active' if current_page?(videos_feed_path)}" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Others", others_feed_path(@user, anchor: "user-feed"),
+                class: "#{'active' if current_page?(others_feed_path)}" %>
+          </li>
+        </ul>
+        <%= render 'feeds/user' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <!-- BADGES -->
+    <div class="c-panel bg-white mb-4">
+      <div class="c-flag c-flag-inner mb-4">BADGES ACHEIVED</div>
+
+      <div>
+        <% if @user.badges.present? %>
+          <% @user.badges.each do |badge| %>
+            <div  class="fan-badge">
+              <%= image_tag badge.image.thumb.url if badge.image.present? %>
+              <p><%= badge.name %></p>
+            </div>
+          <% end %>
+        <% else %>
+          No badges yet
+        <% end %>
+      </div>
+    </div>
+
+    <!-- FOLLOWED USERS -->
+    <% if @followed_users.any? %>
+      <div class="c-panel bg-white mb-4">
+        <div class="c-flag c-flag-inner mb-4">FRIENDS</div>
+        <%= link_to "SEE ALL", friends_path, class: "btn c-btn-blue float-right" %>
+
+        <ol class="users-block list-unstyled mt-1">
+          <% @followed_users.each do |user| %>
+            <li>
+              <%= link_to user_path(user), class: "d-inline-block align-middle" do %>
+                <%= image_tag user.avatar.thumb, class: "user-avatar" %>
+              <% end %>
+              <div>
+                <h5>
+                  <%= link_to user.name, user_path(user) %>
+                  <%= image_tag 'icons/point-green.svg', class: "point-green" if user %>
+                </h5>
+                <div>
+                  <% if user.shipping_address.present? 
+                    address = user.shipping_address.match(/[^,]+,[^,]+,\s?USA$|[^,]+,[^,]+$/)
+                    end %>
+                  <%= "from #{address}" if address.present? %> 
+                </div>
+              </div>
+            </li>
+          <% end %>
+        </ol>
+      </div>
+    <% end %>
+
+    <!-- FOLLOWED ARTISTS -->
+    <% if @followed_artists.any? %>
+      <div class="c-panel bg-c-dark">
+        <div class="c-flag c-flag-inner mb-4">ARTISTS</div>
+        <%= link_to "SEE ALL", idols_path, class: "btn c-btn-blue float-right" %>
+
+        <ol class="users-block dark-scroll list-unstyled mt-1">
+          <% @followed_artists.each do |artist| %>
+            <li>
+              <%= link_to artist_path(artist), class: "d-inline-block align-middle" do %>
+                <%= image_tag artist.avatar.thumb, class: "user-avatar" %>
+              <% end %>
+              <div>
+                <h5>
+                  <%= link_to artist.name, artist_path(artist) %>
+                  <%= image_tag 'icons/point-green.svg', class: "point-green" if artist %>
+                </h5>
+                <div>
+                  <%= artist.try(:artist_info).try(:tracks_count) || 0 %>
+                  <%= "Track".pluralize(artist.try(:artist_info).try(:tracks_count)) %>
+                  /
+                  <%= artist.try(:artist_info).try(:followers_count) || 0 %>
+                  <%= "Follower".pluralize(artist.try(:artist_info).try(:followers_count)) %>
+                </div>
+              </div>
+            </li>
+          <% end %>
+        </ol>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+
 <div class="row">
   <div class="col-sm-8">
     <div class="row">
       <div class="col">
         <div class="card w-100 mb-1">
           <div class="card-body">
-            <%= image_tag @user.avatar.url if @user.avatar.present? %>
           </div>
         </div>
       </div>
@@ -32,14 +191,14 @@
     </div>
 
     <% for activity in @activities %>
-      <%= render_activity activity  %>
+      <%= render_activity activity %>
     <% end %>
   </div>
 
   <div class="col-sm-4">
     <div class="card w-100 mb-1">
       <div class="card-body">
-        Add Friend to my feed <%= render 'follows/follow_button', target: @user %>
+        Add Friend to my feed
       </div>
     </div>
 

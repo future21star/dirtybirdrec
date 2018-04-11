@@ -1,0 +1,13 @@
+<h1>Friends</h1>
+<ol>
+  <% @friends.each do |user| %>
+    <li>
+      <%= link_to user_path(user) do %>
+        <%= image_tag user.avatar.thumb, class: "user-avatar" %>
+        <%= user.name %>
+      <% end %>
+      has <%= user.points %> points 
+      <%= "and #{user.badges.order(points: :asc).last.name}" if user.badges.present? %>
+    </li>
+  <% end %>
+</ol>

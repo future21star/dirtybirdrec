@@ -19,6 +19,8 @@ Rails.application.routes.draw do
   get "interviews_feed/:id", to: "users#interviews_feed", as: "interviews_feed"
   get "videos_feed/:id", to: "users#videos_feed", as: "videos_feed"
   get "others_feed/:id", to: "users#others_feed", as: "others_feed"
+  get "friends/:id", to: "users#friends", as: "friends"
+  get "idols/:id", to: "users#idols", as: "idols"
   ActiveAdmin.routes(self)
 
   devise_scope :user do

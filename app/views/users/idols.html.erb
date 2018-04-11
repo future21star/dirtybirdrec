@@ -1,0 +1,11 @@
+<h1>Artists</h1>
+<ol>
+  <% @idols.each do |user| %>
+    <li>
+      <%= link_to user_path(user) do %>
+        <%= image_tag user.avatar.thumb, class: "user-avatar" %>
+        <%= user.name %>
+      <% end %>
+    </li>
+  <% end %>
+</ol>
