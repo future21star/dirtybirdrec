@@ -186,7 +186,7 @@
             <h5 class="modal-title">CONGRATULATIONS</h5>
             <div class="modal-text d-flex flex-row">
               <%= image_tag badge.image.url if badge.image.present? %>
-              <p class="text-left ml-3"><%= badge.message.html_safe %></p>
+              <p class="text-left ml-3"><%= badge.message.html_safe if badge.message.present? %></p>
             </div>
           </div>
         </div>

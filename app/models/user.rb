@@ -37,7 +37,6 @@ class User < ApplicationRecord
 
   include AlgoliaSearch
   include GiocoCustom
-  # include MyModules::Foo
 
   algoliasearch do
     attribute :name
