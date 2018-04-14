@@ -3,7 +3,7 @@ class Like < ApplicationRecord
   belongs_to :likeable, polymorphic: true
   
   after_create :add_points, :feed_release, :trigger_likes_count
-  after_destroy :trigger_likes_count
+  after_destroy :trigger_likes_count#, :remove_points
 
   
   include StreamRails::Activity
@@ -20,8 +20,12 @@ class Like < ApplicationRecord
   private
 
     def add_points
-      self.user.change_points( 100 )
+      self.user.change_points( 'like' )
     end
+
+    # def remove_points
+    #   self.user.change_points( 'like', :destroy )
+    # end
 
     def feed_release
       if self.likeable_type == "Comment"

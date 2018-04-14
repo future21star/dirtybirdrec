@@ -7,7 +7,7 @@ $(document).on('turbolinks:load', () => {
     $('#jp_container_1').css({'top': '0px'});
     // $(this).css({'top': '0px'});
     $('.navbar').css('top', '40px');
-    $('header').css('margin-bottom', '100px');
+    $('.main-container main').css('padding-top', '100px');
     $('.jp-controls').css('opacity', '1');
     $('.jp-details').css('top', '0px');
   // });

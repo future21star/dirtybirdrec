@@ -1,3 +1,16 @@
+<script>
+  $(document).on('turbolinks:load', function() {
+    <% if current_user && @user == current_user %>
+      <% @user.badge_levels.each do |level| %>
+        <% unless level.notified? %>
+            $('#badge<%= level.badge_id %>Modal').modal();
+            <% level.update_attributes(notified: true ) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  });
+</script>
+
 <div class="user-present mb-5">
   <%= image_tag(@user.avatar.url, class: "userpage-avatar left-avatar") if @user.avatar.present? %>
   
@@ -31,7 +44,7 @@
 
       <div class="fan-position">
         <small>Leaderboard</small>
-        <h4>#<%= User.order(points: :desc).pluck(:id).index(@user.id) + 1 %></h4>
+        <h4>#<%= @user_position %></h4>
       </div>
     </div>
 
@@ -83,9 +96,11 @@
       <div>
         <% if @user.badges.present? %>
           <% @user.badges.each do |badge| %>
-            <div  class="fan-badge">
-              <%= image_tag badge.image.thumb.url if badge.image.present? %>
-              <p><%= badge.name %></p>
+            <div class="fan-badge">
+              <a data-toggle="modal" data-target="#badge<%= badge.id %>Modal">
+                <%= image_tag badge.image.thumb.url if badge.image.present? %>
+                <p><%= badge.name %></p>
+              </a>
             </div>
           <% end %>
         <% else %>
@@ -157,67 +172,25 @@
   </div>
 </div>
 
-
-<div class="row">
-  <div class="col-sm-8">
-    <div class="row">
-      <div class="col">
-        <div class="card w-100 mb-1">
-          <div class="card-body">
+<% @user.badges.each do |badge| %>
+  <% content_for :body_area do %>
+    <div class="modal modal-blured" id="badge<%= badge.id %>Modal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-wide" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
-        </div>
-      </div>
-      
-      <div class="col">
-        <div class="card w-100 mb-1">
-          <div class="card-body">
-            <%= @user.points %> points 
-          </div>
-        </div>
-
-        <div class="card w-100">
-          <div class="card-body">
-            <% if @user.badges.present? %>
-              <% @user.badges.each do |badge| %>
-                <%= image_tag badge.image.thumb.url if badge.image.present? %>
-                <%= badge.name %>
-              <% end %>
-            <% else %>
-              No badges yet
-            <% end %>
+          <div class="modal-body">
+            <h5 class="modal-title">CONGRATULATIONS</h5>
+            <div class="modal-text d-flex flex-row">
+              <%= image_tag badge.image.url if badge.image.present? %>
+              <p class="text-left ml-3"><%= badge.message.html_safe %></p>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
-    <% for activity in @activities %>
-      <%= render_activity activity %>
-    <% end %>
-  </div>
-
-  <div class="col-sm-4">
-    <div class="card w-100 mb-1">
-      <div class="card-body">
-        Add Friend to my feed
-      </div>
-    </div>
-
-    <div class="card w-100 mb-1">
-      <div class="card-body">
-        Friends
-      </div>
-    </div>
-
-    <div class="card w-100 mb-1">
-      <div class="card-body">
-        Artists following
-      </div>
-    </div>
-
-    <div class="card w-100 mb-1">
-      <div class="card-body">
-        Playlist of favorite tracks
-      </div>
-    </div>
-  </div>
-</div>
+  <% end %>
+<% end %>

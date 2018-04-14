@@ -30,7 +30,7 @@ class Comment < ApplicationRecord
   private
 
     def add_points
-      self.user.change_points( 100 )
+      self.user.change_points( 'comment' )
     end
 
     def feed_release

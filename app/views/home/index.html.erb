@@ -43,25 +43,45 @@
               <%= image_tag leader.avatar.thumb, class: "user-avatar" %>
             <% end %>
 
-            <div style="display: inline-block; width: 80%; margin-left: 20px; margin-bottom: 20px; vertical-align: bottom;">
-            <%= leader.name.upcase %>
-            <%= image_tag 'icons/point-green.svg', class: "point-green" if leader %>
+            <div style="display: inline-block; width: 80%; margin-left: 20px; margin-bottom: 2px; vertical-align: bottom;">
+            <div style="display: inline-block; width: 165px; overflow: hidden; white-space: nowrap;">
+              <%= leader.name.upcase %>
+              <%= image_tag 'icons/point-green.svg', class: "point-green" if leader %>
+              
+            </div>
+            <b><%= "#{leader.points} POINTS" %></b>
 
             <div>
-              <div style="display: inline-block; vertical-align: top; margin: 3px 20px 0 0; width: 64%">
-                <div class="progress">
-                  <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-              </div>
-              <div style="display: inline-block; margin-top: 5px;">
-                <% if leader.badges.present? %>
-                  <b><%= "#{leader.badges.order(points: :desc).count}" %></b>
-                  <b><%= "#{leader.badges.order(points: :desc).last.name}" %></b> 
-                  Badged Granted
-                <% else %>
-                  No Badges
+              <div style="float: left; line-height: 20px; margin-right: 10px;">
+                <% @badge_kinds.each do |kind| %>
+                  <div><%= kind.name %></div>
                 <% end %>
               </div>
+
+              <div style="float: right; line-height: 20px; width: 30px;">
+                <% @badge_kinds.each do |kind| %>
+                  <div><b><%= leader.points(kind.id) %></b></div>
+                <% end %>
+              </div>
+
+              <div>
+                <div style="display: inline-block; vertical-align: top; margin: 3px 10px 0 0; width: 78%">
+                  <div class="progress">
+                    <div class="progress-bar-blue" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </div>
+                <div style="display: inline-block; vertical-align: top; margin: 3px 10px 0 0; width: 78%">
+                  <div class="progress">
+                    <div class="progress-bar-yellow" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </div>
+                <div style="display: inline-block; vertical-align: top; margin: 3px 10px 0 0; width: 78%">
+                  <div class="progress">
+                    <div class="progress-bar-red" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </li>
         <% end %>

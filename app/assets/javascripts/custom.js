@@ -22,11 +22,14 @@ $(document).on('turbolinks:load', function() {
   notify('.alert');
 
   $('.modal-blured').on('show.bs.modal', function () {
-    $(this).prev('.main-container').css({'filter': 'blur(15px)'});
+    $(this).siblings('.main-container').css({'filter': 'blur(15px)'});
   });
 
   $('.modal-blured').on('hide.bs.modal', function (e) {
-    $(this).prev('.main-container').css({'filter': 'blur(0px)'});
+    console.log($('.modal-backdrop.show').length);
+    if ($('.modal-backdrop.show').length == 1) {
+      $(this).siblings('.main-container').css({'filter': 'blur(0px)'});
+    }
   });
 
 

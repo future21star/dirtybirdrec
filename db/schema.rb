@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180410063559) do
+ActiveRecord::Schema.define(version: 20180414061235) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,54 @@ ActiveRecord::Schema.define(version: 20180410063559) do
     t.integer "tracks_count", default: 0
   end
 
+  create_table "badge_action_types", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "badge_dependencies", force: :cascade do |t|
+    t.integer "badge_id"
+    t.integer "depended_badge_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "badge_kinds", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "badge_levels", force: :cascade do |t|
+    t.integer "badge_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "notified", default: false
+    t.index ["badge_id", "user_id"], name: "index_badge_levels_on_badge_id_and_user_id", unique: true
+  end
+
+  create_table "badge_points", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "badge_kind_id"
+    t.integer "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "badge_id"
+  end
+
+  create_table "badge_points_weights", force: :cascade do |t|
+    t.integer "badge_id"
+    t.integer "badge_action_type_id"
+    t.integer "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "condition"
+    t.boolean "active", default: false
+    t.index ["badge_id", "badge_action_type_id"], name: "index_badge_points_weights_on_badge_id_and_badge_action_type_id", unique: true
+  end
+
   create_table "badges", force: :cascade do |t|
     t.string "name"
     t.integer "points"
@@ -37,6 +85,8 @@ ActiveRecord::Schema.define(version: 20180410063559) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "image"
+    t.integer "badge_kind_id"
+    t.string "message"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -71,13 +121,6 @@ ActiveRecord::Schema.define(version: 20180410063559) do
     t.index ["followable_id"], name: "index_follows_on_followable_id"
     t.index ["user_id", "followable_id", "followable_type"], name: "index_follows_on_user_id_and_followable_id_and_followable_type", unique: true
     t.index ["user_id"], name: "index_follows_on_user_id"
-  end
-
-  create_table "levels", force: :cascade do |t|
-    t.integer "badge_id"
-    t.integer "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "likes", force: :cascade do |t|
@@ -209,7 +252,6 @@ ActiveRecord::Schema.define(version: 20180410063559) do
     t.integer "gender"
     t.string "t_shirt_size"
     t.integer "subscribtion_type"
-    t.integer "points", default: 300
     t.string "provider"
     t.string "uid"
     t.index ["email"], name: "index_users_on_email", unique: true

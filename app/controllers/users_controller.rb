@@ -2,20 +2,20 @@ class UsersController < ApplicationController
   before_action :authenticate_user!, except: 
       [:index, :show, :parse_youtube, :artist, :announcements_feed,
         :interviews_feed, :videos_feed, :others_feed, :artists]
-  before_action :set_leaderboard
-
-  def set_leaderboard
-    @leader_users = User.all.order(points: :desc).limit(6)
-  end
 
   def index
+    @leader_users = User.with_role(:fan)
+                        .includes(:badges)
+                        .joins('LEFT OUTER JOIN badge_points on (users.id = badge_points.user_id)')
+                        .group('users.id')
+                        .order('users.created_at ASC, SUM(badge_points.value) DESC')
   end
 
   def show
     @user = User.find(params[:id])
 
     if @user.has_role? :artist
-      redirect_to artist_path(@user)
+      redirect_to artist_path(@user) and return
     end
 
     feed = StreamRails.feed_manager.get_user_feed(@user.id)
@@ -25,6 +25,18 @@ class UsersController < ApplicationController
 
     @followed_users = @user.followed_users.with_role(:fan).limit(4)
     @followed_artists = @user.followed_users.with_role(:artist).limit(4)
+
+    if @user.has_role? :admin
+      @user_position = 0
+    else
+      @user_position = User.with_role(:fan)
+          .joins('LEFT OUTER JOIN badge_points on (users.id = badge_points.user_id)')
+          .group('users.id')
+          .order('users.created_at ASC, SUM(badge_points.value) DESC')
+          .count.keys.index(@user.id) + 1
+    end
+
+    current_user.change_points( 'member over time' ) if current_user == @user
   end
 
   def home

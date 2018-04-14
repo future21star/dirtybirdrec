@@ -8,6 +8,7 @@
       <% end %>
       has <%= user.points %> points 
       <%= "and #{user.badges.order(points: :asc).last.name}" if user.badges.present? %>
+      <%= " | since #{user.created_at.strftime('%D')}" %>
     </li>
   <% end %>
 </ol>

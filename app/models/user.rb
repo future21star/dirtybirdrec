@@ -16,8 +16,10 @@ class User < ApplicationRecord
 
   validates :name, presence: true
 
-  has_many :levels  
-  has_many :badges, through: :levels 
+  has_many :badge_levels  
+  has_many :badges, through: :badge_levels
+  has_many :badge_points
+
   has_many :topics
   has_many :posts
   has_many :comments
@@ -34,6 +36,8 @@ class User < ApplicationRecord
   has_many :tracks, through: :tracks_users
 
   include AlgoliaSearch
+  include GiocoCustom
+  # include MyModules::Foo
 
   algoliasearch do
     attribute :name
@@ -48,23 +52,63 @@ class User < ApplicationRecord
   end
 
 
-  def change_points(options)
-    if Gioco::Core::KINDS
-      points = options[:points]
-      kind   = Kind.find(options[:kind])
-    else
-      points = options
-      kind   = false
-    end
+  def change_points(action_type, method=false)
+    raise "Missing Kind Identifier argument" if !action_type
 
-    if Gioco::Core::KINDS
-      raise "Missing Kind Identifier argument" if !kind
-      old_pontuation = self.points.where(:kind_id => kind.id).sum(:value)
-    else
-      old_pontuation = self.points.to_i
+    weights = "SELECT badge_id FROM badge_points_weights INNER JOIN badge_action_types ON badge_action_types.id = badge_points_weights.badge_action_type_id WHERE badge_action_types.name = :action_type"
+    badges = Badge.where("id IN (#{weights})", action_type: action_type)
+
+    badges.each do |badge|
+
+      related_badges_should_be = badge.depended_badges.pluck(:id)
+      user_badges = self.badges.pluck(:id)
+
+      if related_badges_should_be.present?
+        if related_badges_should_be.all? { |i| user_badges.include?(i) }
+          last_related_badge = "(SELECT MAX(created_at) FROM badge_levels WHERE user_id = :user_id AND badge_id IN (:badge_id))"
+          related_badges_user_have = related_badges_should_be & user_badges
+        else
+          next
+        end
+      else
+        last_related_badge = "(SELECT created_at FROM users WHERE id = :user_id)"
+      end
+
+      weight = BadgePointsWeight.joins(:badge_action_type)
+          .where('badge_action_types.name = ? AND badge_id = ?', 
+              action_type, badge.id).first
+      next unless weight.active?
+
+      role = BadgePointsWeight.joins(:badge_action_type).where('badge_action_types.name = ? AND badge_id = ?',  'role', badge.id).first
+
+      if role.present? && role.active?
+        next unless self.has_role? role.value
+      end
+
+      case action_type
+      when 'like'
+        match = self.likes
+          .where("created_at > #{last_related_badge}", user_id: self.id, badge_id: related_badges_user_have)
+          .count == weight.condition.to_i
+
+      when 'follow' 
+        match = self.follows
+          .where("created_at > #{last_related_badge}", user_id: self.id, badge_id: related_badges_user_have)
+          .count == weight.condition.to_i
+
+      when 'member over time' then match = (Date.current - self.created_at.to_date).to_i >= weight.condition.to_i
+      else next end
+
+      if match
+        points = weight.value.to_i
+      else 
+        next 
+      end
+
+      old_pontuation = self.badge_points.where(badge_id: badge.id).sum(:value)
+      new_pontuation = old_pontuation + points
+      GiocoCustom::Core.sync_resource_by_points(self, badge, new_pontuation)
     end
-    new_pontuation = old_pontuation + points
-    Gioco::Core.sync_resource_by_points(self, new_pontuation, kind)
   end
 
   def next_badge?(kind_id = false)
@@ -104,6 +148,14 @@ class User < ApplicationRecord
       end
       user.password = Devise.friendly_token[0,20]
       #user.social_profile_picture = auth.info.image # assuming the user model has an image
+    end
+  end
+
+  def points kind_id=nil
+    if kind_id
+      badge_points.where(badge_kind_id: kind_id).sum(:value)
+    else
+      badge_points.sum(:value)
     end
   end
 

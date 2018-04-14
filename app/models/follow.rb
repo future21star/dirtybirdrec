@@ -6,7 +6,7 @@ class Follow < ApplicationRecord
   after_create :add_points, :feed_release
   after_save :trigger_followers_count
   before_destroy :trigger_followers_count
-  after_destroy :unfeed_release
+  after_destroy :unfeed_release#, :remove_points
 
   include StreamRails::Activity
   as_activity
@@ -22,8 +22,12 @@ class Follow < ApplicationRecord
   private
 
     def add_points
-      self.user.change_points( 100 )
+      self.user.change_points( 'follow' )
     end
+
+    # def remove_points
+    #   self.user.change_points( 'follow', :delete )
+    # end
 
     def feed_release
       if self.followable_type == "Release"

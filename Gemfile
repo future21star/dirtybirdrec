@@ -37,6 +37,9 @@ gem "gioco"
 gem 'loaf'
 gem 'algoliasearch-rails'
 gem "avatarly"
+gem 'activeadmin_addons'
+gem "font-awesome-rails"
+gem 'active_admin_flat_skin'
 
 
 group :development, :test do

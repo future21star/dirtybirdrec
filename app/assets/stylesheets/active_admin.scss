@@ -1,3 +1,4 @@
+//= require activeadmin_addons/all
 // SASS variable overrides must be declared before loading up Active Admin's styles.
 //
 // To view the variables that Active Admin provides, take a look at
@@ -11,7 +12,64 @@
 @import "active_admin/mixins";
 @import "active_admin/base";
 
+$panelBorder: #babdc5;
+$skinActiveColor: #3ed4e0;
+$bodyColor: rgba(236, 240, 241, 0.48);
+$skinBlack: #d9d9d9;
+$panelHeaderBck: $skinBlack;
+$skinBlackLight: rgb(69, 90, 100);
+$textGray: rgb(174, 179, 181);
+$skinTextColor: #1e2a33;
+$skinTextActiveColor: white;
+$skinTextTable: #7f8c8d;
+$skinHeaderBck: #1e2a33;
+
+@import "active_admin_flat_skin";
+@import "font-awesome";
 // Overriding any non-variable SASS must be done after the fact.
 // For example, to change the default status-tag color:
 //
 //   .status_tag { background: #6090DB; }
+
+.header#header {
+  background-color: #d9d9d9;
+
+  .header-item.tabs#tabs li {
+    margin-bottom: 0px !important;
+
+    a {
+      color: black !important;
+    }
+  }
+} 
+
+html form fieldset.inputs {
+  padding-top: 0;
+}
+
+.badge_points_weights .has_many_fields {
+  padding-top: 0;
+  border: none;
+
+  ol {
+
+    & > li {
+      display: inline-flex;
+      white-space: nowrap;
+
+      .select2 {
+        width: 150px !important;
+      }
+
+      &.number input {
+        width: 100px;   
+      }
+
+      label {
+        display: inline-block;
+        width: auto;
+        margin-right: 15px;
+      }
+    }
+  } 
+}

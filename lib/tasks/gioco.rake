@@ -19,18 +19,6 @@ namespace :gioco do
                       :default => '#{arg_default}'
                     })
 "
-
-      if arg_default
-        badge_string = badge_string + 'resources = User.find(:all)
-'
-        badge_string = badge_string + "resources.each do |r|
-        r.points = '#{args.points}'
-          r.badges << badge
-          r.save!
-        end
-"
-      end
-      
       badge_string = badge_string + "puts '> Badge successfully created'"
 
       eval badge_string

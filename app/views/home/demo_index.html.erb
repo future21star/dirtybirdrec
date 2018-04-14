@@ -16,7 +16,7 @@
           <span style="display: inline-block; width: 70px"><%= user.name %></span>&nbsp;
           <%= render 'follows/follow_button', target: user %>&nbsp;
           <%= user.points %> points&nbsp;
-          <%= link_to "accure 100 points", demo_get_100_path(user) %>&nbsp;
+          <%#= link_to "accure 100 points", demo_get_100_path(user) %>&nbsp;
           <%= user.roles.pluck(:name).join %>
         </li>
       <% end %>
