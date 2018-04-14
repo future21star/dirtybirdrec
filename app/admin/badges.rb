@@ -1,5 +1,5 @@
 ActiveAdmin.register Badge do
-  permit_params :name, :points, :image, :message, :badge_kind,
+  permit_params :name, :points, :image, :message, :badge_kind_id,
     badge_points_weights_attributes: [:id, :badge_id, :badge_action_type_id, 
     :value, :condition, :active, :_destroy], 
     badge_dependencies_attributes: [:id, :badge_id, :depended_badge_id, :_destroy]
