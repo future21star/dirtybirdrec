@@ -40,7 +40,7 @@ class UsersController < ApplicationController
   end
 
   def home
-    if current_user.subscribtion_type.blank?
+    if current_user.subscription_type.blank?
       redirect_to choose_profile_path and return
     end
 
@@ -53,6 +53,7 @@ class UsersController < ApplicationController
   end
 
   def update
+    # TODO recheck for subscription_type
     user = User.find(params[:id])
     user.update_attributes(user_params)
 
@@ -182,6 +183,7 @@ class UsersController < ApplicationController
 
     def user_params
       params.require(:user).permit(:avatar, :avatar_cache, :shipping_address, 
-        :birthdate, :gender, :t_shirt_size, :subscription, :subscribtion_type)
+        :birthdate, :gender, :t_shirt_size, #:subscription, 
+        :subscription_type)
     end
 end

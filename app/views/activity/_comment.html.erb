@@ -1,28 +1,32 @@
-<% if activity['target'].class == User %>
+<% if activity['target'].class == User || activity['target'].class == Release %>
+  <%= link_to image_tag(activity['actor'].avatar.thumb.url, class: "post-user-avatar"), activity['actor'], class: "post-owner" %>
   <p class="feed-posted">Posted <%= time_ago_in_words(activity['object'].created_at) %> ago</p>
+
+  <div class="feed-item-body">
     <h3><%= activity['object'].title %></h3>
     <p><%= activity['object'].body.truncate(200) %></p>
+
+    <div class="comment-footer">
+      <span>
+        <%= render partial: 'likes/like_button', locals: { object: activity['object'],  style: 'thumbup' } %>
+      </span>
+
+      <div class="comment-footer-divider">
+        
+      </div>
+
+      <span>
+        <%= image_tag('icons/icon-comment.svg', title: 'Comments', class: "align-top") %>
+        Comment (<%= activity['object'].try(:comments_count) %>)
+      </span>
+    </div>
+  </div>
 <% else %>
   comment <%= activity['object'].class.to_s %>
 <% end %>
 
-<div class="comment-footer">
-  <span>
-    <%= render partial: 'likes/like_button', locals: { object: activity['object'],  style: 'thumbup' } %>
-  </span>
 
-  <span>
-    <%= image_tag('icons/icon-comment.svg', title: 'Comments', class: "align-top") %>
-    <%= activity['object'].try(:comments_count) %>
-  </span>
-
-  <span>
-    <%= image_tag('icons/icon-share-comment.svg', title: 'Share', class: "align-top") %>
-    <%= activity['object'].try(:shares_count) %>
-  </span>
-</div>
-
-<% if activity['target'].class == User %>
+<% if activity['target'].class == User || activity['target'].class == Release %>
   <!-- <div class="feed-replies"> -->
   <div class="<%= 'feed-replies' unless (!current_user && activity['object'].replies.empty?) %>">
     <% if activity['object'].replies.any? %>

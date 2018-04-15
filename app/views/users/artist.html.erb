@@ -39,12 +39,12 @@
     <span>Since <%= @artist.created_at.strftime("%Y") %></span>
   </div>
 
-  <div class="artist-bio">
+  <div class="artist-bio truncated-description">
     <% if @artist.artist_info.present? %>
-      <span><%= @artist.artist_info.bio_short %></span>
-      <a href="#" class="artist-bio-long">Read more</a>
-      <span><%= @artist.artist_info.bio_long %></span>
-      <a href="#" class="artist-bio-short"><br><br>Read less</a>
+      <article><%= @artist.artist_info.bio_short %></article>
+      <a href="#" class="truncated-long">Read more</a>
+      <article><%= @artist.artist_info.bio_long %></article>
+      <a href="#" class="truncated-short"><br><br>Read less</a>
     <% end %>
   </div>
 </div>

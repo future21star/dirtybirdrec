@@ -37,7 +37,7 @@ class Comment < ApplicationRecord
       if self.commentable_type == "Release"
         feed = StreamRails.feed_manager.get_feed( 'release', self.commentable_id )
         activity = create_activity
-        activity[:actor] = "Release:#{self.commentable_id}"
+        # activity[:actor] = "Release:#{self.commentable_id}"
         activity[:object] = "Comment:#{self.id}"
         activity[:target] = "User:#{self.user_id}"
         feed.add_activity(activity)
@@ -50,10 +50,10 @@ class Comment < ApplicationRecord
         activity = create_activity
         logger.warn "+++++++++++++++++++++++++++"
         logger.warn activity
-        activity[:actor] = "User:#{self.commentable_id}"
+        # activity[:actor] = "User:#{self.commentable_id}"
         activity[:object] = "Comment:#{self.id}"
         activity[:target] = "User:#{self.user_id}"
-        activity[:verb] = "Commented" #TODO don't work somehow
+        # activity[:verb] = "Commented" #TODO don't work somehow
         logger.warn activity
         logger.warn "+++++++++++++++++++++++++++"
         feed.add_activity(activity)

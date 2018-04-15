@@ -32,6 +32,22 @@
   border-radius: 10px;
 }
 
+.user-since {
+  font-size: 12px;
+  line-height: 14px;
+  margin: 10px 0 0 15px;
+
+  span {
+    font-size: 10px;
+    line-height: 8px;
+  }
+
+  img {
+    margin-right: 7px;
+    float: left;
+  }
+}
+
 .artist-online {
   position: absolute;
   top: 37px;
@@ -78,22 +94,6 @@
   }
 }
 
-.user-since {
-  font-size: 12px;
-  line-height: 14px;
-  margin: 10px 0 0 15px;
-
-  span {
-    font-size: 10px;
-    line-height: 8px;
-  }
-
-  img {
-    margin-right: 7px;
-    float: left;
-  }
-}
-
 .artist-social {
   float: right;
   margin-right: 16px;
@@ -110,10 +110,6 @@
     color: #222;
     text-decoration: underline;
   }
-}
-
-.artist-bio-long + span, .artist-bio-short {
-  display: none;
 }
 
 .artists-list-block {

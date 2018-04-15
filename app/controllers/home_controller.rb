@@ -60,7 +60,7 @@ class HomeController < ApplicationController
 
   def demo_drop
     user = User.find(params[:id])
-    user.subscribtion_type = nil
+    user.subscription_type = nil
     user.save
 
     redirect_to root_path

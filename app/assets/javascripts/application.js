@@ -18,4 +18,5 @@
 //= require algolia/v3/algoliasearch.min
 //= require jplayer.playlist
 //= require jquery.jplayer
+//= require social-share-button
 //= require_tree .

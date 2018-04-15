@@ -40,6 +40,7 @@ gem "avatarly"
 gem 'activeadmin_addons'
 gem "font-awesome-rails"
 gem 'active_admin_flat_skin'
+gem 'social-share-button'
 
 
 group :development, :test do

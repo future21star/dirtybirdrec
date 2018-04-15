@@ -1,7 +1,7 @@
 ActiveAdmin.register User do
   permit_params :email, :password, :password_confirmation, :points, :avatar, 
       :avatar_cache, :shipping_address, :birthdate, :gender, :t_shirt_size, 
-      :subscription, :subscribtion_type, :name,
+      :subscription_type, :name, #:subscription,
       track_ids: [], role_ids: [], release_ids: []
 
   index do
@@ -32,8 +32,8 @@ ActiveAdmin.register User do
       f.input :birthdate
       f.input :gender
       f.input :t_shirt_size
-      f.input :subscription
-      f.input :subscribtion_type
+      # f.input :subscription
+      f.input :subscription_type
       f.input :releases
       f.input :tracks
     end

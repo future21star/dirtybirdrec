@@ -3,7 +3,7 @@ $(document).on('turbolinks:load', function() {
     trigger: 'focus'
   });
 
-  $('[name="user[subscribtion_type]"]').click(function() {
+  $('[name="user[subscription_type]"]').click(function() {
     $('#additional-user-info').removeClass('d-none');
     if(this.value == '1') {
       $('#payment-user-info').removeClass('d-none');
@@ -11,6 +11,10 @@ $(document).on('turbolinks:load', function() {
       $('#payment-user-info').addClass('d-none');
     }
   });
+
+  if($('#user_subscription_type_1:checked').length > 0) {
+    $('#payment-user-info').removeClass('d-none');
+  }
 
   const notify = (selector) => {
     let obj = $(selector);
@@ -105,19 +109,19 @@ $(document).on('turbolinks:load', function() {
     avatar_form.submit();
   });
 
-  $('.artist-bio').on('click', '.artist-bio-long', function(){
+  $('.truncated-description').on('click', '.truncated-long', function(){
     $(this).hide();
-    $(this).prev('span').hide();
-    $(this).next('span').show();
-    $('.artist-bio-short').show();
+    $(this).prev('article').hide();
+    $(this).next('article').show();
+    $('.truncated-short').show();
     return false;
   });
 
-  $('.artist-bio').on('click', '.artist-bio-short', function(){
-    $(this).prev('span')[1].hide();
-    $(this).prev('span')[0].show();
+  $('.truncated-description').on('click', '.truncated-short', function(){
+    $(this).prev('article')[1].hide();
+    $(this).prev('article')[0].show();
     $(this).hide();
-    $('.artist-bio-long').show();
+    $('.truncated-long').show();
     return false;
   });
 

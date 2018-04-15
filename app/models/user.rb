@@ -16,6 +16,8 @@ class User < ApplicationRecord
 
   validates :name, presence: true
 
+  enum subscription_type: [:member, :vip, :admin]
+
   has_many :badge_levels  
   has_many :badges, through: :badge_levels
   has_many :badge_points
@@ -40,6 +42,15 @@ class User < ApplicationRecord
 
   algoliasearch do
     attribute :name
+  end
+
+  def vip?
+    # Admins are also VIPs
+    subscription_type == 'vip' || subscription_type == 'admin'
+  end
+
+  def admin?
+    subscription_type == 'admin'
   end
 
   def followers

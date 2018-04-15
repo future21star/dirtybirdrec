@@ -1,6 +1,11 @@
 class ReleasesController < ApplicationController
   def show
     @release = Release.find(params[:id])
+
+    feed = StreamRails.feed_manager.get_feed('release', @release.id)
+    results = feed.get()['results']
+    @enricher = StreamRails::Enrich.new
+    @activities = @enricher.enrich_activities(results)
   end
 
   def index
@@ -25,5 +30,13 @@ class ReleasesController < ApplicationController
         end
       end
     end
+  end
+
+  def download
+    redirect_to new_user_registration_path and return unless current_user
+    redirect_to choose_profile_path and return if current_user.subscription_type.blank?
+
+    @release = Release.find(params[:id])
+    redirect_to choose_profile_path unless @release.user_allowed?(current_user)
   end
 end

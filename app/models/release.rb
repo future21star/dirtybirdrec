@@ -14,5 +14,17 @@ class Release < ApplicationRecord
 
   scope :released, -> { where("release_date < ?", DateTime.now) }
 
+  def user_allowed?(user)
+    return false unless user
+    return true if user.vip?
+    return false unless published?
+    return false unless user.subscription_started_at
+    return true if available_to_all?
+    return true if published_at >= user.subscription_started_at - 3.months
+    false
+  end
 
+  def published?
+    !published_at.nil? && published_at <= DateTime.now
+  end
 end

@@ -39,6 +39,7 @@
 
 .feed-item {
   position: relative;
+  padding-left: 60px;
 
   &:before {
     content: '';
@@ -56,11 +57,17 @@
   }
 }
 
+.post-owner {
+  position: absolute;
+  top: 28px;
+  left: 0;
+}
+
 .feed-replies {
   background: #f7f7f7;
-  border-radius: 10px;
+  border-radius: 0 0 10px 10px;
   padding: 20px 20px 20px 0;
-  margin-top: 23px;
+  margin-top: 8px;
 }
 
 .feed-reply {
@@ -97,6 +104,8 @@
 .feed-posted {
   position: relative;
   font-size: 12px;
+  left: -60px;
+  margin-bottom: 8px;
 
   &:before {
     content: '';
@@ -112,9 +121,20 @@
 }
 
 .comment-footer {
-  text-align: right;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
 
-  & > span {
-    margin-left: 13px;
-  }
+.feed-item-body {
+  background-color: #c4ffeb;
+  border-radius: 15px 15px 0 0;
+  padding: 10px 15px;
+}
+
+.comment-footer-divider {
+  opacity: 0.26;
+  background-color: #222;
+  width: 1px;
+  height: 30px;
 }
