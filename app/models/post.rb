@@ -12,7 +12,7 @@ class Post < ApplicationRecord
 
   include AlgoliaSearch
 
-  algoliasearch do
+  algoliasearch sanitize: true do
     attribute :text
   end
 

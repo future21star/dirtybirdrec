@@ -11,7 +11,7 @@ class ArtistInfo < ApplicationRecord
 
   include AlgoliaSearch
 
-  algoliasearch do
+  algoliasearch sanitize: true do
     attribute :bio_short, :bio_long
   end
 end

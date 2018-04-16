@@ -1,49 +1,57 @@
-filter by
-<% p = params[:filters].present? ? params[:filters] : {} %>
 
-<%= form_tag releases_path, method: :get do %>
-  <%= check_box_tag "filters[never_released]", 'true', p[:never_released] %>
-  <%= label_tag "filters[never_released]", "never_released" %>
-  <br>
-  <%= check_box_tag "filters[month]", 'true', p[:month] %>
-  <%= label_tag "filters[month]", "last month" %>
-  <br>
-  <%= check_box_tag "filters[year]", 'true', p[:year] %>
-  <%= label_tag "filters[year]", "last year" %>
-  <br>
-  <%= select_tag "filters[artist]", 
-      options_from_collection_for_select(@artists, "id", "name"),
-      include_blank: true %>
-  <br>
-  <%= submit_tag "filter" %>
-<% end %>
+<div class="release-flag-block">
+  <div class="c-flag">RELEASES</div>
+
+  filter by
+  <% p = params[:filters].present? ? params[:filters] : {} %>
+
+  <%= form_tag releases_path, method: :get, class: "d-flex" do %>
+    <%= check_box_tag "filters[never_released]", 'true', p[:never_released] %>
+    <%= label_tag "filters[never_released]", "never_released" %>
+    <br>
+    <%= check_box_tag "filters[month]", 'true', p[:month] %>
+    <%= label_tag "filters[month]", "last month" %>
+    <br>
+    <%= check_box_tag "filters[year]", 'true', p[:year] %>
+    <%= label_tag "filters[year]", "last year" %>
+    <br>
+    <%= select_tag "filters[artist]", 
+        options_from_collection_for_select(@artists, "id", "name"),
+        include_blank: true %>
+    <%= submit_tag "filter" %>
+  <% end %>
+</div>
 
 <div class="row mt-4">
+
   <% @releases.each do |release| %>
-    <div class="col-md-6 mb-2">
-      <div class="card card-release">
-        <% if release.avatar.present?  %>
-          <%= link_to release do %>
-           <%= image_tag release.avatar.url, 
-                class: "card-img-top", alt: release.title %>
-          <% end %>
-        <% end %>
+    <div class="col-xl-3 col-lg-4 col-md-6 mb-5 item-with-tongue">
+      <div>
+        <div class="item-body">
+          <div class="item-panel">
+            <h3><%= link_to release.title.upcase, release_path(release) %></h3>
+            <p><%= link_to release.text.html_safe.truncate(350), release_path(release) %></p>
+          </div>
+          <div class="item-footer">
+            <%= link_to release, class: "c-link" do %>
+              <%= release.tracks.count %>
+              <%= "Track".pluralize(release.tracks.count) %>
+            <% end %>
+            <button class="btn c-btn-white c-btn-sm">LISTEN</button>
 
-        <div class="card-release-ago">
-          <%= "Posted #{time_ago_in_words(release.published_at)} ago" if release.published_at.present? %>
+            <a href="#" title="Share" tabindex="0" data-toggle="popover" data-placement="left" data-content="<%= (social_share_button_tag(release.title, desc: release.text)).gsub('\"','\'') %>" data-trigger="focus" data-html="true" onclick="return false;" class="c-link">
+              Share
+            </a>
+          </div>
         </div>
-
-        <div class="card-body">
-          <b><%= release.title %></b>
-          <br>
-          <b>Catalog #:</b> <%= release.catalog %>
-          <br>
-          <b>Release date:</b> <%= release.release_date.strftime("%Y-%m-%d") %>
-          <br>
-          <br>
-          <%= release.text %>
-        </div>
+        <%= image_tag release.avatar.url if release.avatar.present? %>
+        <%= image_tag release.avatar.url, class: "item-blured-img" if release.avatar.present? %>
       </div>
+      <mark class="t-small"><%= time_ago_in_words( release.release_date ).upcase %> AGO</mark>
     </div>
   <% end %>
+
+
+
+
 </div>

@@ -1,5 +1,6 @@
 class TopicCategoriesController < ApplicationController
-
+  before_action :authenticate_user!
+  
   breadcrumb 'Categories', :chirp_index_path, match: :exact
 
 

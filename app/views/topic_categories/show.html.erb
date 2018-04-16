@@ -1,15 +1,28 @@
-<%= render 'topics/breadcrumbs' %>
+<div class="topics-header">
+  <%#= image_tag(@category.image) if @category.image.present? %>
+  <%= image_tag('crowd.jpg') %>
+</div>
 
-<h3><%= @category.title %></h3>
 
-<%= link_to "Post a new topic", new_chirp_topic_path( chirp_id: @category.id ),
-    class: "btn btn-secondary mb-3" %>
+<%#= render 'topics/breadcrumbs' %>
 
-<% @category.topics.each do |topic| %>
-  <div class="list-group w-50">
-    <div class="list-group-item mb-2">
-      <%= link_to topic.title, chirp_topic_path( @category, topic ) %>
-      <%= link_to "Follow", "#", class: "float-right" %>
+<div class="topics-panel c-panel bg-white">
+  <%= link_to image_tag('icons/icon-chevron-left.svg'), chirp_index_path, class: 'topics-back' %>
+  <div class="c-flag c-flag-inner mb-4"><%= @category.title %></div>
+
+  <%= link_to "Post a new topic", new_chirp_topic_path( chirp_id: @category.id ),
+      class: "btn c-btn-transparent btn-wide" %>
+
+  <% @category.topics.each do |topic| %>
+    <div>
+      <div class="topics-link">
+        <%= link_to topic.title, chirp_topic_path( @category, topic ) %>
+      </div>
+      
+      <%= render 'follows/follow_button', target: topic %>
+      <hr>
+
     </div>
-  </div>
-<% end %>
+  <% end %>
+</div>
+

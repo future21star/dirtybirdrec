@@ -3,10 +3,9 @@ class Follow < ApplicationRecord
   belongs_to :followable, polymorphic: true
   validates :user_id, :followable_id, :followable_type, presence: true
 
-  after_create :add_points, :feed_release
+  after_create :add_points, :feed_release_and_topic
   after_save :trigger_followers_count
-  before_destroy :trigger_followers_count
-  after_destroy :unfeed_release#, :remove_points
+  before_destroy :trigger_followers_count, :unfeed_release_and_topic#, :remove_points
 
   include StreamRails::Activity
   as_activity
@@ -29,23 +28,28 @@ class Follow < ApplicationRecord
     #   self.user.change_points( 'follow', :delete )
     # end
 
-    def feed_release
-      if self.followable_type == "Release"
-        release_feed = StreamRails.feed_manager.get_feed( 'release', self.followable_id )
-        user_feed = StreamRails.feed_manager.get_feed( 'release_user_feed', self.user_id)
-        user_feed.follow(release_feed.slug, self.followable_id)
+    def feed_release_and_topic
+      if self.followable_type == "Release" || self.followable_type == "Topic"
+        feed = StreamRails.feed_manager.get_feed( self.followable_type.downcase, self.followable_id )
+        user_feed = StreamRails.feed_manager
+            .get_feed( "#{self.followable_type.downcase}_user_feed", self.user_id)
+        user_feed.follow(feed.slug, self.followable_id)
 
         activity = create_activity
-        activity[:actor] = "Release:#{self.followable_id}"
+        activity[:actor] = "#{self.followable_type}:#{self.followable_id}"
         activity[:object] = "User:#{self.user_id}"
-        release_feed.add_activity(activity)
+        feed.add_activity(activity)
       end
     end
 
-    def unfeed_release
-      release_feed = StreamRails.feed_manager.get_feed( 'release', self.followable_id )
-      user_feed = StreamRails.feed_manager.get_feed( 'release_user_feed', self.user_id)
-      user_feed.unfollow(release_feed.slug, self.user_id)
+    def unfeed_release_and_topic
+      if self.followable_type == "Release" || self.followable_type == "Topic"
+
+        feed = StreamRails.feed_manager.get_feed( self.followable_type.downcase, self.followable_id )
+        user_feed = StreamRails.feed_manager
+            .get_feed( "#{self.followable_type.downcase}_user_feed", self.user_id)
+        user_feed.unfollow(feed.slug, self.user_id)
+      end
     end
 
     def trigger_followers_count

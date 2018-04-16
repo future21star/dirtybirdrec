@@ -9,7 +9,7 @@ class Topic < ApplicationRecord
 
   include AlgoliaSearch
 
-  algoliasearch do
+  algoliasearch sanitize: true do
     attribute :title, :text
   end
 

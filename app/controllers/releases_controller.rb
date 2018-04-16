@@ -10,7 +10,7 @@ class ReleasesController < ApplicationController
 
   def index
     filters = params[:filters]
-    @releases = Release.all
+    @releases = Release.released.all
 
     @artists = User.with_role(:artist)
 

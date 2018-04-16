@@ -1,15 +1,21 @@
 <div class="row">
     
   <% @groups.each do |group| %>
-    <div class="col-md-6 mb-3">
-      <div class="list-group">
-      <%= group.title %>
-      
-        <% group.categories.each do |category| %>
-          <div class="list-group-item">
-            <%= link_to category.title, chirp_path( group ) %>
-          </div>
-        <% end %>
+
+    <div class="col-lg-6 col-md-12 mb-4">
+      <div class="c-panel bg-white">
+        <div class="c-flag mb-3">
+          <%= image_tag(group.image.url, class: "c-group-image") if group.image.present? %>
+          <span><%= group.title.upcase %></span>
+        </div>
+
+        <ol class="topic-categories">
+          <% group.categories.each do |category| %>
+            <li>
+              <%= link_to category.title, chirp_path( category ) %>
+            </li>
+          <% end %>
+        </ol>
       </div>
     </div>
   <% end %>

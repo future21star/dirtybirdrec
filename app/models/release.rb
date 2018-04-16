@@ -8,11 +8,12 @@ class Release < ApplicationRecord
 
   include AlgoliaSearch
 
-  algoliasearch do
+  algoliasearch sanitize: true do
     attribute :title, :catalog, :upc_code, :text
+    # tags [self.published? ? 'published' : 'unpublished']
   end
 
-  scope :released, -> { where("release_date < ?", DateTime.now) }
+  scope :released, -> { where("release_date < ?", DateTime.now).order(release_date: :desc) }
 
   def user_allowed?(user)
     return false unless user

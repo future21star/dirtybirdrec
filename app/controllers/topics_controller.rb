@@ -1,5 +1,6 @@
 class TopicsController < ApplicationController
-
+  before_action :authenticate_user!
+  
   breadcrumb 'Categories', :chirp_index_path, match: :exact
 
   def show
@@ -29,7 +30,7 @@ class TopicsController < ApplicationController
       flash[:alert] = topic.errors.full_messages.join(', ')
     end
 
-    redirect_to chirp_path(topic.category.group)
+    redirect_to chirp_path(topic.category)
   end
 
   def topic_params

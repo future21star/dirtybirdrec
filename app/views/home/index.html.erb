@@ -5,7 +5,7 @@
 
 <div class="h-carousel mb-4">
   <% @releases.each do |release| %>
-    <div class="item with-tongue">
+    <div class="item-with-tongue">
       <div>
         <div class="item-body">
           <div class="item-panel">
@@ -13,12 +13,15 @@
             <p><%= link_to release.text.html_safe.truncate(350), release_path(release) %></p>
           </div>
           <div class="item-footer">
-            <a href="#" class="c-link">
+            <%= link_to release, class: "c-link" do %>
               <%= release.tracks.count %>
               <%= "Track".pluralize(release.tracks.count) %>
-            </a>
+            <% end %>
             <button class="btn c-btn-white c-btn-sm">LISTEN</button>
-            <a href="#" class="c-link">Share</a>
+
+            <a href="#" title="Share" tabindex="0" data-toggle="popover" data-placement="left" data-content="<%= (social_share_button_tag(release.title, desc: release.text)).gsub('\"','\'') %>" data-trigger="focus" data-html="true" onclick="return false;" class="c-link">
+              Share
+            </a>
           </div>
         </div>
         <%= image_tag release.avatar.url if release.avatar.present? %>

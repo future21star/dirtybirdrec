@@ -29,6 +29,10 @@ $(document).on('turbolinks:load', function() {
     $(this).siblings('.main-container').css({'filter': 'blur(15px)'});
   });
 
+  $('#searchModal').on('shown.bs.modal', function () {
+    $('#aa-search-input').focus();
+  });
+
   $('.modal-blured').on('hide.bs.modal', function (e) {
     console.log($('.modal-backdrop.show').length);
     if ($('.modal-backdrop.show').length == 1) {
@@ -39,7 +43,7 @@ $(document).on('turbolinks:load', function() {
 
   var client = algoliasearch("TOQ4XQOWDP", "90f548a9f6bb9108464d081db4c6a29a")
   var tracks = client.initIndex('Track');
-  var releases = client.initIndex('Release');
+  var releases = client.initIndex('Release');//.setSettings({attributesToSnippet: ['text:3','title']});
   var users = client.initIndex('User');
   var topics = client.initIndex('Topic');
   var posts = client.initIndex('Post');
@@ -52,7 +56,7 @@ $(document).on('turbolinks:load', function() {
           header: '<div class="aa-suggestions-category">Tracks</div>',
           suggestion: function(suggestion) {
             return '<a href="/tracks/'+suggestion.objectID+'"><span>' +
-              suggestion._highlightResult.title.value + '</span><span></span></a>';
+              suggestion._highlightResult.title.value + '</span></a>';
           }
         }
       },
@@ -62,8 +66,8 @@ $(document).on('turbolinks:load', function() {
         templates: {
           header: '<div class="aa-suggestions-category">Releases</div>',
           suggestion: function(suggestion) {
-            return '<a href="/releases/'+suggestion.objectID+'"><span>' +
-              suggestion._highlightResult.title.value + '</span><span>'
+            return '<a href="/releases/'+suggestion.objectID+'"><span><i>' +
+              suggestion._highlightResult.title.value + '</i> '
                 + suggestion._highlightResult.text.value + '</span></a>';
           }
         }
@@ -75,7 +79,7 @@ $(document).on('turbolinks:load', function() {
           header: '<div class="aa-suggestions-category">Users</div>',
           suggestion: function(suggestion) {
             return '<a href="/users/'+suggestion.objectID+'"><span>' +
-              suggestion._highlightResult.name.value + '</span><span></span></a>';
+              suggestion._highlightResult.name.value + '</span></a>';
           }
         }
       },
@@ -86,7 +90,7 @@ $(document).on('turbolinks:load', function() {
           header: '<div class="aa-suggestions-category">Topics</div>',
           suggestion: function(suggestion) {
             return '<a href="/topics/'+suggestion.objectID+'"><span>' +
-              suggestion._highlightResult.title.value + '</span><span>'
+              suggestion._highlightResult.title.value 
                 + suggestion._highlightResult.text.value + '</span></a>';
           }
         }
@@ -124,6 +128,8 @@ $(document).on('turbolinks:load', function() {
     $('.truncated-long').show();
     return false;
   });
+
+
 
 });
 
