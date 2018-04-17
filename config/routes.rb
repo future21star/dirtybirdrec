@@ -52,7 +52,7 @@ Rails.application.routes.draw do
   resources :comments
   resources :likes
 
-  resources :chirp, controller: 'topic_categories' do
+  resources :chirp, controller: 'topic_categories', only: [:show, :index] do
     # get 'category/:id', to: "topics#category"
     resources :topics
     # get 'pin'

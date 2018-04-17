@@ -20,9 +20,26 @@
     position: static;
   }
 
-  form {
+  form.button_to {
     display: inline-block;
     float: right;
+  }
+
+  .feed-item {
+    // margin-top: 50px;
+  }
+
+  h1 {
+    font-size: 22px;
+    font-weight: 400;
+    text-align: center;
+    margin: 15px;
+
+    & + form {
+      display: block !important;
+      float: none !important;
+      text-align: center;
+    }
   }
 }
 

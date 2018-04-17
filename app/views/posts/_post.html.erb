@@ -1,14 +1,35 @@
-<div id="topic-post-<%= post.id %>">
-  <%= image_tag post.user.avatar.thumb.url %>
-  <%= post.text %>
-  <%= post.created_at.strftime("%Y-%m-%d") %>
-  <%= render partial: 'likes/like_button', locals: { object: post,  style: 'thumbup' } %>
-  <%= link_to "Reply", 
-    post_reply_form_path( post_id: post.id, topic_id: @topic.id ), 
-    remote: true %>
-  <hr>
-</div>
+<div class="feed-item">
+  <%= link_to image_tag(post.user.avatar.thumb.url, class: "post-user-avatar"), post.user, class: "post-owner" %>
+  <p class="feed-posted">Posted <%= time_ago_in_words(post.created_at) %> ago</p>
 
-<div class="nested-messages">
-  <%= render post.replies if post.replies.any? %>
+  <div class="feed-item-body">
+    <p><b><%= post.user.name %>&nbsp;</b><%= post.text %></p>
+
+    <div class="comment-footer">
+      <span>
+        <%= render partial: 'likes/like_button', locals: { object: post,  style: 'thumbup' } %>
+      </span>
+
+      <div class="comment-footer-divider"></div>
+
+      <span>
+        <%= image_tag('icons/icon-comment.svg', title: 'Comments', class: "align-top") %>
+        Comment (<span class="comments-count"><%= post.replies.count %></span>)
+      </span>
+    </div>
+  </div>
+
+
+  <div class="<%= 'feed-replies' unless (!current_user && post.replies.empty?) %>">
+    <%= (render partial: 'posts/reply', collection: post.replies) if post.replies.any? %>
+
+    <% if current_user %>
+
+      <%= link_to "Reply", 
+          post_reply_form_path( post_id: post.id, topic_id: @topic.id ), 
+          remote: true, class: "btn c-btn-white btn-wide", id: "topic-post-#{post.id}" %>
+    <% end %>
+  </div>
+
+  <hr class="feed-divider">
 </div>

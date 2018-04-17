@@ -6,11 +6,8 @@ class PostsController < ApplicationController
     @post = Post.new(post_params)
     @post.user_id = current_user.id
     if @post.save
-      logger.warn "SAVED"
       flash[:notice] = 'Post was created'
     else
-      logger.warn "NOT SAVED"
-      logger.warn @post.errors.full_messages
       flash[:alert] = @post.errors.full_messages.join(', ')
     end
   end

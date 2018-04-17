@@ -1,20 +1,21 @@
-<%= render 'topics/breadcrumbs' %>
+<div class="topics-header">
+  <%#= image_tag(@category.image) if @category.image.present? %>
+  <%= image_tag('crowd.jpg') %>
+</div>
 
-<h3><%= @topic.title %></h3>
-<div class="card mb-3">
-  <div class="card-body">
-    <%= image_tag @topic.user.avatar.thumb.url %>
-    <%= @topic.text %>
-    <%= @topic.created_at.strftime("%Y-%m-%d") %>
-    <%= render 'likes/like_button', object: @topic %>
+<%#= render 'topics/breadcrumbs' %>
+
+<div class="topics-panel c-panel bg-white">
+  <%= link_to chirp_path(@topic.category), class: 'topics-back' do %>
+   <%= image_tag('icons/icon-chevron-left.svg') %>
+  <% end %>
+
+  <h1><%= @topic.title %></h1>
+  
+  <%= render 'follows/follow_button', target: @topic %>
+
+  <div class="feed-block">
+    <%= render @topic.posts.parents_posts %>
+    <%= render 'form', parent_id: nil %>
   </div>
 </div>
-
-<hr>
-<div class="topic-posts">
-  <% @topic.posts.parents_posts.each do |post| %>
-    <%= render post %>
-  <% end %>
-</div>
-
-<%= render 'form', parent_id: nil %>

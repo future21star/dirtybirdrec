@@ -4,16 +4,14 @@
 
   <div class="feed-item-body">
     <h3><%= activity['object'].title %></h3>
-    <p><%= activity['object'].body.truncate(200) %></p>
+    <p><%= activity['object'].body %></p>
 
     <div class="comment-footer">
       <span>
         <%= render partial: 'likes/like_button', locals: { object: activity['object'],  style: 'thumbup' } %>
       </span>
 
-      <div class="comment-footer-divider">
-        
-      </div>
+      <div class="comment-footer-divider"></div>
 
       <span>
         <%= image_tag('icons/icon-comment.svg', title: 'Comments', class: "align-top") %>

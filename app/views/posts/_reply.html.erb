@@ -1,0 +1,11 @@
+<% if reply.parent && reply.user == reply.parent.user %>
+<div class="text-right" id="topic-post-<%= reply.id %>">
+  <p class="feed-reply feed-owner"><%= reply.text %></p>
+  <%= image_tag(reply.user.avatar.thumb, class: "post-user-avatar") %>
+</div>
+<% else %>
+  <div class="nested-messages" id="topic-post-<%= reply.id %>">
+    <%= link_to image_tag(reply.user.avatar.thumb, class: "post-user-avatar"), reply.user %>
+    <p class="feed-reply"><%= reply.text %></p>
+  </div>
+<% end %>

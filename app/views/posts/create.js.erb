@@ -1,8 +1,9 @@
-if("<%= @post.parent_id %>".length > 0) {
-  $('#topic-post-' + "<%= @post.parent_id %>")
-    .append("<div class='nested-messages'><%= escape_javascript(render(@post)) %></div>");
-  $('#new_post-'+ "<%= @post.post_hash %>").remove();
-} else {
-  $('.topic-posts').append("<%= escape_javascript(render(@post)) %>");
+<% if @post.parent_id.present? %>
+  $('#post_text-<%= @post.parent_id %>').val('').parents('.feed-form')
+      .before("<%= escape_javascript(render partial: 'posts/reply', locals: {reply: @post} ) %>");
+
+  $('#post_text-<%= @post.parent_id %>').parents('.feed-item').find('.comments-count').text( parseInt( $('#post_text-<%= @post.parent_id %>').parents('.feed-item').find('.comments-count').text() ) + 1 );
+<% else %>
+  $('.feed-block .feed-form').before("<%= escape_javascript(render(@post)) %>");
   $('#post_text').val('').focus();
-}
+<% end %>
