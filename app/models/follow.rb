@@ -11,7 +11,9 @@ class Follow < ApplicationRecord
   as_activity
 
   def activity_notify
-    [StreamRails.feed_manager.get_notification_feed(self.followable_id)]
+    if self.followable_type == 'User'
+      [StreamRails.feed_manager.get_notification_feed(self.followable_id)]
+    end
   end
 
   def activity_object

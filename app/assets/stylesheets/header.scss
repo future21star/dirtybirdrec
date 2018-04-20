@@ -66,6 +66,57 @@ header {
   } 
 }
 
+.dropdown-notify-menu {
+  & > a img {
+    vertical-align: top;
+    margin-top: 2px;
+  }
+
+  .dropdown-menu { 
+    background-color: rgba(255,255,255,0.98);
+    max-height: 500px;
+    overflow: scroll;
+    padding: 20px 15px 10px;
+  }
+  
+  .nav-notify {
+    white-space: nowrap;
+    font-size: 12px;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+
+    a {
+      color: #222;
+    }
+  }
+
+  .nav-notify-count {
+    position: absolute;
+    z-index: 3;
+    background-color: #ff7272;
+    border-radius: 15px;
+    top: -10px;
+    left: -15px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;  
+  }
+
+  .notify-seen {
+    font-weight: 700;
+  }
+
+  @media not all and (min-resolution:.001dpcm)
+  { @supports (-webkit-appearance:none) {
+    .dropdown-menu { 
+      backdrop-filter: blur(4px); 
+      background-color: rgba(255,255,255,0.8);
+    } 
+  }}
+}
+
 .dropdown-login {
   padding-top: 5px;
   padding-right: 6px;

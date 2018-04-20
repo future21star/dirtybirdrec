@@ -1,7 +1,7 @@
-    <%= activity['actor'].name %>
-    <small><em>likes <%= activity['object'].class.to_s.downcase %></em></small>
-    <%= activity['object'].try(:title).try(:truncate, 25) %>
-    <% if activity['object'].class == Comment && activity['object'].commentable.class == User %>
-      <%= "on #{activity['object'].commentable.roles.first.name} #{activity['object'].commentable.try(:name)}"  %>
-    <% end %>
+<%= activity['actor'].name %>
+<small><em>likes <%= activity['object'].class.to_s.downcase %></em></small>
+<%= activity['object'].try(:title).try(:truncate, 25) %>
+<% if activity['object'].class == Comment && activity['object'].commentable.class == User %>
+  <%= "on #{activity['object'].commentable.roles.first.name} #{activity['object'].commentable.try(:name)}"  %>
+<% end %>
 <hr>

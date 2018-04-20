@@ -10,7 +10,13 @@ class Like < ApplicationRecord
   as_activity
 
   def activity_notify
-    [StreamRails.feed_manager.get_notification_feed(self.likeable.id)]
+    if self.likeable.try(:users)
+      self.likeable.users.map do |user|
+        StreamRails.feed_manager.get_notification_feed(user.id)
+      end
+    else
+      [StreamRails.feed_manager.get_notification_feed(self.likeable.user.id)]
+    end
   end
 
   def activity_object

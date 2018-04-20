@@ -1,0 +1,15 @@
+<% if activity['actor_count'] == 1 %>
+  <%= activity['activities'][0]['actor'].name %>
+  followed you
+<% elsif activity['actor_count'] == 2 %>
+  <%= activity['activities'][0]['actor'].name %>
+  and
+  <%= activity['activities'][1]['actor'].name %>
+  followed you
+<% else %>
+  <%= activity['activities'][0]['actor'].name %>, 
+  <%= activity['activities'][1]['actor'].name %> 
+  and 
+  <%= activity['actor_count'] - 2 %> 
+  more followed you 
+<% end %>

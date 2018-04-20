@@ -1,4 +1,4 @@
-#artist-feed {
+#user-feed {
   border-top: 100px solid transparent;
   margin-top: -100px;
   background-clip: padding-box;
@@ -19,7 +19,7 @@
 .feed-tabs {
   list-style-type: none;
   position: absolute;
-  top: 20px;
+  top: 23px;
   left: 50%;
   transform: translateX(-50%);
   li {

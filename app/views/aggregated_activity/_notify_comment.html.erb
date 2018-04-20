@@ -1,0 +1,20 @@
+<% if activity['actor_count'] == 1 %>
+  <%= activity['activities'][0]['actor'].name %>
+  added
+  <%= pluralize(activity['activity_count'], 'comment') %>
+<% elsif activity['actor_count'] == 2 %>
+  <%= activity['activities'][0]['actor'].name %>
+  and
+  <%= activity['activities'][1]['actor'].name %>
+  added
+  <%= activity['activity_count'] %>
+  comments
+<% else %>
+  <%= activity['activities'][0]['actor'].name %>, 
+  <%= activity['activities'][1]['actor'].name %> 
+  and 
+  <%= activity['actor_count'] - 2 %> 
+  more added 
+  <%= activity['activity_count'] %> 
+  comments
+<% end %>

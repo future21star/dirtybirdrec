@@ -16,11 +16,6 @@
     <%= image_tag('icons/icon-comment.svg', title: 'Comments', class: "align-top") %>
     <%= activity['object'].try(:comments_count) %>
   </span>
-
-  <span>
-    <%= image_tag('icons/icon-share-comment.svg', title: 'Share', class: "align-top") %>
-    <%= activity['object'].try(:shares_count) %>
-  </span>
 </div>
 
 <hr class="feed-divider">

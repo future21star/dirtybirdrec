@@ -48,6 +48,9 @@ Rails.application.routes.draw do
   resources :posts do
     get 'reply_form'
   end
+
+  get "is_seen", to: "feeds#is_seen"
+
   resources :follows
   resources :comments
   resources :likes

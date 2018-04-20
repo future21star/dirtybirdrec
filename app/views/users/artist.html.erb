@@ -1,8 +1,8 @@
 <div class="user-present">
-  <% if @artist.artist_info && @artist.artist_info.avatar.present? %>
-    <%= image_tag  @artist.artist_info.avatar.url, class: "userpage-avatar" %>
-  <% elsif @artist.avatar.present? %>
-    <%= image_tag @artist.avatar.url, class: "userpage-avatar" %>
+  <% if @user.artist_info && @user.artist_info.avatar.present? %>
+    <%= image_tag  @user.artist_info.avatar.url, class: "userpage-avatar" %>
+  <% elsif @user.avatar.present? %>
+    <%= image_tag @user.avatar.url, class: "userpage-avatar" %>
   <% end %>
   <%= image_tag 'icons/point-green-big.svg', class: "artist-online"%>
 
@@ -10,40 +10,40 @@
     <%= image_tag 'dj.jpg'%>
   </div>
 
-  <%= render 'follows/follow_button', target: @artist %>
+  <%= render 'follows/follow_button', target: @user %>
 
   <div class="artist-name">
-    <h1><%= @artist.name.upcase %></h1>
+    <h1><%= @user.name.upcase %></h1>
     <span>
-      <% if @artist.artist_info %>
-        <%= "#{@artist.artist_info.genre} / " if @artist.artist_info.genre.present? %>
-        <b><%= "#{@artist.artist_info.followers_count} #{'Follower'.pluralize(@artist.artist_info.followers_count)}" %></b>
+      <% if @user.artist_info %>
+        <%= "#{@user.artist_info.genre} / " if @user.artist_info.genre.present? %>
+        <b><%= "#{@user.artist_info.followers_count} #{'Follower'.pluralize(@user.artist_info.followers_count)}" %></b>
       <% end %>
     </span>
   </div>
 
-  <% if @artist.artist_info.present? %>
+  <% if @user.artist_info.present? %>
     <div class="artist-social">
       <%= link_to image_tag('icons/artist-dirtybird.svg'), 
-            @artist.artist_info.instagram if @artist.artist_info.instagram.present? %>
+            @user.artist_info.instagram if @user.artist_info.instagram.present? %>
       <%= link_to image_tag('icons/artist-facebook.svg'), 
-            @artist.artist_info.facebook if @artist.artist_info.facebook.present? %>
+            @user.artist_info.facebook if @user.artist_info.facebook.present? %>
       <%= link_to image_tag('icons/artist-twitter.svg'), 
-            @artist.artist_info.twitter if @artist.artist_info.twitter.present? %>
+            @user.artist_info.twitter if @user.artist_info.twitter.present? %>
     </div>
   <% end %>
 
   <div class="user-since">
     <%= image_tag 'icons/egg.svg' %>
     DIRTYBIRD ARTIST<br>
-    <span>Since <%= @artist.created_at.strftime("%Y") %></span>
+    <span>Since <%= @user.created_at.strftime("%Y") %></span>
   </div>
 
   <div class="artist-bio truncated-description">
-    <% if @artist.artist_info.present? %>
-      <article><%= @artist.artist_info.bio_short %></article>
+    <% if @user.artist_info.present? %>
+      <article><%= @user.artist_info.bio_short %></article>
       <a href="#" class="truncated-long">Read more</a>
-      <article><%= @artist.artist_info.bio_long %></article>
+      <article><%= @user.artist_info.bio_long %></article>
       <a href="#" class="truncated-short"><br><br>Read less</a>
     <% end %>
   </div>
@@ -83,7 +83,7 @@
 
 <div class="row mb-2">
   <!-- ARTIST FEED -->
-  <div class="col-md-8" id="artist-feed">
+  <div class="col-md-8" id="user-feed">
     <div class="c-panel bg-white">
       <div class="c-flag mb-4">ARTIST FEED</div>
         <button class="btn c-btn-blue mt-1" type="button" data-toggle="modal" data-target="#whatsinyourmindModal">
@@ -92,23 +92,23 @@
       <div class="feed-block">
         <ul class="feed-tabs">
           <li class="nav-item">
-            <%= link_to "All", artist_path(@artist, anchor: "artist-feed"),
-                class: "#{'active' if current_page?(artist_path(@artist))}" %>
+            <%= link_to "All", artist_path(@user, anchor: "user-feed"),
+                class: "#{'active' if current_page?(artist_path(@user))}" %>
           </li>
           <li class="nav-item">
-            <%= link_to "Announcements", announcements_feed_path(@artist, anchor: "artist-feed"), 
+            <%= link_to "Announcements", announcements_feed_path(@user, anchor: "user-feed"), 
                 class: "#{'active' if current_page?(announcements_feed_path)}" %>
           </li>
           <li class="nav-item">
-            <%= link_to "Interviews", interviews_feed_path(@artist, anchor: "artist-feed"), 
+            <%= link_to "Interviews", interviews_feed_path(@user, anchor: "user-feed"), 
                 class: "#{'active' if current_page?(interviews_feed_path)}" %>
           </li>
           <li class="nav-item">
-            <%= link_to "Videos", videos_feed_path(@artist, anchor: "artist-feed"), 
+            <%= link_to "Videos", videos_feed_path(@user, anchor: "user-feed"), 
                 class: "#{'active' if current_page?(videos_feed_path)}" %>
           </li>
           <li class="nav-item">
-            <%= link_to "Others", others_feed_path(@artist, anchor: "artist-feed"),
+            <%= link_to "Others", others_feed_path(@user, anchor: "user-feed"),
                 class: "#{'active' if current_page?(others_feed_path)}" %>
           </li>
         </ul>
@@ -119,14 +119,14 @@
 
   <div class="col-md-4">
     <!-- LAST VIDEO -->
-    <% if @artist_video.present? %>
+    <% if @user_video.present? %>
       <div class="c-panel bg-white mb-4">
         <iframe id="ytplayer" type="text/html" width="100%" height="100%"
-          src="https://www.youtube.com/embed/<%= @artist_video.parse_youtube %>"
+          src="https://www.youtube.com/embed/<%= @user_video.parse_youtube %>"
           frameborder="0"></iframe>
         <div class="panel-sign">
-          <h4><%= @artist_video.title.upcase %></h4>
-          <p>Published on <%= @artist_video.created_at.strftime("%B, %-d, %Y") %></p>
+          <h4><%= @user_video.title.upcase %></h4>
+          <p>Published on <%= @user_video.created_at.strftime("%B, %-d, %Y") %></p>
         </div>
       </div>
     <% end %>
@@ -177,7 +177,7 @@
 
             <%= form_for current_user.comments.build, html: { class: "feed-form" } do |f| %>
               <%= f.hidden_field :commentable_type, value: "User" %>
-              <%= f.hidden_field :commentable_id, value: @artist.id %>
+              <%= f.hidden_field :commentable_id, value: @user.id %>
               <%= f.label :title, class: "sr-only" %>
               <%= f.text_field :title, placeholder: "Type the title here" %>
               <%= f.label :body, class: "sr-only" %>

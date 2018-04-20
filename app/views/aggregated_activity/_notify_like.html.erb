@@ -1,0 +1,21 @@
+<% if activity['actor_count'] == 1 %>
+  <%= activity['activities'][0]['actor'].name %>
+  liked your
+  <%= activity['activities'].map {|a| a['object'].class.to_s.downcase}.uniq.join(', ') %>
+<% elsif activity['actor_count'] == 2 %>
+  <%= activity['activities'][0]['actor'].name %>
+  and
+  <% logger.warn activity['activities'].inspect %>
+  <%= activity['activities'][1]['actor'].name %>
+  liked
+  <%= activity['activity_count'] %>
+  things
+<% else %>
+  <%= activity['activities'][0]['actor'].name %>, 
+  <%= activity['activities'][1]['actor'].name %> 
+  and 
+  <%= activity['actor_count'] - 2 %> 
+  more liked 
+  <%= activity['activity_count'] %> 
+  things
+<% end %>

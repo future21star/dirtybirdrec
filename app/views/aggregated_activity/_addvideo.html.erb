@@ -1,1 +1,22 @@
-ADDVIDEO
+<div class="mb-2">
+  <% if activity['actor_count'] == 1 %>
+    <%= link_to activity['activities'][0]['actor'].name, activity['activities'][0]['actor'] %>
+    added
+    <%= pluralize(activity['activity_count'], 'video') %>
+  <% elsif activity['actor_count'] == 2 %>
+    <%= link_to activity['activities'][0]['actor'].name, activity['activities'][0]['actor'] %>
+    and
+    <%= link_to activity['activities'][1]['actor'].name, activity['activities'][1]['actor'] %>
+    added
+    <%= activity['activity_count'] %>
+    videos
+  <% else %>
+    <%= link_to activity['activities'][0]['actor'].name, activity['activities'][0]['actor'] %>,
+    <%= link_to activity['activities'][1]['actor'].name, activity['activities'][1]['actor'] %>
+    and 
+    <%= activity['actor_count'] - 2 %> 
+    more added 
+    <%= activity['activity_count'] %> 
+    videos
+  <% end %>
+</div>

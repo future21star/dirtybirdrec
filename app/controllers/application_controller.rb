@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :set_notifications
 
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_path, :alert => exception.message
@@ -35,6 +36,29 @@ class ApplicationController < ActionController::Base
 
     def record_not_uniq
       redirect_back(fallback_location: root_path)
+    end
+
+    def set_notifications
+      if current_user
+        feed = StreamRails.feed_manager.get_notification_feed(current_user.id)
+        results = feed.get()['results']
+        results = results.each { |r| r['activities'].delete_if { |a| a['actor'] == "User:#{current_user.id}" } }
+        results = results.delete_if { |r| r['activities'].count == 0 }
+        results.each do |r| 
+          r['activity_count'] = r['activities'].count
+          r['actor_count'] = r['activities'].pluck('actor').uniq.count
+        end
+
+        unseen = results.select { |r| r['is_seen'] == false }
+        @unseen_count = unseen.count
+        @enricher = StreamRails::Enrich.new
+
+        if @unseen_count <= 8
+          @notify_activities = @enricher.enrich_aggregated_activities(results[0..7])
+        else
+          @notify_activities = @enricher.enrich_aggregated_activities(unseen)
+        end
+      end
     end
 
 end

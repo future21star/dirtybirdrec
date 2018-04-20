@@ -45,11 +45,6 @@ class UsersController < ApplicationController
     end
 
     redirect_to current_user
-
-    # feed = StreamRails.feed_manager.get_news_feeds(current_user.id)[:aggregated]
-    # results = feed.get()['results']
-    # @enricher = StreamRails::Enrich.new
-    # @activities = @enricher.enrich_aggregated_activities(results)
   end
 
   def update
@@ -95,13 +90,13 @@ class UsersController < ApplicationController
   end
 
   def artist
-    @artist = User.find(params[:id])
+    @user = User.find(params[:id])
 
-    unless @artist.has_role? :artist
-      redirect_to users_path(@artist) and return
+    unless @user.has_role? :artist
+      redirect_to user_path(@user) and return
     end
 
-    feed = StreamRails.feed_manager.get_user_feed(@artist.id)
+    feed = StreamRails.feed_manager.get_user_feed(@user.id)
     results = feed.get()['results']
     @enricher = StreamRails::Enrich.new
     @activities = @enricher.enrich_activities(results)
@@ -110,51 +105,65 @@ class UsersController < ApplicationController
   end
 
   def announcements_feed
-    @artist = User.find(params[:id])
+    @user = User.find(params[:id])
     artist_vars
 
-    get_feed_from @artist.videos
+    get_feed_from @user.videos
 
     render :artist
   end
 
   def interviews_feed
-    @artist = User.find(params[:id])
+    @user = User.find(params[:id])
     artist_vars
 
-    get_feed_from @artist.videos
+    get_feed_from @user.videos
 
     render :artist
   end
 
   def videos_feed
-    @artist = User.find(params[:id])
+    @user = User.find(params[:id])
     artist_vars
 
-    get_feed_from @artist.videos
+    get_feed_from @user.videos
 
     render :artist
   end
 
   def others_feed
-    @artist = User.find(params[:id])
+    @user = User.find(params[:id])
     artist_vars
 
-    get_feed_from @artist.videos
+    feed = StreamRails.feed_manager.get_notification_feed(current_user.id)
+    results = feed.get()['results']
+    unseen = results.select { |r| r['is_seen'] == false }
+    @unseen_count = unseen.count
+    @enricher = StreamRails::Enrich.new
 
-    render :artist
+    if @unseen_count <= 8
+      @activities = @enricher.enrich_aggregated_activities(results[0..7])
+    else
+      @activities = @enricher.enrich_aggregated_activities(unseen[0..10])
+    end
+
+    if @user.has_role?(:artist)
+      render :artist 
+    else
+      render :show
+    end
   end
 
   def artist_vars
-    @followers = @artist.followers
-    @releases = @artist.releases.released.limit(30)
-    @artist_video = @artist.videos.last
+    @followers = @user.followers
+    @releases = @user.releases.released.limit(30)
+    @artist_video = @user.videos.last
   end
 
   def get_feed_from objects
     results = objects.map do |object|
       {
-        'actor' => @artist,
+        'actor' => @user,
         'object' => object,
         'verb' =>"Addvideo",
         'foreign_id' => "Addvideo:#{object.id}"

@@ -1,6 +1,6 @@
 class Badge < ApplicationRecord
   has_many :badge_levels, dependent: :destroy
-  has_many :users, through: :badge_levels 
+  has_many :users, through: :badge_levels
 
   has_many :badge_dependencies, dependent: :destroy
   has_many :depended_badges, through: :badge_dependencies

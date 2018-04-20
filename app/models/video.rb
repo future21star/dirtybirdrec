@@ -8,7 +8,7 @@ class Video < ApplicationRecord
   as_activity
 
   def activity_notify
-    [StreamRails.feed_manager.get_notification_feed(self.user.id)]
+    # [StreamRails.feed_manager.get_notification_feed(self.user.id)]
   end
 
   def activity_verb

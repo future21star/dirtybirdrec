@@ -1,16 +1,18 @@
-    <%= activity['actor'].name %> 
-    <small><em>is watching</em></small>
-    <% if activity['object'].class.to_s == "User" %>
-      <% if activity['object'].has_role?(:artist) %>
-        artist
-      <% elsif activity['object'].has_role?(:admin) %>
-        admin
-      <% elsif activity['object'].has_role?(:fan) %>
-        user
-      <% end %>
-      <%= activity['object'].name %>
-    <% elsif activity['object'].class.to_s == "Track" %>
-      track <%= activity['object'].title %>
+<%= activity['actor'].name %> 
+<small>
+  <em>is watching</em></small>
+  <% if activity['object'].class.to_s == "User" %>
+    <% if activity['object'].has_role?(:artist) %>
+      artist
+    <% elsif activity['object'].has_role?(:admin) %>
+      admin
+    <% elsif activity['object'].has_role?(:fan) %>
+      user
     <% end %>
-    <small><em>now</em></small>
+    <%= activity['object'].name %>
+  <% elsif activity['object'].class.to_s == "Track" %>
+    track <%= activity['object'].title %>
+  <% end %>
+  <small><em>now</em>
+</small>
 <hr>

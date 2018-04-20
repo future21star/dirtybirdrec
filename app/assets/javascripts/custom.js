@@ -129,7 +129,14 @@ $(document).on('turbolinks:load', function() {
     return false;
   });
 
+  $('.dropdown-notify-menu').on("show.bs.dropdown", function(event){
+    $.get( "/is_seen", function() {});
+    $('.nav-notify-count').hide();
+  });
 
+  $('.dropdown-notify-menu').on("hide.bs.dropdown", function(event){
+    $('.dropdown-notify-menu .notify-seen').removeClass('notify-seen');
+  });
 
 });
 
