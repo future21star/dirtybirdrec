@@ -24,7 +24,7 @@
 .release-exclusive {
   font-size: 12px;
   line-height: 14px;
-  margin: 15px 10px 0 0;
+  margin: 10px 10px 0 0;
 
   font-weight: bold;
   color: white;
@@ -42,20 +42,56 @@
 }
 
 .release-header {
-  text-align: right;
-  padding-right: 15px;
+  padding: 10px 15px 10px 310px;
 
-  & > a {
+  .release-likes {
     display: inline-block;
-    vertical-align: bottom;
-    margin-bottom: 8px;
-    margin-left: 8px;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    margin-left: 10px;
+
+    .likes-count {
+      font-size: 18px;
+    }
+  }
+
+  .release-rate {
+    display: inline-block;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    margin-left: 10px;
+
+    .raty-cancel {
+      display: none;
+    }
+
+    .star {
+      display: inline-block;
+      vertical-align: bottom;
+      margin-bottom: 2px;
+      margin-left: 5px;
+    }
+  }
+
+  .like-button {
+    display: inline-block;
+    margin: 0 6px;
+    vertical-align: unset;
   }
 }
 
 .release-icon {
-  width: 20px;
-  height: 20px;
+  float: right;
+  display: inline-block;
+  margin-top: 10px;
+  margin-left: 8px;
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
 }
 
 .release-avatar {
@@ -145,5 +181,29 @@
     bottom: 15px;
     right: 15px;
     z-index: 2;
+  }
+}
+
+.follow-button-black {
+  @include btn(#323333,white,#434444);
+  position: absolute;
+  top: 19px;
+  right: 150px;
+}
+
+.users-block {
+  .follow-form {
+    display: inline-block;
+    margin-left: -10px;
+    
+    input[type=submit] {
+      width: 70px;
+    }
+
+    .unfollow-state {
+      opacity: 1;
+      color: #222;
+      background-color: white;
+    }
   }
 }

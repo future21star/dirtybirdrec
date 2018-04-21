@@ -1,16 +1,24 @@
 var button = $('<%= "#like-#{like.likeable_type}-#{like.likeable_id}" %>');
 
-<% if style == 'thumbup'%>
+<% if style == 'thumbup' %>
   button.siblings('.likes-count').replaceWith(`
         <%= escape_javascript(
           render 'likes/likes_count', object: like.likeable 
         ) %>
     `);
-
-  button.siblings('.likes-count').find('.likes-count-btn').popover({
-    trigger: 'focus'
-  });
 <% end %>
+
+<% if style == 'release' %>
+  button.siblings('.likes-count').replaceWith(`
+        <%= escape_javascript(
+          render 'likes/likes_count_slim', object: like.likeable 
+        ) %>
+    `);
+<% end %>
+
+  // button.siblings('.likes-count').find('.likes-count-btn').popover({
+  //   trigger: 'focus'
+  // });
 
 <% if action_name == 'create' %>
   button.replaceWith(`

@@ -7,6 +7,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, omniauth_providers: [:facebook, :google_oauth2]
   rolify
+  ratyrate_rater
 
   before_create :set_default_avatar, only: :create
   after_create :set_fan_role, only: :create

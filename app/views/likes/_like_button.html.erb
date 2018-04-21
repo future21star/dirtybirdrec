@@ -14,8 +14,13 @@
   <% end %>
 <% else %>
   <%= image_tag('icons/like-thumbup.svg', class: "align-top") if style == 'thumbup' %>
+  <%= image_tag('icons/like-release.svg', class: "like-button", title: "As a free member you don’t have that privilage, join now to participate") if style == 'release' %>
 <% end %>
 
 <% if style == 'thumbup' %>
   <%= render 'likes/likes_count', object: object %>
+<% end %>
+
+<% if style == 'release' %>
+  <%= render 'likes/likes_count_slim', object: object %>
 <% end %>

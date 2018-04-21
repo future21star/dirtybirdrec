@@ -33,6 +33,10 @@ header {
   display: flex;
   align-items: center;
 
+  .nav-item {
+    margin: 0;
+  }
+
   span {
     margin: 0 20px;
     display: inline-block;
@@ -51,7 +55,6 @@ header {
 
 .dropdown-usermenu {
   padding-top: 5px;
-  padding-right: 6px;
 
   .dropdown-menu {
     border: none;

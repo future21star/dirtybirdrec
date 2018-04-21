@@ -1,13 +1,26 @@
 <% label = target.try(:roles) ? target.roles.first.name.to_s : target.class.to_s %>
+<% opt = opt.present? ? opt : nil %>
+<% if opt && opt[:classes] %>
+  <% classes = opt[:classes] %>
+<% else %>
+  <% classes = 'follow-button' %>
+<% end %>
+
+<% if opt && opt[:text] %>
+  <% text = opt[:text] %>
+<% else %>
+  <% text = ['follow','unfollow'] %>
+<% end %>
+
 <% if current_user.nil? %>
   &nbsp;
 <% elsif current_user.followed(target) %>
-  <%= button_to "Unfollow", follow_path(current_user.followed(target)),
-      method: :delete, class: "follow-button unfollow-state" %>
+  <%= button_to text[1], follow_path(current_user.followed(target)),
+      method: :delete, class: "#{classes} unfollow-state", form_class: "follow-form" %>
 <% elsif target == current_user %>
   
 <% else %>
-  <%= button_to "Follow", follows_path, 
+  <%= button_to text[0], follows_path, 
       params: {followable_id: target.id, followable_type: target.class.to_s},
-      method: :post, class: "follow-button" %>
+      method: :post, class: "#{classes}", form_class: "follow-form" %>
 <% end %>

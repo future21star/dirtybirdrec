@@ -6,6 +6,8 @@ class Release < ApplicationRecord
 
   mount_uploader :avatar, ReleaseUploader
 
+  ratyrate_rateable "main"
+
   include AlgoliaSearch
 
   algoliasearch sanitize: true do

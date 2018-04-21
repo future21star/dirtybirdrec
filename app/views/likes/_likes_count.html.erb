@@ -1,4 +1,5 @@
 <% likes_count = object.try(:likes_count) ? object.likes_count : object.likes.count %>
+
 <div class="likes-count">
 <!--   <a href="#" tabindex="0" data-toggle="no-popover" data-placement="right" data-content='
     <%# object.likes.order(created_at: :desc).limit(40).each do |like| %>

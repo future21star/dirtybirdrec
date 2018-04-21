@@ -10,13 +10,25 @@
         <div>ONLY ON<br>
         BIRDFEED</div>
       </div>
-      <%= link_to download_release_path(@release) do %>
-        <%= image_tag('icons/icon-download.svg', class: "release-icon", title: "Download") %>
-      <% end %>
 
-      <a href="#" title="Share" tabindex="0" data-toggle="popover" data-placement="left" data-content="<%= (social_share_button_tag(@release.title, desc: @release.text)).gsub('\"','\'') %>" data-trigger="focus" data-html="true" onclick="return false;">
-        <%= image_tag('icons/icon-share.svg', class: "release-icon", title: "Share") %>
+      <div class="release-likes">
+        LIKES
+        <%= render partial: 'likes/like_button', locals: { object: @release,  style: 'release' } %>
+      </div>
+
+      <div class="release-rate">
+        RATE
+        <%= rating_for @release, 'main', star: 3, cancel: true, 
+              enable_half: true, half_show: true, disable_after_rate: false %>
+      </div>
+
+      <a href="#" title="Share" tabindex="0" data-toggle="popover" data-placement="left" data-content="<%= (social_share_button_tag(@release.title, desc: @release.text)).gsub('\"','\'') %>" data-trigger="focus" data-html="true" onclick="return false;" class="release-icon">
+        <%= image_tag('icons/icon-share.svg', title: "Share") %>
       </a>
+
+      <%= link_to download_release_path(@release), class: "release-icon"  do %>
+        <%= image_tag('icons/icon-download.svg', title: "Download full release") %>
+      <% end %>
     </div>
   </div>
 </div>
@@ -41,16 +53,21 @@
         <% end %>
       </div>
 
-      <%= render 'follows/follow_button', target: @release %>
       
-      <%= link_to "Q&A", chirp_path, class: "btn c-btn-transparent btn-wide" %>
+      <%#= link_to "Q&A", chirp_path, class: "btn c-btn-transparent btn-wide" %>
     </div>
 
     <div class="c-panel bg-white">
-      <div class="c-flag mb-4">COMMENT FEED</div>
-        <button class="btn c-btn-blue mt-1" type="button" data-toggle="modal" data-target="#addcommentModal">
-          ADD YOUR COMMENT
-        </button>
+      <div class="c-flag mb-4"><b>RELEASE</b> FEED</div>
+      <button class="btn c-btn-blue mt-1" type="button" data-toggle="modal" data-target="#addcommentModal">
+        ADD YOUR COMMENT
+      </button>
+      <%= render partial: 'follows/follow_button', 
+          locals: { target: @release, 
+                    opt: { 
+                        classes: "btn btn-wide follow-button-black",
+                        text: ['follow this feed', 'unfollow this feed'] } } %>
+
       <div class="feed-block light-scroll">
         <%= render 'feeds/user' %>
       </div>
@@ -58,11 +75,45 @@
   </div>
 
   <div class="col-md-4">
+    <!-- ARTISTS -->
+    <div class="c-panel bg-dark mb-4">
+      <div class="c-flag c-flag-inner mb-2">ARTISTS</div>
+
+      <ol class="users-block list-unstyled mt-1">
+        <% @release.users.each do |artist| %>
+          <li>
+            <%= link_to artist_path(artist), class: "d-inline-block align-middle" do %>
+              <%= image_tag artist.avatar.thumb, class: "user-avatar" %>
+            <% end %>
+
+            <div class="user-subtitle">
+              <h5>
+                <%= link_to artist.name, artist_path(artist) %>
+                <%= image_tag 'icons/point-green.svg', class: "point-green" if artist %>
+              </h5>
+              <div>
+                <%= link_to "All tracks", artist %>
+                /
+                <b><%= link_to "Artist Q & A", chirp_index_path %></b>
+              </div>
+            </div>
+
+            <%= render partial: 'follows/follow_button', 
+                locals: { target: artist, 
+                          opt: { 
+                              classes: "btn c-btn-blue",
+                              text: ['follow', 'following'] } } %>
+          </li>
+        <% end %>
+      </ol>
+    </div>
+
+    <!-- TRACKS -->
     <% if @release.tracks.any? %>
       <div class="c-panel bg-white">
-        <div class="c-flag c-flag-inner mb-4">TRACKS</div>
+        <div class="c-flag c-flag-inner mb-2"><b>TRACKS</b> ON THIS RELEASE</div>
 
-        <ol class="light-scroll list-unstyled mt-1">
+        <ol class="list-unstyled mt-1">
           <% @release.tracks.each do |track| %>
             <li class="track-item">
               <h3>

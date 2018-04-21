@@ -1,6 +1,12 @@
-<% image = style == 'thumbup' ? 'icons/like-thumbup.svg' : 'icons/like.svg' %>
+<% 
+  image = case style
+  when 'thumbup' then 'icons/like-thumbup.svg' 
+  when 'release' then 'icons/like-release.svg' 
+  else 'icons/like.svg' end
+%>
+
 <%= link_to image_tag(image, class: "align-top"), likes_path(likeable_type: like[:likeable_type], 
     likeable_id: like[:likeable_id], style: style), 
     id: "like-#{like[:likeable_type]}-#{like[:likeable_id]}",
-    method: :post, remote: true
+    method: :post, remote: true, class: "like-button"
 %>

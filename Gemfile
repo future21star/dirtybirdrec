@@ -31,7 +31,7 @@ gem 'mini_magick'
 gem 'bootstrap', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'will_paginate'
-gem 'will_paginate-bootstrap'
+gem 'will_paginate-bootstrap4'
 gem 'fog-aws'
 gem "gioco"
 gem 'loaf'
@@ -41,6 +41,7 @@ gem 'activeadmin_addons'
 gem "font-awesome-rails"
 gem 'active_admin_flat_skin'
 gem 'social-share-button'
+gem 'ratyrate'
 
 
 group :development, :test do

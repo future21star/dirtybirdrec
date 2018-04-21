@@ -1,0 +1,5 @@
+<% likes_count = object.try(:likes_count) ? object.likes_count : object.likes.count %>
+
+<div class="likes-count">
+  <span class="" title="Likes"><%= likes_count %></span>
+</div>

@@ -9,6 +9,8 @@ class UsersController < ApplicationController
                         .joins('LEFT OUTER JOIN badge_points on (users.id = badge_points.user_id)')
                         .group('users.id')
                         .order('users.created_at ASC, SUM(badge_points.value) DESC')
+                        .paginate(page: params[:page], per_page: 9)
+    @badge_kinds = BadgeKind.all
   end
 
   def show

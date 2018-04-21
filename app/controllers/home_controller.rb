@@ -18,7 +18,7 @@ class HomeController < ApplicationController
 
     @badge_kinds = BadgeKind.all
 
-    @leader_points = {}
+    # @leader_points = {}
 
     # @badge_points = BadgePoint.all.freeze
 
