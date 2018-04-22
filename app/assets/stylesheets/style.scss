@@ -224,6 +224,17 @@ main > div.container {
   margin: 6px 0 15px;
 }
 
+.c-flag-links {
+  display: inline-block;
+  margin-left: 20px;
+  font-size: 14px;
+
+  & > * {
+    color: #030303;
+    margin: 0 15px;
+  }
+}
+
 .c-panel {
   border-radius: 7px;
   padding: 15px;
@@ -276,45 +287,76 @@ main > div.container {
   border-radius: 23px;
 }
 
-.progress {
-  padding: 3px;
-  overflow: hidden;
-  height: 17px;
-  background: repeating-linear-gradient(
-    to right,
-    #f0f0f0,
-    #f0f0f0 48px,
-    rgba(0,0,0,0) 48px,
-    rgba(0,0,0,0) 49px
-  );
-}
-
 .max-height-none {
   max-height: none !important;
 }
 
-@mixin progress-bar($color) {
-  border-radius: 4px;
-  background: repeating-linear-gradient(
-    to right,
-    $color,
-    $color 48px,
-    transparent 48px,
-    transparent 49px
-  );
-  background-position: -3px 0;
+.rating-chart {
+  .rating-kinds {
+    float: left; 
+    line-height: 20px; 
+    margin-right: 10px;
+  }
+
+  .rating-kind-points {
+    float: right; 
+    line-height: 20px; 
+    width: 30px;
+    font-weight: 700;
+  }
+
+  .progress-wrapper {
+    display: inline-block; 
+    vertical-align: top; 
+    margin: 3px 10px 0 0;
+  }
 }
 
-.progress-bar-blue {
-  @include progress-bar(#3ed4e0);
+@mixin progress($color) {
+  padding: 3px;
+  overflow: hidden;
+  height: 17px;
+  border-radius: 5px;
+  position: relative;
+  background-color: #f0f0f0;
+
+  .c-progress-bar {
+    height: 100%;
+      border-radius: 4px;
+      background-position: -3px 0;
+      background-color: $color;
+      overflow: hidden;
+
+    &:after {
+      background: repeating-linear-gradient(
+        to right,
+        transparent,
+        transparent 10%,
+        white 10%,
+        white calc(10% + 1px)
+      );
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0px;
+      left: 0px;
+      padding: 4px;
+      content:'';
+      z-index: 1;
+    }
+  }
 }
 
-.progress-bar-yellow {
-  @include progress-bar(#ffce00);
+.progress-blue {
+  @include progress(#3ed4e0);
 }
 
-.progress-bar-red {
-  @include progress-bar(#ff7272);
+.progress-yellow {
+  @include progress(#ffce00);
+}
+
+.progress-red {
+  @include progress(#ff7272);
 }
 
 .truncated-description {

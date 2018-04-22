@@ -1,7 +1,17 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!, except: 
       [:index, :show, :parse_youtube, :artist, :announcements_feed,
-        :interviews_feed, :videos_feed, :others_feed, :artists]
+        :interviews_feed, :videos_feed, :others_feed, :artists, :leaderboard]
+
+  def leaderboard
+    @leader_users = User.with_role(:fan)
+                        .includes(:badges)
+                        .joins('LEFT OUTER JOIN badge_points on (users.id = badge_points.user_id)')
+                        .group('users.id')
+                        .order('users.created_at ASC, SUM(badge_points.value) DESC')
+                        .limit(5)
+    @badge_kinds = BadgeKind.all
+  end
 
   def index
     @leader_users = User.with_role(:fan)
@@ -194,7 +204,7 @@ class UsersController < ApplicationController
 
     def user_params
       params.require(:user).permit(:avatar, :avatar_cache, :shipping_address, 
-        :birthdate, :gender, :t_shirt_size, #:subscription, 
+        :birthdate, :gender, :t_shirt_size, :city, #:subscription, 
         :subscription_type)
     end
 end

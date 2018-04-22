@@ -1,5 +1,10 @@
 <div class="c-flag">LEADERBOARD</div>
 
+<div class="c-flag-links">
+  <%= link_to "Top 5", leaderboard_path %>
+  <span>All</span>
+</div>
+
 <ul class="leaderboard">
   <% leader_users_ids = @leader_users.ids %>
   <% @leader_users.each do |user| %>
@@ -15,52 +20,51 @@
       <% end %>
 
       <div style="display: inline-block; width: 80%; margin-left: 20px; margin-bottom: 2px; vertical-align: bottom;">
-      <div style="display: inline-block; width: 165px; overflow: hidden; white-space: nowrap;">
-        <%= user.name.upcase %>
-        <%= image_tag 'icons/point-green.svg', class: "point-green" if user %>
-        
-      </div>
-      <b><%= "#{user.points} POINTS" %></b>
-      <%= "/ #{user.badges.count} badges" if user.badges.count > 0 %>
-
-      <div>
-        <div style="float: left; line-height: 20px; margin-right: 10px;">
-          <% @badge_kinds.each do |kind| %>
-            <div><b><%= kind.name %></b></div>
-          <% end %>
+        <div style="display: inline-block; width: 165px; overflow: hidden; white-space: nowrap;">
+          <%= user.name.upcase %>
+          <%= image_tag 'icons/point-green.svg', class: "point-green" if user %>
         </div>
-
-        <div style="float: right; line-height: 20px; width: 300px; display: flex; align-items: center;">
-          <div>
-            <% @badge_kinds.each do |kind| %>
-              <div><b><%= user.points(kind.id) %></b></div>
-            <% end %>
-          </div>
-          <% user.badges.order(points: :desc).limit(3).each do |badge| %>
-            <div class="mx-3">
-              <%= image_tag badge.image.thumb.url if badge.image.present? %>
-            </div>
-          <% end %>
-        </div>
+        <b><%= "#{user.points} POINTS" %></b>
+        <%= "/ #{user.badges.count} badges" if user.badges.count > 0 %>
 
         <div>
-          <div style="display: inline-block; vertical-align: top; margin: 3px 10px 0 0; width: 50%">
-            <div class="progress">
-              <div class="progress-bar-blue" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
+          <div style="float: left; line-height: 20px; margin-right: 10px;">
+            <% @badge_kinds.each do |kind| %>
+              <div><b><%= kind.name %></b></div>
+            <% end %>
           </div>
-          <div style="display: inline-block; vertical-align: top; margin: 3px 10px 0 0; width: 50%">
-            <div class="progress">
-              <div class="progress-bar-yellow" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+
+          <div style="float: right; line-height: 20px; width: 300px; display: flex; align-items: center;">
+            <div>
+              <% @badge_kinds.each do |kind| %>
+                <div><b><%= user.points(kind.id) %></b></div>
+              <% end %>
             </div>
+            <% user.badges.order(points: :desc).limit(3).each do |badge| %>
+              <div class="mx-3">
+                <%= image_tag badge.image.thumb.url if badge.image.present? %>
+              </div>
+            <% end %>
           </div>
-          <div style="display: inline-block; vertical-align: top; margin: 3px 10px 0 0; width: 50%">
-            <div class="progress">
-              <div class="progress-bar-red" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+
+          <div>
+            <div style="display: inline-block; vertical-align: top; margin: 3px 10px 0 0; width: 50%">
+              <div class="progress-blue">
+                <div class="c-progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+            <div style="display: inline-block; vertical-align: top; margin: 3px 10px 0 0; width: 50%">
+              <div class="progress-yellow">
+                <div class="c-progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+            <div style="display: inline-block; vertical-align: top; margin: 3px 10px 0 0; width: 50%">
+              <div class="progress-red">
+                <div class="c-progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
             </div>
           </div>
         </div>
-
       </div>
     </li>
   <% end %>

@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       post "change_avatar"
     end
   end
+  get "leaderboard", to: "users#leaderboard"
   get "choose_profile", to: "users#choose_profile"
   get "home", to: "users#home"
   get "activity_feed", to: "users#activity_feed"

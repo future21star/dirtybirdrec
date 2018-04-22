@@ -52,10 +52,10 @@
             </li>
           <% end %>
 
-          <li class="nav-item <%= 'active' if current_page?(users_path) %>">
-            <%= link_to users_path, class: "nav-link" do %>
+          <li class="nav-item <%= 'active' if current_page?(leaderboard_path) %>">
+            <%= link_to leaderboard_path, class: "nav-link" do %>
               Leaderboard
-              <%= '<span class="sr-only">(current)</span>'.html_safe if current_page?(users_path) %>
+              <%= '<span class="sr-only">(current)</span>'.html_safe if current_page?(leaderboard_path) %>
             <% end %>
           </li>
 

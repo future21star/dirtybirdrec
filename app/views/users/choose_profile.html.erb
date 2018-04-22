@@ -24,6 +24,12 @@ Please complete the registration or
     </div>
 
     <div class="form-label-group">
+      <%= f.text_field :city, 
+          class: 'form-control', placeholder: 'City', required: true %>
+      <%= f.label :city %>
+    </div>
+
+    <div class="form-label-group">
       <%= f.text_field :shipping_address, 
           class: 'form-control', placeholder: 'Shipping Address', required: true %>
       <%= f.label :shipping_address %>

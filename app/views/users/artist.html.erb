@@ -148,10 +148,7 @@
                   <%= image_tag 'icons/point-green.svg', class: "point-green" if user %>
                 </h5>
                 <div>
-                  <% if user.shipping_address.present? 
-                    address = user.shipping_address.match(/[^,]+,[^,]+,\s?USA$|[^,]+,[^,]+$/)
-                    end %>
-                  <%= "from #{address}" if address.present? %> 
+                  <%= user.city %> 
                 </div>
               </div>
             </li>

@@ -1,0 +1,90 @@
+<div class="c-flag">LEADERBOARD</div>
+
+<div class="c-flag-links">
+  <span>Top 5</span>
+  <%= link_to "All", users_path %>
+</div>
+
+<ul class="leaderboard-top">
+  <% leader_users_ids = @leader_users.ids %>
+
+  <% @leader_users.each do |user| %>
+    <li class="row">
+      <div class="col-md-8">
+        <div class="c-panel bg-white">
+          <%= link_to user_path(user), class: "leader-avatar" do %>
+            <%= image_tag user.avatar.thumb %>
+            <input type="text" class="btn c-btn-blue" value="FULL STATS">
+          <% end %>
+
+          <div class="d-inline-block align-top">
+            <div>
+              <span class="leaderboard-position">
+                #<%= leader_users_ids.index(user.id) + 1 %>
+              </span>
+
+              <div class="leaderboard-name">
+                <h2><%= user.name.upcase %></h2>
+                <span><%= user.city %></span>
+              </div>
+
+              <div class="leaderboard-points">
+                <% if user.has_role?(:mounthly) %>
+                  <%= image_tag 'icons/yellow-egg.svg' %>
+                <% elsif user.has_role?(:yearly) %>
+                  <%= image_tag 'icons/red-egg.svg' %>
+                <% end %>
+                <%= image_tag 'icons/red-egg.svg' %> <%#TODO remove it %>
+
+                <b><%= "#{user.points} POINTS" %></b>
+              </div>
+
+            </div>
+
+            <div class="rating-chart">
+              <div class="rating-kinds">
+                <% @badge_kinds.each do |kind| %>
+                  <div><b><%= kind.name %></b></div>
+                <% end %>
+              </div>
+
+              <div class="rating-kind-points">
+                <% @badge_kinds.each do |kind| %>
+                  <div><%= user.points(kind.id) %></div>
+                <% end %>
+              </div>
+
+              <div class="rating-bars">
+                <div class="progress-wrapper">
+                  <div class="progress-blue">
+                    <div class="c-progress-bar" role="progressbar" style="width: 68%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </div>
+                <div class="progress-wrapper">
+                  <div class="progress-yellow">
+                    <div class="c-progress-bar" role="progressbar" style="width: 99%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </div>
+                <div class="progress-wrapper">
+                  <div class="progress-red">
+                    <div class="c-progress-bar" role="progressbar" style="width: 100%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="c-panel bg-white h-100">
+          <%= pluralize(user.badges.count, "Badge") + " Achieved" %>
+          <div class="leaderboard-badges">
+            <% user.badges.limit(8).each do |badge| %>
+              <%= image_tag(badge.image.thumb.url) if badge.image.present? %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </li>
+  <% end %>
+</ul>

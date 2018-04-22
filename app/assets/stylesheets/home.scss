@@ -17,6 +17,25 @@
       font-size: 24px;
     }
   }
+
+  .progress-wrapper {
+    width: 78%;
+  }
+
+  .fan-name {
+    display: inline-block; 
+    width: 165px; 
+    overflow: hidden; 
+    white-space: nowrap;
+  }
+
+  .fan-body {
+    display: inline-block; 
+    width: 80%; 
+    margin-left: 20px; 
+    margin-bottom: 2px; 
+    vertical-align: bottom;
+  }
 }
 
 .users-block {

@@ -21,10 +21,7 @@
       <div class="userpage-name left-name">
         <h1><%= @user.name.upcase %></h1>
         <span>
-          <% if @user.shipping_address.present? 
-            address = @user.shipping_address.match(/[^,]+,[^,]+,\s?USA$|[^,]+,[^,]+$/)
-            end %>
-          <%= "#{address} / " if address.present? %>
+          <%= "#{@user.city} / " %>
           <b><%= "#{@user.followers.count} #{'Follower'.pluralize(@user.followers.count)}" %></b>
         </span>
       </div>
@@ -127,10 +124,7 @@
                   <%= image_tag 'icons/point-green.svg', class: "point-green" if user %>
                 </h5>
                 <div>
-                  <% if user.shipping_address.present? 
-                    address = user.shipping_address.match(/[^,]+,[^,]+,\s?USA$|[^,]+,[^,]+$/)
-                    end %>
-                  <%= "from #{address}" if address.present? %> 
+                  <%= "from #{user.city}" %> 
                 </div>
               </div>
             </li>
