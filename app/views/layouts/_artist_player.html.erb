@@ -19,12 +19,12 @@
   </div>
 </div>
 
-<script>
+<!-- <script>
   $(document).on('turbolinks:load', function() {
     $.ajax( "/get_track/1" )
       .done(function(respond) {
 
-        $("#jquery_jplayer_<%= object.id+1 %>").jPlayer({
+        $("#jquery_jplayer_<%#= object.id+1 %>").jPlayer({
           ready: function (event) {
 
             $(this).jPlayer("setMedia", {
@@ -44,11 +44,11 @@
             $(this).jPlayer("pauseOthers");
           },
           globalVolume: true,
-          cssSelectorAncestor: "#jp_container_<%= object.id+1 %>"
+          cssSelectorAncestor: "#jp_container_<%#= object.id+1 %>"
         });
       })
       .fail(function() {
         // alert( "error" );
       });
   });
-</script>
+</script> -->

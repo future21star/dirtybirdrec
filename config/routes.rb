@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   resources :announcements, only: [:show]
   resources :releases, only: [:show, :index]
   get "download_release/:id", to: "releases#download", as: "download_release"
+  get "get_release_tracks/:id", to: "releases#get_tracks", as: "get_release_tracks"
 
   resources :tracks
   get 'get_track/:id', to: 'tracks#get_track', as: "get_track"

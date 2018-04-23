@@ -1,7 +1,8 @@
+<div class="mt-4 mb-2">
+  <div class="c-flag">RELEASES</div>
+</div>
 
 <div class="release-flag-block">
-  <div class="c-flag">RELEASES</div>
-
   filter by
   <% p = params[:filters].present? ? params[:filters] : {} %>
 
@@ -23,7 +24,6 @@
 </div>
 
 <div class="row mt-4">
-
   <% @releases.each do |release| %>
     <div class="col-xl-3 col-lg-4 col-md-6 mb-5 item-with-tongue">
       <div>
@@ -37,7 +37,19 @@
               <%= release.tracks.count %>
               <%= "Track".pluralize(release.tracks.count) %>
             <% end %>
-            <button class="btn c-btn-white c-btn-sm">LISTEN</button>
+            <%= link_to "LISTEN", get_release_tracks_path(release.id), 
+                id: "play-release-#{release.id}",
+                class: "btn c-btn-white c-btn-sm", remote: true %>
+
+
+            <div class="jp-controls release-jp-controls">
+              <button class="jp-previous release-jp-previous" role="button" tabindex="0"></button>
+              <button class="jp-play release-jp-play jp-playing" role="button" tabindex="1"></button>
+              <button class="jp-next release-jp-next" role="button" tabindex="2"></button>
+            </div>
+
+
+            <!-- <button class="btn c-btn-white c-btn-sm">LISTEN</button> -->
 
             <a href="#" title="Share" tabindex="0" data-toggle="popover" data-placement="left" data-content="<%= (social_share_button_tag(release.title, desc: release.text)).gsub('\"','\'') %>" data-trigger="focus" data-html="true" onclick="return false;" class="c-link">
               Share
@@ -50,8 +62,4 @@
       <mark class="t-small"><%= time_ago_in_words( release.release_date ).upcase %> AGO</mark>
     </div>
   <% end %>
-
-
-
-
 </div>

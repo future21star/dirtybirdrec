@@ -238,7 +238,7 @@
 						instant();
 					}
 					if(self.playlist.length) {
-						$(this).slideDown(self.options.playlistOptions.displayTime);
+						// $(this).slideDown(self.options.playlistOptions.displayTime);
 					} else {
 						$(this).show();
 					}

@@ -5,29 +5,12 @@
   width: 100%;
   background-color: #3e3e3e;
   transition: top 0.3s;
-  z-index: 16;
+  z-index: 1061;
 }
 
 .jp-audio {
   font-family: "Roboto Mono";
   display: inline-block;
-
-  button {
-    background-color: transparent;
-    border: none;
-    padding: 0;
-    color: white;
-    font-size: 12px;
-    cursor: pointer;
-
-    svg {
-      width: 11px;
-      height: 11px;
-      path {
-        fill: white;
-      }
-    }
-  }
 }
 
 .jp-interface {
@@ -46,6 +29,23 @@
   display: flex;
   opacity: 0;
   transition: opacity 0.3s;
+
+  button {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    color: white;
+    font-size: 12px;
+    cursor: pointer;
+
+    svg {
+      width: 11px;
+      height: 11px;
+      path {
+        fill: white;
+      }
+    }
+  }
 }
 
 .jp-current-time, .jp-duration {
@@ -97,7 +97,7 @@
 .jp-volume {
   display: none;
   position: absolute;
-  left: 20px;
+  left: 30px;
 }
 
 .jp-volume-btn {
@@ -165,4 +165,36 @@
   width: 0px;
   height: 100%;
   overflow: hidden;
+}
+
+.jp-type-playlist {
+  text-align: right;
+}
+
+#jp-playlist-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.jp-playlist {
+  display: none;
+  text-align: left;
+  background-color: gray;
+  margin-top: 1px;
+  display: inline-block;
+  margin-right: 150px;
+
+  ul {
+    display: none;
+  }
+}
+
+.jp-playing {
+  background-image: asset-data-url("icons/media-pause.svg");
+}
+
+.jp-playing:hover {
+  background-image: asset-data-url("icons/media-pause-hover.svg");
 }

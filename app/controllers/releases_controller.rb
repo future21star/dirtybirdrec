@@ -39,4 +39,9 @@ class ReleasesController < ApplicationController
     @release = Release.find(params[:id])
     redirect_to choose_profile_path unless @release.user_allowed?(current_user)
   end
+
+  def get_tracks
+    @release = Release.find(params[:id])
+    @tracks = @release.tracks
+  end
 end
