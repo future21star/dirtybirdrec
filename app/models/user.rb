@@ -19,7 +19,7 @@ class User < ApplicationRecord
 
   enum subscription_type: [:member, :vip, :admin]
 
-  has_many :badge_levels  
+  has_many :badge_levels
   has_many :badges, through: :badge_levels
   has_many :badge_points
 
@@ -35,6 +35,7 @@ class User < ApplicationRecord
   has_many :likes
   has_one :artist_info, foreign_key: "artist_id"
   has_and_belongs_to_many :releases
+  has_many :announcements
   has_many :tracks_users
   has_many :tracks, through: :tracks_users
 

@@ -1,0 +1,107 @@
+<div class="release-present">
+  <%= image_tag(@announcement.avatar.url, class: "release-avatar left-avatar") if @announcement.avatar.present? %>
+  
+  <div class="release-bgrd bg-green">
+    <%#= image_tag 'dj.jpg' %>
+
+    <div class="release-header">
+      <div class="release-exclusive">
+        <%= image_tag 'icons/user-logo-icon.svg' %>
+        <div>ONLY ON<br>
+        BIRDFEED</div>
+      </div>
+
+      <div class="release-likes">
+        LIKES
+        <%= render partial: 'likes/like_button', locals: { object: @announcement,  style: 'release' } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-8">
+
+    <div class="release-info mb-4">
+      <h1 class="fz-23 mb-4"><%= @announcement.title.upcase %></h1>
+      <!-- <p class="release-date">Date: <%#= time_ago_in_words( @announcement.release_date ) %> ago</p> -->
+
+      <div class="truncated-description">
+        <% if @announcement.text.present? %>
+          <article><%= @announcement.text.html_safe.truncate(400) %></article>
+
+          <% if @announcement.text.html_safe.truncate(400) != @announcement.text.html_safe %>
+            <a href="#" class="truncated-long">Read more</a>
+          <% end %>
+
+          <article><%= @announcement.text.html_safe %></article>
+          <a href="#" class="truncated-short"><br><br>Read less</a>
+        <% end %>
+      </div>
+
+      
+      <%#= link_to "Q&A", chirp_path, class: "btn c-btn-transparent btn-wide" %>
+    </div>
+
+    <div class="c-panel bg-white">
+      <div class="c-flag mb-4"><b>ANNOUNCEMENT</b> FEED</div>
+      <button class="btn c-btn-blue mt-1" type="button" data-toggle="modal" data-target="#addcommentModal">
+        ADD YOUR COMMENT
+      </button>
+      <%= render partial: 'follows/follow_button', 
+          locals: { target: @announcement, 
+                    opt: { 
+                        classes: "btn btn-wide follow-button-black",
+                        text: ['follow this feed', 'unfollow this feed'] } } %>
+
+      <div class="feed-block light-scroll">
+        <%= render 'feeds/user' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <!-- FOLLOWERS -->
+    <div class="c-panel bg-white mb-4">
+      <div class="c-flag c-flag-inner mb-2"><b>FEED</b> FOLLOWERS</div>
+
+      <div>
+        <% @announcement.followers.each do |user| %>
+            <%= link_to user_path(user), class: "d-inline-block mr-2 mb-2" do %>
+              <%= image_tag user.avatar.thumb, class: "user-avatar" %>
+            <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% if current_user %>
+  <% content_for :body_area do %>
+    <div class="modal modal-blured" id="addcommentModal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-wide" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <h5 class="modal-title">Add your comment</h5>
+
+            <%= form_for current_user.comments.build, html: { class: "feed-form" } do |f| %>
+              <%= f.hidden_field :commentable_type, value: "Announcement" %>
+              <%= f.hidden_field :commentable_id, value: @announcement.id %>
+              <%= f.label :title, class: "sr-only" %>
+              <%= f.text_field :title, placeholder: "Type the title here" %>
+              <%= f.label :body, class: "sr-only" %>
+              <%= f.text_area :body, rows: 10, placeholder: "Type text", max: 200 %>
+              <%= f.submit "ADD TO FEED", class: "btn c-btn-blue btn-wide" %>
+            <% end %>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>

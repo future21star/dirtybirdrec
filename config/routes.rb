@@ -39,6 +39,7 @@ Rails.application.routes.draw do
   resources :contacts, only: [:index, :create]
   resources :slider_images
 
+  resources :announcements, only: [:show]
   resources :releases, only: [:show, :index]
   get "download_release/:id", to: "releases#download", as: "download_release"
 

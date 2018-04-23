@@ -62,7 +62,7 @@ body {
 
 main {
   display: flex;
-  min-height: calc(100vh - 80px);
+  min-height: 100vh;
   flex-direction: column;
   padding-top: 80px;
 }
@@ -122,6 +122,10 @@ main > div.container {
   &:focus, &:active {
     color: black;
   }
+}
+
+.fz-23 {
+  font-size: 23px !important;
 }
 
 .avatar-micro {
