@@ -80,7 +80,11 @@
     $('.jp-artists').text(playlist[respond.current_track.index]['artists']);
 
     setTimeout(function(){
-      $('.jp-duration').text(secondsToHms(cpAudio.duration));
+      if(isNaN(cpAudio.duration)){
+        $('.jp-duration').text(secondsToHms(0));
+      } else {
+        $('.jp-duration').text(secondsToHms(cpAudio.duration));
+      }
     },500);
   })
   .fail(function() {
