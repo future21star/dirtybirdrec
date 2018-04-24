@@ -124,7 +124,7 @@
 
               By <%= track.users.pluck(:name).join(' feat. ') %>
 
-              <%= render 'layouts/artist_player', object: track %>
+              <%#= render 'layouts/artist_player', object: track %>
 
               <%= link_to image_tag('icons/icon-download.svg'), download_track_path, class: "icon-download" %>
 

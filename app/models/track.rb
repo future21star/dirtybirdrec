@@ -13,4 +13,13 @@ class Track < ApplicationRecord
     attribute :title, :genre, :isrc_code
   end
 
+  
+  def get_url
+    if current_user && (current_user.subscription_type > 0 || current_user.has_role?(:paid) )
+      return url
+    else
+      return sample_url
+    end
+  end
+
 end

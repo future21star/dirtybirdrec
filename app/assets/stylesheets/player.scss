@@ -1,4 +1,5 @@
-#jp_container_1.jp-audio {
+// #jp_container_1
+.jp-audio {
   position: fixed;
   top: -20px;
   height: 40px;
@@ -6,11 +7,9 @@
   background-color: #3e3e3e;
   transition: top 0.3s;
   z-index: 1061;
-}
-
-.jp-audio {
   font-family: "Roboto Mono";
   display: inline-block;
+  text-align: right;
 }
 
 .jp-interface {
@@ -18,14 +17,8 @@
   justify-content: space-between;
 }
 
-.jp-controls-holder {
-  display: flex;
-  justify-content: space-between;
-  padding: 12px 0;
-  flex-grow: 1;
-}
-
 .jp-controls {
+  padding: 12px 0;
   display: flex;
   opacity: 0;
   transition: opacity 0.3s;
@@ -95,9 +88,7 @@
 }
 
 .jp-volume {
-  display: none;
-  position: absolute;
-  left: 30px;
+  margin-left: 15px;
 }
 
 .jp-volume-btn {
@@ -109,12 +100,12 @@
 }
 
 .jp-volume-controls {
-  position: relative;
+  display: flex;
 }
 
 .jp-volume-bar {
   background: asset-data-url("jplayer/jplayer.pink.flag.jpg") 0px -300px repeat-x;  
-  width: 197px;
+  width: 100px;
   height: 10px;
   overflow: hidden;
   cursor: pointer; 
@@ -132,6 +123,7 @@
   position: relative;
   top: 10px;
   transition: top 0.3s;
+  padding: 12px 0;
 }
 
 .jp-title {
@@ -179,7 +171,6 @@
 }
 
 .jp-playlist {
-  display: none;
   text-align: left;
   background-color: gray;
   margin-top: 1px;

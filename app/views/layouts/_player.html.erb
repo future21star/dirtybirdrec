@@ -1,166 +1,297 @@
-<div id="jquery_jplayer_1" class="jp-jplayer" data-turbolinks-permanent></div>
-<div id="jp_container_1" class="jp-audio" role="application" aria-label="media player" data-turbolinks-permanent>
+<div class="jp-audio" id="cPlayer" data-turbolinks-permanent>
+
+
   <div class="container">
-    <div class="jp-type-playlist">
-      <div class="jp-gui jp-interface">
-        
-        <div class="jp-controls-holder">
-          <div class="jp-controls">
-            <div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>
-            <button class="jp-previous" role="button" tabindex="0"></button>
-            <button class="jp-play" role="button" tabindex="1"></button>
-            <button class="jp-next" role="button" tabindex="2"></button>
-            <!-- <button class="jp-stop" role="button" tabindex="0">stop</button> -->
-            <div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
+    <div class="jp-interface">
+      <div class="jp-controls">
+        <div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>
+        <button class="jp-previous" role="button" tabindex="0"></button>
+        <button class="jp-play" role="button" tabindex="1"></button>
+        <button class="jp-next" role="button" tabindex="2"></button>
+        <div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
 
-            <div class="jp-volume-controls d-flex">
+        <div class="jp-volume-controls">
+          <button class="jp-volume-btn" tabindex="3"><%= show_svg('icons/volume-high.svg') %></button>
 
-              <button class="jp-volume-btn" tabindex="3"><%= show_svg('icons/volume-high.svg') %></button>
-
-              <div class="jp-volume d-none">
-                <button class="jp-mute" role="button" tabindex="4">mute</button>
-                <div class="jp-volume-bar">
-                  <div class="jp-volume-bar-value"></div>
-                </div>
-                <button class="jp-volume-max" role="button" tabindex="5">max</button>
-              </div>
+          <div class="jp-volume d-none">
+            <!-- <button class="jp-mute" role="button" tabindex="4">mute</button> -->
+            <div class="jp-volume-bar">
+              <div class="jp-volume-bar-value"></div>
             </div>
-          </div>
-          
-          <div class="jp-details">
-            <b>Now playing:</b>
-            <div class="jp-title" aria-label="title">&nbsp;</div>
-            by <b>Miaow</b>
-          </div>
-           <!--<div class="jp-toggles">
-            <button class="jp-repeat" role="button" tabindex="0">repeat</button>
-          </div> -->
-        </div>
-
-        <button id="jp-playlist-btn" class="mr-4">
-          <%= image_tag 'icons/playlist.png' %>
-        </button>
-
-        <div class="jp-proggress-container">
-          <div class="jp-progress">
-            <div class="jp-seek-bar">
+      <!--       <div class="jp-seek-bar" style="width: 150px">
               <div class="jp-play-bar"></div>
-            </div>
+            </div> -->
+            <!-- <button class="jp-volume-max" role="button" tabindex="5">max</button> -->
           </div>
         </div>
       </div>
-
-      <div class="jp-playlist">
-        <ul style="display: block;">
-          <li class="jp-playlist-current">
-            <div>
-              <a href="javascript:;" class="jp-playlist-item-remove" style="display: none;">×</a>
-              <a href="javascript:;" class="jp-playlist-item jp-playlist-current" tabindex="0">Cro Magnon Man</a>
-            </div>
-          </li>
-          <li>
-            <div>
-              <a href="javascript:;" class="jp-playlist-item-remove" style="display: none;">×</a>
-              <a href="javascript:;" class="jp-playlist-item" tabindex="0">Your Face</a>
-            </div>
-          </li>
-        </ul>
+      
+      <div class="jp-details">
+        <div class="jp-title" aria-label="title">&nbsp;</div>
+        - <b><span class="jp-artists"></span>&nbsp;</b>
       </div>
 
-      <div class="jp-no-solution">
-        <span>Update Required</span>
-        To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+      <button id="jp-playlist-btn" class="mr-4">
+        <%= image_tag 'icons/playlist.png' %>
+      </button>
+
+      <div class="jp-proggress-container">
+        <div class="jp-progress">
+          <div class="jp-seek-bar">
+            <div class="jp-play-bar"></div>
+          </div>
+        </div>
       </div>
+    </div>
+
+    <div class="jp-playlist">
+      <ul style="display: none;">
+        <li class="jp-playlist-current">
+          <div>
+            <a href="javascript:;" class="jp-playlist-item-remove" style="display: none;">×</a>
+            <a href="javascript:;" class="jp-playlist-item jp-playlist-current" tabindex="0">Cro Magnon Man</a>
+          </div>
+        </li>
+        <li>
+          <div>
+            <a href="javascript:;" class="jp-playlist-item-remove" style="display: none;">×</a>
+            <a href="javascript:;" class="jp-playlist-item" tabindex="0">Your Face</a>
+          </div>
+        </li>
+      </ul>
     </div>
   </div>
 </div>
 
 <script type="text/javascript" data-turbolinks-eval="false">
-  $('#jp-playlist-btn').click(function() {
-    $('.jp-playlist ul').slideToggle(500);
+  var cpAudio = document.createElement('audio'); 
+  var playlist = [];
+  var currentTrackIndex;
+
+  $.ajax( "/get_tracks" )
+  .done(function(respond) {
+    setPlaylist(respond.tracks);
+    currentTrackIndex = respond.current_track.index;
+    currentTime = respond.current_track.time;
+
+    cpAudio.src = playlist[currentTrackIndex]['mp3'];
+    cpAudio.currentTime = currentTime;
+    $('.jp-title').text(playlist[respond.current_track.index]['title']);
+    $('.jp-artists').text(playlist[respond.current_track.index]['artists']);
+
+    setTimeout(function(){
+      $('.jp-duration').text(secondsToHms(cpAudio.duration));
+    },500);
+  })
+  .fail(function() {
+    // alert( "error" );
   });
 
-  myPlaylist = new jPlayerPlaylist({
-    jPlayer: "#jquery_jplayer_1",
-    cssSelectorAncestor: "#jp_container_1"
-  }, [
-    {
-      title:"Cro Magnon Man",
-      mp3:"http://www.jplayer.org/audio/mp3/TSP-01-Cro_magnon_man.mp3",
-      oga:"http://www.jplayer.org/audio/ogg/TSP-01-Cro_magnon_man.ogg"
-    },
-    {
-      title:"Your Face",
-      mp3:"http://www.jplayer.org/audio/mp3/TSP-05-Your_face.mp3",
-      oga:"http://www.jplayer.org/audio/ogg/TSP-05-Your_face.ogg"
-    },
-    {
-      title:"Cyber Sonnet",
-      mp3:"http://www.jplayer.org/audio/mp3/TSP-07-Cybersonnet.mp3",
-      oga:"http://www.jplayer.org/audio/ogg/TSP-07-Cybersonnet.ogg"
-    },
-    {
-      title:"Tempered Song",
-      mp3:"http://www.jplayer.org/audio/mp3/Miaow-01-Tempered-song.mp3",
-      oga:"http://www.jplayer.org/audio/ogg/Miaow-01-Tempered-song.ogg"
-    },
-    {
-      title:"Hidden",
-      mp3:"http://www.jplayer.org/audio/mp3/Miaow-02-Hidden.mp3",
-      oga:"http://www.jplayer.org/audio/ogg/Miaow-02-Hidden.ogg"
-    },
-    {
-      title:"Lentement",
-      free:true,
-      mp3:"http://www.jplayer.org/audio/mp3/Miaow-03-Lentement.mp3",
-      oga:"http://www.jplayer.org/audio/ogg/Miaow-03-Lentement.ogg"
-    },
-    {
-      title:"Lismore",
-      mp3:"http://www.jplayer.org/audio/mp3/Miaow-04-Lismore.mp3",
-      oga:"http://www.jplayer.org/audio/ogg/Miaow-04-Lismore.ogg"
-    },
-    {
-      title:"The Separation",
-      mp3:"http://www.jplayer.org/audio/mp3/Miaow-05-The-separation.mp3",
-      oga:"http://www.jplayer.org/audio/ogg/Miaow-05-The-separation.ogg"
-    },
-    {
-      title:"Beside Me",
-      mp3:"http://www.jplayer.org/audio/mp3/Miaow-06-Beside-me.mp3",
-      oga:"http://www.jplayer.org/audio/ogg/Miaow-06-Beside-me.ogg"
-    },
-    {
-      title:"Bubble",
-      free:true,
-      mp3:"http://www.jplayer.org/audio/mp3/Miaow-07-Bubble.mp3",
-      oga:"http://www.jplayer.org/audio/ogg/Miaow-07-Bubble.ogg"
-    },
-    {
-      title:"Stirring of a Fool",
-      mp3:"http://www.jplayer.org/audio/mp3/Miaow-08-Stirring-of-a-fool.mp3",
-      oga:"http://www.jplayer.org/audio/ogg/Miaow-08-Stirring-of-a-fool.ogg"
-    },
-    {
-      title:"Partir",
-      free: true,
-      mp3:"http://www.jplayer.org/audio/mp3/Miaow-09-Partir.mp3",
-      oga:"http://www.jplayer.org/audio/ogg/Miaow-09-Partir.ogg"
-    },
-    {
-      title:"Thin Ice",
-      mp3:"http://www.jplayer.org/audio/mp3/Miaow-10-Thin-ice.mp3",
-      oga:"http://www.jplayer.org/audio/ogg/Miaow-10-Thin-ice.ogg"
+  cpAudio.setAttribute('data-playing', false);
+  $('.jp-current-time').text(secondsToHms(0));
+  $('.jp-duration').text(secondsToHms(0));
+  
+
+  timer = setInterval(function () {
+            $('.jp-current-time').text(secondsToHms(cpAudio.currentTime));
+          },1000);
+
+  // var _player = document.getElementById("player"),
+  //     _playlist = document.getElementById("playlist"),
+  //     _stop = document.getElementById("stop");
+
+  $('.jp-play').click(function(){
+    playButton();
+  });
+
+  $('.jp-previous').click(function(){
+    playPrevious();
+  });
+
+  $('.jp-next').click(function(){
+    playNext();
+  });
+
+  $('.jp-playlist').on('click', '.jp-playlist-item', function(){
+    playlistItemClick($('.jp-playlist-item').index(this));
+  });
+
+  function playlistItemClick(index) {
+    cpAudio.src = playlist[index]['mp3'];
+    $('.jp-title').text(playlist[index]['title']);
+    $('.jp-artists').text(playlist[index]['artists']);
+    setTimeout(function(){
+      $('.jp-duration').text(secondsToHms(cpAudio.duration));
+    },350);
+
+    cpAudio.play();
+    cpAudio.setAttribute('data-playing', true);
+    $('.jp-audio .jp-play').addClass('jp-playing');
+  }
+
+  function setPlaylist(tracks) {
+    playlist = tracks;
+    $('.jp-playlist ul').html('');
+
+    tracks.forEach(function(track) {
+      $('.jp-playlist ul').append(`
+        <li>
+          <div>
+            <a href="javascript:;" class="jp-playlist-item" tabindex="0">` + track.title + ` - ` + track.artists + `</a>
+            <a href="javascript:;" class="jp-playlist-item-remove">×</a>
+          </div>
+        </li>`);
+    });
+  }
+
+  function playButton() {
+    if(cpAudio.getAttribute('data-playing') == 'true') {
+      cpAudio.pause();
+      $('.jp-play').removeClass('jp-playing');
+      cpAudio.setAttribute('data-playing', false);
+    } else {
+      cpAudio.play();
+      cpAudio.setAttribute('data-playing', true);
+      $('.jp-audio .jp-play').addClass('jp-playing');
     }
-  ], {
-    swfPath: "../dist/jplayer",
-    supplied: "oga, mp3",
-    wmode: "window",
-    useStateClassSkin: true,
-    enableRemoveControls: true,
-    autoBlur: false,
-    keyEnabled: true
+  }
+
+  function playNext() {
+    if(playlist[currentTrackIndex + 1] == undefined) return false;
+
+    currentTrackIndex++;
+
+    cpAudio.src = playlist[currentTrackIndex]['mp3'];
+    $('.jp-title').text(playlist[currentTrackIndex]['title']);
+    $('.jp-artists').text(playlist[currentTrackIndex]['artists']);
+    setTimeout(function(){
+      $('.jp-duration').text(secondsToHms(cpAudio.duration));
+    },500);
+
+    cpAudio.play();
+    cpAudio.setAttribute('data-playing', true);
+    $('.jp-audio .jp-play').addClass('jp-playing');
+  }
+
+  cpAudio.addEventListener("ended", playNext);
+
+  function playPrevious() {
+    if(playlist[currentTrackIndex-1] == undefined) return false;
+
+    currentTrackIndex--;
+
+    cpAudio.src = playlist[currentTrackIndex]['mp3'];
+    $('.jp-title').text(playlist[currentTrackIndex]['title']);
+    $('.jp-artists').text(playlist[currentTrackIndex]['artists']);
+    setTimeout(function(){
+      $('.jp-duration').text(secondsToHms(cpAudio.duration));
+    },350);
+
+    cpAudio.play();
+    cpAudio.setAttribute('data-playing', true);
+    $('.jp-audio .jp-play').addClass('jp-playing');
+  }
+
+  var draggedBars = [
+    ['.jp-volume-bar','.jp-volume-bar-value','volume'],
+    ['.jp-seek-bar','jp-play-bar','progress']
+  ]
+  dragBars(draggedBars);
+
+  function dragBars(bars) {
+    var audio = cpAudio;
+    var drag = false;
+    var e = {}, eInner = {}, updateBar = {};
+    document.addEventListener('mouseup',function(ev){
+     drag = false;
+    });
+    bars.forEach(function(bar){
+      document.addEventListener('mousemove',function(ev){
+         if(drag){
+            updateBar[bar[2]](ev.clientX);
+         }
+      });
+      e[bar[2]] = document.querySelector(bar[0]);
+      eInner[bar[2]] = document.querySelector(bar[1]);
+      e[bar[2]].addEventListener('mousedown',function(ev){
+         drag = true;
+         updateBar[bar[2]](ev.clientX);
+      });
+      updateBar[bar[2]] = function (x, vol) {
+        console.log(x);
+        console.log(vol);
+        console.log(e);
+         var volume = e[bar[2]];
+              var percentage;
+              if (vol) {
+                  percentage = vol * 100;
+              } else {
+                  var position = x - volume.offsetLeft;
+                  percentage = 100 * position / volume.clientWidth;
+              }
+
+              if (percentage > 100) {
+                  percentage = 100;
+              }
+              if (percentage < 0) {
+                  percentage = 0;
+              }
+
+              eInner[bar[2]].style.width = percentage +'%';
+              if(bar[2] == 'volume') {
+                console.log('volume');
+                console.log(percentage / 100);
+                audio.volume = percentage / 100;
+              } else if(bar[2] == 'progress') {
+                console.log('progress');
+                console.log(Math.round(audio.duration * percentage / 100));
+                audio.currentTime = Math.round(audio.duration * percentage / 100);
+              }
+      };
+    });
+  }
+
+  function secondsToHms(d) {
+    d = Number(d);
+    var h = Math.floor(d / 3600);
+    var m = Math.floor(d % 3600 / 60);
+    var s = Math.floor(d % 3600 % 60);
+    return ((h > 0 ? h + ":" + (m < 10 ? "0" : "") : "") + m + ":" + (s < 10 ? "0" : "") + s);
+  }
+
+  $('#jp-playlist-btn').click(function() {
+    $('.jp-playlist ul').slideToggle(500, function() {
+      if ($(this).is(':visible'))
+          $(this).css('display','inline-block');
+    });
   });
 
+  $('.jp-volume-btn').click(() => {
+    $('.jp-volume').toggleClass('d-flex').toggleClass('d-none');
+  });
 
+  window.addEventListener('click', function(e){   
+    if (!document.getElementsByClassName('jp-playlist')[0].contains(e.target) &&
+      !document.getElementById('jp-playlist-btn').contains(e.target)){
+      $('.jp-playlist ul').slideUp(500);
+    }
+  });
+
+  // $('#jp_container_1').mouseover(function() {
+    $('.jp-audio').css({'top': '0px'});
+    // $('#jp_container_1').css({'top': '0px'});
+    // $(this).css({'top': '0px'});
+    $('.navbar').css('top', '40px');
+    $('.main-container main').css('padding-top', '100px');
+    $('.jp-controls').css('opacity', '1');
+    $('.jp-details').css('top', '0px');
+  // });
+
+  // $('#jp_container_1').mouseout(function() {
+  //   $(this).css({'top': '-20px'});
+  //   $('.navbar').css('top', '20px');
+  //   $('header').css('margin-bottom', '80px');
+  //   $('.jp-controls').css('opacity', '0');
+  //   $('.jp-details').css('top', '10px');
+  // });
 </script>

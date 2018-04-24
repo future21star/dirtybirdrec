@@ -45,7 +45,7 @@ Rails.application.routes.draw do
   get "get_release_tracks/:id", to: "releases#get_tracks", as: "get_release_tracks"
 
   resources :tracks
-  get 'get_track/:id', to: 'tracks#get_track', as: "get_track"
+  get 'get_tracks', to: 'tracks#get_tracks'
   get "download_track/:id", to: "tracks#download", as: "download_track"
 
   resources :topics
