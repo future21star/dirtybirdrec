@@ -139,7 +139,7 @@
         <div class="c-flag c-flag-inner mb-4">ARTISTS</div>
         <%= link_to "SEE ALL", idols_path, class: "btn c-btn-blue float-right" %>
 
-        <ol class="users-block dark-scroll list-unstyled mt-1">
+        <ol class="users-block list-unstyled mt-1">
           <% @followed_artists.each do |artist| %>
             <li>
               <%= link_to artist_path(artist), class: "d-inline-block align-middle" do %>

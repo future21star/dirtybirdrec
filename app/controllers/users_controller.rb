@@ -170,6 +170,8 @@ class UsersController < ApplicationController
     @followers = @user.followers
     @releases = @user.releases.released.limit(30)
     @artist_video = @user.videos.last
+    @followed_users = @user.followed_users.with_role(:fan).limit(4)
+    @followed_artists = @user.followed_users.with_role(:artist).limit(4)
   end
 
   def get_feed_from objects
