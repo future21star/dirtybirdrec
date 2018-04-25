@@ -34,17 +34,17 @@ class TracksController < ApplicationController
         {
           title:"Tempered Song",
           artists: "Artist 1 feat. Artist 2",
-          mp3:"https://s3.us-east-2.amazonaws.com/dirtybirdrec-dev/mp3-samples/flux-pavilion-never-see-the-light-feat.-andrea-martin-128_(mp3CC.com).mp3"
+          mp3:"https://birdfeed-prod.s3.amazonaws.com/tracks/7d/f4fdb0c57611e7afe977749cd8a258/03. Catz n Dogz - Drop It - Sample - Dirtybird.mp3"
         },
         {
           title:"Hidden",
           artists: "Artist 3 feat. Artist 4",
-          mp3:"https://s3.us-east-2.amazonaws.com/dirtybirdrec-dev/mp3-samples/my_darkest_days_move_your_body_(NaitiMP3.ru).mp3"
+          mp3:"https://birdfeed-prod.s3.amazonaws.com/tracks/80/1126f0c57611e7989f3b5145cbf698/04. SecondCity  Tyler Rowe - I Enter - Sample - Dirtybird.mp3"
         },
         {
           title:"Lentement",
           artists: "Artist 5 feat. Artist 6",
-          mp3:"https://s3.us-east-2.amazonaws.com/dirtybirdrec-dev/mp3-samples/skillet-awake-and-alive-awake-and-alive_(mp3CC.com).mp3"
+          mp3:"https://birdfeed-prod.s3.amazonaws.com/tracks/7e/11fb90c57611e78c72eb88ceec719c/05. Ghostea - Breathing Room - Sample - Dirtybird.mp3"
         }
       ]
       current_track = { index: 2, time: 10 }
