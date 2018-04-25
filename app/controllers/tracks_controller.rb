@@ -47,7 +47,7 @@ class TracksController < ApplicationController
           mp3:"https://birdfeed-prod.s3.amazonaws.com/tracks/7e/11fb90c57611e78c72eb88ceec719c/05. Ghostea - Breathing Room - Sample - Dirtybird.mp3"
         }
       ]
-      current_track = { index: 2, time: 10 }
+      current_track = { index: 0, time: 0 }
     # end
 
       render json: { tracks: tracks, current_track: current_track }
