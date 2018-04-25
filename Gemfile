@@ -42,6 +42,7 @@ gem "font-awesome-rails"
 gem 'active_admin_flat_skin'
 gem 'social-share-button'
 gem 'ratyrate'
+gem 'rack-cors'
 
 
 group :development, :test do
