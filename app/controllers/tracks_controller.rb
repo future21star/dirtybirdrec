@@ -32,18 +32,18 @@ class TracksController < ApplicationController
 
       tracks = [
         {
-          title:"Tempered Song",
-          artists: "Artist 1 feat. Artist 2",
+          title:"03 Drop It",
+          artists: "Catz ‘n Dogz",
           mp3:"https://birdfeed-prod.s3.amazonaws.com/tracks/7d/f4fdb0c57611e7afe977749cd8a258/03. Catz n Dogz - Drop It - Sample - Dirtybird.mp3"
         },
         {
-          title:"Hidden",
-          artists: "Artist 3 feat. Artist 4",
+          title:"04 I Enter",
+          artists: "  SecondCity & Tyler Rowe",
           mp3:"https://birdfeed-prod.s3.amazonaws.com/tracks/80/1126f0c57611e7989f3b5145cbf698/04. SecondCity  Tyler Rowe - I Enter - Sample - Dirtybird.mp3"
         },
         {
-          title:"Lentement",
-          artists: "Artist 5 feat. Artist 6",
+          title:"05 Breathing Room",
+          artists: "Ghostea",
           mp3:"https://birdfeed-prod.s3.amazonaws.com/tracks/7e/11fb90c57611e78c72eb88ceec719c/05. Ghostea - Breathing Room - Sample - Dirtybird.mp3"
         }
       ]
