@@ -14,7 +14,7 @@ module Streambird
     config.load_defaults 5.1
     config.autoload_paths << config.root.join('lib')
 
-    config.middleware.insert_before 0, "Rack::Cors" do
+    config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins '*'
         resource '*', :headers => :any, :methods => [:get, :post, :options]
