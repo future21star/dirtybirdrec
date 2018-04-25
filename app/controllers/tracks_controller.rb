@@ -34,32 +34,17 @@ class TracksController < ApplicationController
         {
           title:"Tempered Song",
           artists: "Artist 1 feat. Artist 2",
-          mp3:"http://www.jplayer.org/audio/mp3/Miaow-01-Tempered-song.mp3",
-          oga:"http://www.jplayer.org/audio/ogg/Miaow-01-Tempered-song.ogg"
+          mp3:"https://s3.us-east-2.amazonaws.com/dirtybirdrec-dev/mp3-samples/flux-pavilion-never-see-the-light-feat.-andrea-martin-128_(mp3CC.com).mp3"
         },
         {
           title:"Hidden",
           artists: "Artist 3 feat. Artist 4",
-          mp3:"http://www.jplayer.org/audio/mp3/Miaow-02-Hidden.mp3",
-          oga:"http://www.jplayer.org/audio/ogg/Miaow-02-Hidden.ogg"
+          mp3:"https://s3.us-east-2.amazonaws.com/dirtybirdrec-dev/mp3-samples/my_darkest_days_move_your_body_(NaitiMP3.ru).mp3"
         },
         {
           title:"Lentement",
           artists: "Artist 5 feat. Artist 6",
-          mp3:"http://www.jplayer.org/audio/mp3/Miaow-03-Lentement.mp3",
-          oga:"http://www.jplayer.org/audio/ogg/Miaow-03-Lentement.ogg"
-        },
-        {
-          artists: "Artist 7 feat. Artist 8",
-          title:"Lismore",
-          mp3:"http://www.jplayer.org/audio/mp3/Miaow-04-Lismore.mp3",
-          oga:"http://www.jplayer.org/audio/ogg/Miaow-04-Lismore.ogg"
-        },
-        {
-          artists: "Artist 9 feat. Artist 10",
-          title:"The Separation",
-          mp3:"http://www.jplayer.org/audio/mp3/Miaow-05-The-separation.mp3",
-          oga:"http://www.jplayer.org/audio/ogg/Miaow-05-The-separation.ogg"
+          mp3:"https://s3.us-east-2.amazonaws.com/dirtybirdrec-dev/mp3-samples/skillet-awake-and-alive-awake-and-alive_(mp3CC.com).mp3"
         }
       ]
       current_track = { index: 2, time: 10 }
