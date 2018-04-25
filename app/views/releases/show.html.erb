@@ -124,7 +124,11 @@
 
               By <%= track.users.pluck(:name).join(' feat. ') %>
 
-              <%#= render 'layouts/artist_player', object: track %>
+              <div class="jp-controls">
+                <button class="jp-previous" role="button" tabindex="0"></button>
+                <button class="jp-play" role="button" tabindex="1"></button>
+                <button class="jp-next" role="button" tabindex="2"></button>
+              </div>
 
               <%= link_to image_tag('icons/icon-download.svg'), download_track_path, class: "icon-download" %>
 

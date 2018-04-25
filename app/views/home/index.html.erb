@@ -17,7 +17,16 @@
               <%= release.tracks.count %>
               <%= "Track".pluralize(release.tracks.count) %>
             <% end %>
-            <button class="btn c-btn-white c-btn-sm">LISTEN</button>
+
+            <%= link_to "LISTEN", get_release_tracks_path(release.id), 
+                id: "play-release-#{release.id}",
+                class: "btn c-btn-white c-btn-sm", remote: true %>
+
+            <div class="jp-controls release-jp-controls" style="display: none;">
+              <button class="jp-previous" role="button" tabindex="0"></button>
+              <button class="jp-play" role="button" tabindex="1"></button>
+              <button class="jp-next" role="button" tabindex="2"></button>
+            </div>
 
             <a href="#" title="Share" tabindex="0" data-toggle="popover" data-placement="left" data-content="<%= (social_share_button_tag(release.title, desc: release.text)).gsub('\"','\'') %>" data-trigger="focus" data-html="true" onclick="return false;" class="c-link">
               Share

@@ -71,7 +71,11 @@
 
           <p class="item-text"><%= release.text.html_safe.truncate(220) %></p>
 
-          <%#= render 'layouts/artist_player', object: release %>
+          <div class="jp-controls">
+            <button class="jp-previous" role="button" tabindex="0"></button>
+            <button class="jp-play" role="button" tabindex="1"></button>
+            <button class="jp-next" role="button" tabindex="2"></button>
+          </div>
 
           <%= link_to image_tag('icons/icon-download.svg'), "#", class: "icon-download" %>
           <%= link_to image_tag('icons/icon-share.svg'), "#", class: "icon-share" %>

@@ -1,4 +1,3 @@
-// #jp_container_1
 .jp-audio {
   position: fixed;
   top: -20px;
@@ -10,6 +9,10 @@
   font-family: "Roboto Mono";
   display: inline-block;
   text-align: right;
+
+  .jp-controls {
+    padding: 12px 0;
+  }
 }
 
 .jp-interface {
@@ -18,10 +21,7 @@
 }
 
 .jp-controls {
-  padding: 12px 0;
   display: flex;
-  opacity: 0;
-  transition: opacity 0.3s;
 
   button {
     background-color: transparent;
@@ -79,14 +79,6 @@
   margin-top: 1px;
 }
 
-.jp-state-playing .jp-play {
-  background-image: asset-data-url("icons/media-pause.svg");
-}
-
-.jp-state-playing .jp-play:focus {
-  background-image: asset-data-url("icons/media-pause-hover.svg");
-}
-
 .jp-volume {
   margin-left: 15px;
 }
@@ -132,7 +124,7 @@
 
 .jp-proggress-container {
   background-color: #222;
-  padding: 16px 15px 0px 76px;  
+  // padding: 16px 15px 0px 76px;  
   margin-right: -15px;
 }
 
@@ -171,14 +163,36 @@
 }
 
 .jp-playlist {
+  opacity: 0.97;
+  border-radius: 0 0 5px 5px;
   text-align: left;
   background-color: gray;
-  margin-top: 1px;
   display: inline-block;
   margin-right: 150px;
 
   ul {
     display: none;
+    list-style-type: none;
+    margin: 0;
+    padding: 10px 15px;
+  }
+
+  li {
+    outline: none;
+    font-size: 14px;
+  }
+}
+
+.jp-playlist-item-remove {
+  float: right;
+  margin-left: 10px;
+}
+
+.jp-playlist-current {
+  color: #959ded;
+
+  &:hover {
+    color: #828cea;
   }
 }
 

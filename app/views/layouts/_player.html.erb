@@ -1,6 +1,5 @@
+
 <div class="jp-audio" id="cPlayer" data-turbolinks-permanent>
-
-
   <div class="container">
     <div class="jp-interface">
       <div class="jp-controls">
@@ -35,8 +34,12 @@
         <%= image_tag 'icons/playlist.png' %>
       </button>
 
-      <div class="jp-proggress-container">
-        <div class="jp-progress">
+
+      <div class="jp-proggress-container" style="width: 200px">
+
+        <div id="waveform"></div>
+
+        <div class="jp-progress d-none">
           <div class="jp-seek-bar">
             <div class="jp-play-bar"></div>
           </div>
@@ -46,7 +49,7 @@
 
     <div class="jp-playlist">
       <ul style="display: none;">
-        <li class="jp-playlist-current">
+        <li>
           <div>
             <a href="javascript:;" class="jp-playlist-item-remove" style="display: none;">×</a>
             <a href="javascript:;" class="jp-playlist-item jp-playlist-current" tabindex="0">Cro Magnon Man</a>
@@ -64,55 +67,51 @@
 </div>
 
 <script type="text/javascript" data-turbolinks-eval="false">
-  var cpAudio = document.createElement('audio'); 
+
   var playlist = [];
   var currentTrackIndex;
 
+  var cpAudio = WaveSurfer.create({
+      container: '#waveform',
+      waveColor: 'violet',
+      progressColor: 'purple',
+      height: 40,
+      barWidth: 2
+  });
+
   $.ajax( "/get_tracks" )
   .done(function(respond) {
-    setPlaylist(respond.tracks);
     currentTrackIndex = respond.current_track.index;
     currentTime = respond.current_track.time;
+    setPlaylist(respond.tracks ,false, currentTrackIndex);
 
-    cpAudio.src = playlist[currentTrackIndex]['mp3'];
-    cpAudio.currentTime = currentTime;
+    cpAudio.load(playlist[currentTrackIndex]['mp3']);
     $('.jp-title').text(playlist[respond.current_track.index]['title']);
     $('.jp-artists').text(playlist[respond.current_track.index]['artists']);
 
-    setTimeout(function(){
-      if(isNaN(cpAudio.duration)){
-        $('.jp-duration').text(secondsToHms(0));
-      } else {
-        $('.jp-duration').text(secondsToHms(cpAudio.duration));
-      }
-    },500);
-  })
-  .fail(function() {
-    // alert( "error" );
+    cpAudio.on('ready', function () {
+      cpAudio.skip(currentTime);
+      $('.jp-current-time').text(secondsToHms(currentTime));
+      $('.jp-duration').text(secondsToHms(cpAudio.getDuration()));
+    });
   });
 
-  cpAudio.setAttribute('data-playing', false);
-  $('.jp-current-time').text(secondsToHms(0));
   $('.jp-duration').text(secondsToHms(0));
+  $('.jp-current-time').text(secondsToHms(0));
   
+  cpAudio.on('audioprocess', function () {
+    $('.jp-current-time').text(secondsToHms(cpAudio.getCurrentTime()));
+  });
 
-  timer = setInterval(function () {
-            $('.jp-current-time').text(secondsToHms(cpAudio.currentTime));
-          },1000);
-
-  // var _player = document.getElementById("player"),
-  //     _playlist = document.getElementById("playlist"),
-  //     _stop = document.getElementById("stop");
-
-  $('.jp-play').click(function(){
+  $('.jp-audio .jp-play').click(function(){
     playButton();
   });
 
-  $('.jp-previous').click(function(){
+  $('.jp-audio .jp-previous').click(function(){
     playPrevious();
   });
 
-  $('.jp-next').click(function(){
+  $('.jp-audio .jp-next').click(function(){
     playNext();
   });
 
@@ -120,20 +119,29 @@
     playlistItemClick($('.jp-playlist-item').index(this));
   });
 
+  $('.jp-playlist').on('click', '.jp-playlist-item-remove', function(){
+    let index = $(this).closest('ul').find('li').index($(this).closest('li'));
+    $(this).closest('li').remove();
+    removeFromPlaylist(index);
+  });
+
   function playlistItemClick(index) {
-    cpAudio.src = playlist[index]['mp3'];
+    cpAudio.load(playlist[index]['mp3']);
     $('.jp-title').text(playlist[index]['title']);
     $('.jp-artists').text(playlist[index]['artists']);
-    setTimeout(function(){
-      $('.jp-duration').text(secondsToHms(cpAudio.duration));
-    },350);
 
-    cpAudio.play();
-    cpAudio.setAttribute('data-playing', true);
-    $('.jp-audio .jp-play').addClass('jp-playing');
+    $('.jp-playlist li').find('.jp-playlist-item').removeClass('jp-playlist-current');
+    $($('.jp-playlist li').get(index)).find('.jp-playlist-item').addClass('jp-playlist-current');
+
+    cpAudio.on('ready', function() {
+      cpAudio.play();
+      $('.jp-duration').text(secondsToHms(cpAudio.getDuration()));
+    });
+
+    $('.jp-play').addClass('jp-playing');
   }
 
-  function setPlaylist(tracks) {
+  function setPlaylist(tracks, play=false, currentTrack=0) {
     playlist = tracks;
     $('.jp-playlist ul').html('');
 
@@ -146,54 +154,86 @@
           </div>
         </li>`);
     });
+
+    $($('.jp-playlist li').get(currentTrack)).find('.jp-playlist-item').addClass('jp-playlist-current');
+
+    if(play) {
+      cpAudio.load(playlist[0]['mp3']);
+
+      cpAudio.on('ready', function() {
+        cpAudio.play();
+        $('.jp-duration').text(secondsToHms(cpAudio.getDuration()));
+      });
+
+      $('.jp-play').addClass('jp-playing');
+    }
+  }
+
+  function removeFromPlaylist(index) {
+    playlist.splice(index,1);
+    $('.jp-playlist li').find('.jp-playlist-item').removeClass('jp-playlist-current');
+    $($('.jp-playlist li').get(index)).find('.jp-playlist-item').addClass('jp-playlist-current');
   }
 
   function playButton() {
-    if(cpAudio.getAttribute('data-playing') == 'true') {
+    if(cpAudio.isPlaying()) {
       cpAudio.pause();
       $('.jp-play').removeClass('jp-playing');
-      cpAudio.setAttribute('data-playing', false);
+
     } else {
       cpAudio.play();
-      cpAudio.setAttribute('data-playing', true);
-      $('.jp-audio .jp-play').addClass('jp-playing');
+      $('.jp-play').addClass('jp-playing');
     }
   }
 
   function playNext() {
-    if(playlist[currentTrackIndex + 1] == undefined) return false;
+    if(playlist[currentTrackIndex + 1] == undefined) {
+      $('.jp-play').removeClass('jp-playing');
+      return false;
+    }
 
     currentTrackIndex++;
 
-    cpAudio.src = playlist[currentTrackIndex]['mp3'];
+    cpAudio.pause();
+
+    $('.jp-duration').text(secondsToHms(0));
+    $('.jp-current-time').text(secondsToHms(0));
+
+    cpAudio.load(playlist[currentTrackIndex]['mp3']);
     $('.jp-title').text(playlist[currentTrackIndex]['title']);
     $('.jp-artists').text(playlist[currentTrackIndex]['artists']);
-    setTimeout(function(){
-      $('.jp-duration').text(secondsToHms(cpAudio.duration));
-    },500);
 
-    cpAudio.play();
-    cpAudio.setAttribute('data-playing', true);
-    $('.jp-audio .jp-play').addClass('jp-playing');
+    $('.jp-playlist li').find('.jp-playlist-item').removeClass('jp-playlist-current');
+    $($('.jp-playlist li').get(currentTrackIndex)).find('.jp-playlist-item').addClass('jp-playlist-current');
+
+    cpAudio.on('ready', function() {
+      cpAudio.play();
+      $('.jp-duration').text(secondsToHms(cpAudio.getDuration()));
+    });
+
+    $('.jp-play').addClass('jp-playing');
   }
 
-  cpAudio.addEventListener("ended", playNext);
+  cpAudio.on("finish", playNext);
 
   function playPrevious() {
-    if(playlist[currentTrackIndex-1] == undefined) return false;
+    console.log('prev');
+    if(playlist[currentTrackIndex-1] == undefined) {
+      return false;
+    }  
 
     currentTrackIndex--;
 
-    cpAudio.src = playlist[currentTrackIndex]['mp3'];
+    cpAudio.load(playlist[currentTrackIndex]['mp3']);
     $('.jp-title').text(playlist[currentTrackIndex]['title']);
     $('.jp-artists').text(playlist[currentTrackIndex]['artists']);
-    setTimeout(function(){
-      $('.jp-duration').text(secondsToHms(cpAudio.duration));
-    },350);
 
-    cpAudio.play();
-    cpAudio.setAttribute('data-playing', true);
-    $('.jp-audio .jp-play').addClass('jp-playing');
+    cpAudio.on('ready', function() {
+      cpAudio.play();
+      $('.jp-duration').text(secondsToHms(cpAudio.getDuration()));
+    });
+
+    $('.jp-play').addClass('jp-playing');
   }
 
   var draggedBars = [
@@ -222,9 +262,6 @@
          updateBar[bar[2]](ev.clientX);
       });
       updateBar[bar[2]] = function (x, vol) {
-        console.log(x);
-        console.log(vol);
-        console.log(e);
          var volume = e[bar[2]];
               var percentage;
               if (vol) {
@@ -243,12 +280,8 @@
 
               eInner[bar[2]].style.width = percentage +'%';
               if(bar[2] == 'volume') {
-                console.log('volume');
-                console.log(percentage / 100);
                 audio.volume = percentage / 100;
               } else if(bar[2] == 'progress') {
-                console.log('progress');
-                console.log(Math.round(audio.duration * percentage / 100));
                 audio.currentTime = Math.round(audio.duration * percentage / 100);
               }
       };
@@ -264,7 +297,7 @@
   }
 
   $('#jp-playlist-btn').click(function() {
-    $('.jp-playlist ul').slideToggle(500, function() {
+    $('.jp-playlist ul').slideToggle(300, function() {
       if ($(this).is(':visible'))
           $(this).css('display','inline-block');
     });
@@ -277,7 +310,7 @@
   window.addEventListener('click', function(e){   
     if (!document.getElementsByClassName('jp-playlist')[0].contains(e.target) &&
       !document.getElementById('jp-playlist-btn').contains(e.target)){
-      $('.jp-playlist ul').slideUp(500);
+      $('.jp-playlist ul').slideUp(300);
     }
   });
 

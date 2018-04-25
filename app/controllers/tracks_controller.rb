@@ -62,7 +62,7 @@ class TracksController < ApplicationController
           oga:"http://www.jplayer.org/audio/ogg/Miaow-05-The-separation.ogg"
         }
       ]
-      current_track = { index: 0, time: 0 }
+      current_track = { index: 2, time: 10 }
     # end
 
       render json: { tracks: tracks, current_track: current_track }
