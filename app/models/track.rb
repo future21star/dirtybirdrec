@@ -7,6 +7,7 @@ class Track < ApplicationRecord
 
   mount_uploader :avatar, ReleaseUploader
   mount_uploader :url, TrackUploader
+  mount_uploader :sample_uri, TrackUploader
 
   ratyrate_rateable "main"
 
