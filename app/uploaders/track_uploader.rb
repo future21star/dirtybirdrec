@@ -2,7 +2,7 @@ class TrackUploader < CarrierWave::Uploader::Base
   storage :fog
 
   def store_dir
-    key = Digest::MD5.hexdigest model.inspect
+    key = Digest::MD5.hexdigest (model.inspect + mounted_as)
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}/#{key}"
   end
 
