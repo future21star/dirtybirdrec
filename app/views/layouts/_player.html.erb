@@ -71,16 +71,16 @@
       barWidth: 2
   });
 
+  $('.jp-duration').text(secondsToHms(0));
+  $('.jp-current-time').text(secondsToHms(0));
+
   $.ajax( "/get_tracks" )
   .done(function(respond) {
     currentTrackIndex = respond.current_track.index;
-    currentTime = respond.current_track.time;
-    setPlaylist(respond.tracks ,false, currentTrackIndex);
+    time = respond.current_track.time;
+    setPlaylist(respond.tracks ,false, currentTrackIndex,time);
 
   });
-
-  $('.jp-duration').text(secondsToHms(0));
-  $('.jp-current-time').text(secondsToHms(0));
   
   cpAudio.on('audioprocess', function () {
     $('.jp-current-time').text(secondsToHms(cpAudio.getCurrentTime()));
@@ -133,7 +133,7 @@
     $('.jp-play').addClass('jp-playing');
   }
 
-  function setPlaylist(tracks, play=false, currentTrack=0) {
+  function setPlaylist(tracks, play=false, currentTrack=0, currentTime=0) {
     playlist = tracks;
     $('.jp-playlist ul').html('');
 
@@ -149,25 +149,24 @@
 
     $($('.jp-playlist li').get(currentTrack)).find('.jp-playlist-item').addClass('jp-playlist-current');
 
-    if(play) {
-      cpAudio.load(playlist[currentTrack]['mp3']);
-
-      cpAudio.on('ready', function() {
-        cpAudio.play();
-        $('.jp-duration').text(secondsToHms(cpAudio.getDuration()));
-      });
-
-      $('.jp-play').addClass('jp-playing');
-    }
-
-    $('.jp-title').text(playlist[currentTrack]['title']);
-    $('.jp-artists').text(playlist[currentTrack]['artists']);
+    cpAudio.load(playlist[currentTrack]['mp3']);
 
     cpAudio.on('ready', function () {
       cpAudio.skip(currentTime);
       $('.jp-current-time').text(secondsToHms(currentTime));
       $('.jp-duration').text(secondsToHms(cpAudio.getDuration()));
     });
+    
+    if(play) {
+      cpAudio.on('ready', function() {
+        cpAudio.play();
+      });
+      $('.jp-play').addClass('jp-playing');
+    }
+
+    $('.jp-title').text(playlist[currentTrack]['title']);
+    $('.jp-artists').text(playlist[currentTrack]['artists']);
+
   }
 
   function removeFromPlaylist(index) {
