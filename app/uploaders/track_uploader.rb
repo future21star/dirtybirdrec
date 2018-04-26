@@ -2,7 +2,8 @@ class TrackUploader < CarrierWave::Uploader::Base
   storage :fog
 
   def store_dir
-    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}/#{SecureRandom.hex(8)}"
+    key = Digest::MD5.hexdigest model
+    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}/#{key}"
   end
 
   # def fog_public

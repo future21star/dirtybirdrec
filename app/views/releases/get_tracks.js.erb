@@ -1,10 +1,11 @@
-<% tracks = @tracks.map do |track| 
-  { 
-    title: track.title, 
-    artists: track.users.pluck(:name).join(' feat. '), 
-    mp3: track.get_url 
-  }
-end %>
+var tracks = [];
+<% @tracks.each do |track| %>
+  tracks.push({ 
+    'title': '<%= track.title %>', 
+    'artists': '<%= track.users.pluck(:name).join(' feat. ') %>', 
+    'mp3': '<%= track.get_url %>' 
+  });
+<% end %>
 
 setPlaylist(tracks,true);
 
