@@ -1,15 +1,12 @@
-setPlaylist([
-  {
-    title:"01 Buggin (Original Mix)",
-    artists:"Justin Martin",
-    mp3:"https://birdfeed-prod.s3.amazonaws.com/tracks/84/8d3930c57611e7a9ceb5c7c852c095/01. Justin Martin - Buggin (Original Mix) - Sample - Dirtybird.mp3"
-  },
-  {
-    title:"02 OKAY",
-    artists:"Shiba San",
-    mp3:"https://birdfeed-prod.s3.amazonaws.com/tracks/7e/072620c57611e7bb79795ed2319d6e/02. Shiba San - OKAY - Sample - Dirtybird.mp3"
+<% tracks = @tracks.map do |track| 
+  { 
+    title: track.title, 
+    artists: track.users.pluck(:name).join(' feat. '), 
+    mp3: track.get_url 
   }
-],true);
+end %>
+
+setPlaylist(tracks,true);
 
 
 $("[id^='play-release-']").show().next('.jp-controls').css({'display': 'none'});

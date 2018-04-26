@@ -6,6 +6,9 @@ class Track < ApplicationRecord
   has_many :users, through: :tracks_users
 
   mount_uploader :avatar, ReleaseUploader
+  mount_uploader :url, TrackUploader
+
+  ratyrate_rateable "main"
 
   include AlgoliaSearch
 

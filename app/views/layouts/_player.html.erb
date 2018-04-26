@@ -34,16 +34,8 @@
         <%= image_tag 'icons/playlist.png' %>
       </button>
 
-
       <div class="jp-proggress-container" style="width: 200px">
-
         <div id="waveform"></div>
-
-        <div class="jp-progress d-none">
-          <div class="jp-seek-bar">
-            <div class="jp-play-bar"></div>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -85,15 +77,6 @@
     currentTime = respond.current_track.time;
     setPlaylist(respond.tracks ,false, currentTrackIndex);
 
-    cpAudio.load(playlist[currentTrackIndex]['mp3']);
-    $('.jp-title').text(playlist[respond.current_track.index]['title']);
-    $('.jp-artists').text(playlist[respond.current_track.index]['artists']);
-
-    cpAudio.on('ready', function () {
-      cpAudio.skip(currentTime);
-      $('.jp-current-time').text(secondsToHms(currentTime));
-      $('.jp-duration').text(secondsToHms(cpAudio.getDuration()));
-    });
   });
 
   $('.jp-duration').text(secondsToHms(0));
@@ -115,13 +98,22 @@
     playNext();
   });
 
+  $('.jp-audio').on('change', '.jp-playlist', function(){
+    if($(this).find('li').length < 2) {
+      $('.jp-previous').addClass('jp-disabled');
+      $('.jp-next').addClass('jp-disabled');
+    } else {
+      $('.jp-previous').removeClass('jp-disabled');
+      $('.jp-next').removeClass('jp-disabled');
+    }
+  });
+
   $('.jp-playlist').on('click', '.jp-playlist-item', function(){
     playlistItemClick($('.jp-playlist-item').index(this));
   });
 
   $('.jp-playlist').on('click', '.jp-playlist-item-remove', function(){
     let index = $(this).closest('ul').find('li').index($(this).closest('li'));
-    $(this).closest('li').remove();
     removeFromPlaylist(index);
   });
 
@@ -152,13 +144,13 @@
             <a href="javascript:;" class="jp-playlist-item" tabindex="0">` + track.title + ` - ` + track.artists + `</a>
             <a href="javascript:;" class="jp-playlist-item-remove">×</a>
           </div>
-        </li>`);
+        </li>`).trigger('change');
     });
 
     $($('.jp-playlist li').get(currentTrack)).find('.jp-playlist-item').addClass('jp-playlist-current');
 
     if(play) {
-      cpAudio.load(playlist[0]['mp3']);
+      cpAudio.load(playlist[currentTrack]['mp3']);
 
       cpAudio.on('ready', function() {
         cpAudio.play();
@@ -167,12 +159,27 @@
 
       $('.jp-play').addClass('jp-playing');
     }
+
+    $('.jp-title').text(playlist[currentTrack]['title']);
+    $('.jp-artists').text(playlist[currentTrack]['artists']);
+
+    cpAudio.on('ready', function () {
+      cpAudio.skip(currentTime);
+      $('.jp-current-time').text(secondsToHms(currentTime));
+      $('.jp-duration').text(secondsToHms(cpAudio.getDuration()));
+    });
   }
 
   function removeFromPlaylist(index) {
+    let item = $('.jp-playlist li').get(index);
+    let active = $(item).find('.jp-playlist-current').length > 0
+    item.remove();
+    $('.jp-playlist').trigger('change');
     playlist.splice(index,1);
-    $('.jp-playlist li').find('.jp-playlist-item').removeClass('jp-playlist-current');
-    $($('.jp-playlist li').get(index)).find('.jp-playlist-item').addClass('jp-playlist-current');
+    if (active) {
+      currentTrackIndex--;
+      playNext(true);
+    }
   }
 
   function playButton() {
@@ -186,7 +193,7 @@
     }
   }
 
-  function playNext() {
+  function playNext(paused=false) {
     if(playlist[currentTrackIndex + 1] == undefined) {
       $('.jp-play').removeClass('jp-playing');
       return false;
@@ -207,17 +214,16 @@
     $($('.jp-playlist li').get(currentTrackIndex)).find('.jp-playlist-item').addClass('jp-playlist-current');
 
     cpAudio.on('ready', function() {
-      cpAudio.play();
+      if(!paused) cpAudio.play();
       $('.jp-duration').text(secondsToHms(cpAudio.getDuration()));
     });
 
-    $('.jp-play').addClass('jp-playing');
+    if(!paused)  $('.jp-play').addClass('jp-playing');
   }
 
   cpAudio.on("finish", playNext);
 
   function playPrevious() {
-    console.log('prev');
     if(playlist[currentTrackIndex-1] == undefined) {
       return false;
     }  
@@ -237,8 +243,7 @@
   }
 
   var draggedBars = [
-    ['.jp-volume-bar','.jp-volume-bar-value','volume'],
-    ['.jp-seek-bar','jp-play-bar','progress']
+    ['.jp-volume-bar','.jp-volume-bar-value','volume']
   ]
   dragBars(draggedBars);
 
