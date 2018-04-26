@@ -24,6 +24,6 @@ class Track < ApplicationRecord
     # else
       return sample_uri
     # end
-  # end
+  end
 
 end
