@@ -2,7 +2,11 @@ class TrackUploader < CarrierWave::Uploader::Base
   storage :fog
 
   def store_dir
-    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}/#{SecureRandom.hex(8)}"
+  end
+
+  def filename
+    SecureRandom.hex(8) + original_filename if original_filename
   end
 
   # def fog_public
@@ -13,3 +17,4 @@ class TrackUploader < CarrierWave::Uploader::Base
   #   1.day
   # end
 end
+
