@@ -5,10 +5,6 @@ class TrackUploader < CarrierWave::Uploader::Base
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}/#{SecureRandom.hex(8)}"
   end
 
-  def filename
-    SecureRandom.hex(8) + original_filename if original_filename
-  end
-
   # def fog_public
   #   false
   # end
