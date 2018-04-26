@@ -22,7 +22,7 @@ class Track < ApplicationRecord
     if current_user && (current_user.subscription_type > 0 || current_user.has_role?(:paid) )
       return url
     else
-      return sample_url
+      return sample_uri
     end
   end
 
