@@ -19,11 +19,11 @@ class Track < ApplicationRecord
 
   
   def get_url
-    if current_user && (current_user.subscription_type > 0 || current_user.has_role?(:paid) )
-      return url
-    else
+    # if current_user && (current_user.subscription_type > 0 || current_user.has_role?(:paid) )
+      # return url
+    # else
       return sample_uri
-    end
-  end
+    # end
+  # end
 
 end
