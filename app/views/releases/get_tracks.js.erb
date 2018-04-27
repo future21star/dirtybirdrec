@@ -4,7 +4,7 @@ var tracks = [];
     'id': '<%= track.id %>',
     'title': '<%= track.title %>', 
     'artists': '<%= track.users.pluck(:name).join(' feat. ') %>', 
-    'mp3': '<%= track.get_url %>' 
+    'mp3': {'url': '<%= track.get_url %>' }
   });
 <% end %>
 
