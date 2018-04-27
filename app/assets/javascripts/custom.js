@@ -122,8 +122,8 @@ $(document).on('turbolinks:load', function() {
   });
 
   $('.truncated-description').on('click', '.truncated-short', function(){
-    $(this).prev('article')[1].hide();
-    $(this).prev('article')[0].show();
+    $(this).siblings('article').show();
+    $(this).siblings('article').last().hide();
     $(this).hide();
     $('.truncated-long').show();
     return false;

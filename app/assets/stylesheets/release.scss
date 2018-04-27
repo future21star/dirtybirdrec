@@ -165,8 +165,13 @@
   .jp-controls {
     position: absolute;
     z-index: 2;
-    bottom: 15px;
+    bottom: 10px;
     left: 15px;
+    align-items: center;
+
+    .star {
+      margin-bottom: 5px;
+    }
   }
 
   .icon-download {

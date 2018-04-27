@@ -15,7 +15,7 @@ ActiveAdmin.register Track do
 
   form do |f|
     f.inputs do
-      f.input :avatar
+      # f.input :avatar
       f.input :title
       f.input :release
       f.input :track_number
