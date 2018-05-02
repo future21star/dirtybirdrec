@@ -32,6 +32,21 @@ class Ability
     user ||= User.new # guest user (not logged in)
     if user.has_role? :admin 
       can :manage, :all
+
+    elsif user.has_role? :artist
+      can :manage, Release do |release|
+        release.user_ids.include?(user.id)
+      end
+
+      can :manage, Track do |track|
+        track.user_ids.include?(user.id)
+      end
+
+      can :manage, Announcement, user_id: user.id
+      can :manage, ArtistInfo, user_id: user.id
+      can :manage, Video, user_id: user.id
+
+
       # can :access, :ckeditor
     # Performed checks for actions:
       # can [:read, :create, :destroy], Ckeditor::Picture

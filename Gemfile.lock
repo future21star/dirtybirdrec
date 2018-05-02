@@ -264,6 +264,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
+    redis (4.0.1)
     require_all (1.5.0)
     responders (2.4.0)
       actionpack (>= 4.2.0, < 5.3)
@@ -373,6 +374,7 @@ DEPENDENCIES
   rack-cors
   rails (~> 5.1.5)
   ratyrate
+  redis (~> 4.0)
   rolify
   sass-rails (~> 5.0)
   selenium-webdriver

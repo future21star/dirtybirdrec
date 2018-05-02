@@ -74,12 +74,13 @@ $(document).on('turbolinks:load', function() {
       },
       {
         source: autocomplete.sources.hits(users, { hitsPerPage: 3 }),
-        displayKey: 'name',
+        displayKey: 'first_name',
         templates: {
           header: '<div class="aa-suggestions-category">Users</div>',
           suggestion: function(suggestion) {
             return '<a href="/users/'+suggestion.objectID+'"><span>' +
-              suggestion._highlightResult.name.value + '</span></a>';
+              suggestion._highlightResult.first_name.value + ' ' +
+              suggestion._highlightResult.last_name.value +'</span></a>';
           }
         }
       },

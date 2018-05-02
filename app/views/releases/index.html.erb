@@ -1,26 +1,51 @@
 <div class="mt-4 mb-2">
   <div class="c-flag">RELEASES</div>
-</div>
+<!-- </div> -->
 
-<div class="release-flag-block">
-  filter by
-  <% p = params[:filters].present? ? params[:filters] : {} %>
+<!-- <div class="release-flag-block"> -->
+  <div class="releases-tabs">
+    <%= link_to "All", releases_path %>
 
-  <%= form_tag releases_path, method: :get, class: "d-flex" do %>
-    <%= check_box_tag "filters[never_released]", 'true', p[:never_released] %>
-    <%= label_tag "filters[never_released]", "never_released" %>
-    <br>
-    <%= check_box_tag "filters[month]", 'true', p[:month] %>
-    <%= label_tag "filters[month]", "last month" %>
-    <br>
-    <%= check_box_tag "filters[year]", 'true', p[:year] %>
-    <%= label_tag "filters[year]", "last year" %>
-    <br>
-    <%= select_tag "filters[artist]", 
+    <div class="dropdown">
+      <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        By Artist
+      </a>
+      <div class="dropdown-menu">
+        <ul>
+          <% @artists.each do |user| %>
+            <li class="filter-user">
+              <%= link_to releases_path( filters: { artist: user.id } ), class: "" do %>
+                <%= image_tag(user.avatar.thumb, class: "user-avatar") if user.avatar.present? %>
+                <div><%= user.name %></div>
+                <div><%= pluralize(user.artist_info.tracks_count, 'track') if user.artist_info %></div>
+              <% end %>
+            <% end %>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="dropdown">
+      <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        By Year
+      </a>
+      <div class="dropdown-menu">
+        <ul>
+          <% (2011..Time.current.year).reverse_each do |year| %>
+            <li>
+              <%= link_to year, releases_path( filters: { year: year } ) %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+
+    <%= link_to "Last 3 months", releases_path( filters: { three_months: true } ) %>
+  </div>
+
+    <%#= select_tag "filters[artist]", 
         options_from_collection_for_select(@artists, "id", "name"),
         include_blank: true %>
-    <%= submit_tag "filter" %>
-  <% end %>
 </div>
 
 <div class="row mt-4">
@@ -44,7 +69,7 @@
 
             <div class="jp-controls release-jp-controls" style="display: none;">
               <button class="jp-previous" role="button" tabindex="0"></button>
-              <button class="jp-play" role="button" tabindex="1"></button>
+              <button class="jp-play jp-play-release" role="button" tabindex="1"></button>
               <button class="jp-next" role="button" tabindex="2"></button>
             </div>
 

@@ -45,6 +45,10 @@
   }
 }
 
+.raty-cancel {
+  display: none;
+}
+
 .release-header {
   padding: 10px 15px 10px 310px;
 
@@ -66,10 +70,6 @@
     font-size: 11px;
     font-weight: 700;
     margin-left: 10px;
-
-    .raty-cancel {
-      display: none;
-    }
 
     .star {
       display: inline-block;

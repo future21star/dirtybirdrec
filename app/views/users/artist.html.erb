@@ -4,7 +4,7 @@
   <% elsif @user.avatar.present? %>
     <%= image_tag @user.avatar.url, class: "userpage-avatar" %>
   <% end %>
-  <%= image_tag 'icons/point-green-big.svg', class: "artist-online"%>
+  <%= image_tag 'icons/point-green-big.svg', class: "artist-online" if @user.online? %>
 
   <div class="user-bgrd" >
     <%= image_tag 'dj.jpg'%>
@@ -71,16 +71,23 @@
 
           <p class="item-text"><%= release.text.html_safe.truncate(220) %></p>
 
-          <div class="jp-controls">
+          <%= link_to "LISTEN", get_release_tracks_path(release.id), 
+              id: "play-release-#{release.id}",
+              class: "btn c-btn-white c-btn-sm release-listen", remote: true %>
+
+          <div class="jp-controls" style="display: none;">
             <div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>
             <button class="jp-previous" role="button" tabindex="0"></button>
-            <button class="jp-play" data-release="<%= release.id %>" role="button" tabindex="1"></button>
+            <button class="jp-play jp-play-release" data-release="<%= release.id %>" role="button" tabindex="1"></button>
             <button class="jp-next" role="button" tabindex="2"></button>
             <div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
           </div>
 
           <%= link_to image_tag('icons/icon-download.svg'), "#", class: "icon-download" %>
-          <%= link_to image_tag('icons/icon-share.svg'), "#", class: "icon-share" %>
+          
+          <a href="#" title="Share" tabindex="0" data-toggle="popover" data-placement="left" data-content="<%= (social_share_button_tag(release.title, desc: release.text)).gsub('\"','\'') %>" data-trigger="focus" data-html="true" onclick="return false;" class="icon-share">
+            <%= image_tag('icons/icon-share.svg') %>
+          </a>
         </div>
       </div>
     <% end %>
@@ -151,7 +158,7 @@
               <div>
                 <h5>
                   <%= link_to user.name, user_path(user) %>
-                  <%= image_tag 'icons/point-green.svg', class: "point-green" if user %>
+                  <%= image_tag 'icons/point-green.svg', class: "point-green" if user.online? %>
                 </h5>
                 <div>
                   <%= user.city %> 

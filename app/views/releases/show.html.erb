@@ -90,7 +90,7 @@
             <div class="user-subtitle">
               <h5>
                 <%= link_to artist.name, artist_path(artist) %>
-                <%= image_tag 'icons/point-green.svg', class: "point-green" if artist %>
+                <%= image_tag 'icons/point-green.svg', class: "point-green" if artist.online? %>
               </h5>
               <div>
                 <%= link_to "All tracks", artist %>
@@ -122,7 +122,7 @@
                 <%= render 'likes/like_button', object: track %>
               </h3>
 
-              By <%= track.users.pluck(:name).join(' feat. ') %>
+              By <%= track.users.map(&:name).join(' feat. ') %>
 
               <div class="jp-controls">
                 <div class="jp-current-time-track" role="timer" aria-label="time">0:00</div>

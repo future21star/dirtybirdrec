@@ -15,7 +15,8 @@ class User < ApplicationRecord
   attr_accessor :subscription
   enum gender: [:female, :male]
 
-  validates :name, presence: true
+  validates :first_name, presence: true
+  validates :last_name, presence: true
 
   enum subscription_type: [:member, :vip, :admin]
 
@@ -43,7 +44,19 @@ class User < ApplicationRecord
   include GiocoCustom
 
   algoliasearch do
-    attribute :name
+    attribute :first_name, :last_name
+  end
+
+  def name
+    "#{first_name} #{last_name}"
+  end
+
+  def online?
+    begin
+      $redis_onlines.exists( self.id )
+    rescue Redis::CannotConnectError
+      return false
+    end
   end
 
   def vip?
@@ -53,6 +66,20 @@ class User < ApplicationRecord
 
   def admin?
     subscription_type == 'admin'
+  end
+
+  def active_subscription?
+    return true if subscription_type == 'vip' || subscription_type == 'admin'
+
+    return false unless subscription_started_at
+
+    if braintree_subscription
+      if braintree_subscription_expires_at && Date.today <= braintree_subscription_expires_at
+        return true
+      end
+    end
+
+    false
   end
 
   def followers

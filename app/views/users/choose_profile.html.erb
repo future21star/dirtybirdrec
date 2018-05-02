@@ -5,13 +5,13 @@ Please complete the registration or
     html: {style: "width: 400px; margin-top: 30px;"} do |f| %>
 
   <div class="form-check">
-    <%= f.radio_button :subscription_type, '0' %>
-    <%= f.label(:subscription_type_0, 'Free account', class: "h3") %>
+    <%= f.radio_button :subscription_type, 'member' %>
+    <%= f.label(:subscription_type_member, 'Free account', class: "h3") %>
   </div>
 
   <div class="form-check">
-    <%= f.radio_button :subscription_type, '1', checked: (!current_user.vip?) %>
-    <%= f.label(:subscription_type_1, 'Full Account', class: "h3") %>
+    <%= f.radio_button :subscription_type, 'vip', checked: (!current_user.vip?) %>
+    <%= f.label(:subscription_type_vip, 'Full Account', class: "h3") %>
   </div>
   
   <p>(you will can listen full tracks, download it, and keep up with new releases)</p>

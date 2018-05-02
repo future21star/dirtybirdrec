@@ -120,7 +120,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     artist_vars
 
-    get_feed_from @user.videos
+    get_feed_from @user.announcements, "Announcement"
 
     render :artist
   end
@@ -129,7 +129,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     artist_vars
 
-    get_feed_from @user.videos
+    get_feed_from @user.announcements, "Announcement"
 
     render :artist
   end
@@ -138,7 +138,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     artist_vars
 
-    get_feed_from @user.videos
+    get_feed_from @user.videos, "Addvideo"
 
     render :artist
   end
@@ -174,13 +174,13 @@ class UsersController < ApplicationController
     @followed_artists = @user.followed_users.with_role(:artist).limit(4)
   end
 
-  def get_feed_from objects
+  def get_feed_from objects, verb 
     results = objects.map do |object|
       {
         'actor' => @user,
         'object' => object,
-        'verb' =>"Addvideo",
-        'foreign_id' => "Addvideo:#{object.id}"
+        'verb' => verb,
+        'foreign_id' => "#{verb}:#{object.id}"
       }
     end
       

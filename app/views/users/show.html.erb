@@ -121,7 +121,7 @@
               <div>
                 <h5>
                   <%= link_to user.name, user_path(user) %>
-                  <%= image_tag 'icons/point-green.svg', class: "point-green" if user %>
+                  <%= image_tag 'icons/point-green.svg', class: "point-green" if user.online? %>
                 </h5>
                 <div>
                   <%= "from #{user.city}" %> 
@@ -148,7 +148,7 @@
               <div>
                 <h5>
                   <%= link_to artist.name, artist_path(artist) %>
-                  <%= image_tag 'icons/point-green.svg', class: "point-green" if artist %>
+                  <%= image_tag 'icons/point-green.svg', class: "point-green" if artist.online? %>
                 </h5>
                 <div>
                   <%= artist.try(:artist_info).try(:tracks_count) || 0 %>

@@ -5,14 +5,36 @@
 
 .form-signin {
   width: 100%;
-  max-width: 420px;
-  padding: 15px;
+  max-width: 465px;
+  padding: 30px 60px 50px 45px;
   margin: 0 auto;
+  background-color: white;
+  border-radius: 8px;
+
+  h2 {
+    color: #000000;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: left;
+  }
+
+  p {
+    color: #000000;
+    font-size: 14px;
+    text-align: left;
+  }
 }
 
 .form-label-group {
   position: relative;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+
+  input {
+    border: none;
+    border-radius: 0px;
+    border-bottom: 2px solid black;
+  }
 }
 
 .form-label-group > input,

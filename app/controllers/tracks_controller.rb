@@ -6,7 +6,7 @@ class TracksController < ApplicationController
       track: { 
         id: track.id,
         title: track.title, 
-        artists: track.users.pluck(:name).join(' feat. '),
+        artists: track.users.map(&:name).join(' feat. '),
         mp3: track.get_url
       } 
     }
@@ -18,7 +18,7 @@ class TracksController < ApplicationController
 
     #   current_user.playlist.tracks.split(',').each do |track_id|
     #     track = Track.find( track_id )
-    #     artists = track.users.pluck(:name).join(' feat. ')
+    #     artists = track.users.map(&:name).join(' feat. ')
 
     #     tracks << {
     #       title: track.title,
@@ -35,7 +35,7 @@ class TracksController < ApplicationController
     #   end
     # else
       # tracks = Track.last(5).map do |track|
-      #   artists = track.users.pluck(:name).join(' feat. ')
+      #   artists = track.users.map(&:name).join(' feat. ')
       #   { title: track.title, artists: artists, mp3: track.get_url } # TODO check for subscription
       # end
 

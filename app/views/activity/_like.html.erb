@@ -1,7 +1,18 @@
-<%= activity['actor'].name %>
-<small><em>likes <%= activity['object'].class.to_s.downcase %></em></small>
-<%= activity['object'].try(:title).try(:truncate, 25) %>
-<% if activity['object'].class == Comment && activity['object'].commentable.class == User %>
-  <%= "on #{activity['object'].commentable.roles.first.name} #{activity['object'].commentable.try(:name)}"  %>
-<% end %>
-<hr>
+<%#= link_to image_tag(activity['actor'].avatar.thumb.url, class: "post-user-avatar"), activity['actor'], class: "post-owner" %>
+<p class="feed-posted"> 
+  <%= time_ago_in_words(activity['object'].created_at) %> ago.
+
+  <%= link_to activity['actor'].name, activity['actor'], class: "ml-4" %>
+  <small><em>likes <%= activity['object'].class.to_s.downcase %></em></small>
+
+  <% if activity['object'].class == Release %>
+    <%= link_to activity['object'].try(:title).try(:truncate, 25), activity['object'] %>
+  <% end %>
+
+  <% if activity['object'].class == Comment && activity['object'].commentable.class == User %>
+    <%= "on #{activity['object'].commentable.roles.first.name}" %>
+    <%= link_to activity['object'].commentable.try(:name), activity['object'] %>
+  <% end %>
+</p>
+
+<hr class="feed-divider">

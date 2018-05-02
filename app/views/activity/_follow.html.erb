@@ -1,6 +1,9 @@
-<%= activity['actor'].name %> 
-<small>
-  <em>is watching</em></small>
+<%#= link_to image_tag(activity['actor'].avatar.thumb.url, class: "post-user-avatar"), activity['actor'], class: "post-owner" %>
+<p class="feed-posted">
+  <%= time_ago_in_words(activity['object'].created_at) %> ago.
+
+  <%= link_to activity['actor'].name, activity['actor'], class: "ml-4" %> 
+  <small><em>is watching</em></small>
   <% if activity['object'].class.to_s == "User" %>
     <% if activity['object'].has_role?(:artist) %>
       artist
@@ -9,10 +12,11 @@
     <% elsif activity['object'].has_role?(:fan) %>
       user
     <% end %>
-    <%= activity['object'].name %>
-  <% elsif activity['object'].class.to_s == "Track" %>
-    track <%= activity['object'].title %>
+    <%= link_to activity['object'].name, activity['object'] %>
+  <% elsif activity['object'].class.to_s == "Release" %>
+    release <%= link_to activity['object'].title, activity['object'] %>
   <% end %>
-  <small><em>now</em>
-</small>
-<hr>
+  <small><em>now</em></small>
+</p>
+
+<hr class="feed-divider">

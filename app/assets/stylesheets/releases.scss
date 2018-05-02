@@ -20,3 +20,47 @@
   display: inline-block;;
   padding: 0;
 }
+
+.releases-tabs {
+  display: inline-flex;
+  align-items: start;
+
+  a {
+    color: #222;
+    font-size: 12px;
+    vertical-align: top;
+    margin-right: 15px;
+    white-space: nowrap;
+  }
+
+  .dropdown-menu {
+    padding: 10px 20px;
+    max-height: 400px;
+    overflow: auto;
+    background-color: rgba(210,210,210,0.94);
+    border-radius: 8px;
+
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    .filter-user {
+      height: 60px;
+      text-align: left;
+    }
+  }
+
+  .user-avatar {
+    width: 52px;
+    height: 52px;
+    float: left;
+    margin-right: 15px;
+
+    & + div {
+      padding-top: 15px;
+    }
+  }
+}

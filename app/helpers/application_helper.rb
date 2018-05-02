@@ -13,4 +13,10 @@ module ApplicationHelper
       raw file.read
     end
   end
+
+  def get_track(track, current_user)
+    if current_user && current_user.active_subscription?
+      
+    end
+  end
 end

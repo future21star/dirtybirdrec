@@ -22,7 +22,7 @@
       <div style="display: inline-block; width: 80%; margin-left: 20px; margin-bottom: 2px; vertical-align: bottom;">
         <div style="display: inline-block; width: 165px; overflow: hidden; white-space: nowrap;">
           <%= user.name.upcase %>
-          <%= image_tag 'icons/point-green.svg', class: "point-green" if user %>
+          <%= image_tag 'icons/point-green.svg', class: "point-green" if user.online? %>
         </div>
         <b><%= "#{user.points} POINTS" %></b>
         <%= "/ #{user.badges.count} badges" if user.badges.count > 0 %>
