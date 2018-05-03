@@ -1,0 +1,17 @@
+var button = $('<%= ".follow-#{target['followable_type']}-#{target['followable_id']}" %>');
+
+<% if action_name == 'create' %>
+  button.replaceWith(`
+      <%= escape_javascript(
+        render(partial: 'follows/unfollow', 
+          locals: { target: target.followable, text: text, classes: classes } )
+      ) %>
+    `);
+<% else %>
+  button.replaceWith(`
+      <%= escape_javascript(
+        render(partial: 'follows/follow', 
+          locals: { target: target.followable, text: text, classes: classes } )
+      ) %>
+    `);
+<% end %>

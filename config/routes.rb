@@ -1,15 +1,17 @@
 Rails.application.routes.draw do
-
-  post '/rate' => 'rater#create', :as => 'rate'
+  
   devise_for :users, path: 'usr', controllers: {
         registrations: 'users/registrations',
         omniauth_callbacks: 'users/omniauth_callbacks'
       }
+
   resources :users, only: [:show, :index, :update] do
     collection do
       post "change_avatar"
     end
   end
+
+  post '/rate' => 'rater#create', :as => 'rate'
   get "leaderboard", to: "users#leaderboard"
   get "choose_profile", to: "users#choose_profile"
   get "home", to: "users#home"
@@ -23,6 +25,7 @@ Rails.application.routes.draw do
   get "others_feed/:id", to: "users#others_feed", as: "others_feed"
   get "friends/:id", to: "users#friends", as: "friends"
   get "idols/:id", to: "users#idols", as: "idols"
+
   ActiveAdmin.routes(self)
 
   devise_scope :user do

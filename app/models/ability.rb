@@ -34,13 +34,13 @@ class Ability
       can :manage, :all
 
     elsif user.has_role? :artist
-      can :manage, Release do |release|
-        release.user_ids.include?(user.id)
-      end
+      # can :manage, Release do |release|
+      #   release.user_ids.include?(user.id)
+      # end
 
-      can :manage, Track do |track|
-        track.user_ids.include?(user.id)
-      end
+      # can :manage, Track do |track|
+      #   track.user_ids.include?(user.id)
+      # end
 
       can :manage, Announcement, user_id: user.id
       can :manage, ArtistInfo, user_id: user.id

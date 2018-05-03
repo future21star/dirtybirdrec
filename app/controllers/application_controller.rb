@@ -8,8 +8,7 @@ class ApplicationController < ActionController::Base
     redirect_to root_path, :alert => exception.message
   end
 
-  rescue_from ActiveRecord::RecordNotUnique, :with => :record_not_uniq
-  
+  rescue_from ActiveRecord::RecordNotUnique, :with => :record_not_uniq  
 
   helper_method :resource_name, :resource, :devise_mapping, :resource_class
 
@@ -34,7 +33,7 @@ class ApplicationController < ActionController::Base
     def set_online
       if current_user
         begin
-          $redis_onlines.set( current_user.id, nil, ex: 20 )
+          $redis_onlines.set( current_user.id, nil, ex: 60 )
         rescue Redis::CannotConnectError
           return false
         end
@@ -52,10 +51,16 @@ class ApplicationController < ActionController::Base
 
     def set_notifications
       if current_user
-        feed = StreamRails.feed_manager.get_notification_feed(current_user.id)
-        results = feed.get()['results']
+        begin
+          feed = StreamRails.feed_manager.get_notification_feed(current_user.id)
+          results = feed.get()['results']
+        rescue Faraday::Error::ConnectionFailed
+          results = []
+        end
+
         results = results.each { |r| r['activities'].delete_if { |a| a['actor'] == "User:#{current_user.id}" } }
         results = results.delete_if { |r| r['activities'].count == 0 }
+
         results.each do |r| 
           r['activity_count'] = r['activities'].count
           r['actor_count'] = r['activities'].pluck('actor').uniq.count

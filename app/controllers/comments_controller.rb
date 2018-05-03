@@ -2,12 +2,18 @@ class CommentsController < ApplicationController
 before_action :authenticate_user!
 
   def create
-    comment = Comment.new(comment_params)
-    comment.user_id = current_user.id
+    @comment = Comment.new(comment_params)
 
-    logger.warn(comment.errors.inspect) unless comment.save
+    if @comment.commentable_type == "User" &&
+            @comment.parent.nil? &&
+            @comment.commentable_id != current_user.id
+      redirect_back(fallback_location: root_path) and return
+    end
 
-    redirect_back(fallback_location: root_path)
+    @comment.user_id = current_user.id
+
+    logger.warn(@comment.errors.full_messages) unless @comment.save
+
   end
 
   private

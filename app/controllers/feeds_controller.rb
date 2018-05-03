@@ -3,8 +3,13 @@ class FeedsController < ApplicationController
   before_action :authenticate_user!
 
   def is_seen
-    feed = StreamRails.feed_manager.get_notification_feed(current_user.id)
-    results = feed.get(mark_seen: true)
+    begin
+      feed = StreamRails.feed_manager.get_notification_feed(current_user.id)
+      results = feed.get(mark_seen: true)
+    rescue Faraday::Error::ConnectionFailed
+      results = []
+    end
+
 
     render json: {}, status: :ok
   end

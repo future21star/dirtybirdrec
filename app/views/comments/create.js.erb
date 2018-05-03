@@ -1,0 +1,25 @@
+<% if @comment.parent_id.present? %>
+  $('.feed-form').before(`
+        <%= escape_javascript(
+          render(@comment)
+        ) %>
+    `);
+  $('[id^=comment_body_]').val('');
+<% else %>
+  $('#whatsinyourmindModal').modal('hide');
+  $('.feed-block').prepend(`
+      <div class="feed-item">
+        <%= escape_javascript(
+          render(partial: 'activity/comment', 
+            locals: { 
+              activity: { 
+                'actor' => @comment.user,
+                'object' => @comment,
+                'target' => @comment.commentable
+              } 
+            } 
+          )
+        ) %>
+      </div>
+    `);
+<% end %>

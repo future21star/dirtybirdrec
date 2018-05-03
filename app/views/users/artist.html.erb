@@ -99,32 +99,37 @@
   <div class="col-md-8" id="user-feed">
     <div class="c-panel bg-white">
       <div class="c-flag mb-4">ARTIST FEED</div>
+
+      <% if current_user && @user.id == current_user.id %>
         <button class="btn c-btn-blue mt-1" type="button" data-toggle="modal" data-target="#whatsinyourmindModal">
           WHAT’S IN YOUR MIND
         </button>
+      <% end %>
+
+      <ul class="feed-tabs">
+        <li class="nav-item">
+          <%= link_to "All", artist_path(@user, anchor: "user-feed"),
+              class: "#{'active' if current_page?(artist_path(@user))}" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Announcements", announcements_feed_path(@user, anchor: "user-feed"), 
+              class: "#{'active' if current_page?(announcements_feed_path)}" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Interviews", interviews_feed_path(@user, anchor: "user-feed"), 
+              class: "#{'active' if current_page?(interviews_feed_path)}" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Videos", videos_feed_path(@user, anchor: "user-feed"), 
+              class: "#{'active' if current_page?(videos_feed_path)}" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Others", others_feed_path(@user, anchor: "user-feed"),
+              class: "#{'active' if current_page?(others_feed_path)}" %>
+        </li>
+      </ul>
+
       <div class="feed-block">
-        <ul class="feed-tabs">
-          <li class="nav-item">
-            <%= link_to "All", artist_path(@user, anchor: "user-feed"),
-                class: "#{'active' if current_page?(artist_path(@user))}" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "Announcements", announcements_feed_path(@user, anchor: "user-feed"), 
-                class: "#{'active' if current_page?(announcements_feed_path)}" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "Interviews", interviews_feed_path(@user, anchor: "user-feed"), 
-                class: "#{'active' if current_page?(interviews_feed_path)}" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "Videos", videos_feed_path(@user, anchor: "user-feed"), 
-                class: "#{'active' if current_page?(videos_feed_path)}" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "Others", others_feed_path(@user, anchor: "user-feed"),
-                class: "#{'active' if current_page?(others_feed_path)}" %>
-          </li>
-        </ul>
         <%= render 'feeds/user' %>
       </div>
     </div>
@@ -185,7 +190,9 @@
           <div class="modal-body">
             <h5 class="modal-title">What's in your mind?</h5>
 
-            <%= form_for current_user.comments.build, html: { class: "feed-form" } do |f| %>
+            <%= form_for current_user.comments.build, 
+                html: { class: "feed-form" },
+                remote: true do |f| %>
               <%= f.hidden_field :commentable_type, value: "User" %>
               <%= f.hidden_field :commentable_id, value: @user.id %>
               <%= f.label :title, class: "sr-only" %>

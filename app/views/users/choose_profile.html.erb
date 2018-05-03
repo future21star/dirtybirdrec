@@ -10,13 +10,14 @@ Please complete the registration or
   </div>
 
   <div class="form-check">
-    <%= f.radio_button :subscription_type, 'vip', checked: (!current_user.vip?) %>
+    <%= f.radio_button :subscription_type, 'vip' %>
+    <%#= f.radio_button :subscription_type, 'vip', checked: (!current_user.vip?) %>
     <%= f.label(:subscription_type_vip, 'Full Account', class: "h3") %>
   </div>
   
   <p>(you will can listen full tracks, download it, and keep up with new releases)</p>
 
-  <div id="additional-user-info" class="d-none">
+  <div id="additional-user-info">
     <div class="form-group">
       <%= image_tag(current_user.avatar.thumb) if current_user.avatar? %>
       <%= f.file_field :avatar %>

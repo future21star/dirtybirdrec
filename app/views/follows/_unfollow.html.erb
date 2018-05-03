@@ -1,0 +1,5 @@
+<%= button_to text[1], follow_path(current_user.followed(target)),
+      params: { text: text.to_s, classes: classes }, method: :delete, 
+      class: "#{classes} unfollow-state", remote: true,
+      form_class: "follow-form follow-#{target.class.to_s}-#{target['id']}" 
+%>

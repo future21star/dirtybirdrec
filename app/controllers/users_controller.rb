@@ -30,8 +30,13 @@ class UsersController < ApplicationController
       redirect_to artist_path(@user) and return
     end
 
-    feed = StreamRails.feed_manager.get_user_feed(@user.id)
-    results = feed.get()['results']
+    begin
+      feed = StreamRails.feed_manager.get_user_feed(@user.id)
+      results = feed.get()['results']
+    rescue Faraday::Error::ConnectionFailed
+      results = []
+    end
+
     @enricher = StreamRails::Enrich.new
     @activities = @enricher.enrich_activities(results)
 
@@ -68,9 +73,13 @@ class UsersController < ApplicationController
   end
 
   def activity_feed
-    #user_feed
-    feed = StreamRails.feed_manager.get_user_feed(current_user.id)
-    results = feed.get()['results']
+    begin
+      feed = StreamRails.feed_manager.get_user_feed(current_user.id)
+      results = feed.get()['results']
+    rescue Faraday::Error::ConnectionFailed
+      results = []
+    end
+
     @enricher = StreamRails::Enrich.new
     @activities = @enricher.enrich_activities(results)
 
@@ -78,8 +87,13 @@ class UsersController < ApplicationController
   end
 
   def chrip_feed
-    feed = StreamRails.feed_manager.get_news_feeds(current_user.id)[:aggregated]
-    results = feed.get()['results']
+    begin
+      feed = StreamRails.feed_manager.get_news_feeds(current_user.id)[:aggregated]
+      results = feed.get()['results']
+    rescue Faraday::Error::ConnectionFailed
+      results = []
+    end
+
     @enricher = StreamRails::Enrich.new
     @activities = @enricher.enrich_aggregated_activities(results)
 
@@ -87,8 +101,13 @@ class UsersController < ApplicationController
   end
 
   def release_feed
-    feed = StreamRails.feed_manager.get_feed('release_user_feed', current_user.id)
-    results = feed.get()['results']
+    begin
+      feed = StreamRails.feed_manager.get_feed('release_user_feed', current_user.id)
+      results = feed.get()['results']
+    rescue Faraday::Error::ConnectionFailed
+      results = []
+    end
+
     @enricher = StreamRails::Enrich.new
     @activities = @enricher.enrich_activities(results)
 
@@ -108,8 +127,12 @@ class UsersController < ApplicationController
       redirect_to user_path(@user) and return
     end
 
-    feed = StreamRails.feed_manager.get_user_feed(@user.id)
-    results = feed.get()['results']
+    begin
+      feed = StreamRails.feed_manager.get_user_feed(@user.id)
+      results = feed.get()['results']
+    rescue Faraday::Error::ConnectionFailed
+      results = []
+    end
     @enricher = StreamRails::Enrich.new
     @activities = @enricher.enrich_activities(results)
 
@@ -147,8 +170,13 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     artist_vars
 
-    feed = StreamRails.feed_manager.get_notification_feed(current_user.id)
-    results = feed.get()['results']
+    begin
+      feed = StreamRails.feed_manager.get_notification_feed(current_user.id)
+      results = feed.get()['results']
+    rescue Faraday::Error::ConnectionFailed
+      results = []
+    end
+    
     unseen = results.select { |r| r['is_seen'] == false }
     @unseen_count = unseen.count
     @enricher = StreamRails::Enrich.new

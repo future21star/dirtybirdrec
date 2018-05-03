@@ -1,0 +1,6 @@
+<%= button_to text[0], follows_path, 
+    params: { followable_id: target.id, followable_type: target.class.to_s,
+      text: text.to_s, classes: classes }, 
+    method: :post, class: "#{classes}", remote: true,
+    form_class: "follow-form follow-#{target.class.to_s}-#{target['id']}" 
+%>

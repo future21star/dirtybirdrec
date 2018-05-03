@@ -5,14 +5,14 @@ $(document).on('turbolinks:load', function() {
 
   $('[name="user[subscription_type]"]').click(function() {
     $('#additional-user-info').removeClass('d-none');
-    if(this.value == '1') {
+    if(this.value == 'vip') {
       $('#payment-user-info').removeClass('d-none');
     } else {
       $('#payment-user-info').addClass('d-none');
     }
   });
 
-  if($('#user_subscription_type_1:checked').length > 0) {
+  if($('#user_subscription_type_vip:checked').length > 0) {
     $('#payment-user-info').removeClass('d-none');
   }
 

@@ -2,8 +2,13 @@ class ReleasesController < ApplicationController
   def show
     @release = Release.find(params[:id])
 
-    feed = StreamRails.feed_manager.get_feed('release', @release.id)
-    results = feed.get()['results']
+    begin
+      feed = StreamRails.feed_manager.get_feed('release', @release.id)
+      results = feed.get()['results']
+    rescue Faraday::Error::ConnectionFailed
+      results = []
+    end
+
     @enricher = StreamRails::Enrich.new
     @activities = @enricher.enrich_activities(results)
   end

@@ -16,8 +16,10 @@ class Comment < ApplicationRecord
       self.commentable.users.map do |user|
         StreamRails.feed_manager.get_notification_feed(user.id)
       end
-    else
+    elsif self.commentable.try(:user)
       [StreamRails.feed_manager.get_notification_feed(self.commentable.user.id)]
+    else
+      
     end
   end
 
@@ -40,7 +42,7 @@ class Comment < ApplicationRecord
     end
 
     def feed_release
-      if self.commentable_type == "Release"
+      if self.commentable_type == "Release" && self.parent_id.blank?
         feed = StreamRails.feed_manager.get_feed( 'release', self.commentable_id )
         activity = create_activity
         activity[:object] = "Comment:#{self.id}"
@@ -50,7 +52,7 @@ class Comment < ApplicationRecord
     end
 
     def feed_commented
-      if self.commentable_type == "User"
+      if self.commentable_type == "User" && self.parent_id.blank?
         feed = StreamRails.feed_manager.get_user_feed( self.commentable_id )
         activity = create_activity
         activity[:object] = "Comment:#{self.id}"

@@ -27,12 +27,13 @@
     
     <% if current_user %>
       <div class="feed-form">
-        <%= form_for current_user.comments.build do |f| %>
+        <%= form_for current_user.comments.build, remote: true, html: { id: "" } do |f| %>
           <%= f.hidden_field :commentable_type, value: activity['target'].class.to_s %>
           <%= f.hidden_field :commentable_id, value: activity['target'].id %>
           <%= f.hidden_field :parent_id, value: activity['object'].id %>
           <%= f.label :body, class: "sr-only" %>
-          <%= f.text_area :body, rows: 3, placeholder: "Leave a comment" %>
+          <%= f.text_area :body, rows: 3, placeholder: "Leave a comment", 
+              id: "comment_body_#{activity['object'].id}" %>
           <%= f.submit "SEND", class: "btn c-btn-blue btn-wide" %>
         <% end %>
       </div>

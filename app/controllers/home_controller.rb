@@ -40,8 +40,14 @@ class HomeController < ApplicationController
     @users = User.all.order(id: :asc)
     if current_user
       @other_user = @users.where.not(id: current_user.id).first
-      feed = StreamRails.feed_manager.get_user_feed(@other_user.id)
-      results = feed.get()['results']
+
+      begin
+        feed = StreamRails.feed_manager.get_user_feed(@other_user.id)
+        results = feed.get()['results']
+      rescue Faraday::Error::ConnectionFailed
+        results = []
+      end
+      
       @enricher = StreamRails::Enrich.new
       @activities = @enricher.enrich_activities(results)
 
