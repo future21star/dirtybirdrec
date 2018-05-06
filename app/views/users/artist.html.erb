@@ -106,7 +106,7 @@
         </button>
       <% end %>
 
-      <ul class="feed-tabs">
+ <!--      <ul class="feed-tabs">
         <li class="nav-item">
           <%= link_to "All", artist_path(@user, anchor: "user-feed"),
               class: "#{'active' if current_page?(artist_path(@user))}" %>
@@ -127,7 +127,7 @@
           <%= link_to "Others", others_feed_path(@user, anchor: "user-feed"),
               class: "#{'active' if current_page?(others_feed_path)}" %>
         </li>
-      </ul>
+      </ul> -->
 
       <div class="feed-block">
         <%= render 'feeds/commentable_feed' %>
