@@ -36,6 +36,20 @@ class HomeController < ApplicationController
   def about
   end
 
+  def birdfeed
+    begin
+      feed = StreamRails.feed_manager.get_feed('masterfeed', 1)
+      results = feed.get()['results']
+    rescue Faraday::Error::ConnectionFailed
+      results = []
+    end
+    
+    @enricher = StreamRails::Enrich.new
+    @activities = @enricher.enrich_activities(results)
+  end
+
+
+  
   def demo_index
     @users = User.all.order(id: :asc)
     if current_user

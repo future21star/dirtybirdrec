@@ -11,8 +11,9 @@
   <% end %>
 
   <h1><%= @topic.title %></h1>
+  <p><%= @topic.text %></p>
   
-  <%= render 'follows/follow_button', target: @topic %>
+  <div class="text-center"><%= render 'follows/follow_button', target: @topic %></div>
 
   <div class="feed-block">
     <%= render @topic.posts.parents_posts %>

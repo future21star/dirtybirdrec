@@ -102,6 +102,10 @@
 }
 
 .feed-posted {
+  display: inline-block;
+  white-space: nowrap;
+  margin-right: -60px;
+  width: 130px;
   position: relative;
   font-size: 12px;
   left: -60px;

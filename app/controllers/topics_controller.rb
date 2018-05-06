@@ -16,11 +16,6 @@ class TopicsController < ApplicationController
     breadcrumb @topic.title, chirp_topic_path(@category, @topic), match: :exact
   end
 
-  def new
-    @category_id = params[:chirp_id]
-    @topic = Topic.new
-  end
-
   def create
     topic = Topic.new(topic_params)
     topic.user_id = current_user.id

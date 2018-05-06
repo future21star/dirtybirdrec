@@ -10,6 +10,7 @@ class TopicCategoriesController < ApplicationController
 
   def show
     @category = TopicCategory.find(params[:id])
+    @topic = Topic.new
 
     breadcrumb @category.title, chirp_path(@category), match: :exact
   end

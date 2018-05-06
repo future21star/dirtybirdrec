@@ -3,20 +3,25 @@
   <%= image_tag('crowd.jpg') %>
 </div>
 
-
 <%#= render 'topics/breadcrumbs' %>
 
 <div class="topics-panel c-panel bg-white">
   <%= link_to image_tag('icons/icon-chevron-left.svg'), chirp_index_path, class: 'topics-back' %>
   <div class="c-flag c-flag-inner mb-4"><%= @category.title %></div>
 
-  <%= link_to "Post a new topic", new_chirp_topic_path( chirp_id: @category.id ),
-      class: "btn c-btn-transparent btn-wide" %>
+  <% if current_user %>
+    <button class="btn c-btn-transparent btn-wide" type="button" data-toggle="modal" data-target="#addTopicModal">
+      Post a new topic
+    </button>
+  <% end %>
 
-  <% @category.topics.each do |topic| %>
+  <% @category.topics.order(created_at: :desc).each do |topic| %>
     <div>
       <div class="topics-link">
-        <%= link_to topic.title, chirp_topic_path( @category, topic ) %>
+        <%= link_to chirp_topic_path( @category, topic ) do %>
+          <%= "#{topic.title}" %> 
+          <%= "<span class='topic-caption'>#{pluralize(topic.posts.count, 'post')} / Created #{time_ago_in_words(topic.created_at)} ago</span>".html_safe %>
+        <% end %>
       </div>
       
       <%= render 'follows/follow_button', target: topic %>
@@ -26,3 +31,36 @@
   <% end %>
 </div>
 
+<% if current_user %>
+  <% content_for :body_area do %>
+    <div class="modal modal-blured" id="addTopicModal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-wide" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <h5 class="modal-title">Add your topic to <%= @category.title %> </h5>
+
+            <%= form_for @topic, 
+              html: { class: "feed-form" }, remote: true do |f| %>
+              <%= f.hidden_field :category_id, value: params[:id] %>
+              <%= f.label :title, class: "sr-only" %>
+              <%= f.text_field :title, placeholder: "Type the title here", required: true %>
+              <%= f.label :text, class: "sr-only" %>
+              <%= f.text_area :text, rows: 10, placeholder: "Type text", max: 200, required: true %>
+
+              <div class="modal-footer">
+              <button type="button" class="btn c-btn-transparent" data-dismiss="modal">Cancel</button>
+              <%= f.submit "Create a topic", class: "btn c-btn-blue btn-wide" %>
+              </div>
+            <% end %>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>

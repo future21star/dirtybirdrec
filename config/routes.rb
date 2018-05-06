@@ -15,11 +15,11 @@ Rails.application.routes.draw do
   get "leaderboard", to: "users#leaderboard"
   get "choose_profile", to: "users#choose_profile"
   get "home", to: "users#home"
-  get "activity_feed", to: "users#activity_feed"
-  get "chrip_feed", to: "users#chrip_feed"
+  # get "activity_feed", to: "users#activity_feed"
+  get "chirp_feed", to: "users#chirp_feed"
   get "release_feed", to: "users#release_feed"
   get "artist_feed", to: "users#artist_feed"
-  get "announcements_feed/:id", to: "users#announcements_feed", as: "announcements_feed"
+  get "announcement_feed", to: "users#announcement_feed"
   get "interviews_feed/:id", to: "users#interviews_feed", as: "interviews_feed"
   get "videos_feed/:id", to: "users#videos_feed", as: "videos_feed"
   get "others_feed/:id", to: "users#others_feed", as: "others_feed"
@@ -38,6 +38,7 @@ Rails.application.routes.draw do
   get 'artists', to: 'users#artists', as: 'artists'
   
   get 'about', to: 'home#about'
+  get 'birdfeed', to: 'home#birdfeed'
 
   resources :contacts, only: [:index, :create]
   resources :slider_images

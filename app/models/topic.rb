@@ -5,7 +5,7 @@ class Topic < ApplicationRecord
   has_many :likes, as: :likeable
   has_many :posts
 
-  validates :user_id, :category_id, presence: true
+  validates :user_id, :category_id, :title, :text, presence: true
 
   include AlgoliaSearch
 

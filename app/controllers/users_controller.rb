@@ -25,33 +25,26 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    fan_vars
 
     if @user.has_role? :artist
       redirect_to artist_path(@user) and return
     end
 
+    @enricher = StreamRails::Enrich.new
+
     begin
-      feed = StreamRails.feed_manager.get_user_feed(@user.id)
-      results = feed.get()['results']
+      if @user.id == current_user.id
+        feed = StreamRails.feed_manager.get_news_feeds(@user.id)[:flat]
+      else
+        feed = StreamRails.feed_manager.get_user_feed(@user.id)
+      end
     rescue Faraday::Error::ConnectionFailed
       results = []
     end
 
-    @enricher = StreamRails::Enrich.new
+    results = feed.get()['results']
     @activities = @enricher.enrich_activities(results)
-
-    @followed_users = @user.followed_users.with_role(:fan).limit(4)
-    @followed_artists = @user.followed_users.with_role(:artist).limit(4)
-
-    if @user.has_role? :admin
-      @user_position = 0
-    else
-      @user_position = User.with_role(:fan)
-          .joins('LEFT OUTER JOIN badge_points on (users.id = badge_points.user_id)')
-          .group('users.id')
-          .order('users.created_at ASC, SUM(badge_points.value) DESC')
-          .count.keys.index(@user.id) + 1
-    end
 
     current_user.change_points( 'member over time' ) if current_user == @user
   end
@@ -69,12 +62,17 @@ class UsersController < ApplicationController
     user = User.find(params[:id])
     user.update_attributes(user_params)
 
+    logger.warn user.errors.full_messages
+
     redirect_to home_path
   end
 
-  def activity_feed
+  def announcement_feed
+    @user = current_user
+    fan_vars
+
     begin
-      feed = StreamRails.feed_manager.get_user_feed(current_user.id)
+      feed = StreamRails.feed_manager.get_feed('announcement_user_feed', current_user.id)
       results = feed.get()['results']
     rescue Faraday::Error::ConnectionFailed
       results = []
@@ -83,24 +81,13 @@ class UsersController < ApplicationController
     @enricher = StreamRails::Enrich.new
     @activities = @enricher.enrich_activities(results)
 
-    render :home
-  end
-
-  def chrip_feed
-    begin
-      feed = StreamRails.feed_manager.get_news_feeds(current_user.id)[:aggregated]
-      results = feed.get()['results']
-    rescue Faraday::Error::ConnectionFailed
-      results = []
-    end
-
-    @enricher = StreamRails::Enrich.new
-    @activities = @enricher.enrich_aggregated_activities(results)
-
-    render :home
+    render :show
   end
 
   def release_feed
+    @user = current_user
+    fan_vars
+
     begin
       feed = StreamRails.feed_manager.get_feed('release_user_feed', current_user.id)
       results = feed.get()['results']
@@ -111,10 +98,43 @@ class UsersController < ApplicationController
     @enricher = StreamRails::Enrich.new
     @activities = @enricher.enrich_activities(results)
 
-    render :home
+    render :show
+  end
+
+  def chirp_feed
+    @user = current_user
+    fan_vars
+
+    # begin
+    #   feed = StreamRails.feed_manager.get_feed('topic_user_feed', current_user.id)
+    #   results = feed.get()['results']
+    # rescue Faraday::Error::ConnectionFailed
+    #   results = []
+    # end
+
+    # @enricher = StreamRails::Enrich.new
+    # @activities = @enricher.enrich_activities(results)
+
+    get_feed_from @user.posts_from_followed_topics, 'Comment', 'topic'
+
+    render :show
   end
 
   def artist_feed
+    @user = current_user
+    fan_vars
+
+    begin
+      feed = StreamRails.feed_manager.get_news_feeds(@user.id)[:flat]
+      results = feed.get()['results']
+    rescue Faraday::Error::ConnectionFailed
+      results = []
+    end
+
+    @enricher = StreamRails::Enrich.new
+    @activities = @enricher.enrich_activities(results)#.select { |a| a['actor'].has_role?(:artist) }
+
+    render :show
   end
 
   def choose_profile
@@ -139,22 +159,13 @@ class UsersController < ApplicationController
     artist_vars
   end
 
-  def announcements_feed
-    @user = User.find(params[:id])
-    artist_vars
-
-    get_feed_from @user.announcements, "Announcement"
-
-    render :artist
-  end
-
   def interviews_feed
     @user = User.find(params[:id])
     artist_vars
 
     get_feed_from @user.announcements, "Announcement"
 
-    render :artist
+    render :home
   end
 
   def videos_feed
@@ -163,7 +174,7 @@ class UsersController < ApplicationController
 
     get_feed_from @user.videos, "Addvideo"
 
-    render :artist
+    render :home
   end
 
   def others_feed
@@ -171,7 +182,7 @@ class UsersController < ApplicationController
     artist_vars
 
     begin
-      feed = StreamRails.feed_manager.get_notification_feed(current_user.id)
+      feed = StreamRails.feed_manager.get_notification_feed(@user.id)
       results = feed.get()['results']
     rescue Faraday::Error::ConnectionFailed
       results = []
@@ -184,7 +195,7 @@ class UsersController < ApplicationController
     if @unseen_count <= 8
       @activities = @enricher.enrich_aggregated_activities(results[0..7])
     else
-      @activities = @enricher.enrich_aggregated_activities(unseen[0..10])
+      @activities = @enricher.enrich_aggregated_activities(unseen)
     end
 
     if @user.has_role?(:artist)
@@ -202,13 +213,30 @@ class UsersController < ApplicationController
     @followed_artists = @user.followed_users.with_role(:artist).limit(4)
   end
 
-  def get_feed_from objects, verb 
+  def fan_vars
+    @followed_users = @user.followed_users.with_role(:fan).limit(4)
+    @followed_artists = @user.followed_users.with_role(:artist).limit(4)
+
+    if @user.has_role? :admin
+      @user_position = 0
+    else
+      @user_position = User.with_role(:fan)
+          .joins('LEFT OUTER JOIN badge_points on (users.id = badge_points.user_id)')
+          .group('users.id')
+          .order('users.created_at ASC, SUM(badge_points.value) DESC')
+          .count.keys.index(@user.id) + 1
+    end
+  end
+
+  def get_feed_from objects, verb, target
     results = objects.map do |object|
       {
         'actor' => @user,
         'object' => object,
+        'target' => object.try(target.to_sym),
         'verb' => verb,
-        'foreign_id' => "#{verb}:#{object.id}"
+        'foreign_id' => "#{verb}:#{object.id}",
+        'time' => object.created_at
       }
     end
       

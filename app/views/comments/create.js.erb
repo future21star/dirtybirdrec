@@ -6,16 +6,17 @@
     `);
   $('[id^=comment_body_]').val('');
 <% else %>
-  $('#whatsinyourmindModal').modal('hide');
+  $('.modal').modal('hide');
   $('.feed-block').prepend(`
       <div class="feed-item">
         <%= escape_javascript(
-          render(partial: 'activity/comment', 
+          render(partial: 'activity/commentable_comment', 
             locals: { 
               activity: { 
                 'actor' => @comment.user,
                 'object' => @comment,
-                'target' => @comment.commentable
+                'target' => @comment.commentable,
+                'time' => @comment.created_at
               } 
             } 
           )

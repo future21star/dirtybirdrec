@@ -36,7 +36,6 @@
 
 <div class="row">
   <div class="col-md-8">
-
     <div class="release-info mb-4">
       <h1><%= @release.title.upcase %></h1>
       <p class="release-date">Released date: <%= time_ago_in_words( @release.release_date ) %> ago</p>
@@ -60,9 +59,11 @@
 
     <div class="c-panel bg-white">
       <div class="c-flag mb-4"><b>RELEASE</b> FEED</div>
+      
       <button class="btn c-btn-blue mt-1" type="button" data-toggle="modal" data-target="#addcommentModal">
         ADD YOUR COMMENT
       </button>
+
       <%= render partial: 'follows/follow_button', 
           locals: { target: @release, 
                     opt: { 
@@ -70,7 +71,7 @@
                         text: ['follow this feed', 'unfollow this feed'] } } %>
 
       <div class="feed-block light-scroll">
-        <%= render 'feeds/user' %>
+        <%= render 'feeds/commentable_feed' %>
       </div>
     </div>
   </div>
@@ -162,7 +163,8 @@
           <div class="modal-body">
             <h5 class="modal-title">Add your comment</h5>
 
-            <%= form_for current_user.comments.build, html: { class: "feed-form" } do |f| %>
+            <%= form_for current_user.comments.build, 
+                html: { class: "feed-form" }, remote: true do |f| %>
               <%= f.hidden_field :commentable_type, value: "Release" %>
               <%= f.hidden_field :commentable_id, value: @release.id %>
               <%= f.label :title, class: "sr-only" %>

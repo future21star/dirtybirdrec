@@ -15,6 +15,13 @@
 
       <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
         <ul class="navbar-nav nav-menu">
+          <li class="nav-item <%= 'active' if current_page?(birdfeed_path) %>">
+            <%= link_to birdfeed_path, class: "nav-link" do %>
+              Birdfeed
+              <%= '<span class="sr-only">(current)</span>'.html_safe if current_page?(birdfeed_path) %>
+            <% end %>
+          </li>
+
           <% if current_user %>
             <li class="nav-item">
               <a class="nav-link" href="/">
@@ -76,8 +83,8 @@
         <% if current_user %>
           <ul class="navbar-nav">
             <div class="header-user">
-              <%= image_tag(current_user.avatar.thumb, class: "user-avatar") if current_user.avatar.present? %>
-              <span><%= current_user.name %></span>
+              <%= link_to image_tag(current_user.avatar.thumb, class: "user-avatar"), root_path if current_user.avatar.present? %>
+              <span><%= link_to current_user.name, root_path %></span>
               <li class="nav-item dropdown dropdown-notify-menu">
                 <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <%= image_tag "icons/icon-notifications.svg" %>
@@ -95,7 +102,7 @@
                 <%= image_tag "icons/icon-chevron.svg" %>
               </a>
               <div class="dropdown-menu dropdown-menu-right">
-                <%= link_to "My Profile", user_path(current_user), class: "modal-button btn-bg-gray" %>
+                <%= link_to "My Profile", current_user, class: "modal-button btn-bg-gray" %>
                 <% if current_user.has_role?(:admin) || current_user.has_role?(:artist) %>
                   <%= link_to "Dashboard", admin_root_path, class: "modal-button btn-bg-gray" %>
                 <% end %>

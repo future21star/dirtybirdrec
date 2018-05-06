@@ -51,7 +51,7 @@
       <ol class="fans-block light-scroll mt-1">
         <% @leader_users.each do |leader| %>
           <li style="margin-bottom: 20px;">
-            <%= link_to user_path(leader), class: "d-inline-block align-middle" do %>
+            <%= link_to leader, class: "d-inline-block align-middle" do %>
               <%= image_tag leader.avatar.thumb, class: "user-avatar" %>
             <% end %>
 

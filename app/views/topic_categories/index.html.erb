@@ -12,7 +12,10 @@
         <ol class="topic-categories">
           <% group.categories.each do |category| %>
             <li>
-              <%= link_to category.title, chirp_path( category ) %>
+              <%= link_to chirp_path( category ) do %>
+              <%= "#{category.title}" %>
+              <%= "<span class='topic-caption'> #{pluralize(category.topics.count, 'topic')}</span>".html_safe %>
+              <% end %>
             </li>
           <% end %>
         </ol>

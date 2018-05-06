@@ -196,9 +196,12 @@
   right: 150px;
 }
 
+.follow-form {
+  display: inline-block;
+}
+
 .users-block {
   .follow-form {
-    display: inline-block;
     margin-left: -10px;
     
     input[type=submit] {

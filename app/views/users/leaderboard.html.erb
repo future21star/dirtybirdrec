@@ -1,11 +1,12 @@
 <div class="mt-4 mb-2">
   <div class="c-flag">LEADERBOARD</div>
+
+  <div class="c-flag-links">
+    <b>Top 5</b>
+    <%= link_to "All", users_path %>
+  </div>
 </div>
 
-<div class="c-flag-links">
-  <span>Top 5</span>
-  <%= link_to "All", users_path %>
-</div>
 
 <ul class="leaderboard-top">
   <% leader_users_ids = @leader_users.ids %>
@@ -14,7 +15,7 @@
     <li class="row">
       <div class="col-md-8">
         <div class="c-panel bg-white">
-          <%= link_to user_path(user), class: "leader-avatar" do %>
+          <%= link_to user, class: "leader-avatar" do %>
             <%= image_tag user.avatar.thumb %>
             <input type="text" class="btn c-btn-blue" value="FULL STATS">
           <% end %>
@@ -26,7 +27,7 @@
               </span>
 
               <div class="leaderboard-name">
-                <h2><%= user.name.upcase %></h2>
+                <h2><%= link_to user.name.upcase, user %></h2>
                 <span><%= user.city %></span>
               </div>
 

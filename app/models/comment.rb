@@ -5,7 +5,8 @@ class Comment < ApplicationRecord
   belongs_to :parent,  class_name: "Comment", optional: true
   has_many   :replies, class_name: "Comment", foreign_key: :parent_id, dependent: :destroy
 
-  after_create :add_points, :feed_release, :feed_commented, :trigger_comments_count
+  after_create :add_points, :feed_commentable, :feed_masterfeed,
+      :trigger_comments_count
   after_destroy :trigger_comments_count
 
   include StreamRails::Activity
@@ -41,24 +42,18 @@ class Comment < ApplicationRecord
       self.user.change_points( 'comment' )
     end
 
-    def feed_release
-      if self.commentable_type == "Release" && self.parent_id.blank?
-        feed = StreamRails.feed_manager.get_feed( 'release', self.commentable_id )
-        activity = create_activity
-        activity[:object] = "Comment:#{self.id}"
-        activity[:target] = "User:#{self.user_id}"
-        feed.add_activity(activity)
-      end
+    def feed_commentable
+      return if self.parent_id.present?
+
+      feed = StreamRails.feed_manager.get_feed( self.commentable_type.downcase, self.commentable_id )
+      activity = create_activity
+      feed.add_activity(activity)
     end
 
-    def feed_commented
-      if self.commentable_type == "User" && self.parent_id.blank?
-        feed = StreamRails.feed_manager.get_user_feed( self.commentable_id )
-        activity = create_activity
-        activity[:object] = "Comment:#{self.id}"
-        activity[:target] = "User:#{self.user_id}"
-        feed.add_activity(activity)
-      end
+    def feed_masterfeed
+      feed = StreamRails.feed_manager.get_feed( 'masterfeed', 1 )
+      activity = create_activity
+      feed.add_activity(activity)
     end
 
     def trigger_comments_count

@@ -2,7 +2,7 @@
 
 <div class="c-flag-links">
   <%= link_to "Top 5", leaderboard_path %>
-  <span>All</span>
+  <b>All</b>
 </div>
 
 <ul class="leaderboard">
@@ -15,13 +15,13 @@
         <%= (leader_users_ids.index(user.id) + 1) + ((page.to_i - 1) * 9) %>
       </span>
 
-      <%= link_to user_path(user), class: "d-inline-block align-middle" do %>
+      <%= link_to user, class: "d-inline-block align-middle" do %>
         <%= image_tag user.avatar.thumb, class: "user-avatar" %>
       <% end %>
 
       <div style="display: inline-block; width: 80%; margin-left: 20px; margin-bottom: 2px; vertical-align: bottom;">
         <div style="display: inline-block; width: 165px; overflow: hidden; white-space: nowrap;">
-          <%= user.name.upcase %>
+          <%= link_to user.name.upcase, user, style: "color: #222;" %>
           <%= image_tag 'icons/point-green.svg', class: "point-green" if user.online? %>
         </div>
         <b><%= "#{user.points} POINTS" %></b>

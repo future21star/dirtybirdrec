@@ -73,6 +73,7 @@ main > div.container {
 }
 
 .notice, .alert {
+  cursor: pointer;
   font-size: 12px;
   position: fixed;
   top: 110px;

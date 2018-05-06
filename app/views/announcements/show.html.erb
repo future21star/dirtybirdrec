@@ -45,9 +45,13 @@
 
     <div class="c-panel bg-white">
       <div class="c-flag mb-4"><b>ANNOUNCEMENT</b> FEED</div>
-      <button class="btn c-btn-blue mt-1" type="button" data-toggle="modal" data-target="#addcommentModal">
-        ADD YOUR COMMENT
-      </button>
+
+      <%# if current_user && @announcement.user_id == current_user.id %>
+        <button class="btn c-btn-blue mt-1" type="button" data-toggle="modal" data-target="#addcommentModal">
+          ADD YOUR COMMENT
+        </button>
+      <%# end %>
+
       <%= render partial: 'follows/follow_button', 
           locals: { target: @announcement, 
                     opt: { 
@@ -55,22 +59,24 @@
                         text: ['follow this feed', 'unfollow this feed'] } } %>
 
       <div class="feed-block light-scroll">
-        <%= render 'feeds/user' %>
+        <%= render 'feeds/commentable_feed' %>
       </div>
     </div>
   </div>
 
   <div class="col-md-4">
-    <!-- FOLLOWERS -->
-    <div class="c-panel bg-white mb-4">
-      <div class="c-flag c-flag-inner mb-2"><b>FEED</b> FOLLOWERS</div>
+    <div class="sticky-top">
+      <!-- FOLLOWERS -->
+      <div class="c-panel bg-white mb-4">
+        <div class="c-flag c-flag-inner mb-2"><b>FEED</b> FOLLOWERS</div>
 
-      <div>
-        <% @announcement.followers.each do |user| %>
-            <%= link_to user_path(user), class: "d-inline-block mr-2 mb-2" do %>
+        <div>
+          <% @announcement.followers.each do |user| %>
+            <%= link_to user, class: "d-inline-block mr-2 mb-2" do %>
               <%= image_tag user.avatar.thumb, class: "user-avatar" %>
             <% end %>
-        <% end %>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
@@ -89,7 +95,8 @@
           <div class="modal-body">
             <h5 class="modal-title">Add your comment</h5>
 
-            <%= form_for current_user.comments.build, html: { class: "feed-form" } do |f| %>
+            <%= form_for current_user.comments.build, 
+              html: { class: "feed-form" }, remote: true do |f| %>
               <%= f.hidden_field :commentable_type, value: "Announcement" %>
               <%= f.hidden_field :commentable_id, value: @announcement.id %>
               <%= f.label :title, class: "sr-only" %>

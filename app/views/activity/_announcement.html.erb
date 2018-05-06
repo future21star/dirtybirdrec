@@ -1,15 +1,15 @@
 <p class="feed-posted"> 
-  <%= time_ago_in_words(activity['object'].created_at) %> ago.
-
-  <div>
-    <%= link_to activity['object'] do %>
-      <% if activity['object'].avatar.present? %>
-        <%= image_tag( activity['object'].avatar.url, class: "announcement-feed-avatar" ) %>
-      <%end%>
-
-      <b><%= activity['object'].title %></b>
-    <% end %>
-  </div>
+  <%= time_ago_in_words(activity['time'].in_time_zone) %> ago.
 </p>
+
+<div>
+  <%= link_to activity['object'] do %>
+    <% if activity['object'].avatar.present? %>
+      <%= image_tag( activity['object'].avatar.url, class: "announcement-feed-avatar" ) %>
+    <%end%>
+
+    <b><%= activity['object'].title %></b>
+  <% end %>
+</div>
 
 <hr class="feed-divider">

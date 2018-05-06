@@ -45,8 +45,9 @@
 
 .topics-link {
   display: inline-block;
-  width: calc(100% - 200px);
+  width: calc(100% - 160px);
   padding-left: 15px;
+  position: relative;
 }
 
 .topics-back {

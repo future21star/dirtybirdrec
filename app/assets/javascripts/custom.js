@@ -139,5 +139,8 @@ $(document).on('turbolinks:load', function() {
     $('.dropdown-notify-menu .notify-seen').removeClass('notify-seen');
   });
 
+  $('.notice').click(function(){$(this).hide()});
+  $('.alert').click(function(){$(this).hide()});
+
 });
 

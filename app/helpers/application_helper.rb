@@ -19,4 +19,10 @@ module ApplicationHelper
       
     end
   end
+
+  def get_setting ident
+    setting = SiteSetting.where(ident: ident).first
+
+    setting.val if setting.present?
+  end
 end

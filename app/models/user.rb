@@ -16,7 +16,6 @@ class User < ApplicationRecord
   enum gender: [:female, :male]
 
   validates :first_name, presence: true
-  validates :last_name, presence: true
 
   enum subscription_type: [:member, :vip, :admin]
 
@@ -84,6 +83,11 @@ class User < ApplicationRecord
 
   def followers
     User.joins(:follows).where("follows.followable_id = ? AND follows.followable_type = 'User'", self.id)
+  end
+
+  def posts_from_followed_topics
+    topic_ids = "SELECT followable_id FROM follows WHERE user_id = :user_id AND followable_type = 'Topic'"
+    Post.where("topic_id IN (#{topic_ids})", user_id: self.id).order(created_at: :desc)
   end
 
   def already_liked object

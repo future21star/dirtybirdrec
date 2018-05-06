@@ -1,0 +1,42 @@
+<%= link_to image_tag(activity['actor'].avatar.thumb.url, class: "post-user-avatar"), activity['actor'], class: "post-owner" %>
+<p class="feed-posted">Posted <%= time_ago_in_words(activity['time'].in_time_zone) %> ago</p>
+
+<div class="feed-item-body">
+  <h3><%= activity['object'].title %></h3>
+  <p><%= activity['object'].body %></p>
+
+  <div class="comment-footer">
+    <span>
+      <%= render partial: 'likes/like_button', locals: { object: activity['object'],  style: 'thumbup' } %>
+    </span>
+
+    <div class="comment-footer-divider"></div>
+
+    <span>
+      <%= image_tag('icons/icon-comment.svg', title: 'Comments', class: "align-top") %>
+      Comment (<%= activity['object'].try(:comments_count) %>)
+    </span>
+  </div>
+</div>
+
+<div class="<%= 'feed-replies' unless (!current_user && activity['object'].replies.empty?) %>">
+  <% if activity['object'].replies.any? %>
+    <%= render activity['object'].replies %>
+  <% end %>
+  
+  <% if current_user %>
+    <div class="feed-form">
+      <%= form_for current_user.comments.build, remote: true, html: { id: "" } do |f| %>
+        <%= f.hidden_field :commentable_type, value: activity['target'].class.to_s %>
+        <%= f.hidden_field :commentable_id, value: activity['target'].id %>
+        <%= f.hidden_field :parent_id, value: activity['object'].id %>
+        <%= f.label :body, class: "sr-only" %>
+        <%= f.text_area :body, rows: 3, placeholder: "Leave a comment", 
+            id: "comment_body_#{activity['object'].id}" %>
+        <%= f.submit "SEND", class: "btn c-btn-blue btn-wide" %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<hr class="feed-divider">
