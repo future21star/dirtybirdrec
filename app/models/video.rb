@@ -4,6 +4,8 @@ class Video < ApplicationRecord
 
   validates :user_id, :title, :video_link, presence: true
 
+  after_create :feed_masterfeed
+
   include StreamRails::Activity
   as_activity
 
@@ -29,4 +31,12 @@ class Video < ApplicationRecord
       self.video_link.match(regex)[1]
     end
   end
+
+  private
+
+    def feed_masterfeed
+      feed = StreamRails.feed_manager.get_feed( 'masterfeed', 1 )
+      activity = create_activity
+      feed.add_activity(activity)
+    end
 end

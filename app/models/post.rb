@@ -6,7 +6,7 @@ class Post < ApplicationRecord
   belongs_to :parent,  class_name: "Post", optional: true
   has_many   :replies, class_name: "Post", foreign_key: :parent_id, dependent: :destroy
 
-  after_create :feed_topic
+  after_create :feed_masterfeed, :feed_topic
 
   attr_accessor :post_hash
 
@@ -41,18 +41,26 @@ class Post < ApplicationRecord
     self
   end
 
+  def activity_target
+    self.topic
+  end
+
+  def activity_verb
+    "Comment"
+  end
+
   private
+
+    def feed_masterfeed
+      feed = StreamRails.feed_manager.get_feed( 'masterfeed', 1 )
+      activity = create_activity
+      feed.add_activity(activity)
+    end
 
     def feed_topic
       return if self.parent_id.present?
 
       feed = StreamRails.feed_manager.get_feed( 'topic', self.topic_id )
-      activity_actor_id = "User:#{self.user_id}"
-      activity_verb = "Comment"
-      activity_object_id = "Post:#{self.id}"
-      activity_foreign_id = "Post:#{self.id}"
-      activity_target_id = nil
-      activity_time = created_at.iso8601
       activity = create_activity
       feed.add_activity(activity)
     end

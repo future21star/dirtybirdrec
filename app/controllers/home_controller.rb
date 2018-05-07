@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
   before_action :authenticate_user!, 
-      except: [:index, :demo_index, :demo_login, :about]
+      except: [:index, :demo_index, :demo_login, :about, :birdfeed]
 
   def index
     @slider = SliderImage.all.ordered

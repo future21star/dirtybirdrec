@@ -6,6 +6,8 @@ class Release < ApplicationRecord
   
   has_and_belongs_to_many :users
 
+  after_create :feed_masterfeed
+
   accepts_nested_attributes_for :tracks
 
   mount_uploader :avatar, ReleaseUploader
@@ -13,6 +15,9 @@ class Release < ApplicationRecord
   ratyrate_rateable "main"
 
   include AlgoliaSearch
+
+  include StreamRails::Activity
+  as_activity
 
   algoliasearch sanitize: true do
     attribute :title, :catalog, :upc_code, :text
@@ -34,4 +39,24 @@ class Release < ApplicationRecord
   def published?
     !published_at.nil? && published_at <= DateTime.now
   end
+
+  def activity_object
+    self
+  end
+
+  def activity_actor
+    User.with_role(:admin).first
+  end
+
+  def verb
+    "Announcement"
+  end
+
+  private
+
+    def feed_masterfeed
+      feed = StreamRails.feed_manager.get_feed( 'masterfeed', 1 )
+      activity = create_activity
+      feed.add_activity(activity)
+    end
 end

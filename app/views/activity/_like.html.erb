@@ -10,6 +10,10 @@
   <%= link_to activity['object'].try(:title).try(:truncate, 25), activity['object'] %>
 <% end %>
 
+<% if activity['object'].class == Post %>
+  <%= link_to activity['object'].topic.try(:title).try(:truncate, 25), activity['object'].topic %>
+<% end %>
+
 <% if activity['object'].class == Comment && activity['object'].commentable.class == User %>
   <%= "on #{activity['object'].commentable.roles.first.name}" %>
   <%= link_to activity['object'].commentable.try(:name), activity['object'] %>

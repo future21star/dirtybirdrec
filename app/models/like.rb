@@ -2,7 +2,7 @@ class Like < ApplicationRecord
   belongs_to :user
   belongs_to :likeable, polymorphic: true
   
-  after_create :add_points, :trigger_likes_count
+  after_create :add_points, :feed_masterfeed, :trigger_likes_count
   after_destroy :trigger_likes_count#, :remove_points
 
   
@@ -33,6 +33,11 @@ class Like < ApplicationRecord
     #   self.user.change_points( 'like', :destroy )
     # end
 
+    def feed_masterfeed
+      feed = StreamRails.feed_manager.get_feed( 'masterfeed', 1 )
+      activity = create_activity
+      feed.add_activity(activity)
+    end
 
     def trigger_likes_count
       case self.likeable_type
