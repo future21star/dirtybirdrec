@@ -219,6 +219,8 @@ class UsersController < ApplicationController
 
     if @user.has_role? :admin
       @user_position = 0
+    elsif @user.badge_points.blank?
+      @user_position = ''
     else
       @user_position = User.with_role(:fan)
           .joins('LEFT OUTER JOIN badge_points on (users.id = badge_points.user_id)')
