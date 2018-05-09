@@ -4,6 +4,10 @@
     <%= link_to edit_post_path(reply), remote: true do %>
       <%= image_tag('icons/pencil.svg', class: "btn-post-edit") %>
     <% end %>
+
+    <%= link_to reply, method: :delete, remote: true do %>
+      <%= image_tag('icons/trash.svg', class: "btn-post-edit") %>
+    <% end %>
   <% end %>
 
   <p id="feed-post-<%= reply.id %>" class="feed-reply feed-owner"><%= reply.text %></p>
@@ -14,10 +18,14 @@
     <%= link_to image_tag(reply.user.avatar.thumb, class: "post-user-avatar"), reply.user %>
     
     <p id="feed-post-<%= reply.id %>" class="feed-reply"><%= reply.text %></p>
-    
+
     <% if current_user.id == reply.user_id %>
       <%= link_to edit_post_path(reply), remote: true do %>
         <%= image_tag('icons/pencil.svg', class: "btn-post-edit") %>
+      <% end %>
+
+      <%= link_to reply, method: :delete, remote: true do %>
+        <%= image_tag('icons/trash.svg', class: "btn-post-edit") %>
       <% end %>
     <% end %>
   </div>

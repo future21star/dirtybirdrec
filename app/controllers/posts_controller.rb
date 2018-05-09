@@ -24,6 +24,14 @@ class PostsController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
+  def destroy
+    @post = Post.find(params[:id])
+
+    @post.destroy if current_user.id == @post.user_id
+
+    redirect_back(fallback_location: root_path)
+  end
+
   def reply_form
     @post_id = params[:post_id]
     @topic_id = params[:topic_id]

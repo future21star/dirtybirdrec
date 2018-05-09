@@ -10,6 +10,10 @@
         <%= link_to edit_post_path(post), remote: true do %>
           <%= image_tag('icons/pencil.svg', class: "btn-post-edit") %>
         <% end %>
+
+        <%= link_to post, method: :delete, remote: true do %>
+          <%= image_tag('icons/trash.svg', class: "btn-post-edit") %>
+        <% end %>
       <% end %>
     </p>
 
