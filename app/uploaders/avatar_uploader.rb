@@ -2,7 +2,7 @@ class AvatarUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
   include CarrierWave::MiniMagick
-
+  include ActiveAdminJcrop::AssetEngine::CarrierWave
   # Choose what kind of storage to use for this uploader:
   # storage :file
   storage :fog
@@ -21,17 +21,35 @@ class AvatarUploader < CarrierWave::Uploader::Base
   #
   #   "/images/fallback/" + [version_name, "default.png"].compact.join('_')
   # end
+  process resize_to_fit: [800, 800]
 
   # Process files as they are uploaded:
-  process resize_to_fill: [250, 250]
   #
   # def scale(width, height)
   #   # do something
   # end
 
   # Create different versions of your uploaded files:
+  version :big_thumb do
+    process :crop
+    process resize_to_fill: [250, 250]
+  end
+
   version :thumb do
+    process :crop
     process resize_to_fill: [72, 72]
+  end
+
+  def crop
+    if model.crop_x.present?
+      manipulate! do |img|
+        x = model.crop_x.to_i
+        y = model.crop_y.to_i
+        w = model.crop_w.to_i
+        h = model.crop_h.to_i
+        img.crop("#{w}x#{h}+#{x}+#{y}")
+      end
+    end
   end
 
   # Add a white list of extensions which are allowed to be uploaded.

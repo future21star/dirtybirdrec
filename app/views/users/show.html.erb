@@ -12,7 +12,16 @@
 </script>
 
 <div class="user-present mb-5">
-  <%= image_tag(@user.avatar.url, class: "userpage-avatar left-avatar") if @user.avatar.present? %>
+  <% if current_user && current_user.id == @user.id %>
+    <%= form_for(@user, remote: true,
+        html: { id: 'change-avatar', class: 'userpage-avatar left-avatar', method: :put } ) do |f| %>
+      <%= image_tag @user.avatar.big_thumb if @user.avatar.present? %>
+      <%= f.file_field :avatar, class: 'form-control-file' %>
+      <%= f.hidden_field :avatar_cache %>
+    <% end %>
+  <% else %>
+    <%= image_tag(@user.avatar.big_thumb.url, class: "userpage-avatar left-avatar") if @user.avatar.present? %>
+  <% end %>
   
   <div class="user-bgrd">
     <%#= image_tag 'dj.jpg' %>
@@ -74,12 +83,16 @@
                   class: "#{'active' if current_page?(release_feed_path)}" %>
             </li>
             <li class="nav-item">
-              <%= link_to "Chirp", chirp_feed_path(anchor: "user-feed"), 
+              <%= link_to "Froum", chirp_feed_path(anchor: "user-feed"), 
                   class: "#{'active' if current_page?(chirp_feed_path)}" %>
             </li>
             <li class="nav-item">
-              <%= link_to "Artist", artist_feed_path(anchor: "user-feed"),
-                  class: "#{'active' if current_page?(artist_feed_path)}" %>
+              <%= link_to "Artists", artists_feed_path(anchor: "user-feed"),
+                  class: "#{'active' if current_page?(artists_feed_path)}" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Friends", friends_feed_path(anchor: "user-feed"),
+                  class: "#{'active' if current_page?(friends_feed_path)}" %>
             </li> 
           <% end %>
         </ul>
@@ -190,6 +203,14 @@
           </div>
         </div>
       </div>
+    </div>
+  <% end %>
+<% end %>
+
+<% if current_user && current_user.id == @user.id %>
+  <% content_for :body_area do %>
+    <div class="modal modal-blured" id="cropModal" tabindex="-1" role="dialog" aria-hidden="true">
+
     </div>
   <% end %>
 <% end %>

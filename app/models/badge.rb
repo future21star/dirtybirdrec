@@ -14,6 +14,7 @@ class Badge < ApplicationRecord
 
   has_many :badge_points_weights
   accepts_nested_attributes_for :badge_points_weights
+  has_many :badge_action_types, through: :badge_points_weights
 
   belongs_to :badge_kind
   validates :name, presence: true

@@ -59,12 +59,17 @@ class UsersController < ApplicationController
 
   def update
     # TODO recheck for subscription_type
-    user = User.find(params[:id])
-    user.update_attributes(user_params)
+    @user = User.find(params[:id])
+    if @user.update_attributes(user_params)
 
-    logger.warn user.errors.full_messages
+    else
+      logger.warn @user.errors.full_messages
+    end
 
-    redirect_to home_path
+    respond_to do |format|
+      format.js
+      format.html { redirect_to home_path }
+    end
   end
 
   def announcement_feed
@@ -105,22 +110,12 @@ class UsersController < ApplicationController
     @user = current_user
     fan_vars
 
-    # begin
-    #   feed = StreamRails.feed_manager.get_feed('topic_user_feed', current_user.id)
-    #   results = feed.get()['results']
-    # rescue Faraday::Error::ConnectionFailed
-    #   results = []
-    # end
-
-    # @enricher = StreamRails::Enrich.new
-    # @activities = @enricher.enrich_activities(results)
-
     get_feed_from @user.posts_from_followed_topics, 'Comment', 'topic'
 
     render :show
   end
 
-  def artist_feed
+  def artists_feed
     @user = current_user
     fan_vars
 
@@ -132,7 +127,24 @@ class UsersController < ApplicationController
     end
 
     @enricher = StreamRails::Enrich.new
-    @activities = @enricher.enrich_activities(results)#.select { |a| a['actor'].has_role?(:artist) }
+    @activities = @enricher.enrich_activities(results).select { |a| a['actor'].has_role?(:artist) }
+
+    render :show
+  end
+
+  def friends_feed
+    @user = current_user
+    fan_vars
+
+    begin
+      feed = StreamRails.feed_manager.get_news_feeds(@user.id)[:flat]
+      results = feed.get()['results']
+    rescue Faraday::Error::ConnectionFailed
+      results = []
+    end
+
+    @enricher = StreamRails::Enrich.new
+    @activities = @enricher.enrich_activities(results).select { |a| a['actor'].has_role?(:fan) }
 
     render :show
   end
@@ -265,6 +277,6 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:avatar, :avatar_cache, :shipping_address, 
         :birthdate, :gender, :t_shirt_size, :city, #:subscription, 
-        :subscription_type)
+        :subscription_type, :crop_x, :crop_y, :crop_w, :crop_h)
     end
 end

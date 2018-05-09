@@ -1,9 +1,15 @@
 <div class="user-present">
-  <% if @user.artist_info && @user.artist_info.avatar.present? %>
-    <%= image_tag  @user.artist_info.avatar.url, class: "userpage-avatar" %>
-  <% elsif @user.avatar.present? %>
-    <%= image_tag @user.avatar.url, class: "userpage-avatar" %>
+  <% if current_user && current_user.id == @user.id %>
+    <%= form_for(@user, remote: true,
+        html: { id: 'change-avatar', class: 'userpage-avatar', method: :put } ) do |f| %>
+      <%= image_tag @user.avatar.big_thumb if @user.avatar.present? %>
+      <%= f.file_field :avatar, class: 'form-control-file' %>
+      <%= f.hidden_field :avatar_cache %>
+    <% end %>
+  <% else %>
+    <%= image_tag(@user.avatar.big_thumb.url, class: "userpage-avatar") if @user.avatar.present? %>
   <% end %>
+
   <%= image_tag 'icons/point-green-big.svg', class: "artist-online" if @user.online? %>
 
   <div class="user-bgrd" >
@@ -207,6 +213,14 @@
           </div>
         </div>
       </div>
+    </div>
+  <% end %>
+<% end %>
+
+<% if current_user && current_user.id == @user.id %>
+  <% content_for :body_area do %>
+    <div class="modal modal-blured" id="cropModal" tabindex="-1" role="dialog" aria-hidden="true">
+
     </div>
   <% end %>
 <% end %>

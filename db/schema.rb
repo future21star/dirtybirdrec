@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180504095953) do
+ActiveRecord::Schema.define(version: 20180509064557) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,10 +23,11 @@ ActiveRecord::Schema.define(version: 20180504095953) do
     t.string "avatar"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "old_id"
+    t.string "image_uri"
   end
 
   create_table "artist_infos", force: :cascade do |t|
-    t.string "avatar"
     t.string "bio_short"
     t.text "bio_long"
     t.string "facebook"
@@ -55,6 +56,9 @@ ActiveRecord::Schema.define(version: 20180504095953) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "badge_kind_id"
+    t.integer "points"
+    t.integer "count_to_achieve", default: 1
   end
 
   create_table "badge_dependencies", force: :cascade do |t|
@@ -133,6 +137,42 @@ ActiveRecord::Schema.define(version: 20180504095953) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "downloads", force: :cascade do |t|
+    t.bigint "track_id"
+    t.bigint "user_id"
+    t.integer "format"
+    t.boolean "release", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["track_id"], name: "index_downloads_on_track_id"
+    t.index ["user_id"], name: "index_downloads_on_user_id"
+  end
+
+  create_table "emails", force: :cascade do |t|
+    t.string "subject", null: false
+    t.text "body_html"
+    t.text "body_text"
+    t.string "from", null: false
+    t.string "image_uri"
+    t.string "title"
+    t.string "cta_link"
+    t.string "cta_text"
+    t.string "template", null: false
+    t.string "category"
+    t.string "batch_id"
+    t.datetime "send_at", null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "emails_users", force: :cascade do |t|
+    t.bigint "email_id"
+    t.bigint "user_id"
+    t.index ["email_id"], name: "index_emails_users_on_email_id"
+    t.index ["user_id"], name: "index_emails_users_on_user_id"
+  end
+
   create_table "follows", force: :cascade do |t|
     t.integer "user_id"
     t.integer "followable_id"
@@ -151,6 +191,15 @@ ActiveRecord::Schema.define(version: 20180504095953) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id", "likeable_id", "likeable_type"], name: "index_likes_on_user_id_and_likeable_id_and_likeable_type", unique: true
+  end
+
+  create_table "meta_tags", force: :cascade do |t|
+    t.string "meta_tags"
+    t.string "resource_type"
+    t.bigint "resource_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["resource_type", "resource_id"], name: "index_meta_tags_on_resource_type_and_resource_id"
   end
 
   create_table "overall_averages", force: :cascade do |t|
@@ -198,6 +247,22 @@ ActiveRecord::Schema.define(version: 20180504095953) do
     t.index ["cacheable_type", "cacheable_id"], name: "index_rating_caches_on_cacheable_type_and_cacheable_id"
   end
 
+  create_table "release_files", force: :cascade do |t|
+    t.bigint "release_id"
+    t.integer "format"
+    t.string "s3_bucket"
+    t.string "s3_key"
+    t.integer "encode_status", default: 0, null: false
+    t.string "encode_job_id"
+    t.datetime "deleted_at"
+    t.datetime "datetime"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["datetime"], name: "index_release_files_on_datetime"
+    t.index ["deleted_at"], name: "index_release_files_on_deleted_at"
+    t.index ["release_id"], name: "index_release_files_on_release_id"
+  end
+
   create_table "releases", force: :cascade do |t|
     t.string "title"
     t.string "catalog"
@@ -211,6 +276,9 @@ ActiveRecord::Schema.define(version: 20180504095953) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "available_to_all"
+    t.integer "old_id"
+    t.boolean "drip_source"
+    t.string "image_uri"
   end
 
   create_table "releases_users", id: false, force: :cascade do |t|
@@ -261,6 +329,20 @@ ActiveRecord::Schema.define(version: 20180504095953) do
     t.string "image"
   end
 
+  create_table "topic_tags", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "topic_tags_topics", force: :cascade do |t|
+    t.bigint "topic_id"
+    t.bigint "topic_tag_id"
+    t.index ["topic_id"], name: "index_topic_tags_topics_on_topic_id"
+    t.index ["topic_tag_id"], name: "index_topic_tags_topics_on_topic_tag_id"
+  end
+
   create_table "topics", force: :cascade do |t|
     t.string "title"
     t.text "text"
@@ -270,6 +352,23 @@ ActiveRecord::Schema.define(version: 20180504095953) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "category_id"
+    t.integer "old_id"
+  end
+
+  create_table "track_files", force: :cascade do |t|
+    t.bigint "track_id"
+    t.integer "format"
+    t.string "s3_bucket"
+    t.string "s3_key"
+    t.integer "encode_status", default: 0, null: false
+    t.string "encode_job_id"
+    t.datetime "deleted_at"
+    t.datetime "datetime"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["datetime"], name: "index_track_files_on_datetime"
+    t.index ["deleted_at"], name: "index_track_files_on_deleted_at"
+    t.index ["track_id"], name: "index_track_files_on_track_id"
   end
 
   create_table "tracks", force: :cascade do |t|
@@ -284,6 +383,8 @@ ActiveRecord::Schema.define(version: 20180504095953) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "avatar"
+    t.integer "old_id"
+    t.boolean "drip_source"
   end
 
   create_table "tracks_users", force: :cascade do |t|
@@ -320,6 +421,9 @@ ActiveRecord::Schema.define(version: 20180504095953) do
     t.datetime "subscription_started_at"
     t.string "city"
     t.string "last_name"
+    t.integer "old_id"
+    t.boolean "drip_source"
+    t.string "image_uri"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

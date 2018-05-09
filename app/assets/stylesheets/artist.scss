@@ -22,14 +22,22 @@
 }
 
 .userpage-avatar {
-  width: 182px;
-  height: 182px;
   position: absolute;
   top: 30px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 2;
+  object-fit: cover;
+  width: 182px;
+  height: 182px;
   border-radius: 10px;
+
+  img {
+    object-fit: cover;
+    width: 182px;
+    height: 182px;
+    border-radius: 10px;
+  }
 }
 
 .user-since {

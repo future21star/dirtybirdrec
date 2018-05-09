@@ -4,7 +4,7 @@ class Announcement < ApplicationRecord
   has_many :likes, as: :likeable
   has_many :comments, as: :commentable
 
-  after_create :feed_masterfeed
+  # after_create :feed_masterfeed
 
   mount_uploader :avatar, ReleaseUploader
 

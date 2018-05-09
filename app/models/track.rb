@@ -6,8 +6,8 @@ class Track < ApplicationRecord
   has_many :users, through: :tracks_users
 
   mount_uploader :avatar, ReleaseUploader
-  mount_uploader :url, TrackUploader
-  mount_uploader :sample_uri, TrackUploader
+  # mount_uploader :url, TrackUploader
+  # mount_uploader :sample_uri, TrackUploader
 
   ratyrate_rateable "main"
 

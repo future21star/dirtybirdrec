@@ -1,5 +1,5 @@
 <div class="release-present">
-  <%= image_tag(@announcement.avatar.url, class: "release-avatar left-avatar") if @announcement.avatar.present? %>
+  <%= image_tag(@announcement.avatar.big_thumb.url, class: "release-avatar left-avatar") if @announcement.avatar.present? %>
   
   <div class="release-bgrd bg-green">
     <%#= image_tag 'dj.jpg' %>

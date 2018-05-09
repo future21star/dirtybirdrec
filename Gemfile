@@ -25,6 +25,7 @@ gem 'omniauth-google-oauth2'
 gem 'cancancan', '~> 2.0'
 gem 'rolify'
 gem 'activeadmin'
+gem 'active_admin_jcrop'
 gem 'carrierwave', '~> 1.0'
 gem 'mini_magick'
 gem 'bootstrap', '~> 4.0.0'
@@ -42,6 +43,7 @@ gem 'active_admin_flat_skin'
 gem 'social-share-button'
 gem 'ratyrate'
 gem 'rack-cors'
+gem 'bulk_insert'
 
 
 group :development, :test do

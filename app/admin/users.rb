@@ -4,6 +4,8 @@ ActiveAdmin.register User do
       :subscription_type, :first_name, :last_name, :city, #:subscription,
       track_ids: [], role_ids: [], release_ids: []
 
+  jcropable
+
   index do
     selectable_column
     id_column
@@ -21,13 +23,14 @@ ActiveAdmin.register User do
 
   form do |f|
     f.inputs do
+      f.input :avatar, :hint => image_tag(f.object.avatar.url(:thumb)), as: :jcropable
+      f.input :avatar_cache, :as => :hidden
       f.input :first_name
       f.input :last_name
       f.input :email
       f.input :password
       f.input :password_confirmation
       f.input :roles, as: :check_boxes
-      f.input :avatar
       f.input :city
       f.input :shipping_address
       f.input :birthdate
@@ -48,6 +51,10 @@ ActiveAdmin.register User do
         params[:user].delete "password_confirmation"
       end
 
+      if params[:user][:avatar].present?
+
+
+      end
       super
     end
   end
