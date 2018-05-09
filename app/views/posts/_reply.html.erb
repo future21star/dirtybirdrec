@@ -5,7 +5,8 @@
       <%= image_tag('icons/pencil.svg', class: "btn-post-edit") %>
     <% end %>
 
-    <%= link_to reply, method: :delete, remote: true do %>
+    <%= link_to reply, method: :delete, remote: true, 
+          data: { confirm: "Are you sure you want to delete your post?" } do %>
       <%= image_tag('icons/trash.svg', class: "btn-post-edit") %>
     <% end %>
   <% end %>
@@ -24,7 +25,8 @@
         <%= image_tag('icons/pencil.svg', class: "btn-post-edit") %>
       <% end %>
 
-      <%= link_to reply, method: :delete, remote: true do %>
+      <%= link_to reply, method: :delete, remote: true, 
+          data: { confirm: "Are you sure you want to delete your post?" } do %>
         <%= image_tag('icons/trash.svg', class: "btn-post-edit") %>
       <% end %>
     <% end %>

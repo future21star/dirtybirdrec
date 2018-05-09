@@ -21,6 +21,8 @@ class PostsController < ApplicationController
 
     @post.update_attributes(post_params) if current_user.id == @post.user_id
 
+    flash[:notice] = 'Post was updated'
+
     redirect_back(fallback_location: root_path)
   end
 
@@ -28,6 +30,8 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
 
     @post.destroy if current_user.id == @post.user_id
+
+    flash[:notice] = 'Post was deleted'
 
     redirect_back(fallback_location: root_path)
   end
