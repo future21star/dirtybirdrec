@@ -23,6 +23,7 @@ header {
   cursor: pointer;
   padding-top: 6px;
   &:hover, &:focus, &:active {
+    outline: none;
     zoom: 105%;
     padding-left: 7px !important;
   }
