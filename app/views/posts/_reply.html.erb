@@ -1,11 +1,24 @@
 <% if reply.parent && reply.user == reply.parent.user %>
 <div class="text-right" id="topic-post-<%= reply.id %>">
-  <p class="feed-reply feed-owner"><%= reply.text %></p>
+  <% if current_user.id == reply.user_id %>
+    <%= link_to edit_post_path(reply), remote: true do %>
+      <%= image_tag('icons/pencil.svg', class: "btn-post-edit") %>
+    <% end %>
+  <% end %>
+
+  <p id="feed-post-<%= reply.id %>" class="feed-reply feed-owner"><%= reply.text %></p>
   <%= image_tag(reply.user.avatar.thumb, class: "post-user-avatar") %>
 </div>
 <% else %>
   <div class="nested-messages" id="topic-post-<%= reply.id %>">
     <%= link_to image_tag(reply.user.avatar.thumb, class: "post-user-avatar"), reply.user %>
-    <p class="feed-reply"><%= reply.text %></p>
+    
+    <p id="feed-post-<%= reply.id %>" class="feed-reply"><%= reply.text %></p>
+    
+    <% if current_user.id == reply.user_id %>
+      <%= link_to edit_post_path(reply), remote: true do %>
+        <%= image_tag('icons/pencil.svg', class: "btn-post-edit") %>
+      <% end %>
+    <% end %>
   </div>
 <% end %>

@@ -3,7 +3,15 @@
   <p class="feed-posted">Posted <%= time_ago_in_words(post.created_at) %> ago</p>
 
   <div class="feed-item-body">
-    <p><b><%= post.user.name %>&nbsp;</b><%= post.text %></p>
+    <p id="feed-post-<%= post.id %>">
+      <b><%= post.user.name %>&nbsp;</b>
+      <%= post.text %>
+      <% if current_user.id == post.user_id %>
+        <%= link_to edit_post_path(post), remote: true do %>
+          <%= image_tag('icons/pencil.svg', class: "btn-post-edit") %>
+        <% end %>
+      <% end %>
+    </p>
 
     <div class="comment-footer">
       <span>

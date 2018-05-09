@@ -1,0 +1,5 @@
+<%= form_for @post do |f| %>
+    <%= f.label :text, "Text", class: "sr-only" %>
+    <%= f.text_area :text, class: "form-control mb-1", required: true %>
+  <%= f.submit "Apply", class: "btn c-btn-blue" %>
+<% end %>

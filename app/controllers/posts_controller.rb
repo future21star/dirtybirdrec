@@ -12,6 +12,18 @@ class PostsController < ApplicationController
     end
   end
 
+  def edit
+    @post = Post.find(params[:id])
+  end
+
+  def update
+    @post = Post.find(params[:id])
+
+    @post.update_attributes(post_params) if current_user.id == @post.user_id
+
+    redirect_back(fallback_location: root_path)
+  end
+
   def reply_form
     @post_id = params[:post_id]
     @topic_id = params[:topic_id]
