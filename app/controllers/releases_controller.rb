@@ -46,7 +46,7 @@ class ReleasesController < ApplicationController
   end
 
   def get_tracks
-    @release = Release.find(params[:id])
-    @tracks = @release.tracks
+    release = Release.find(params[:id])
+    @release_presenter = ReleasePresenter.new(release, current_user)
   end
 end

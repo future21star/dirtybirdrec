@@ -20,6 +20,9 @@ $(document).on('turbolinks:load', function() {
     let obj = $(selector);
     if(obj.text().length > 0) {
       obj.show();
+      setTimeout(function(){
+        obj.fadeOut('slow');
+      },3000);
     }
   };
   notify('.notice');

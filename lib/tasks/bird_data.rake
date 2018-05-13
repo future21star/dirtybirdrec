@@ -6,7 +6,6 @@ namespace :bird_data do
   task merge: :environment do
 
     BirdOldMerge.users
-    # BirdOldMerge.drip_users
 
     BirdOldMerge.releases
     BirdOldMerge.drip_releases

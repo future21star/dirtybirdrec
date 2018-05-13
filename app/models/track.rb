@@ -4,6 +4,7 @@ class Track < ApplicationRecord
   belongs_to :release
   has_many :tracks_users, dependent: :destroy
   has_many :users, through: :tracks_users
+  has_many :track_files
 
   mount_uploader :avatar, ReleaseUploader
   # mount_uploader :url, TrackUploader
@@ -17,13 +18,17 @@ class Track < ApplicationRecord
     attribute :title, :genre, :isrc_code
   end
 
-  
-  def get_url
-    # if current_user && (current_user.subscription_type > 0 || current_user.has_role?(:paid) )
-      # return url
-    # else
-      return sample_uri # TODO !!!
-    # end
+  def stream_uri(is_sample)
+    return sample_uri if is_sample
+
+    # Get most recent successfully encoded 160k mp3, or 320k mp3, or base uri
+    if (track_file = track_files.where(format: TrackFile.formats[:mp3_160], encode_status: TrackFile.encode_statuses[:complete]).order(:created_at).last)
+      return track_file.uri
+    elsif (track_file = track_files.where(format: TrackFile.formats[:mp3_320], encode_status: TrackFile.encode_statuses[:complete]).order(:created_at).last)
+      return track_file.uri
+    else
+      return url
+    end
   end
 
 end

@@ -40,18 +40,6 @@
 
     <div class="jp-playlist">
       <ul style="display: none;">
-        <li>
-          <div>
-            <a href="javascript:;" class="jp-playlist-item-remove" style="display: none;">×</a>
-            <a href="javascript:;" class="jp-playlist-item jp-playlist-current" tabindex="0">Cro Magnon Man</a>
-          </div>
-        </li>
-        <li>
-          <div>
-            <a href="javascript:;" class="jp-playlist-item-remove" style="display: none;">×</a>
-            <a href="javascript:;" class="jp-playlist-item" tabindex="0">Your Face</a>
-          </div>
-        </li>
       </ul>
     </div>
   </div>
@@ -157,6 +145,9 @@
     });
 
     $($('.jp-playlist li').get(currentTrack)).find('.jp-playlist-item').addClass('jp-playlist-current');
+
+    console.log(playlist);
+    console.log(playlist[currentTrack].mp3);
 
     cpAudio.load(playlist[currentTrack].mp3.url);
 

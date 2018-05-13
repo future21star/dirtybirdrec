@@ -1,72 +1,61 @@
 class TracksController < ApplicationController
   def show
     track = Track.find(params[:id])
+    track_presenter = TrackPresenter.new(track, current_user)
 
     render json: { 
       track: { 
-        id: track.id,
-        title: track.title, 
-        artists: track.users.map(&:name).join(' feat. '),
-        mp3: track.get_url
+        id: track_presenter.id,
+        title: track_presenter.title, 
+        artists: track_presenter.users.map(&:name).join(' feat. '),
+        mp3: track_presenter.stream_uri
       } 
     }
   end
 
   def get_tracks
-    # if cuttent_user && current_user.playlist.present?
-    #   tracks = []
+    if current_user && current_user.playlist.present?
+      tracks = []
 
-    #   current_user.playlist.tracks.split(',').each do |track_id|
-    #     track = Track.find( track_id )
-    #     artists = track.users.map(&:name).join(' feat. ')
 
-    #     tracks << {
-    #       title: track.title,
-    #       artists: artists,
-    #       mp3: track.get_url # TODO check for subscription
-    #     }
-    #   end
+      current_user.playlist.tracks.split(',').each do |track_id|
+        track = Track.find( track_id )
+        track_presenter = TrackPresenter.new(track, current_user)
 
-    #   if current_user.playlist.current_track.present?
-    #     current_track_data = current_user.playlist.current_track.split(':')
-    #     current_track = { index: current_track_data[0], time: current_track_data[1] }
-    #   else
-    #     current_track = { index: 0, time: 0 }
-    #   end
-    # else
-      # tracks = Track.last(5).map do |track|
-      #   artists = track.users.map(&:name).join(' feat. ')
-      #   { title: track.title, artists: artists, mp3: track.get_url } # TODO check for subscription
-      # end
+        if track_presenter.users.any?
+          artists = track_presenter.users.map(&:name).join(' feat. ')
+        else
+          artists = track_presenter.artist
+        end
 
-      tracks = [
-        {
-          id: 100,
-          title:"03 Drop It",
-          artists: "Catz ‘n Dogz",
-          mp3: {
-            url: "https://birdfeed-prod.s3.amazonaws.com/tracks/7d/f4fdb0c57611e7afe977749cd8a258/03. Catz n Dogz - Drop It - Sample - Dirtybird.mp3"
-          }
-        },
-        {
-          id: 101,
-          title:"04 I Enter",
-          artists: "  SecondCity & Tyler Rowe",
-          mp3: {
-            url: "https://birdfeed-prod.s3.amazonaws.com/tracks/80/1126f0c57611e7989f3b5145cbf698/04. SecondCity  Tyler Rowe - I Enter - Sample - Dirtybird.mp3"
-          }
-        },
-        {
-          id: 102,
-          title:"05 Breathing Room",
-          artists: "Ghostea",
-          mp3: {
-            url: "https://birdfeed-prod.s3.amazonaws.com/tracks/7e/11fb90c57611e78c72eb88ceec719c/05. Ghostea - Breathing Room - Sample - Dirtybird.mp3"
-          }
+        tracks << {
+          title: track_presenter.title,
+          artists: artists,
+          mp3: { url: track_presenter.stream_uri }
         }
-      ]
+      end
+
+      if current_user.playlist.current_track.present?
+        current_track_data = current_user.playlist.current_track.split(':')
+        current_track = { index: current_track_data[0], time: current_track_data[1] }
+      else
+        current_track = { index: 0, time: 0 }
+      end
+    else
+      tracks = Track.where.not('sample_uri is NULL').order(created_at: :asc).last(5).map do |track|
+        track_presenter = TrackPresenter.new(track, current_user)
+
+        if track_presenter.users.any?
+          artists = track_presenter.users.map(&:name).join(' feat. ')
+        else
+          artists = track_presenter.artist
+        end
+
+        { title: track_presenter.title, artists: artists, mp3: { url: track_presenter.stream_uri } }
+      end
+
       current_track = { index: 0, time: 0 }
-    # end
+    end
 
       render json: { tracks: tracks, current_track: current_track }
 

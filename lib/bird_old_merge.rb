@@ -196,6 +196,7 @@ class BirdOldMerge
           title,
           uri as url, -- uri = path to s3
           release_id,
+          artist,
           track_number,
           genre,
           isrc_code,

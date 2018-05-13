@@ -1,10 +1,16 @@
 var tracks = [];
-<% @tracks.each do |track| %>
+<% @release_presenter.tracks.each do |track| %>
+  <% if track.users.any? %>
+    <% artists = track.users.map(&:name).join(' feat. ') %>
+  <% else %>
+    <% artists = track.artist %>
+  <% end %>
+
   tracks.push({ 
     'id': '<%= track.id %>',
     'title': '<%= track.title %>', 
-    'artists': '<%= track.users.map(&:name).join(' feat. ') %>', 
-    'mp3': {'url': '<%= track.get_url %>' }
+    'artists': '<%= artists %>', 
+    'mp3': {'url': '<%= track.stream_uri %>' }
   });
 <% end %>
 
@@ -12,5 +18,5 @@ if (tracks.length > 0) {
   setPlaylist(tracks, true);
 
   $("[id^='play-release-']").show().next('.jp-controls').css({'display': 'none'});
-  $('#play-release-<%= @release.id %>').hide().next('.jp-controls').css({'display': 'inline-flex'});
+  $('#play-release-<%= @release_presenter.id %>').hide().next('.jp-controls').css({'display': 'inline-flex'});
 }

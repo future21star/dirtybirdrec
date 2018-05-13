@@ -38,6 +38,7 @@ class User < ApplicationRecord
   has_many :announcements
   has_many :tracks_users
   has_many :tracks, through: :tracks_users
+  has_one :playlist
 
   include AlgoliaSearch
   include BadgeSystem
