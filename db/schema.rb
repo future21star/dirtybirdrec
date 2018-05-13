@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180513121930) do
+ActiveRecord::Schema.define(version: 20180513172358) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -394,13 +394,13 @@ ActiveRecord::Schema.define(version: 20180513121930) do
     t.string "avatar"
     t.integer "old_id"
     t.boolean "drip_source"
+    t.string "artist"
   end
 
   create_table "tracks_users", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "track_id"
     t.index ["track_id"], name: "index_tracks_users_on_track_id"
-    t.index ["user_id", "track_id"], name: "index_tracks_users_on_user_id_and_track_id", unique: true
     t.index ["user_id"], name: "index_tracks_users_on_user_id"
   end
 
