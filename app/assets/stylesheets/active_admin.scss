@@ -73,3 +73,21 @@ html form fieldset.inputs {
     }
   } 
 }
+
+input[disabled="disabled"],
+input[disabled],
+.select2-container--disabled {
+  .select2-selection {
+    background-color: #fff !important;
+    background: transparent;
+    border: none !important;
+
+    .select2-selection__arrow {
+      display: none;
+    }
+  }
+
+  & + .inline-hints {
+    margin: 0;
+  }
+}

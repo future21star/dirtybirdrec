@@ -1,11 +1,14 @@
 <% if @comment.parent_id.present? %>
-  $('.feed-form').before(`
-        <%= escape_javascript(
-          render(@comment)
-        ) %>
-    `);
-  $('[id^=comment_body_]').val('');
+
+  $('#comment_body-<%= @comment.parent_id %>').closest('.feed-item').find('.comments-count').first().text( parseInt( $('#comment_body-<%= @comment.parent_id %>').closest('.feed-item').find('.comments-count').first().text() ) + 1 );
+  
+  $('#comment_body-<%= @comment.parent_id %>').val('').closest('.feed-form')
+      .before("<%= escape_javascript(render @comment ) %>").remove();
+
+  $('#comment-reply-<%= @comment.parent_id %>').show();
+
 <% else %>
+
   $('.modal').modal('hide');
   $('.feed-block').prepend(`
       <div class="feed-item">
@@ -23,4 +26,5 @@
         ) %>
       </div>
     `);
+
 <% end %>

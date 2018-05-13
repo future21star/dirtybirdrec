@@ -1,11 +1,46 @@
 <% if comment.user == comment.commentable %>
-<div class="text-right">
-  <p class="feed-reply feed-owner"><%= comment.body %></p>
-  <%= image_tag(comment.user.avatar.thumb, class: "post-user-avatar") %>
-</div>
+
+  <div class="text-right">
+    <%= render partial: 'likes/like_button', locals: { object: comment,  style: 'thumbup-reply' } %>
+
+    <%= link_to comment_reply_form_path( comment_id: comment.id ),
+        remote: true, id: "comment-#{comment.id}" do %>
+      <%= image_tag 'icons/reply.svg', style: "width: 17px; height: 17px; margin-left: 10px;" %>
+      <span class="comments-count"><%= comment.replies_count %></span>
+    <% end %>
+
+    <p class="feed-reply feed-owner" id="Comment-<%= comment.id %>">
+      <%= comment.body %>    
+    </p>
+    <%= image_tag(comment.user.avatar.thumb, class: "post-user-avatar") %>
+
+    <% if comment.replies.present? %>
+      <%= render comment.replies.order(created_at: :asc) %>
+    <% end %>
+  </div>
+
 <% else %>
+
   <div class="nested-messages">
     <%= link_to image_tag(comment.user.avatar.thumb, class: "post-user-avatar"), comment.user %>
-    <p class="feed-reply"><%= comment.body %></p>
+    <p class="feed-reply" id="Comment-<%= comment.id %>">
+      <%= comment.body %>
+    </p>
+
+    <%= render partial: 'likes/like_button', locals: { object: comment,  style: 'thumbup-reply' } %>
+
+    <%= link_to comment_reply_form_path( 
+        comment_id: comment.id, 
+        commentable_id: comment.commentable_id,
+        commentable_type: comment.commentable_type ),
+        remote: true, id: "comment-#{comment.id}" do %>
+      <%= image_tag 'icons/reply.svg', style: "width: 17px; height: 17px; margin-left: 10px;" %>
+      <span class="comments-count"><%= comment.replies_count %></span>
+    <% end %>
+
+    <% if comment.replies.present? %>
+      <%= render comment.replies.order(created_at: :asc) %>
+    <% end %>
   </div>
+
 <% end %>

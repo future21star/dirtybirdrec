@@ -1,11 +1,12 @@
 <% 
   image = case style
   when 'thumbup' then 'icons/like-thumbdown.svg' 
+  when 'thumbup-reply' then 'icons/like-thumbdown.svg' 
   when 'release' then 'icons/liked-release.svg' 
   else 'icons/liked.svg' end
 %>
 
-<%= link_to image_tag(image, class: "align-top"), like_path(like, style: style), 
+<%= link_to image_tag(image), like_path(like, style: style), 
     id: "like-#{like.likeable_type}-#{like.likeable_id}",
     method: :delete, remote: true, class: "like-button"
 %>

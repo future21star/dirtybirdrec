@@ -8,7 +8,7 @@ var button = $('<%= "#like-#{like.likeable_type}-#{like.likeable_id}" %>');
     `);
 <% end %>
 
-<% if style == 'release' %>
+<% if style == 'release' || style == 'thumbup-reply' %>
   button.siblings('.likes-count').replaceWith(`
         <%= escape_javascript(
           render 'likes/likes_count_slim', object: like.likeable 

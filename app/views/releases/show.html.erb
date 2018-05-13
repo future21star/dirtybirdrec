@@ -1,5 +1,12 @@
 <div class="release-present">
-  <%= image_tag(@release.avatar.big_thumb.url, class: "release-avatar left-avatar") if @release.avatar.present? %>
+  <% if @release.avatar.present?
+       image = @release.avatar.url
+     elsif @release.image_uri.present?
+       image = @release.image_uri
+     else
+       image = nil
+     end %>
+  <%= image_tag(image, class: "release-avatar left-avatar") if image %>
   
   <div class="release-bgrd">
     <%#= image_tag 'dj.jpg' %>
@@ -42,7 +49,7 @@
 
       <div class="truncated-description">
         <% if @release.text.present? %>
-          <article><%= @release.text.html_safe.truncate(400) %></article>
+          <article><%= strip_tags(@release.text).truncate(400) %></article>
 
           <% if @release.text.html_safe.truncate(400) != @release.text.html_safe %>
             <a href="#" class="truncated-long">Read more</a>
@@ -70,83 +77,85 @@
                         classes: "btn btn-wide follow-button-black",
                         text: ['follow this feed', 'unfollow this feed'] } } %>
 
-      <div class="feed-block light-scroll">
+      <div class="feed-block">
         <%= render 'feeds/commentable_feed' %>
       </div>
     </div>
   </div>
 
   <div class="col-md-4">
-    <!-- ARTISTS -->
-    <div class="c-panel bg-dark mb-4">
-      <div class="c-flag c-flag-inner mb-2">ARTISTS</div>
+    <div class="sticky-top">
+      <!-- ARTISTS -->
+      <div class="c-panel bg-dark mb-4">
+        <div class="c-flag c-flag-inner mb-2">ARTISTS</div>
 
-      <ol class="users-block list-unstyled mt-1">
-        <% @release.users.each do |artist| %>
-          <li>
-            <%= link_to artist_path(artist), class: "d-inline-block align-middle" do %>
-              <%= image_tag artist.avatar.thumb, class: "user-avatar" %>
-            <% end %>
+        <ol class="users-block list-unstyled mt-1">
+          <% @release.users.each do |artist| %>
+            <li>
+              <%= link_to artist_path(artist), class: "d-inline-block align-middle" do %>
+                <%= image_tag artist.avatar.thumb, class: "user-avatar" %>
+              <% end %>
 
-            <div class="user-subtitle">
-              <h5>
-                <%= link_to artist.name, artist_path(artist) %>
-                <%= image_tag 'icons/point-green.svg', class: "point-green" if artist.online? %>
-              </h5>
-              <div>
-                <%= link_to "All tracks", artist %>
-                /
-                <b><%= link_to "Artist Q & A", chirp_index_path %></b>
-              </div>
-            </div>
-
-            <%= render partial: 'follows/follow_button', 
-                locals: { target: artist, 
-                          opt: { 
-                              classes: "btn c-btn-blue",
-                              text: ['follow', 'following'] } } %>
-          </li>
-        <% end %>
-      </ol>
-    </div>
-
-    <!-- TRACKS -->
-    <% if @release.tracks.any? %>
-      <div class="c-panel bg-white">
-        <div class="c-flag c-flag-inner mb-2"><b>TRACKS</b> ON THIS RELEASE</div>
-
-        <ol class="list-unstyled mt-1">
-          <% @release.tracks.each do |track| %>
-            <li class="track-item">
-              <h3>
-                <%= track.title.truncate(70).upcase %>
-                <%= render 'likes/like_button', object: track %>
-              </h3>
-
-              By <%= track.users.map(&:name).join(' feat. ') %>
-
-              <div class="jp-controls">
-                <div class="jp-current-time-track" role="timer" aria-label="time">0:00</div>
-                <button class="jp-previous" role="button" tabindex="0"></button>
-                <button class="jp-play jp-play-track" data-track="<%= track.id %>" role="button" tabindex="1"></button>
-                <button class="jp-next" role="button" tabindex="2"></button>
-                <div class="jp-duration-track" role="timer" aria-label="duration">0:00</div><%# TODO get from database %>
-                <%= rating_for track, 'main', star: 3, cancel: true, 
-                      enable_half: true, half_show: true, disable_after_rate: false,
-                      star_path: '/images' %>
+              <div class="user-subtitle">
+                <h5>
+                  <%= link_to artist.name, artist_path(artist) %>
+                  <%= image_tag 'icons/point-green.svg', class: "point-green" if artist.online? %>
+                </h5>
+                <div>
+                  <%= link_to "All tracks", artist %>
+                  /
+                  <b><%= link_to "Artist Q & A", chirp_index_path %></b>
+                </div>
               </div>
 
-
-              <%= link_to image_tag('icons/icon-download.svg'), download_track_path(track), class: "icon-download" %>
-
-              <a href="#" title="Share" tabindex="0" data-toggle="popover" data-placement="left" data-content="<%= (social_share_button_tag(track.title, desc: track.title)).gsub('\"','\'') %>" data-trigger="focus" data-html="true" onclick="return false;" class="icon-share">
-                <%= image_tag('icons/icon-share.svg', title: "Share") %>
-              </a>
+              <%= render partial: 'follows/follow_button', 
+                  locals: { target: artist, 
+                            opt: { 
+                                classes: "btn c-btn-blue",
+                                text: ['follow', 'following'] } } %>
             </li>
           <% end %>
         </ol>
       </div>
-    <% end %>
+
+      <!-- TRACKS -->
+      <% if @release.tracks.any? %>
+        <div class="c-panel bg-white">
+          <div class="c-flag c-flag-inner mb-2"><b>TRACKS</b> ON THIS RELEASE</div>
+
+          <ol class="list-unstyled mt-1">
+            <% @release.tracks.each do |track| %>
+              <li class="track-item">
+                <h3>
+                  <%= track.title.truncate(70).upcase %>
+                  <%= render 'likes/like_button', object: track %>
+                </h3>
+
+                By <%= track.users.map(&:name).join(' feat. ') %>
+
+                <div class="jp-controls">
+                  <div class="jp-current-time-track" role="timer" aria-label="time">0:00</div>
+                  <button class="jp-previous" role="button" tabindex="0"></button>
+                  <button class="jp-play jp-play-track" data-track="<%= track.id %>" role="button" tabindex="1"></button>
+                  <button class="jp-next" role="button" tabindex="2"></button>
+                  <div class="jp-duration-track" role="timer" aria-label="duration">0:00</div><%# TODO get from database %>
+                  <%= rating_for track, 'main', star: 3, cancel: true, 
+                        enable_half: true, half_show: true, disable_after_rate: false,
+                        star_path: '/images' %>
+                </div>
+
+
+                <%= link_to image_tag('icons/icon-download.svg'), download_track_path(track), class: "icon-download" %>
+
+                <a href="#" title="Share" tabindex="0" data-toggle="popover" data-placement="left" data-content="<%= (social_share_button_tag(track.title, desc: track.title)).gsub('\"','\'') %>" data-trigger="focus" data-html="true" onclick="return false;" class="icon-share">
+                  <%= image_tag('icons/icon-share.svg', title: "Share") %>
+                </a>
+              </li>
+            <% end %>
+          </ol>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>
 
@@ -170,7 +179,7 @@
               <%= f.label :title, class: "sr-only" %>
               <%= f.text_field :title, placeholder: "Type the title here" %>
               <%= f.label :body, class: "sr-only" %>
-              <%= f.text_area :body, rows: 10, placeholder: "Type text", max: 200 %>
+              <%= f.text_area :body, rows: 10, placeholder: "Type text", max: 200, required: true %>
               <%= f.submit "ADD TO FEED", class: "btn c-btn-blue btn-wide" %>
             <% end %>
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180509064557) do
+ActiveRecord::Schema.define(version: 20180511160736) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -124,7 +124,7 @@ ActiveRecord::Schema.define(version: 20180509064557) do
     t.datetime "updated_at", null: false
     t.string "title"
     t.integer "likes_count", default: 0
-    t.integer "comments_count", default: 0
+    t.integer "replies_count", default: 0
     t.integer "shares_count", default: 0
   end
 
@@ -221,6 +221,7 @@ ActiveRecord::Schema.define(version: 20180509064557) do
     t.integer "topic_id"
     t.integer "user_id"
     t.integer "parent_id"
+    t.integer "replies_count", default: 0
   end
 
   create_table "rates", force: :cascade do |t|

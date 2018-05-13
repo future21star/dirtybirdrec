@@ -16,7 +16,7 @@ ActiveAdmin.register Badge do
       f.input :badge_kind
       f.input :name
       f.input :image
-      f.input :points
+      # f.input :points
       # f.li "<label class='label'>Points</label><span>#{f.object.points || '-'}</span>".html_safe
     end
     f.inputs do
@@ -28,16 +28,18 @@ ActiveAdmin.register Badge do
       end
 
       f.has_many :badge_points_weights, new_record: false, sortable: :badge_action_type do |a|
-        a.input :badge_action_type, label: 'action'
-        a.input :value, label: 'points'
+        a.input :badge_action_type, label: 'action',
+            hint: "#{a.object.badge_action_type.points || 0} points / #{a.object.badge_action_type.count_to_achieve} to achieve", 
+            input_html: { disabled: true } 
+
         a.input :active
 
         if a.object.badge_action_type_id == BadgeActionType.find_by(name: 'role').id
           a.input :condition, label: 'role', as: :select, collection: Role.all.map {|r| [r.name, r.id]}
-        elsif a.object.badge_action_type_id == BadgeActionType.find_by(name: 'member over time').id
-          a.input :condition, label: 'days'
-        else
-          a.input :condition, label: 'No to achieve'
+        # elsif a.object.badge_action_type_id == BadgeActionType.find_by(name: 'member over time').id
+          # a.input :condition, label: 'days'
+        # else
+          # a.input :condition, label: 'No to achieve'
         end
 
         a.actions
@@ -45,7 +47,7 @@ ActiveAdmin.register Badge do
     end
 
     f.inputs do
-      f.has_many :badge_dependencies, new_record: false do |c|
+      f.has_many :badge_dependencies do |c|
         c.input :depended_badge
         c.input :badge_id, :input_html => { :value => f.object.id }, as: :hidden
       end

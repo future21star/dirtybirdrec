@@ -14,12 +14,14 @@ class UsersController < ApplicationController
   end
 
   def index
-    @leader_users = User.with_role(:fan)
-                        .includes(:badges)
-                        .joins('LEFT OUTER JOIN badge_points on (users.id = badge_points.user_id)')
-                        .group('users.id')
-                        .order('users.created_at ASC, SUM(badge_points.value) DESC')
-                        .paginate(page: params[:page], per_page: 9)
+    points = "(SELECT SUM(value) FROM badge_points WHERE user_id = users.id)"
+    fans = "INNER JOIN users_roles ON (users_roles.user_id = users.id) INNER JOIN roles ON (roles.id = users_roles.role_id)"
+    sql = "SELECT users.id, users.created_at, #{points} as total FROM users #{fans} WHERE roles.name = 'fan' ORDER BY users.created_at ASC, total DESC LIMIT 9 OFFSET #{params[:page].to_i*9}"
+
+    @leader_users = ActiveRecord::Base.connection.execute(sql)
+    #TODO make it normal
+    @leader_users1 = User.with_role(:artist).paginate(page: params[:page], per_page: 9)
+
     @badge_kinds = BadgeKind.all
   end
 
@@ -46,7 +48,7 @@ class UsersController < ApplicationController
     results = feed.get()['results']
     @activities = @enricher.enrich_activities(results)
 
-    current_user.change_points( 'member over time' ) if current_user == @user
+    # current_user.change_points( 'member over time' ) if current_user == @user
   end
 
   def home

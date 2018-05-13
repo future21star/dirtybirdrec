@@ -55,7 +55,7 @@
         <div class="item-body">
           <div class="item-panel">
             <h3><%= link_to release.title.upcase, release_path(release) %></h3>
-            <p><%= link_to release.text.html_safe.truncate(350), release_path(release) %></p>
+            <p><%= link_to strip_tags(release.text).truncate(350), release_path(release) %></p>
           </div>
           <div class="item-footer">
             <%= link_to release, class: "c-link" do %>
@@ -78,8 +78,15 @@
             </a>
           </div>
         </div>
-        <%= image_tag release.avatar.url if release.avatar.present? %>
-        <%= image_tag release.avatar.url, class: "item-blured-img" if release.avatar.present? %>
+        <% if release.avatar.present?
+             image = release.avatar.url
+           elsif release.image_uri.present?
+             image = release.image_uri
+           else
+             image = nil
+           end %>
+        <%= image_tag image if image %>
+        <%= image_tag image, class: "item-blured-img" if image %>
       </div>
       <mark class="t-small"><%= time_ago_in_words( release.release_date ).upcase %> AGO</mark>
     </div>

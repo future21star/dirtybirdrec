@@ -6,7 +6,8 @@ class Post < ApplicationRecord
   belongs_to :parent,  class_name: "Post", optional: true
   has_many   :replies, class_name: "Post", foreign_key: :parent_id, dependent: :destroy
 
-  after_create :feed_masterfeed, :feed_topic
+  after_create :feed_masterfeed, :feed_topic, :increment_count
+  after_destroy :decrement_count
 
   attr_accessor :post_hash
 
@@ -50,6 +51,24 @@ class Post < ApplicationRecord
   end
 
   private
+
+    def increment_count
+      self_parent = parent
+
+      while self_parent.present?
+        self_parent.increment! :replies_count
+        self_parent = self_parent.parent
+      end
+    end
+
+    def decrement_count
+      self_parent = parent
+
+      while self_parent.present?
+        self_parent.decrement! :replies_count
+        self_parent = self_parent.parent
+      end
+    end
 
     def feed_masterfeed
       feed = StreamRails.feed_manager.get_feed( 'masterfeed', 1 )

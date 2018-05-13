@@ -14,7 +14,11 @@ class HomeController < ApplicationController
                    .order('created_at ASC')
                    .includes(:artist_info)
                    .limit(20)
-    @releases = Release.released.limit(30)
+    @releases = Release.where(
+      'published_at <= :now AND (published_at >= :user_max OR available_to_all = true)',
+      now: DateTime.now,
+      user_max: DateTime.now - 3.months
+    ).order('published_at DESC')
 
     @badge_kinds = BadgeKind.all
 
@@ -87,7 +91,7 @@ class HomeController < ApplicationController
   end
 
   def demo_get_100_points
-    User.find(params[:id]).change_points( 100 )
+    # User.find(params[:id]).change_points( 100 )
     redirect_to demo_path
   end
 

@@ -5,9 +5,14 @@
 .nested-messages {
   margin-left: 30px;
   text-align: left;
+
+  .nested-messages .nested-messages .nested-messages {
+    margin-left: 0;
+  }
 }
 
 .btn-post-edit {
   width: 10px;
   height: 10px;
+  margin: 0 4px;
 }

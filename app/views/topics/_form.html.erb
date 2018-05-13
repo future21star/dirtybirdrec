@@ -1,5 +1,5 @@
 <div class="feed-form">
-  <%= form_for @post, remote: true, 
+  <%= form_for @new_post, remote: true, 
       html: { id: (@topic_id.present? ? "new_post-#{@post_hash}" : "new_post") } do |f| %>
     <% if parent_id.present? %>
       <%= f.hidden_field :parent_id, value: parent_id %>

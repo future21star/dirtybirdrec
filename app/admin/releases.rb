@@ -19,7 +19,8 @@ ActiveAdmin.register Release do
       f.input :upc_code
       f.input :compilation
       f.input :release_date
-      f.input :users
+      f.input :users, as: :select, label: "Artists",
+      collection: User.with_role(:artist).map {|a| [a.name, a.id] }
     end
 
     f.inputs do

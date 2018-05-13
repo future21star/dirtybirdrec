@@ -1,0 +1,15 @@
+<div class="feed-form">
+  <%= form_for @new_comment, remote: true,
+      html: { id: "new_comment-#{@comment_hash}" } do |f| %>
+    <%= f.hidden_field :parent_id, value: parent_id %>
+    <%= f.hidden_field :comment_hash, value: @comment_hash %>
+    <%= f.hidden_field :commentable_id, value: @commentable_id %>
+    <%= f.hidden_field :commentable_type, value: @commentable_type %>
+
+    <%= f.label :body, "Text", class: "sr-only" %>
+    <%= f.text_area :body, class: "form-control mb-1", required: true,
+          id: "comment_body#{('-'+parent_id) if parent_id}", 
+          placeholder: "Leave a comment" %>
+    <%= f.submit "Send", class: "btn c-btn-blue" %>
+  <% end %>
+</div>

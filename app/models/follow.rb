@@ -23,7 +23,7 @@ class Follow < ApplicationRecord
   private
 
     def add_points
-      self.user.change_points( 'follow' )
+      # self.user.change_points( 'follow' )
     end
 
     # def remove_points

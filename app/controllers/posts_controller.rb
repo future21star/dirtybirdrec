@@ -40,7 +40,7 @@ class PostsController < ApplicationController
     @post_id = params[:post_id]
     @topic_id = params[:topic_id]
     @post_hash = SecureRandom.hex
-    @post = Post.new
+    @new_post = Post.new
   end
 
   protected

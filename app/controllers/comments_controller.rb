@@ -15,12 +15,20 @@ before_action :authenticate_user!
     logger.warn(@comment.errors.full_messages) unless @comment.save
 
   end
+ 
+  def reply_form
+    @comment_id = params[:comment_id]
+    @commentable_id = params[:commentable_id]
+    @commentable_type = params[:commentable_type]
+    @comment_hash = SecureRandom.hex
+    @new_comment = Comment.new
+  end
+
 
   private
 
     def comment_params
       params.require(:comment).permit(:commentable_type, :commentable_id, 
-        :body, :title, :parent_id, :likes_count, :comments_count,
-        :shares_count)
+        :body, :title, :parent_id, :likes_count, :shares_count, :comment_hash)
     end
 end

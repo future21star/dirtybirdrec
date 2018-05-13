@@ -1,9 +1,15 @@
 <% if @post.parent_id.present? %>
-  $('#post_text-<%= @post.parent_id %>').val('').parents('.feed-form')
+
+  $('#post_text-<%= @post.parent_id %>').val('').closest('.feed-form')
       .before("<%= escape_javascript(render partial: 'posts/reply', locals: {reply: @post} ) %>");
 
-  $('#post_text-<%= @post.parent_id %>').parents('.feed-item').find('.comments-count').text( parseInt( $('#post_text-<%= @post.parent_id %>').parents('.feed-item').find('.comments-count').text() ) + 1 );
+  $('#post_text-<%= @post.parent_id %>').closest('.feed-item').find('.comments-count').first().text( parseInt( $('#post_text-<%= @post.parent_id %>').closest('.feed-item').find('.comments-count').first().text() ) + 1 );
+
+  $('#topic-post-<%= @post.parent_id %>').show().siblings('.feed-form').remove();
+
 <% else %>
+
   $('.feed-block .feed-form').before("<%= escape_javascript(render(@post)) %>");
   $('#post_text').val('').focus();
+  
 <% end %>

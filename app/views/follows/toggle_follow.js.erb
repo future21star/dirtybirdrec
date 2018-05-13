@@ -7,6 +7,7 @@ var button = $('<%= ".follow-#{target['followable_type']}-#{target['followable_i
           locals: { target: target.followable, text: text, classes: classes } )
       ) %>
     `);
+  $('.notice').text('You are now following this feed').show();
 <% else %>
   button.replaceWith(`
       <%= escape_javascript(
@@ -14,4 +15,5 @@ var button = $('<%= ".follow-#{target['followable_type']}-#{target['followable_i
           locals: { target: target.followable, text: text, classes: classes } )
       ) %>
     `);
+  $('.notice').text('You are now not following this feed').show();
 <% end %>

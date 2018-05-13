@@ -6,8 +6,9 @@
 </div>
 
 <ul class="leaderboard">
-  <% leader_users_ids = @leader_users.ids %>
-  <% @leader_users.each do |user| %>
+  <% leader_users_ids = @leader_users.map {|u| u['id']} %>
+  <% @leader_users.each do |u| %>
+    <% user = User.find u['id'] %>
     <li style="margin-bottom: 20px;">
       <% page = params[:page] || 1 %>
       <span class="leaderboard-position">
@@ -70,4 +71,4 @@
   <% end %>
 </ul>
 
-<%= will_paginate @leader_users, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
+<%= will_paginate @leader_users1, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>

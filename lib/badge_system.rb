@@ -1,4 +1,4 @@
-module GiocoCustom
+module BadgeSystem
   class Core
     def self.related_info(resource, badge, points, kind)
       old_pontuation  = resource.badge_points.where(badge_id: badge.id).sum(:value)

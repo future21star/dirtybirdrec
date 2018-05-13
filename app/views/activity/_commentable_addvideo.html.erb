@@ -14,7 +14,7 @@
 
   <span>
     <%= image_tag('icons/icon-comment.svg', title: 'Comments', class: "align-top") %>
-    Comment (<%= activity['object'].try(:comments_count) %>)
+    Comment (<%= activity['object'].try(:replies_count) %>)
   </span>
 </div>
 

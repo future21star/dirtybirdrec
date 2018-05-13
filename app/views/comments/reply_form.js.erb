@@ -1,0 +1,13 @@
+<% if Comment.find(@comment_id).parent_id.blank? %>
+  $('#comment-reply-<%= @comment_id %>').hide().before(`
+      <%= escape_javascript(
+        render(partial:'comments/form', 
+          locals: { post: @new_comment, parent_id: @comment_id })
+      ) %>`);
+<% else %>
+  $('#Comment-<%= @comment_id %>').closest('div').append(`
+      <%= escape_javascript(
+        render(partial:'comments/form', 
+          locals: { post: @new_comment, parent_id: @comment_id })
+      ) %>`);
+<% end %>

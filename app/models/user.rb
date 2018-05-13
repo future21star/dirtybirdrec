@@ -40,7 +40,7 @@ class User < ApplicationRecord
   has_many :tracks, through: :tracks_users
 
   include AlgoliaSearch
-  include GiocoCustom
+  include BadgeSystem
 
   algoliasearch do
     attribute :first_name, :last_name
@@ -102,16 +102,29 @@ class User < ApplicationRecord
   end
 
 
-  def change_points(action_type, method=false)
-    raise "Missing Kind Identifier argument" if !action_type
+  def change_points(action_type, action_kind)
+    raise "Missing Kind Identifier argument" if !action_type || !action_kind
 
-    weights = "SELECT badge_id FROM badge_points_weights INNER JOIN badge_action_types ON badge_action_types.id = badge_points_weights.badge_action_type_id WHERE badge_action_types.name = :action_type"
-    badges = Badge.where("id IN (#{weights})", action_type: action_type)
+    music = BadgeKind.find_by_name('music')
+    forum = BadgeKind.find_by_name('forum')
+    community = BadgeKind.find_by_name('community')
 
-    badges.each do |badge|
+    action_kind_id = case action_kind
+    when "Release" then music
+    when "Track" then music
+    when "Topic" then forum
+    when "Post" then forum
+    when "User" then community
+    end
+
+    weights = "SELECT badge_id FROM badge_points_weights INNER JOIN badge_action_types ON badge_action_types.id = badge_points_weights.badge_action_type_id WHERE badge_action_types.name = :action_type AND badge_action_types.badge_kind_id = :action_kind_id"
+    badges = Badge.where("id IN (#{weights})", action_type: action_type, action_kind_id: action_kind_id)
+
+    user_badges = self.badges.pluck(:id)
+
+    badges.reject { |b| user_badges.inclueds?(b.id) if user_badges.present? }.each do |badge|
 
       related_badges_should_be = badge.depended_badges.pluck(:id)
-      user_badges = self.badges.pluck(:id)
 
       if related_badges_should_be.present?
         if related_badges_should_be.all? { |i| user_badges.include?(i) }
@@ -129,7 +142,7 @@ class User < ApplicationRecord
               action_type, badge.id).first
       next unless weight.active?
 
-      role = BadgePointsWeight.joins(:badge_action_type).where('badge_action_types.name = ? AND badge_id = ?',  'role', badge.id).first
+      role = BadgePointsWeight.joins(:badge_action_type).where('badge_action_types.name = ? AND badge_id = ?', 'role', badge.id).first
 
       if role.present? && role.active?
         next unless self.has_role? role.value
@@ -157,17 +170,14 @@ class User < ApplicationRecord
 
       old_pontuation = self.badge_points.where(badge_id: badge.id).sum(:value)
       new_pontuation = old_pontuation + points
-      GiocoCustom::Core.sync_resource_by_points(self, badge, new_pontuation)
+      BadgeSystem::Core.sync_resource_by_points(self, badge, new_pontuation)
     end
   end
 
   def next_badge?(kind_id = false)
-    if Gioco::Core::KINDS
-      raise "Missing Kind Identifier argument" if !kind_id
-      old_pontuation = self.points.where(:kind_id => kind_id).sum(:value)
-    else
-      old_pontuation = self.points.to_i
-    end
+    raise "Missing Kind Identifier argument" if !kind_id
+    old_pontuation = self.points.where(:kind_id => kind_id).sum(:value)
+
     next_badge       = Badge.where("points > #{old_pontuation}").order("points ASC").first
     last_badge_point = self.badges.last.try('points')
     last_badge_point ||= 0

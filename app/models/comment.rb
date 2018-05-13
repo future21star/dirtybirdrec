@@ -5,9 +5,12 @@ class Comment < ApplicationRecord
   belongs_to :parent,  class_name: "Comment", optional: true
   has_many   :replies, class_name: "Comment", foreign_key: :parent_id, dependent: :destroy
 
-  after_create :add_points, :feed_commentable, :feed_masterfeed,
-      :trigger_comments_count
-  after_destroy :trigger_comments_count
+  after_create :add_points, :feed_commentable, :feed_masterfeed, :increment_count
+  after_destroy :decrement_count
+
+  validates :user_id, :body, presence: true
+
+  attr_accessor :comment_hash
 
   include StreamRails::Activity
   as_activity
@@ -38,8 +41,26 @@ class Comment < ApplicationRecord
 
   private
 
+    def increment_count
+      self_parent = parent
+
+      while self_parent.present?
+        self_parent.increment! :replies_count
+        self_parent = self_parent.parent
+      end
+    end
+
+    def decrement_count
+      self_parent = parent
+
+      while self_parent.present?
+        self_parent.decrement! :replies_count
+        self_parent = self_parent.parent
+      end
+    end
+
     def add_points
-      self.user.change_points( 'comment' )
+      # self.user.change_points( 'comment' )
     end
 
     def feed_commentable
@@ -54,11 +75,5 @@ class Comment < ApplicationRecord
       feed = StreamRails.feed_manager.get_feed( 'masterfeed', 1 )
       activity = create_activity
       feed.add_activity(activity)
-    end
-
-    def trigger_comments_count
-      if self.parent.present?
-        self.parent.update_attributes(comments_count: self.parent.replies.count)
-      end
     end
 end

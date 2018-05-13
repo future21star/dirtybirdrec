@@ -1,5 +1,13 @@
-$('#topic-post-<%= @post_id %>').replaceWith(`
-    <%= escape_javascript(
-      render(partial:'topics/form', 
-        locals: { post: @post, topic_id: @topic_id, parent_id: @post_id })
-    ) %>`);
+<% if Post.find(@post_id).parent_id.blank? %>
+  $('#topic-post-<%= @post_id %>').hide().before(`
+      <%= escape_javascript(
+        render(partial:'topics/form', 
+          locals: { post: @new_post, topic_id: @topic_id, parent_id: @post_id })
+      ) %>`);
+<% else %>
+  $('#feed-post-<%= @post_id %>').closest('div').append(`
+      <%= escape_javascript(
+        render(partial:'topics/form', 
+          locals: { post: @new_post, topic_id: @topic_id, parent_id: @post_id })
+      ) %>`);
+<% end %>

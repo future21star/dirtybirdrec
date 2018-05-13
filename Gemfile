@@ -33,7 +33,6 @@ gem 'jquery-rails'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap4'
 gem 'fog-aws'
-gem "gioco"
 gem 'loaf'
 gem 'algoliasearch-rails'
 gem "avatarly"

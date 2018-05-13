@@ -10,7 +10,7 @@ class TopicsController < ApplicationController
     else
       @category = @topic.category
     end
-    @post = Post.new
+    @new_post = Post.new
 
     breadcrumb @category.title, chirp_path(@category), match: :exact
     breadcrumb @topic.title, chirp_topic_path(@category, @topic), match: :exact

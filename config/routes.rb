@@ -61,7 +61,9 @@ Rails.application.routes.draw do
   get "is_seen", to: "feeds#is_seen"
 
   resources :follows
-  resources :comments
+  resources :comments do
+    get 'reply_form'
+  end
   resources :likes
 
   resources :chirp, controller: 'topic_categories', only: [:show, :index] do

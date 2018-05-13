@@ -26,7 +26,7 @@ class Like < ApplicationRecord
   private
 
     def add_points
-      self.user.change_points( 'like' )
+      self.user.change_points( 'like', self.likeable_type )
     end
 
     # def remove_points

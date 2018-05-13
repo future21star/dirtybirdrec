@@ -24,7 +24,7 @@ end
 
 20.times do |i|
   artist = User.create(email: "artist#{i}@example.com", password: 'password', 
-      password_confirmation: 'password', name: "Artist #{i}")
+      password_confirmation: 'password', first_name: "Artist #{i}")
   artist.avatar = primary_avatar(artist.name)
   artist.save
   artist.add_role :artist
@@ -131,4 +131,4 @@ categories.each do |category|
   end
 end
 
-require "#{Rails.root}/db/gioco/db.rb"
+require "#{Rails.root}/db/badge_system/db.rb"

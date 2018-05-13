@@ -39,6 +39,34 @@
   </div>
 
   <div class="form-label-group">
+    <%= f.text_field :city, 
+        class: 'form-control', placeholder: 'City', required: true %>
+    <%= f.label :city %>
+  </div>
+
+  <div class="form-label-group">
+    <%= f.text_field :shipping_address, 
+        class: 'form-control', placeholder: 'Shipping Address', required: true %>
+    <%= f.label :shipping_address %>
+  </div>
+
+  <div class="form-label-group">
+    <%= f.date_field :birthdate, 
+        class: 'form-control', placeholder: 'Birthday', required: true %>
+    <%= f.label :birthdate %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :gender, 'Gender' %>
+    <%= f.select :gender, User.genders.keys.reverse %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :t_shirt_size %>
+    <%= f.select :t_shirt_size, options_for_select(['s','m','l','xl']) %>
+  </div>
+
+  <div class="form-label-group">
     <%= f.password_field :password, autocomplete: "off", 
         class: 'form-control', placeholder: "Password" %>
     <%= f.label :password %>

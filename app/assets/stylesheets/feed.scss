@@ -64,10 +64,10 @@
 
 .feed-replies {
   background: #f7f7f7;
-  border-radius: 0 0 10px 10px;
   padding: 20px 20px 20px 0;
   margin-top: 8px;
   text-align: center;
+  border-radius: 0 0 10px 10px;
 }
 
 .feed-reply {
@@ -85,8 +85,10 @@
 }
 
 .feed-form {
-  margin-left: 20px;
-  padding-bottom: 20px;
+  // background-color: #f7f7f7;
+  // padding: 0 20px 40px;
+  padding-bottom: 25px;
+  padding-left: 15px;
 
   [type=text], textarea {
     width: 100%;
@@ -128,6 +130,12 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
+
+  .like-button {
+    img {
+      vertical-align: top;
+    }
+  }
 }
 
 .feed-item-body {

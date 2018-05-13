@@ -1,34 +1,68 @@
-<% if reply.parent && reply.user == reply.parent.user %>
-<div class="text-right" id="topic-post-<%= reply.id %>">
-  <% if current_user.id == reply.user_id %>
-    <%= link_to edit_post_path(reply), remote: true do %>
-      <%= image_tag('icons/pencil.svg', class: "btn-post-edit") %>
+<% if reply.parent && reply.user == reply.parent.user && reply.parent.parent_id.blank? %>
+  
+  <div class="text-right">
+    <%= render partial: 'likes/like_button', locals: { object: reply,  style: 'thumbup-reply' } %>
+
+    <%= link_to post_reply_form_path( post_id: reply.id, topic_id: @topic.id ), 
+        remote: true, id: "topic-post-#{reply.id}" do %>
+      <%= image_tag 'icons/reply.svg', style: "width: 17px; height: 17px; margin-left: 10px;" %>
+      <span class="comments-count"><%= reply.replies_count %></span>
     <% end %>
 
-    <%= link_to reply, method: :delete, remote: true, 
-          data: { confirm: "Are you sure you want to delete your post?" } do %>
-      <%= image_tag('icons/trash.svg', class: "btn-post-edit") %>
-    <% end %>
-  <% end %>
+    <p id="feed-post-<%= reply.id %>" class="feed-reply feed-owner">
+      <% if current_user.id == reply.user_id %>
+        <%= link_to edit_post_path(reply), remote: true do %>
+          <%= image_tag('icons/pencil.svg', class: "btn-post-edit") %>
+        <% end %>
 
-  <p id="feed-post-<%= reply.id %>" class="feed-reply feed-owner"><%= reply.text %></p>
-  <%= image_tag(reply.user.avatar.thumb, class: "post-user-avatar") %>
-</div>
-<% else %>
-  <div class="nested-messages" id="topic-post-<%= reply.id %>">
-    <%= link_to image_tag(reply.user.avatar.thumb, class: "post-user-avatar"), reply.user %>
-    
-    <p id="feed-post-<%= reply.id %>" class="feed-reply"><%= reply.text %></p>
-
-    <% if current_user.id == reply.user_id %>
-      <%= link_to edit_post_path(reply), remote: true do %>
-        <%= image_tag('icons/pencil.svg', class: "btn-post-edit") %>
+        <%= link_to reply, method: :delete, remote: true, 
+              data: { confirm: "Are you sure you want to delete your post?" } do %>
+          <%= image_tag('icons/trash.svg', class: "btn-post-edit") %>
+        <% end %>
       <% end %>
 
-      <%= link_to reply, method: :delete, remote: true, 
-          data: { confirm: "Are you sure you want to delete your post?" } do %>
-        <%= image_tag('icons/trash.svg', class: "btn-post-edit") %>
-      <% end %>
+      <%= reply.text %>
+    </p>
+
+    <%= image_tag(reply.user.avatar.thumb, class: "post-user-avatar") %>
+
+    <% if reply.replies.present? %>
+      <%= render partial: 'posts/reply', collection: reply.replies.order(created_at: :asc) %>
     <% end %>
   </div>
+
+<% else %>
+
+  <div class="nested-messages">
+    <%= link_to image_tag(reply.user.avatar.thumb, class: "post-user-avatar"), reply.user %>
+    
+    <p id="feed-post-<%= reply.id %>" class="feed-reply">
+      <%= reply.text %>
+        
+      <% if current_user.id == reply.user_id %>
+        <%= link_to edit_post_path(reply), remote: true do %>
+          <%= image_tag('icons/pencil.svg', class: "btn-post-edit") %>
+        <% end %>
+
+        <%= link_to reply, method: :delete, remote: true, 
+            data: { confirm: "Are you sure you want to delete your post?" } do %>
+          <%= image_tag('icons/trash.svg', class: "btn-post-edit") %>
+        <% end %>
+      <% end %>
+    </p>
+
+
+    <%= render partial: 'likes/like_button', locals: { object: reply,  style: 'thumbup-reply' } %>
+
+    <%= link_to post_reply_form_path( post_id: reply.id, topic_id: @topic.id ), 
+        remote: true, id: "topic-post-#{reply.id}" do %>
+      <%= image_tag 'icons/reply.svg', style: "width: 17px; height: 17px; margin-left: 10px;" %>
+      <span class="comments-count"><%= reply.replies_count %></span>
+    <% end %>
+
+    <% if reply.replies.present? %>
+      <%= render partial: 'posts/reply', collection: reply.replies.order(created_at: :asc) %>
+    <% end %>
+  </div>
+
 <% end %>

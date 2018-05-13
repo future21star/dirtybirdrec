@@ -63,8 +63,15 @@
   <div class="h-carousel mb-4">
     <% @releases.each do |release| %>
       <div class="item-wide">
-        <% if release.avatar.present? %>
-          <%= link_to image_tag(release.avatar.url), release, class: "item-avatar" %>
+        <% if release.avatar.present?
+             image = release.avatar.url
+           elsif release.image_uri.present?
+             image = release.image_uri
+           else
+             image = nil
+           end %>
+        <% if image %>
+          <%= link_to image_tag(image), release, class: "item-avatar" %>
         <% end %>
         <div class="item-body">
           <%= link_to image_tag('icons/icon-expand.svg'), release, class: "item-expand" %>
@@ -75,7 +82,7 @@
 
           <p>Released date: <%= time_ago_in_words( release.release_date ) %> ago</p>
 
-          <p class="item-text"><%= release.text.html_safe.truncate(220) %></p>
+          <p class="item-text"><%= strip_tags(release.text).truncate(220) %></p>
 
           <%= link_to "LISTEN", get_release_tracks_path(release.id), 
               id: "play-release-#{release.id}",

@@ -27,14 +27,14 @@
 
       <span>
         <%= image_tag('icons/icon-comment.svg', title: 'Comments', class: "align-top") %>
-        Comment (<span class="comments-count"><%= post.replies.count %></span>)
+        Comment (<span class="comments-count"><%= post.replies_count || 0 %></span>)
       </span>
     </div>
   </div>
 
 
   <div class="<%= 'feed-replies' unless (!current_user && post.replies.empty?) %>">
-    <%= (render partial: 'posts/reply', collection: post.replies) if post.replies.any? %>
+    <%= (render partial: 'posts/reply', collection: post.replies.order(created_at: :asc)) if post.replies.any? %>
 
     <% if current_user %>
 

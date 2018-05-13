@@ -1,0 +1,21 @@
+kind1 = BadgeKind.create!(name: 'music')
+kind2 = BadgeKind.create!(name: 'forum')
+kind3 = BadgeKind.create!(name: 'community')
+
+BadgeActionType.create!(name: 'like', badge_kind_id: kind1.id)
+BadgeActionType.create!(name: 'rate', badge_kind_id: kind1.id)
+BadgeActionType.create!(name: 'comment release', badge_kind_id: kind1.id)
+BadgeActionType.create!(name: 'share music', badge_kind_id: kind1.id)
+BadgeActionType.create!(name: 'listen', badge_kind_id: kind1.id)
+BadgeActionType.create!(name: 'download', badge_kind_id: kind1.id)
+BadgeActionType.create!(name: 'follow release', badge_kind_id: kind1.id)
+BadgeActionType.create!(name: 'role', badge_kind_id: kind1.id)
+
+BadgeActionType.create!(name: 'follow topic', badge_kind_id: kind2.id)
+BadgeActionType.create!(name: 'like post', badge_kind_id: kind2.id)
+BadgeActionType.create!(name: 'make post', badge_kind_id: kind2.id)
+BadgeActionType.create!(name: 'role', badge_kind_id: kind2.id)
+
+BadgeActionType.create!(name: 'follow user', badge_kind_id: kind3.id)
+BadgeActionType.create!(name: 'comment artist', badge_kind_id: kind3.id)
+BadgeActionType.create!(name: 'role', badge_kind_id: kind3.id)
