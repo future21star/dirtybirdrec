@@ -245,7 +245,7 @@
   }
 
   function addToPlaylist(tracks, play=true) {
-    cpAudio.unAll();
+    cpAudio.un('ready');
     if(tracks.length == 1) {
       $('.jp-current-time').text(secondsToHms(0));
       $('.jp-duration').text(secondsToHms(0));
@@ -285,7 +285,7 @@
   }
 
   function playNext(paused=false) {
-    cpAudio.unAll();
+    cpAudio.un('ready');
 
     if(playlist[currentTrackIndex + 1] == undefined) {
       cpAudio.pause();
@@ -324,7 +324,7 @@
 
 
   function playPrevious() {
-    cpAudio.unAll();
+    cpAudio.un('ready');
 
     if(playlist[currentTrackIndex-1] == undefined) {
       return false;
