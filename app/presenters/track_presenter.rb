@@ -4,7 +4,6 @@ class TrackPresenter < SimpleDelegator
     @current_user = current_user
     __setobj__(track)
     @is_sample = !(current_user && current_user.active_subscription?)
-    # @is_sample = !true #TODO REMOVE IT
   end
 
   def stream_uri
