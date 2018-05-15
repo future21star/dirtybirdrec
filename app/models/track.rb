@@ -4,7 +4,7 @@ class Track < ApplicationRecord
   belongs_to :release
   has_many :tracks_users, dependent: :destroy
   has_many :users, through: :tracks_users
-  has_many :track_files
+  has_many :track_files, primary_key: "old_id"
 
   mount_uploader :avatar, ReleaseUploader
   # mount_uploader :url, TrackUploader
