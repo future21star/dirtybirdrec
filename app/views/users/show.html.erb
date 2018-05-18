@@ -69,7 +69,7 @@
 
       <div class="feed-block">
         <ul class="feed-tabs">
-          <% if @user.id == current_user.id %>
+          <% if current_user && @user.id == current_user.id %>
             <li class="nav-item">
               <%= link_to "All", user_path(@user, anchor: "user-feed"),
                   class: "#{'active' if current_page?(user_path(@user))}" %>

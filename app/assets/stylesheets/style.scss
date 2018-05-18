@@ -328,10 +328,11 @@ main > div.container {
 
   .c-progress-bar {
     height: 100%;
-      border-radius: 4px;
-      background-position: -3px 0;
-      background-color: $color;
-      overflow: hidden;
+    border-radius: 4px;
+    background-position: -3px 0;
+    background-color: $color;
+    overflow: hidden;
+    transition: width 0.3s;
 
     &:after {
       background: repeating-linear-gradient(

@@ -105,7 +105,7 @@
               <div class="dropdown-menu dropdown-menu-right">
                 <%= link_to "My Profile", current_user, class: "modal-button btn-bg-gray" %>
                 <% if current_user.has_role?(:admin) || current_user.has_role?(:artist) %>
-                  <%= link_to "Dashboard", admin_root_path, class: "modal-button btn-bg-gray" %>
+                  <%= link_to "Admin Dashboard", admin_root_path, class: "modal-button btn-bg-gray" %>
                 <% end %>
                 <%= link_to "Edit Profile", edit_user_registration_path, class: "modal-button btn-bg-gray" %>
                 <%= link_to "Sign Out", destroy_user_session_path, 

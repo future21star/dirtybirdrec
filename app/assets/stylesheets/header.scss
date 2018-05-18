@@ -62,7 +62,10 @@ header {
     border: none;
     background: asset-data-url("icons/usermenu-bgrd.svg") no-repeat;
     opacity: 0.95;
-    padding: 45px 15px 10px;
+    padding: 45px 15px 8px;
+    right: -5px !important;
+    box-shadow: 0px 1px #80808052;
+    border-radius: 10px;
 
     .modal-button {
       width: 212px;

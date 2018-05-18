@@ -36,7 +36,7 @@ class UsersController < ApplicationController
     @enricher = StreamRails::Enrich.new
 
     begin
-      if @user.id == current_user.id
+      if current_user.present? && @user.id == current_user.id
         feed = StreamRails.feed_manager.get_news_feeds(@user.id)[:flat]
       else
         feed = StreamRails.feed_manager.get_user_feed(@user.id)

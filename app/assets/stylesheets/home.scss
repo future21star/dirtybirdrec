@@ -84,13 +84,20 @@
   & > mark.t-small {
     display: inline-block;
     position: absolute;
-    bottom: -18px;
+    bottom: -25px;
     left: 50%;
     z-index: 2;
     background-color: white;
     padding: 3px 10px;
     border-radius: 0 0 4px 4px;
     transform: translateX(-50%);
+
+    font-size: 13px;
+    color: #e75e35;
+    box-shadow: 1px 1px #80808052;
+    white-space: nowrap;
+
+
   }
 
   & > div {
