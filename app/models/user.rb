@@ -10,7 +10,6 @@ class User < ApplicationRecord
   ratyrate_rater
 
   before_create :set_default_avatar, only: :create
-  after_create :set_fan_role, only: :create
 
   attr_accessor :subscription
   enum gender: [:female, :male]
@@ -329,9 +328,5 @@ class User < ApplicationRecord
 
     def set_default_avatar
       self.avatar = primary_avatar(self.name)
-    end
-
-    def set_fan_role
-      self.add_role :fan
     end
 end

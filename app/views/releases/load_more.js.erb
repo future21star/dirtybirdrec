@@ -1,0 +1,15 @@
+$(".releases-list")
+      .append("<%= escape_javascript(render @releases) %>");
+
+var href = $('.show-more').attr('href').replace(/page=(\d+)/, function(match, offset) {
+    window.history.replaceState("", "", "releases?page="+offset);
+    return "page=" + (parseInt(offset)+1);
+  });
+
+$('.show-more').attr('href', href);
+  
+<% if @releases.count == 0 || @releases.count < @limit %>
+
+  $('.show-more').remove();
+
+<% end %>

@@ -1,6 +1,6 @@
 class ReleaseFile < ActiveRecord::Base
   belongs_to :release
-  validates :release, presence: true
+  # validates :release, presence: true
 
   enum format: [:wav, :aiff, :flac, :mp3_160, :mp3_320]
   enum encode_status: [:pending, :complete, :failed]

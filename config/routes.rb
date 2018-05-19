@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       post "change_avatar"
     end
   end
+  get 'load_more_leaders', to: 'users#load_more'
 
   post '/rate' => 'rater#create', :as => 'rate'
   get "leaderboard", to: "users#leaderboard"
@@ -48,6 +49,7 @@ Rails.application.routes.draw do
   resources :releases, only: [:show, :index]
   get "download_release/:id", to: "releases#download", as: "download_release"
   get "get_release_tracks/:id", to: "releases#get_tracks", as: "get_release_tracks"
+  get 'load_more_releases', to: 'releases#load_more'
 
   resources :tracks
   get 'get_tracks', to: 'tracks#get_tracks'

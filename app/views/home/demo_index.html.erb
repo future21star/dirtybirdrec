@@ -1,7 +1,6 @@
 <div style="display:flex;">
   <span>Login as:&nbsp;</span>
   <%= button_to  User.with_role(:admin).first.name, demo_login_path, params: {user_id: User.with_role(:admin).first.id}, method: :post %>
-  <%= button_to  User.with_role(:fan).first.name, demo_login_path, params: {user_id: User.with_role(:fan).first.id}, method: :post %>
   <%= button_to  User.with_role(:artist).first.name, demo_login_path, params: {user_id: User.with_role(:artist).first.id}, method: :post %>
 </div>
 

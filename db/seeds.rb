@@ -12,7 +12,6 @@ admin = User.create(email: 'admin@example.com', password: 'password',
 admin.avatar = primary_avatar(admin.name)
 admin.save
 admin.add_role :admin
-admin.remove_role :fan
 
 20.times do |i|
   user = User.create(email: "user#{i+10}@example.com", password: 'password', 
@@ -28,7 +27,6 @@ end
   artist.avatar = primary_avatar(artist.name)
   artist.save
   artist.add_role :artist
-  artist.remove_role :fan
 end
 
 3.times do |i|

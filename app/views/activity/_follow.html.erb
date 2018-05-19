@@ -10,7 +10,7 @@
     artist
   <% elsif activity['object'].has_role?(:admin) %>
     admin
-  <% elsif activity['object'].has_role?(:fan) %>
+  <% else %>
     user
   <% end %>
   <%= link_to activity['object'].name, activity['object'] %>

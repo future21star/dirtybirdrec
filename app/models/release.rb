@@ -3,6 +3,8 @@ class Release < ApplicationRecord
   has_many :comments, as: :commentable
   has_many :tracks
   has_many :announcements
+  has_many :track_files, through: :tracks
+  has_many :release_files
   
   has_and_belongs_to_many :users
 
@@ -39,6 +41,20 @@ class Release < ApplicationRecord
   def published?
     !published_at.nil? && published_at <= DateTime.now
   end
+
+  def download_uris
+    return {} if release_files.empty?
+
+    uris = {}
+
+    %w[mp3_320 aiff flac wav].each do |format|
+      rf = release_files.find_by(format: ReleaseFile.formats[format])
+      uris[format.split('_').first.upcase,] = rf.download_uri if rf
+    end
+
+    uris
+  end
+
 
   def activity_object
     self

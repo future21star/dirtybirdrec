@@ -1,19 +1,19 @@
 class HomeController < ApplicationController
+  include UsersHelper
+
   before_action :authenticate_user!, 
       except: [:index, :demo_index, :demo_login, :about, :birdfeed]
 
   def index
     @slider = SliderImage.all.ordered
-    @leader_users = User.with_role(:fan)
-                        .includes(:badges)
-                        .joins('LEFT OUTER JOIN badge_points on (users.id = badge_points.user_id)')
-                        .group('users.id')
-                        .order('users.created_at ASC, SUM(badge_points.value) DESC')
-                        .limit(20)
+
+    @leader_users = leaderboard_query(1, 20, true)
+
     @artists = User.with_role(:artist)
                    .order('created_at ASC')
                    .includes(:artist_info)
                    .limit(20)
+
     @releases = Release.where(
       'published_at <= :now AND (published_at >= :user_max OR available_to_all = true)',
       now: DateTime.now,
@@ -22,12 +22,10 @@ class HomeController < ApplicationController
 
     @badge_kinds = BadgeKind.all
 
+    #TODO decrease count of queries
     # @leader_points = {}
 
     # @badge_points = BadgePoint.all.freeze
-
-    # logger.warn "++++++++++++++++"
-    # logger.warn @badge_points
 
     # @leader_users.each do |user|
     #   @leader_points["leader_#{user.id}"] ||= {}

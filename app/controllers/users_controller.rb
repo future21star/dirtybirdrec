@@ -1,27 +1,22 @@
 class UsersController < ApplicationController
+  include UsersHelper
+  
   before_action :authenticate_user!, except: 
       [:index, :show, :parse_youtube, :artist, :announcements_feed,
         :interviews_feed, :videos_feed, :others_feed, :artists, :leaderboard]
 
   def leaderboard
-    @leader_users = User.with_role(:fan)
-                        .includes(:badges)
-                        .joins('LEFT OUTER JOIN badge_points on (users.id = badge_points.user_id)')
-                        .group('users.id')
-                        .order('users.created_at ASC, SUM(badge_points.value) DESC')
-                        .limit(5)
+    @leader_users = leaderboard_query(1, 5, true)
     @badge_kinds = BadgeKind.all
   end
 
   def index
-    points = "(SELECT SUM(value) FROM badge_points WHERE user_id = users.id)"
-    fans = "INNER JOIN users_roles ON (users_roles.user_id = users.id) INNER JOIN roles ON (roles.id = users_roles.role_id)"
-    sql = "SELECT users.id, users.created_at, #{points} as total FROM users #{fans} WHERE roles.name = 'fan' ORDER BY users.created_at ASC, total DESC LIMIT 9 OFFSET #{params[:page].to_i*9}"
+    @leader_users = leaderboard_query(params[:page] || 1, 9, true)
+    @badge_kinds = BadgeKind.all
+  end
 
-    @leader_users = ActiveRecord::Base.connection.execute(sql)
-    #TODO make it normal
-    @leader_users1 = User.with_role(:artist).paginate(page: params[:page], per_page: 9)
-
+  def load_more
+    @leader_users = leaderboard_query(params[:page], 9, false)
     @badge_kinds = BadgeKind.all
   end
 

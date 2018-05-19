@@ -62,7 +62,8 @@
       <%= link_to "SEE ALL", users_path, class: "btn c-btn-blue float-right" %>
 
       <ol class="fans-block light-scroll mt-1">
-        <% @leader_users.each do |user| %>
+        <% @leader_users.each do |u| %>
+          <% user = User.find u['id'] %>
           <li style="margin-bottom: 20px;">
             <%= link_to user, class: "d-inline-block align-middle" do %>
               <%= image_tag user.avatar.thumb, class: "user-avatar" %>

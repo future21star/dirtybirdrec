@@ -9,9 +9,10 @@
 
 
 <ul class="leaderboard-top">
-  <% leader_users_ids = @leader_users.ids %>
+  <% leader_users_ids = @leader_users.map {|u| u['id']} %>
 
-  <% @leader_users.each do |user| %>
+  <% @leader_users.each do |u| %>
+    <% user = User.find u['id'] %>
     <li class="row">
       <div class="col-md-8">
         <div class="c-panel bg-white">

@@ -239,10 +239,10 @@ class BirdOldMerge
 
       track_files = BirdOldDb.connection.select_all(sql)
 
-      new_release_id = Release.where(drip_source: nil).all.map{|e|[e.old_id,e.id]}.to_h
+      new_track_id = Track.where(drip_source: nil).all.map{|e|[e.old_id,e.id]}.to_h
 
       track_files = track_files.map do |e|
-          e["release_id"] = new_release_id[e["release_id"]]
+          e["track_id"] = new_track_id[e["track_id"]]
           e
       end
       

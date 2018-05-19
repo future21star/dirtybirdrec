@@ -1,6 +1,9 @@
 kind1 = BadgeKind.create!(name: 'music')
 kind2 = BadgeKind.create!(name: 'forum')
 kind3 = BadgeKind.create!(name: 'community')
+# kind1 = BadgeKind.find_by_name('music')
+# kind2 = BadgeKind.find_by_name('forum')
+# kind3 = BadgeKind.find_by_name('community')
 
 BadgeActionType.create!(points: 100, name: 'like', badge_kind_id: kind1.id)
 BadgeActionType.create!(points: 100, name: 'rate', badge_kind_id: kind1.id)

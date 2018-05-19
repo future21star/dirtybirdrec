@@ -1,6 +1,9 @@
 class ReleasesController < ApplicationController
+  include ReleasesHelper
+
   def show
-    @release = Release.find(params[:id])
+    release = Release.find(params[:id])
+    @release = ReleasePresenter.new(release, current_user)
 
     begin
       feed = StreamRails.feed_manager.get_feed('release', @release.id)
@@ -15,10 +18,18 @@ class ReleasesController < ApplicationController
 
   def index
     filters = params[:filters]
-    @releases = Release.released.all
+    page = params[:page] || 1
+
+    @releases = Release.released
+
+    @releases = set_filters filters
+
+    @releases = releases_query( @releases, page, 16, true )
 
     @artists = User.with_role(:artist)
+  end
 
+  def set_filters filters
     if filters.present?
       filters.each do |filter, value|
         case filter
@@ -35,6 +46,14 @@ class ReleasesController < ApplicationController
         end
       end
     end
+
+    @releases
+  end
+
+  def load_more
+    @releases = Release.released
+    @releases = set_filters params[:filters]
+    @releases = releases_query( @releases, params[:page], 16, false )
   end
 
   def download
