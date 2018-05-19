@@ -16,8 +16,6 @@ ActiveAdmin.register Badge do
       f.input :badge_kind
       f.input :name
       f.input :image
-      # f.input :points
-      # f.li "<label class='label'>Points</label><span>#{f.object.points || '-'}</span>".html_safe
     end
     f.inputs do
       
@@ -27,20 +25,26 @@ ActiveAdmin.register Badge do
         end
       end
 
-      f.has_many :badge_points_weights, new_record: false, sortable: :badge_action_type do |a|
-        a.input :badge_action_type, label: 'action',
-            hint: "#{a.object.badge_action_type.points || 0} points / #{a.object.badge_action_type.count_to_achieve} to achieve", 
-            input_html: { disabled: true } 
+      f.has_many :badge_points_weights, new_record: false do |a|
+        a.input :badge_action_type_id, as: :hidden, value: a.object.badge_action_type_id
 
-        a.input :active
+        name = ''
+        points = nil
+        count_to_achieve = 1
 
-        if a.object.badge_action_type_id == BadgeActionType.find_by(name: 'role').id
-          a.input :condition, label: 'role', as: :select, collection: Role.all.map {|r| [r.name, r.id]}
-        # elsif a.object.badge_action_type_id == BadgeActionType.find_by(name: 'member over time').id
-          # a.input :condition, label: 'days'
-        # else
-          # a.input :condition, label: 'No to achieve'
+        if a.object.badge_action_type.present?
+          name = a.object.badge_action_type.name
+          points = a.object.badge_action_type.points || 0
+          count_to_achieve = a.object.badge_action_type.count_to_achieve
+          if name.match(/role/)
+            hint = "Action: <b>#{name}</b>"
+          else
+            hint = "Action: <b>#{name}</b> / #{points} points / #{count_to_achieve} to achieve"
+          end
         end
+
+        a.input :active, 
+            hint: hint.html_safe
 
         a.actions
       end

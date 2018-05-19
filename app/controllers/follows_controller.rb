@@ -33,10 +33,10 @@ class FollowsController < ApplicationController
       if follow.followable_type == "User"
         StreamRails.feed_manager.unfollow_user(follow.user_id, follow.followable_id)
       else
-        feed = StreamRails.feed_manager.get_feed( fillow.followable_type.downcase, fillow.followable_id )
+        feed = StreamRails.feed_manager.get_feed( follow.followable_type.downcase, follow.followable_id )
         user_feed = StreamRails.feed_manager
-            .get_feed( "#{fillow.followable_type.downcase}_user_feed", fillow.user_id)
-        user_feed.unfollow(feed.slug, fillow.user_id)
+            .get_feed( "#{follow.followable_type.downcase}_user_feed", follow.user_id)
+        user_feed.unfollow(feed.slug, follow.user_id)
       end
     end
 

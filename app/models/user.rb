@@ -103,95 +103,200 @@ class User < ApplicationRecord
   end
 
 
-  def change_points(action_type, action_kind)
-    raise "Missing Kind Identifier argument" if !action_type || !action_kind
+  def change_points(income_action_type, action_model, destroy=nil)
+    raise "Missing Kind Identifier argument" if !income_action_type || !action_model
 
+    #points #TODO BadgePoint(badge_id) not needed
+    kind_name = case action_model
+    when "Release"
+      types = ["Release", "Track"]
+      "music"
+    when "Track"
+      types = ["Release", "Track"]
+      "music"
+    when "Topic"
+      types = ["Topic"]
+      "forum"
+    when "Post"
+      types = ["Post"]
+      "forum"
+    when "User"
+      types = ["User"]
+      "community"
+    end
+
+    kind = BadgeKind.where(name: kind_name).first
+    action_type = BadgeActionType.where(name: income_action_type, badge_kind_id: kind.id).first
+    points_for_type = self.badge_points.where(badge_action_type_id: action_type.id).last
+
+    if points_for_type.blank?
+      points_for_type = self.badge_points.create( 
+            badge_kind_id: action_type.badge_kind_id,
+            value: 0,
+            accumulated_count: 0,
+            accumulated_at: DateTime.now,
+            badge_action_type_id: action_type.id )
+    end
+
+    if destroy == :destroy
+      if points_for_type.accumulated_count = 0 && points_for_type.value > 0
+        points_for_type.decrement! :value, action_type.points
+        points_for_type.update_attributes( accumulated_count: action_type.count_to_achieve - 1 )
+      elsif points_for_type.accumulated_count = 1 && points_for_type.value = 0
+        points_for_type.decrement! :accumulated_count
+        points_for_type.update_attributes( accumulated_at: nil )
+      else
+        points_for_type.decrement! :accumulated_count
+      end
+    else
+      points_for_type.increment! :accumulated_count
+
+      if points_for_type.accumulated_at.blank?
+        points_for_type.update_attributes( accumulated_at: DateTime.now )
+      end
+
+      if points_for_type.accumulated_count >= action_type.count_to_achieve
+        points_for_type.increment! :value, action_type.points if action_type.points
+        points_for_type.update_attributes( accumulated_count: 0, accumulated_at: DateTime.now )
+      end
+    end
+
+    #badges
     music = BadgeKind.find_by_name('music')
     forum = BadgeKind.find_by_name('forum')
     community = BadgeKind.find_by_name('community')
 
-    action_kind_id = case action_kind
-    when "Release" then music
-    when "Track" then music
-    when "Topic" then forum
-    when "Post" then forum
-    when "User" then community
-    end
-
-    weights = "SELECT badge_id FROM badge_points_weights INNER JOIN badge_action_types ON badge_action_types.id = badge_points_weights.badge_action_type_id WHERE badge_action_types.name = :action_type AND badge_action_types.badge_kind_id = :action_kind_id"
-    badges = Badge.where("id IN (#{weights})", action_type: action_type, action_kind_id: action_kind_id)
+    weights = "SELECT badge_id FROM badge_points_weights LEFT JOIN badge_action_types ON badge_action_types.id = badge_points_weights.badge_action_type_id WHERE badge_action_type_id = :action_type_id AND badge_action_types.badge_kind_id = :kind_id"
+    badges = Badge.where("id IN (#{weights})", action_type_id: action_type.id, kind_id: kind.id)
 
     user_badges = self.badges.pluck(:id)
 
-    badges.reject { |b| user_badges.inclueds?(b.id) if user_badges.present? }.each do |badge|
+    badges.reject { |b| user_badges.include?(b.id) if user_badges.present? }.each do |badge|
+
+      next unless badge.badge_kind_id == kind.id
 
       related_badges_should_be = badge.depended_badges.pluck(:id)
 
-      if related_badges_should_be.present?
-        if related_badges_should_be.all? { |i| user_badges.include?(i) }
-          last_related_badge = "(SELECT MAX(created_at) FROM badge_levels WHERE user_id = :user_id AND badge_id IN (:badge_id))"
-          related_badges_user_have = related_badges_should_be & user_badges
-        else
-          next
-        end
+      # if related_badges_should_be.present?
+      if related_badges_should_be.all? { |i| user_badges.include?(i) }
+        # last_related_badge = "(SELECT MAX(created_at) FROM badge_levels WHERE user_id = :user_id AND badge_id IN (:badge_id))"
+        # related_badges_user_have = related_badges_should_be & user_badges
       else
-        last_related_badge = "(SELECT created_at FROM users WHERE id = :user_id)"
+        next
+      end
+      # else
+        # last_related_badge = "(SELECT created_at FROM users WHERE id = :user_id)"
+      # end
+
+      # weight = BadgePointsWeight.joins(:badge_action_type)
+      #     .where('badge_action_types.name = ? AND badge_id = ?', 
+      #         income_action_type, badge.id).first
+      # next unless weight.active?
+
+      roles = BadgePointsWeight.joins(:badge_action_type)
+            .where('badge_action_types.name LIKE ? AND badge_id = ? AND active = true', 'role%', badge.id)
+
+      if roles.present? && roles.count == 1 
+        role = roles[0].badge_action_type.name.split[1]
+        next unless self.has_role? role
       end
 
-      weight = BadgePointsWeight.joins(:badge_action_type)
-          .where('badge_action_types.name = ? AND badge_id = ?', 
-              action_type, badge.id).first
-      next unless weight.active?
+      actions_left = self.actions_left_for_badge(badge)
 
-      role = BadgePointsWeight.joins(:badge_action_type).where('badge_action_types.name = ? AND badge_id = ?', 'role', badge.id).first
+      if actions_left.count == 0
+        self.badges << badge
 
-      if role.present? && role.active?
-        next unless self.has_role? role.value
+        #TODO rewrite for badges from other kinds
+        self.badge_points
+              .where(badge_kind_id: badge.badge_kind_id)
+              .update_all(accumulated_count: 0, accumulated_at: DateTime.now)
       end
-
-      case action_type
-      when 'like'
-        match = self.likes
-          .where("created_at > #{last_related_badge}", user_id: self.id, badge_id: related_badges_user_have)
-          .count == weight.condition.to_i
-
-      when 'follow' 
-        match = self.follows
-          .where("created_at > #{last_related_badge}", user_id: self.id, badge_id: related_badges_user_have)
-          .count == weight.condition.to_i
-
-      when 'member over time' then match = (Date.current - self.created_at.to_date).to_i >= weight.condition.to_i
-      else next end
-
-      if match
-        points = weight.value.to_i
-      else 
-        next 
-      end
-
-      old_pontuation = self.badge_points.where(badge_id: badge.id).sum(:value)
-      new_pontuation = old_pontuation + points
-      BadgeSystem::Core.sync_resource_by_points(self, badge, new_pontuation)
     end
   end
 
-  def next_badge?(kind_id = false)
-    raise "Missing Kind Identifier argument" if !kind_id
-    old_pontuation = self.points.where(:kind_id => kind_id).sum(:value)
+  def actions_left_for_badge badge
+    actions_should_be = badge.badge_action_types
+            .joins(:badge_points_weights)
+            .where("badge_points_weights.active = true AND name NOT LIKE 'role%'")
 
-    next_badge       = Badge.where("points > #{old_pontuation}").order("points ASC").first
-    last_badge_point = self.badges.last.try('points')
-    last_badge_point ||= 0
+    actions_left = []
 
-    if next_badge
-      percentage      = (old_pontuation - last_badge_point)*100/(next_badge.points - last_badge_point)
-      points          = next_badge.points - old_pontuation
-      next_badge_info = {
-                          :badge      => next_badge,
-                          :points     => points,
-                          :percentage => percentage
-                        }
+    actions_should_be.each do |action|
+      points_for_action = self.badge_points.where(badge_action_type_id: action.id).first
+
+      if points_for_action.present?
+
+        last_related_badge_date = badge.depended_badges.joins(:badge_levels).maximum("badge_levels.created_at")
+
+        if badge.depended_badges.count == 0
+
+          if points_for_action.value == 0
+            actions_left << action
+          end
+
+        else 
+
+          if points_for_action.value == 0
+            actions_left << action
+          else
+
+            if points_for_action.accumulated_at >= last_related_badge_date
+              actions_left << action
+            end
+
+          end
+        end
+
+      else
+
+        actions_left << action
+
+      end
     end
+
+    actions_left
+  end
+
+  def next_badges
+    user_badges = self.badges.pluck(:id)
+    badges = []
+    
+    Badge.all.reject { |b| user_badges.include?(b.id) if user_badges.present? }.each do |badge|
+      related_badges_should_be = badge.depended_badges.pluck(:id)
+
+      if related_badges_should_be.all? { |i| user_badges.include?(i) }
+        badges << badge
+      end
+    end
+
+    badges = badges.group_by(&:badge_kind_id)
+
+    persents = {}
+
+    badges.each do |id, badges_by_kind|
+      last_badge = badges_by_kind.sort_by{|b| b.created_at}.first
+      actions_should_be = last_badge.badge_action_types
+              .joins(:badge_points_weights)
+              .where("badge_points_weights.active = true AND name NOT LIKE 'role%'")
+
+      if actions_should_be.count == 0
+        next
+      elsif actions_should_be.count == 1
+        type = actions_should_be.first
+        points = self.badge_points.where(badge_action_type_id: type.id).first
+
+        if points
+          persents[id] = 
+              ((points.accumulated_count.to_f / type.count_to_achieve)*100).round
+        end
+      else
+        persents[id] = 
+              (100.0 - (actions_left_for_badge(last_badge).count.to_f / 
+              actions_should_be.count)*100).round
+      end
+    end
+
+    persents
   end
 
   def followed(object = nil)

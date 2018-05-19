@@ -5,7 +5,7 @@ class Follow < ApplicationRecord
 
   after_create :add_points, :feed_masterfeed#, :feed_release_topic_announcement
   after_save :trigger_followers_count
-  before_destroy :trigger_followers_count#, :unfeed_release_topic_announcement#, :remove_points
+  before_destroy :trigger_followers_count, :remove_points#, :unfeed_release_topic_announcement
 
   include StreamRails::Activity
   as_activity
@@ -23,12 +23,12 @@ class Follow < ApplicationRecord
   private
 
     def add_points
-      # self.user.change_points( 'follow' )
+      self.user.change_points( 'follow', self.followable_type )
     end
 
-    # def remove_points
-    #   self.user.change_points( 'follow', :delete )
-    # end
+    def remove_points
+      self.user.change_points( 'follow', self.followable_type, :destroy )
+    end
 
     # def feed_release_topic_announcement
 

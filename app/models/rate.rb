@@ -4,4 +4,17 @@ class Rate < ActiveRecord::Base
 
   #attr_accessible :rate, :dimension
 
+  after_create :add_points
+  after_destroy :remove_points
+
+  private 
+
+    def add_points
+      self.user.change_points( 'rate', self.rateable_type )
+    end
+
+    def remove_points
+      self.user.change_points( 'rate', self.rateable_type, :destroy )
+    end
+
 end

@@ -49,21 +49,18 @@
           </div>
 
           <div>
-            <div style="display: inline-block; vertical-align: top; margin: 3px 10px 0 0; width: 50%">
-              <div class="progress-blue">
-                <div class="c-progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+            <% @badge_kinds.each do |kind| %>
+              <% color = case kind.name 
+                when "music" then "blue"
+                when "forum" then "yellow"
+                when "community" then "red"
+                end %>
+              <div class="progress-wrapper-sm">
+                <div class="progress-<%= color %>">
+                  <div class="c-progress-bar" role="progressbar" style="width: <%= user.next_badges[kind.id] || 0 %>%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
               </div>
-            </div>
-            <div style="display: inline-block; vertical-align: top; margin: 3px 10px 0 0; width: 50%">
-              <div class="progress-yellow">
-                <div class="c-progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-            <div style="display: inline-block; vertical-align: top; margin: 3px 10px 0 0; width: 50%">
-              <div class="progress-red">
-                <div class="c-progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
+            <% end %>
           </div>
         </div>
       </div>

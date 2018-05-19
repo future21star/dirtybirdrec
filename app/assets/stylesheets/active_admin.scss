@@ -50,27 +50,33 @@ html form fieldset.inputs {
 .badge_points_weights .has_many_fields {
   padding-top: 0;
   border: none;
+  box-shadow: none;
 
   ol {
 
     & > li {
-      display: inline-flex;
+      display: flex;
       white-space: nowrap;
-
-      .select2 {
-        width: 150px !important;
-      }
-
-      &.number input {
-        width: 100px;   
-      }
+      justify-content: flex-start;
+      padding: 0;
 
       label {
-        display: inline-block;
         width: auto;
         margin-right: 15px;
+        float: none;
+        margin: 0 !important;
+        padding: 0;
+      }
+
+      .inline-hints {
+        margin: 3px 0 0 15px;
+      }
+
+      .has_many_remove {
+        display: none;
       }
     }
+
   } 
 }
 

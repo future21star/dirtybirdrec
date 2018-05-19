@@ -90,30 +90,36 @@
         <div class="c-flag c-flag-inner mb-2">ARTISTS</div>
 
         <ol class="users-block list-unstyled mt-1">
-          <% @release.users.each do |artist| %>
-            <li>
-              <%= link_to artist_path(artist), class: "d-inline-block align-middle" do %>
-                <%= image_tag artist.avatar.thumb, class: "user-avatar" %>
-              <% end %>
+          <% if @release.users.any? %>
+            <% @release.users.each do |artist| %>
+              <li>
+                <%= link_to artist_path(artist), class: "d-inline-block align-middle" do %>
+                  <%= image_tag artist.avatar.thumb, class: "user-avatar" %>
+                <% end %>
 
-              <div class="user-subtitle">
-                <h5>
-                  <%= link_to artist.name, artist_path(artist) %>
-                  <%= image_tag 'icons/point-green.svg', class: "point-green" if artist.online? %>
-                </h5>
-                <div>
-                  <%= link_to "All tracks", artist %>
-                  /
-                  <b><%= link_to "Artist Q & A", chirp_index_path %></b>
+                <div class="user-subtitle">
+                  <h5>
+                    <%= link_to artist.name, artist_path(artist) %>
+                    <%= image_tag 'icons/point-green.svg', class: "point-green" if artist.online? %>
+                  </h5>
+                  <div>
+                    <%= link_to "All tracks", artist %>
+                    /
+                    <b><%= link_to "Artist Q & A", chirp_index_path %></b>
+                  </div>
                 </div>
-              </div>
 
-              <%= render partial: 'follows/follow_button', 
-                  locals: { target: artist, 
-                            opt: { 
-                                classes: "btn c-btn-blue",
-                                text: ['follow', 'following'] } } %>
-            </li>
+                <%= render partial: 'follows/follow_button', 
+                    locals: { target: artist, 
+                              opt: { 
+                                  classes: "btn c-btn-blue",
+                                  text: ['follow', 'following'] } } %>
+              </li>
+            <% end %>
+          <% else %>
+            <% if @release.tracks.any? %>
+              <p><%= @release.tracks.pluck(:artist).try(:uniq).try(:join,', ') %></p>
+            <% end %>
           <% end %>
         </ol>
       </div>

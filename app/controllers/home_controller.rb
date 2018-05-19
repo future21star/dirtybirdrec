@@ -17,7 +17,7 @@ class HomeController < ApplicationController
     @releases = Release.where(
       'published_at <= :now AND (published_at >= :user_max OR available_to_all = true)',
       now: DateTime.now,
-      user_max: DateTime.now - 3.months
+      user_max: DateTime.now - 1.month
     ).order('published_at DESC')
 
     @badge_kinds = BadgeKind.all

@@ -6,7 +6,7 @@ class Comment < ApplicationRecord
   has_many   :replies, class_name: "Comment", foreign_key: :parent_id, dependent: :destroy
 
   after_create :add_points, :feed_commentable, :feed_masterfeed, :increment_count
-  after_destroy :decrement_count
+  after_destroy :decrement_count, :remove_points
 
   validates :user_id, :body, presence: true
 
@@ -41,6 +41,14 @@ class Comment < ApplicationRecord
 
   private
 
+    def add_points
+      self.user.change_points( 'comment', self.commentable_type )
+    end
+
+    def remove_points
+      self.user.change_points( 'comment', self.commentable_type, :destroy )
+    end
+
     def increment_count
       self_parent = parent
 
@@ -57,10 +65,6 @@ class Comment < ApplicationRecord
         self_parent.decrement! :replies_count
         self_parent = self_parent.parent
       end
-    end
-
-    def add_points
-      # self.user.change_points( 'comment' )
     end
 
     def feed_commentable

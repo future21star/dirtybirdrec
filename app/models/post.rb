@@ -6,8 +6,8 @@ class Post < ApplicationRecord
   belongs_to :parent,  class_name: "Post", optional: true
   has_many   :replies, class_name: "Post", foreign_key: :parent_id, dependent: :destroy
 
-  after_create :feed_masterfeed, :feed_topic, :increment_count
-  after_destroy :decrement_count
+  after_create :feed_masterfeed, :feed_topic, :increment_count, :add_points
+  after_destroy :decrement_count, :remove_points
 
   attr_accessor :post_hash
 
@@ -51,6 +51,14 @@ class Post < ApplicationRecord
   end
 
   private
+
+    def add_points
+      self.user.change_points( 'make post', "Post" )
+    end
+
+    def remove_points
+      self.user.change_points( 'make post', "Post", :destroy )
+    end
 
     def increment_count
       self_parent = parent

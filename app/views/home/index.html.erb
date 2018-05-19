@@ -62,18 +62,18 @@
       <%= link_to "SEE ALL", users_path, class: "btn c-btn-blue float-right" %>
 
       <ol class="fans-block light-scroll mt-1">
-        <% @leader_users.each do |leader| %>
+        <% @leader_users.each do |user| %>
           <li style="margin-bottom: 20px;">
-            <%= link_to leader, class: "d-inline-block align-middle" do %>
-              <%= image_tag leader.avatar.thumb, class: "user-avatar" %>
+            <%= link_to user, class: "d-inline-block align-middle" do %>
+              <%= image_tag user.avatar.thumb, class: "user-avatar" %>
             <% end %>
 
             <div class="fan-body">
               <div class="fan-name">
-                <%= leader.name.upcase %>
-                <%= image_tag 'icons/point-green.svg', class: "point-green" if leader.online? %>
+                <%= user.name.upcase %>
+                <%= image_tag 'icons/point-green.svg', class: "point-green" if user.online? %>
               </div>
-              <b><%= "#{leader.points} POINTS" %></b>
+              <b><%= "#{user.points} POINTS" %></b>
 
               <div class="rating-chart">
                 <div class="rating-kinds">
@@ -84,26 +84,23 @@
 
                 <div class="rating-kind-points">
                   <% @badge_kinds.each do |kind| %>
-                    <div><%= leader.points(kind.id) %></div>
+                    <div><%= user.points(kind.id) %></div>
                   <% end %>
                 </div>
 
                 <div class="rating-bars">
-                  <div class="progress-wrapper">
-                    <div class="progress-blue">
-                      <div class="c-progress-bar" role="progressbar" style="width: 75%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                  <% @badge_kinds.each do |kind| %>
+                    <% color = case kind.name 
+                      when "music" then "blue"
+                      when "forum" then "yellow"
+                      when "community" then "red"
+                      end %>
+                    <div class="progress-wrapper">
+                      <div class="progress-<%= color %>">
+                        <div class="c-progress-bar" role="progressbar" style="width: <%= user.next_badges[kind.id] || 0 %>%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
                     </div>
-                  </div>
-                  <div class="progress-wrapper">
-                    <div class="progress-yellow">
-                      <div class="c-progress-bar" role="progressbar" style="width: 75%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </div>
-                  <div class="progress-wrapper">
-                    <div class="progress-red">
-                      <div class="c-progress-bar" role="progressbar" style="width: 75%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </div>
+                  <% end %>
                 </div>
               </div>
             </div>
