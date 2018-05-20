@@ -24,8 +24,8 @@ class Callbacks::TransloaditController < ApplicationController
         job.complete!
         job.update!(
           # encoded_at: DateTime.now,
-          s3_bucket: status.first['url'].split(%r{.s3.amazonaws.com/}).first.split(%r{/}).last,
-          s3_key: status.first['url'].split(%r{.s3.amazonaws.com/}).last
+          s3_bucket: status.first['url'].split(%r{.s3.+.amazonaws.com/}).first.split(%r{/}).last,
+          s3_key: status.first['url'].split(%r{.s3.+.amazonaws.com/}).last
         )
 
         # Set Release status
