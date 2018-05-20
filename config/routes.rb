@@ -47,13 +47,20 @@ Rails.application.routes.draw do
 
   resources :announcements, only: [:show]
   resources :releases, only: [:show, :index]
-  get "download_release/:id", to: "releases#download", as: "download_release"
+  get '/releases/:id/download', to: 'releases#download', as: :release_download
+  get '/tracks/:id/download', to: 'tracks#download', as: :track_download
   get "get_release_tracks/:id", to: "releases#get_tracks", as: "get_release_tracks"
   get 'load_more_releases', to: 'releases#load_more'
 
   resources :tracks
   get 'get_tracks', to: 'tracks#get_tracks'
-  get "download_track/:id", to: "tracks#download", as: "download_track"
+
+  namespace :callbacks do
+    post 'transloadit', to: 'transloadit#create'
+    # post 'braintree/nonce', to: 'braintree#nonce'
+    # post 'braintree/analytics_notify', to: 'braintree#analytics_notify'
+  end
+
 
   resources :topics
   resources :posts do

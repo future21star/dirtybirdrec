@@ -1,0 +1,8 @@
+if ENV['TRANSLOADIT_AUTH_KEY'] && ENV['TRANSLOADIT_AUTH_SECRET']
+  TRANSLOADIT = Transloadit.new(
+    key: ENV['TRANSLOADIT_AUTH_KEY'],
+    secret: ENV['TRANSLOADIT_AUTH_SECRET']
+  )
+else
+  TRANSLOADIT = nil
+end

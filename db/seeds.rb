@@ -53,7 +53,7 @@ end
     track_number: 1,
     genre: 'Tech House',
     isrc_code: 'GBKQU1766270',
-    url: 'https://birdfeed-dev.s3.amazonaws.com/uploads/tracks/334d3596-b2a5-4a45-ae6c-dbcbb7371a34/01. Claude VonStroke Will Clarke - Tiny Tambourine - Dirtybird.wav',
+    uri: 'https://birdfeed-dev.s3.amazonaws.com/uploads/tracks/334d3596-b2a5-4a45-ae6c-dbcbb7371a34/01. Claude VonStroke Will Clarke - Tiny Tambourine - Dirtybird.wav',
     sample_uri: 'https://birdfeed-dev.s3.amazonaws.com/tracks/0e/a2bad0be7b11e7ba9db561d1f7f74b/01. Claude VonStroke Will Clarke Sbastien V - Tiny Tambourine - Sample - Dirtybird.mp3'
   )
 
@@ -65,7 +65,7 @@ end
     track_number: 2,
     genre: 'Tech House',
     isrc_code: 'GBKQU1766271',
-    url: 'https://birdfeed-dev.s3.amazonaws.com/uploads/tracks/032c82d8-2ae1-4308-80f5-8aa408d66428/02. Claude VonStroke Sbastien V - Daylight Dark Room - Dirtybird.wav',
+    uri: 'https://birdfeed-dev.s3.amazonaws.com/uploads/tracks/032c82d8-2ae1-4308-80f5-8aa408d66428/02. Claude VonStroke Sbastien V - Daylight Dark Room - Dirtybird.wav',
     sample_uri: 'https://birdfeed-dev.s3.amazonaws.com/tracks/0f/b626a0be7b11e7b306db55070250ba/02. Claude VonStroke Will Clarke Sbastien V - Daylight Dark Room - Sample - Dirtybird.mp3'
   )
 end

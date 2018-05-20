@@ -176,7 +176,7 @@ class BirdOldMerge
 
   # create_table "tracks", force: :cascade do |t|
   #   t.string "title"
-  #   t.string "url"
+  #   t.string "uri"
   #   t.integer "release_id"
   #   t.integer "track_number"
   #   t.string "genre"
@@ -194,7 +194,7 @@ class BirdOldMerge
       sql = '
         SELECT
           title,
-          uri as url, -- uri = path to s3
+          uri,
           release_id,
           artist,
           track_number,
@@ -414,6 +414,7 @@ class BirdOldMerge
         sql = '
           SELECT
             title,
+            artist,
             catalog,
             text,
             facebook_img,

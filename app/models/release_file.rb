@@ -5,8 +5,6 @@ class ReleaseFile < ActiveRecord::Base
   enum format: [:wav, :aiff, :flac, :mp3_160, :mp3_320]
   enum encode_status: [:pending, :complete, :failed]
 
-  belongs_to :group, -> { with_deleted }
-
   def uri
     "https://#{s3_bucket}.s3.amazonaws.com/#{s3_key}"
   end

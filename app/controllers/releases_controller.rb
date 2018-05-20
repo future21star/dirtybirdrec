@@ -56,12 +56,30 @@ class ReleasesController < ApplicationController
     @releases = releases_query( @releases, params[:page], 16, false )
   end
 
-  def download
-    redirect_to new_user_registration_path and return unless current_user
-    redirect_to choose_profile_path and return if current_user.subscription_type.blank?
+  # def download
 
-    @release = Release.find(params[:id])
-    redirect_to choose_profile_path unless @release.user_allowed?(current_user)
+
+  def download
+    #TODO send to registration if no rights
+    # redirect_to choose_profile_path and return if current_user.subscription_type.blank?
+    # if current_user && current_user.admin?
+    #   @release = Release.with_deleted.find(params[:id])
+    # else
+      @release = Release.find(params[:id])
+    # end
+
+    unless @release.user_allowed?(current_user)
+      raise ActionController::RoutingError, 'Not Found'
+    end
+
+    @format = params[:format] || :mp3_320
+    rf = ReleaseFile.find_by(release: @release, format: ReleaseFile.formats[@format])
+
+    @release.tracks.each do |track|
+      Download.create(user: current_user, track: track, format: Download.formats[@format], release: true)
+    end
+
+    redirect_to S3_BUCKET.object(rf.s3_key).presigned_url(:get, response_content_disposition: 'attachment')
   end
 
   def get_tracks

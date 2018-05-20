@@ -31,7 +31,7 @@ class TracksController < ApplicationController
         tracks << {
           title: track_presenter.title,
           artists: artists,
-          mp3: { url: track_presenter.stream_uri }
+          mp3: track_presenter.stream_uri
         }
       end
 
@@ -51,7 +51,7 @@ class TracksController < ApplicationController
           artists = track_presenter.artist
         end
 
-        { title: track_presenter.title, artists: artists, mp3: { url: track_presenter.stream_uri } }
+        { title: track_presenter.title, artists: artists, mp3: track_presenter.stream_uri }
       end
 
       current_track = { index: 0, time: 0 }
@@ -62,10 +62,22 @@ class TracksController < ApplicationController
   end
 
   def download
-    redirect_to new_user_registration_path and return unless current_user
-    redirect_to choose_profile_path and return if current_user.subscription_type.blank?
+    #TODO redirect to registration if no rights
+    # redirect_to choose_profile_path and return if current_user.subscription_type.blank?
+    # if current_user && current_user.admin?
+    #   @track = Track.with_deleted.find(params[:id])
+    # else
+      @track = Track.find(params[:id])
+    # end
 
-    @release = Release.find(params[:id])
-    redirect_to choose_profile_path unless @release.user_allowed?(current_user)
+    unless @track.user_allowed?(current_user)
+      raise ActionController::RoutingError, 'Not Found'
+    end
+
+    @format = params[:format] || :mp3_320
+    tf = TrackFile.find_by(track: @track, format: TrackFile.formats[@format])
+    Download.create(user: current_user, track: @track, format: Download.formats[@format])
+
+    redirect_to S3_BUCKET.object(tf.s3_key).presigned_url(:get, response_content_disposition: 'attachment')
   end
 end

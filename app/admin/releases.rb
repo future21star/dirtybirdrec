@@ -6,41 +6,62 @@ ActiveAdmin.register Release do
   permit_params :title, :catalog, :text, :avatar, :facebook_img,
     :published_at, :upc_code, :compilation, :release_date, 
     user_ids: [], tracks_attributes: [:id, :title, :release, :track_number,
-    :genre, :isrc_code, :url, :sample_uri, :_destroy, user_ids: []]
-#
-# or
+    :genre, :isrc_code, :uri, :sample_uri, :_destroy, user_ids: []]
+
+  config.sort_order = 'created_at_desc'
+  jcropable
+
+  index do
+    selectable_column
+    column :title
+    column :available_to_all
+    column :release_date
+    column :published_at
+    column (:downloads) { |obj| obj.downloads.count }
+
+    actions do |release|
+      item "Encode", encode_admin_release_path(release), class: "member_link"
+    end
+  end
 
   form do |f|
     f.inputs do
-      f.input :avatar
+      image = f.object.avatar.present? ? image_tag(f.object.avatar.url) : '' 
+      f.input :avatar, hint: image, as: :jcropable
+      f.input :avatar_cache, as: :hidden
+      f.input :facebook_img
       f.input :title
       f.input :catalog
       f.input :text
       f.input :upc_code
       f.input :compilation
-      f.input :release_date
+      f.input :release_date, as: :date_time_picker
+      f.input :artist
       f.input :users, as: :select, label: "Artists",
       collection: User.with_role(:artist).map {|a| [a.name, a.id] }
     end
 
     f.inputs do
-      f.has_many :tracks do |t|
+      f.has_many :tracks, class: "directUpload" do |t|
+        t.input :track_number
         t.input :title
-        # t.input :track_number
         t.input :genre
         t.input :isrc_code
-        t.input :url
-        t.input :sample_uri
+        t.input :uri, as: :file, label: "Track file (WAV Format)"
         t.input :users, :as => :select, :input_html => {:multiple => true}
       end
     end
     f.actions
   end
-#
-# permit_params do
-#   permitted = [:permitted, :attributes]
-#   permitted << :other if params[:action] == 'create' && current_user.admin?
-#   permitted
-# end
+
+  member_action :encode, method: :get do
+    @s3_direct_post = S3_BUCKET.presigned_post(
+      key: "uploads/tracks/#{SecureRandom.uuid}/${filename}",
+      success_action_status: '201',
+      acl: 'public-read'
+    )
+    resource.encode
+    redirect_to resource_path, notice: "Encoding Release! This may take up to 10 minutes."
+  end
 
 end

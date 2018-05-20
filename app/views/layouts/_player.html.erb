@@ -109,7 +109,7 @@
 
   function playlistItemClick(index) {
     currentTrackIndex = index;
-    cpAudio.load(playlist[index].mp3.url);
+    cpAudio.load(playlist[index].mp3);
     $('.jp-title').text(playlist[index]['title']);
     $('.jp-artists').text(playlist[index]['artists']);
 
@@ -146,7 +146,7 @@
 
     $($('.jp-playlist li').get(currentTrack)).find('.jp-playlist-item').addClass('jp-playlist-current');
 
-    cpAudio.load(playlist[currentTrack].mp3.url);
+    cpAudio.load(playlist[currentTrack].mp3);
 
     cpAudio.on('ready', function () {
       cpAudio.skip(currentTime);
@@ -270,7 +270,7 @@
         $('.jp-playlist li').find('.jp-playlist-item').removeClass('jp-playlist-current');
         $('.jp-playlist li').last().find('.jp-playlist-item').addClass('jp-playlist-current');
 
-        cpAudio.load(track.mp3.url);
+        cpAudio.load(track.mp3);
 
         cpAudio.on('ready', function () {
           $('.jp-duration').text(secondsToHms(cpAudio.getDuration()));
@@ -299,7 +299,7 @@
     $('.jp-current-time').text(secondsToHms(0));
     $('.jp-current-time-track').text(secondsToHms(0));
 
-    cpAudio.load(playlist[currentTrackIndex].mp3.url);
+    cpAudio.load(playlist[currentTrackIndex].mp3);
     $('.jp-title').text(playlist[currentTrackIndex]['title']);
     $('.jp-artists').text(playlist[currentTrackIndex]['artists']);
 
@@ -336,7 +336,7 @@
     $('.jp-current-time').text(secondsToHms(0));
     $('.jp-current-time-track').text(secondsToHms(0));
 
-    cpAudio.load(playlist[currentTrackIndex].mp3.url);
+    cpAudio.load(playlist[currentTrackIndex].mp3);
     $('.jp-title').text(playlist[currentTrackIndex]['title']);
     $('.jp-artists').text(playlist[currentTrackIndex]['artists']);
 

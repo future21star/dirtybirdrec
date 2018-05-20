@@ -91,11 +91,28 @@
   display: inline-block;
   margin-top: 5px;
   margin-left: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
 
   img {
     width: 20px;
     height: 20px;
   }
+}
+
+.collapse-formats {
+  z-index: 1025;
+  position: relative;
+  text-align: right;
+}
+
+.collapse-track-formats {
+  z-index: 1025;
+  position: relative;
+  text-align: right;
+  top: -30px;
 }
 
 .release-avatar {
@@ -172,13 +189,6 @@
     .star {
       margin-bottom: 5px;
     }
-  }
-
-  .icon-download {
-    position: absolute;
-    bottom: 15px;
-    right: 37px;
-    z-index: 2;
   }
 
   .icon-share {

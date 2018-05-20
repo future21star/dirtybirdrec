@@ -24,23 +24,28 @@ gem 'omniauth-facebook', '~> 4.0'
 gem 'omniauth-google-oauth2'
 gem 'cancancan', '~> 2.0'
 gem 'rolify'
+
 gem 'activeadmin'
 gem 'active_admin_jcrop'
+gem 'activeadmin_addons'
+gem 'active_admin_flat_skin'
+gem 'active_admin_datetimepicker'
+
 gem 'carrierwave', '~> 1.0'
 gem 'mini_magick'
 gem 'bootstrap', '~> 4.0.0'
 gem 'jquery-rails'
+gem 'aws-sdk'
 gem 'fog-aws'
 gem 'loaf'
 gem 'algoliasearch-rails'
 gem "avatarly"
-gem 'activeadmin_addons'
 gem "font-awesome-rails"
-gem 'active_admin_flat_skin'
 gem 'social-share-button'
 gem 'ratyrate'
 gem 'rack-cors'
 gem 'bulk_insert'
+gem 'transloadit'
 
 
 group :development, :test do

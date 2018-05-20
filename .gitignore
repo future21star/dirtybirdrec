@@ -25,4 +25,3 @@ config/database.yml
 config/application.yml  
 public/uploads
 public/assets
-public/images

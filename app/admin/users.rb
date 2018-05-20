@@ -23,8 +23,8 @@ ActiveAdmin.register User do
 
   form do |f|
     f.inputs do
-      f.input :avatar, :hint => image_tag(f.object.avatar.url(:thumb)), as: :jcropable
-      f.input :avatar_cache, :as => :hidden
+      f.input :avatar, hint: image_tag(f.object.avatar.url(:thumb)), as: :jcropable
+      f.input :avatar_cache, as: :hidden
       f.input :first_name
       f.input :last_name
       f.input :email
@@ -33,7 +33,7 @@ ActiveAdmin.register User do
       f.input :roles, as: :check_boxes
       f.input :city
       f.input :shipping_address
-      f.input :birthdate
+      f.input :birthdate, as: :date_time_picker
       f.input :gender
       f.input :t_shirt_size
       # f.input :subscription
