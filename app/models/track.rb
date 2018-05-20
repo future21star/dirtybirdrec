@@ -9,7 +9,7 @@ class Track < ApplicationRecord
 
   mount_uploader :uri, TrackUploader
 
-  validates :track_number, presence: true
+  validates :track_number, :title, presence: true
 
   ratyrate_rateable "main"
 
@@ -91,9 +91,10 @@ class Track < ApplicationRecord
     sample_audio_export_step = TRANSLOADIT.step(
       "#{step_name}_sample_export",
       '/s3/store',
-      key: ENV['AWS_ACCESS_KEY_ID'],
-      secret: ENV['AWS_SECRET_ACCESS_KEY'],
-      bucket: ENV['S3_BUCKET_UPLOADS'],
+      key: ENV['S3_KEY'],
+      secret: ENV['S3_SECRET'],
+      bucket_region: ENV['S3_REGION'],
+      bucket: ENV['S3_BUCKET_NAME'],
       path: "tracks/${unique_prefix}/#{sample_file_name}.${file.ext}"
     )
 
@@ -122,9 +123,10 @@ class Track < ApplicationRecord
       TRANSLOADIT.step(
         "#{step_name}_waveform_export",
         '/s3/store',
-        key: ENV['AWS_ACCESS_KEY_ID'],
-        secret: ENV['AWS_SECRET_ACCESS_KEY'],
-        bucket: ENV['S3_BUCKET_UPLOADS'],
+        key: ENV['S3_KEY'],
+        secret: ENV['S3_SECRET'],
+        bucket_region: ENV['S3_REGION'],
+        bucket: ENV['S3_BUCKET_NAME'],
         path: "waveforms/${unique_prefix}/#{file_name}.${file.ext}",
         use: "#{step_name}_waveform"
       )
@@ -159,9 +161,10 @@ class Track < ApplicationRecord
     audio_export_step = TRANSLOADIT.step(
       "#{step_name}_export",
       '/s3/store',
-      key: ENV['AWS_ACCESS_KEY_ID'],
-      secret: ENV['AWS_SECRET_ACCESS_KEY'],
-      bucket: ENV['S3_BUCKET_UPLOADS'],
+      key: ENV['S3_KEY'],
+      secret: ENV['S3_SECRET'],
+      bucket_region: ENV['S3_REGION'],
+      bucket: ENV['S3_BUCKET_NAME'],
       path: "tracks/${unique_prefix}/#{file_name}.${file.ext}"
     )
     

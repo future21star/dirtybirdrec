@@ -88,11 +88,6 @@ class Release < ApplicationRecord
       steps.concat track.encode_steps(formats, nil)
     end
 
-
-    logger.warn "+++++++++++++++++++++++++++++++++"
-    logger.warn steps
-    logger.warn "+++++++++++++++++++++++++++++++++"
-
     # Set up ZIP File Creation
     zip_steps = encode_zip_steps(steps)
     steps.concat zip_steps
@@ -127,15 +122,19 @@ class Release < ApplicationRecord
     zip_export_step = TRANSLOADIT.step(
       "#{step_name}_export",
       '/s3/store',
-      key: ENV['AWS_ACCESS_KEY_ID'],
-      secret: ENV['AWS_SECRET_ACCESS_KEY'],
-      bucket: ENV['S3_BUCKET_UPLOADS'],
+      key: ENV['S3_KEY'],
+      secret: ENV['S3_SECRET'],
+      bucket_region: ENV['S3_REGION'],
+      bucket: ENV['S3_BUCKET_NAME'],
       path: "releases/${unique_prefix}/#{file_name}.${file.ext}"
     )
+
+    logger.warn "ZIP EXPORT #{zip_export_step}"
 
     zip_export_step.use(steps)
     steps.push(zip_export_step)
 
+    logger.warn "STEPS #{steps}"
     steps
   end
 
