@@ -436,7 +436,8 @@
 
   window.addEventListener('click', function(e){   
     if (!document.getElementsByClassName('jp-playlist')[0].contains(e.target) &&
-      !document.getElementById('jp-playlist-btn').contains(e.target)){
+          !document.getElementById('jp-playlist-btn').contains(e.target) &&
+          e.target.className != 'jp-playlist-item-remove' ){
       $('.jp-playlist ul').slideUp(300);
     }
   });

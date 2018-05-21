@@ -16,7 +16,7 @@
   <div class="text-center"><%= render 'follows/follow_button', target: @topic %></div>
 
   <div class="feed-block">
-    <%= render @topic.posts.parents_posts %>
+    <%= render @topic.posts.parents_posts.order(created_at: :desc) %>
     <%= render 'form', parent_id: nil %>
   </div>
 </div>

@@ -18,6 +18,7 @@ class PostsController < ApplicationController
 
   def update
     @post = Post.find(params[:id])
+    @post.edited_at = DateTime.now
 
     @post.update_attributes(post_params) if current_user.id == @post.user_id
 

@@ -22,6 +22,10 @@
       <% end %>
 
       <%= reply.text %>
+      &nbsp;
+      <% if reply.edited_at.present? %>
+        <i>edited</i>
+      <% end %>
     </p>
 
     <%= image_tag(reply.user.avatar.thumb, class: "post-user-avatar") %>
@@ -38,6 +42,10 @@
     
     <p id="feed-post-<%= reply.id %>" class="feed-reply">
       <%= reply.text %>
+      &nbsp;
+      <% if reply.edited_at.present? %>
+        <i>edited</i>
+      <% end %>
         
       <% if current_user.id == reply.user_id %>
         <%= link_to edit_post_path(reply), remote: true do %>
