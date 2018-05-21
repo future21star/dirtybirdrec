@@ -10,11 +10,11 @@ class Rate < ActiveRecord::Base
   private 
 
     def add_points
-      self.user.change_points( 'rate', self.rateable_type )
+      self.rater.change_points( 'rate', self.rateable_type )
     end
 
     def remove_points
-      self.user.change_points( 'rate', self.rateable_type, :destroy )
+      self.rater.change_points( 'rate', self.rateable_type, :destroy )
     end
 
 end

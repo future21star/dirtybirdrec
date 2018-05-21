@@ -1,4 +1,9 @@
 class TrackPresenter < SimpleDelegator
+
+  def class
+    __getobj__.class
+  end
+  
   def initialize(track, current_user = nil)
     @track = track
     @current_user = current_user

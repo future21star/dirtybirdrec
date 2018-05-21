@@ -6,8 +6,23 @@
   else 'icons/like.svg' end
 %>
 
-<%= link_to image_tag(image), likes_path(likeable_type: like[:likeable_type], 
-    likeable_id: like[:likeable_id], style: style), 
-    id: "like-#{like[:likeable_type]}-#{like[:likeable_id]}",
-    method: :post, remote: true, class: "like-button"
-%>
+<% if style == 'release' %>
+
+  <%= link_to likes_path(likeable_type: like[:likeable_type], 
+        likeable_id: like[:likeable_id], style: style), 
+        id: "like-#{like[:likeable_type]}-#{like[:likeable_id]}",
+        method: :post, remote: true, class: "like-button" do %>
+    <%= "LIKE" %>
+    <%= image_tag image %>
+  <% end %>
+
+
+<% else %>
+
+  <%= link_to image_tag(image), likes_path(likeable_type: like[:likeable_type], 
+      likeable_id: like[:likeable_id], style: style), 
+      id: "like-#{like[:likeable_type]}-#{like[:likeable_id]}",
+      method: :post, remote: true, class: "like-button"
+  %>
+
+<% end %>

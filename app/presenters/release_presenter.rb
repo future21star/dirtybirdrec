@@ -2,6 +2,10 @@ class ReleasePresenter < SimpleDelegator
   include ActionView::Helpers::SanitizeHelper
   include ERB::Util
 
+  def class
+    __getobj__.class
+  end
+
   def initialize(release, current_user = nil)
     @release = release
     @current_user = current_user

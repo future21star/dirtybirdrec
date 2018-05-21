@@ -6,7 +6,21 @@
   else 'icons/liked.svg' end
 %>
 
-<%= link_to image_tag(image), like_path(like, style: style), 
-    id: "like-#{like.likeable_type}-#{like.likeable_id}",
-    method: :delete, remote: true, class: "like-button"
-%>
+<% if style == 'release' %>
+
+  <%= link_to like_path(like, style: style), 
+        id: "like-#{like.likeable_type}-#{like.likeable_id}",
+        method: :delete, remote: true, class: "like-button" do %>
+    <%= 'LIKED' %>
+    <%= image_tag image %>
+  <% end %>
+
+
+<% else %>
+
+  <%= link_to image_tag(image), like_path(like, style: style), 
+      id: "like-#{like.likeable_type}-#{like.likeable_id}",
+      method: :delete, remote: true, class: "like-button"
+  %>
+
+<% end %>

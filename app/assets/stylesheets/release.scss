@@ -59,6 +59,15 @@
     font-weight: 700;
     margin-left: 10px;
 
+    a {
+      color: white;
+
+      img {
+        margin-bottom: 8px;
+        margin-left: 3px;
+      }
+    }
+
     .likes-count {
       font-size: 18px;
     }
@@ -74,7 +83,7 @@
     .star {
       display: inline-block;
       vertical-align: bottom;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
       margin-left: 5px;
     }
   }
