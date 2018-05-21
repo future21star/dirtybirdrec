@@ -1,4 +1,6 @@
 class AnnouncementsController < ApplicationController
+  before_action :set_notifications
+
   def show
     @announcement = Announcement.find(params[:id])
 

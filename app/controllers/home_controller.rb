@@ -2,7 +2,8 @@ class HomeController < ApplicationController
   include UsersHelper
 
   before_action :authenticate_user!, 
-      except: [:index, :demo_index, :demo_login, :about, :birdfeed]
+      except: [:index, :demo_index, :demo_login, :about, :birdfeed],
+      :set_notifications, only: [:about, :birdfeed]
 
   def index
     @slider = SliderImage.all.ordered
@@ -51,7 +52,7 @@ class HomeController < ApplicationController
   end
 
 
-  
+  #======================#TODO demo remove=========================
   def demo_index
     @users = User.all.order(id: :asc)
     if current_user

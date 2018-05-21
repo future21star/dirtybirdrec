@@ -1,0 +1,5 @@
+<%= form_for @comment, remote: true do |f| %>
+    <%= f.label :body, "Text", class: "sr-only" %>
+    <%= f.text_area :body, class: "form-control mb-1", required: true %>
+  <%= f.submit "Apply", class: "btn c-btn-blue" %>
+<% end %>

@@ -1,5 +1,6 @@
 class ReleasesController < ApplicationController
   include ReleasesHelper
+  before_action :set_notifications, only: [:show, :index]
 
   def show
     release = Release.find(params[:id])

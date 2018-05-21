@@ -1,7 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :set_notifications, unless: :admin_controller?
   before_action :set_online
 
   rescue_from CanCan::AccessDenied do |exception|
@@ -28,6 +27,35 @@ class ApplicationController < ActionController::Base
     @devise_mapping ||= Devise.mappings[:user]
   end
 
+  def set_notifications
+    if current_user
+      begin
+        feed = StreamRails.feed_manager.get_notification_feed(current_user.id)
+        results = feed.get()['results']
+      rescue Faraday::Error::ConnectionFailed
+        results = []
+      end
+
+      results = results.each { |r| r['activities'].delete_if { |a| a['actor'] == "User:#{current_user.id}" } }
+      results = results.delete_if { |r| r['activities'].count == 0 }
+
+      results.each do |r| 
+        r['activity_count'] = r['activities'].count
+        r['actor_count'] = r['activities'].pluck('actor').uniq.count
+      end
+
+      unseen = results.select { |r| r['is_seen'] == false }
+      @unseen_count = unseen.count
+      @enricher = StreamRails::Enrich.new
+
+      if @unseen_count <= 8
+        @notify_activities = @enricher.enrich_aggregated_activities(results[0..7])
+      else
+        @notify_activities = @enricher.enrich_aggregated_activities(unseen)
+      end
+    end
+  end
+
   protected
 
     def admin_controller?
@@ -51,35 +79,6 @@ class ApplicationController < ActionController::Base
 
     def record_not_uniq
       redirect_back(fallback_location: root_path)
-    end
-
-    def set_notifications
-      if current_user
-        begin
-          feed = StreamRails.feed_manager.get_notification_feed(current_user.id)
-          results = feed.get()['results']
-        rescue Faraday::Error::ConnectionFailed
-          results = []
-        end
-
-        results = results.each { |r| r['activities'].delete_if { |a| a['actor'] == "User:#{current_user.id}" } }
-        results = results.delete_if { |r| r['activities'].count == 0 }
-
-        results.each do |r| 
-          r['activity_count'] = r['activities'].count
-          r['actor_count'] = r['activities'].pluck('actor').uniq.count
-        end
-
-        unseen = results.select { |r| r['is_seen'] == false }
-        @unseen_count = unseen.count
-        @enricher = StreamRails::Enrich.new
-
-        if @unseen_count <= 8
-          @notify_activities = @enricher.enrich_aggregated_activities(results[0..7])
-        else
-          @notify_activities = @enricher.enrich_aggregated_activities(unseen)
-        end
-      end
     end
 
 end

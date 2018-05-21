@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-before_action :authenticate_user!
+  before_action :authenticate_user!
 
   def create
     @comment = Comment.new(comment_params)
@@ -14,6 +14,27 @@ before_action :authenticate_user!
 
     logger.warn(@comment.errors.full_messages) unless @comment.save
 
+  end
+
+  def edit
+    @comment = Comment.find(params[:id])
+  end
+
+  def update
+    @comment = Comment.find(params[:id])
+    @comment.edited_at = DateTime.now
+
+    @comment.update_attributes(comment_params) if current_user.id == @comment.user_id
+
+    flash[:notice] = 'Comment was updated'
+  end
+
+  def destroy
+    @comment = Comment.find(params[:id])
+
+    @comment.destroy if current_user.id == @comment.user_id
+
+    flash[:notice] = 'comment was deleted'
   end
  
   def reply_form
