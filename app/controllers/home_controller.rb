@@ -2,8 +2,8 @@ class HomeController < ApplicationController
   include UsersHelper
 
   before_action :authenticate_user!, 
-      except: [:index, :demo_index, :demo_login, :about, :birdfeed],
-      :set_notifications, only: [:about, :birdfeed]
+      except: [:index, :demo_index, :demo_login, :about, :birdfeed]
+  before_action :set_notifications, only: [:about, :birdfeed]
 
   def index
     @slider = SliderImage.all.ordered
