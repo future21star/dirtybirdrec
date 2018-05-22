@@ -45,7 +45,7 @@ class ApplicationController < ActionController::Base
       end
 
       unseen = results.select { |r| r['is_seen'] == false }
-      @unseen_count = unseen.count
+      @unseen_count = unseen.count || 0
       @enricher = StreamRails::Enrich.new
 
       if @unseen_count <= 8
