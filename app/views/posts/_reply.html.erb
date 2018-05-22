@@ -10,7 +10,7 @@
     <% end %>
 
     <p id="feed-post-<%= reply.id %>" class="feed-reply feed-owner">
-      <% if current_user.id == reply.user_id %>
+      <% if current_user && current_user.id == reply.user_id %>
         <%= link_to edit_post_path(reply), remote: true do %>
           <%= image_tag('icons/pencil.svg', class: "btn-post-edit") %>
         <% end %>
@@ -47,7 +47,7 @@
         <i>edited</i>
       <% end %>
         
-      <% if current_user.id == reply.user_id %>
+      <% if current_user && current_user.id == reply.user_id %>
         <%= link_to edit_post_path(reply), remote: true do %>
           <%= image_tag('icons/pencil.svg', class: "btn-post-edit") %>
         <% end %>

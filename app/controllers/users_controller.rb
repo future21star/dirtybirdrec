@@ -3,7 +3,8 @@ class UsersController < ApplicationController
   
   before_action :authenticate_user!, except: 
       [:index, :show, :parse_youtube, :artist, :announcements_feed,
-        :interviews_feed, :videos_feed, :others_feed, :artists, :leaderboard]
+        :interviews_feed, :videos_feed, :others_feed, :artists, :leaderboard,
+        :load_more]
   before_action :set_notifications, only: [:leaderboard, :index, :show, :home, 
         :artist, :artists, :friends, :idols]
 

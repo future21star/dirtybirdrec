@@ -10,7 +10,7 @@
     <% end %>
 
     <p class="feed-reply feed-owner" id="Comment-<%= comment.id %>">
-      <% if current_user.id == comment.user_id %>
+      <% if current_user && current_user.id == comment.user_id %>
         <%= link_to edit_comment_path(comment), remote: true do %>
           <%= image_tag('icons/pencil.svg', class: "btn-post-edit") %>
         <% end %>
@@ -42,7 +42,7 @@
     <p class="feed-reply" id="Comment-<%= comment.id %>">
       <%= comment.body %>
 
-      <% if current_user.id == comment.user_id %>
+      <% if current_user && current_user.id == comment.user_id %>
         <%= link_to edit_comment_path(comment), remote: true do %>
           <%= image_tag('icons/pencil.svg', class: "btn-post-edit") %>
         <% end %>
