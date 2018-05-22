@@ -1,39 +1,41 @@
-<%= link_to image_tag(activity['actor'].avatar.thumb.url, class: "post-user-avatar"), activity['actor'], class: "post-owner" %>
-<p class="feed-posted">Posted <%= time_ago_in_words(activity['time'].in_time_zone) %> ago</p>
+<% if activity['object'].class.to_s == 'Comment' %>
+  <%= link_to image_tag(activity['actor'].avatar.thumb.url, class: "post-user-avatar"), activity['actor'], class: "post-owner" %>
+  <p class="feed-posted">Posted <%= time_ago_in_words(activity['time'].in_time_zone) %> ago</p>
 
-<div class="feed-item-body">
-  <h3><%= activity['object'].title %></h3>
-  <p><%= activity['object'].body %></p>
+  <div class="feed-item-body">
+    <h3><%= activity['object'].title %></h3>
+    <p><%= activity['object'].body %></p>
 
-  <div class="comment-footer">
-    <span>
-      <%= render partial: 'likes/like_button', locals: { object: activity['object'],  style: 'thumbup' } %>
-    </span>
+    <div class="comment-footer">
+      <span>
+        <%= render partial: 'likes/like_button', locals: { object: activity['object'],  style: 'thumbup' } %>
+      </span>
 
-    <div class="comment-footer-divider"></div>
+      <div class="comment-footer-divider"></div>
 
-    <span>
-      <%= image_tag('icons/icon-comment.svg', title: 'Comments', class: "align-top") %>
-      Comment 
-      (<span class="comments-count"><%= activity['object'].try(:replies_count) %></span>)
-    </span>
+      <span>
+        <%= image_tag('icons/icon-comment.svg', title: 'Comments', class: "align-top") %>
+        Comment 
+        (<span class="comments-count"><%= activity['object'].try(:replies_count) %></span>)
+      </span>
+    </div>
   </div>
-</div>
 
-<div id="Comment-<%= activity['object'].id %>" class="<%= 'feed-replies' unless (!current_user && activity['object'].replies.empty?) %>">
-  <% if activity['object'].replies.any? %>
-    <%= render activity['object'].replies.order(created_at: :asc) %>
-  <% end %>
+  <div id="Comment-<%= activity['object'].id %>" class="<%= 'feed-replies' unless (!current_user && activity['object'].replies.empty?) %>">
+    <% if activity['object'].replies.any? %>
+      <%= render activity['object'].replies.order(created_at: :asc) %>
+    <% end %>
 
-  <% if current_user %>
-    <%= link_to "Reply", 
-      comment_reply_form_path( 
-        comment_id: activity['object'].id, 
-        commentable_id: activity['object'].commentable_id,
-        commentable_type: activity['object'].commentable_type ), 
-      remote: true, class: "btn c-btn-white btn-wide", id: "comment-reply-#{activity['object'].id}" %>
-  <% end %>
-</div>
+    <% if current_user %>
+      <%= link_to "Reply", 
+        comment_reply_form_path( 
+          comment_id: activity['object'].id, 
+          commentable_id: activity['object'].commentable_id,
+          commentable_type: activity['object'].commentable_type ), 
+        remote: true, class: "btn c-btn-white btn-wide", id: "comment-reply-#{activity['object'].id}" %>
+    <% end %>
+  </div>
 
 
-<hr class="feed-divider">
+  <hr class="feed-divider">
+<% end %>

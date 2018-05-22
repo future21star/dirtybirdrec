@@ -3,8 +3,8 @@ class UsersController < ApplicationController
   
   before_action :authenticate_user!, except: 
       [:index, :show, :parse_youtube, :artist, :announcements_feed,
-        :interviews_feed, :videos_feed, :others_feed, :artists, :leaderboard], 
-      :set_notifications, only: [:leaderboard, :index, :show, :home, 
+        :interviews_feed, :videos_feed, :others_feed, :artists, :leaderboard]
+  before_action :set_notifications, only: [:leaderboard, :index, :show, :home, 
         :artist, :artists, :friends, :idols]
 
   def leaderboard
@@ -233,7 +233,7 @@ class UsersController < ApplicationController
     elsif @user.badge_points.blank?
       @user_position = ''
     else
-      @user_position = User.with_role(:fan)
+      @user_position = User
           .joins('LEFT OUTER JOIN badge_points on (users.id = badge_points.user_id)')
           .group('users.id')
           .order('users.created_at ASC, SUM(badge_points.value) DESC')
