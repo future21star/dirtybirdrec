@@ -1,4 +1,5 @@
 class Users::RegistrationsController < Devise::RegistrationsController
+  before_action :set_notifications, only: [:new, :edit]
 
   protected
 
