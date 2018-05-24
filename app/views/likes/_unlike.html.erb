@@ -11,7 +11,7 @@
   <%= link_to like_path(like, style: style), 
         id: "like-#{like.likeable_type}-#{like.likeable_id}",
         method: :delete, remote: true, class: "like-button" do %>
-    <%= 'LIKED' %>
+    <%= 'YOU LIKED IT' %>
     <%= image_tag image %>
   <% end %>
 

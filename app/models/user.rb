@@ -107,6 +107,9 @@ class User < ApplicationRecord
 
     #points #TODO BadgePoint(badge_id) not needed
     kind_name = case action_model
+    when "Announcement"
+      types = ["Release", "Track"]
+      "music"
     when "Release"
       types = ["Release", "Track"]
       "music"

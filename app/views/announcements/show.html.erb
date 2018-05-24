@@ -19,7 +19,6 @@
       </div>
 
       <div class="release-likes">
-        LIKES
         <%= render partial: 'likes/like_button', locals: { object: @announcement,  style: 'release' } %>
       </div>
     </div>
@@ -35,9 +34,9 @@
 
       <div class="truncated-description">
         <% if @announcement.text.present? %>
-          <article><%= @announcement.text.html_safe.truncate(400) %></article>
+          <article><%= strip_tags(@announcement.text).truncate(400) %></article>
 
-          <% if @announcement.text.html_safe.truncate(400) != @announcement.text.html_safe %>
+          <% if strip_tags(@announcement.text).truncate(400) != strip_tags(@announcement.text) %>
             <a href="#" class="truncated-long">Read more</a>
           <% end %>
 

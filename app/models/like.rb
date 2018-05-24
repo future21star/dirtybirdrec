@@ -14,7 +14,7 @@ class Like < ApplicationRecord
       self.likeable.users.map do |user|
         StreamRails.feed_manager.get_notification_feed(user.id)
       end
-    else
+    elsif self.likeable.try(:user)
       [StreamRails.feed_manager.get_notification_feed(self.likeable.user.id)]
     end
   end
