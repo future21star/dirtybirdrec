@@ -46,7 +46,7 @@
   </div>
 
   <div class="artist-bio truncated-description">
-    <% if @user.artist_info.present? %>
+    <% if @user.artist_info.present? && @user.artist_info.bio_short? %>
       <article><%= @user.artist_info.bio_short %></article>
       <a href="#" class="truncated-long">Read more</a>
       <article><%= @user.artist_info.bio_long %></article>

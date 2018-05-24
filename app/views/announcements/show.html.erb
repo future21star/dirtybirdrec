@@ -54,7 +54,7 @@
 
       <%# if current_user && @announcement.user_id == current_user.id %>
         <button class="btn c-btn-blue mt-1" type="button" data-toggle="modal" data-target="#addcommentModal">
-          ADD YOUR COMMENT
+          ADD A COMMENT
         </button>
       <%# end %>
 
@@ -98,15 +98,15 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body w-100">
             <h5 class="modal-title">Add your comment</h5>
 
             <%= form_for current_user.comments.build, 
-              html: { class: "feed-form" }, remote: true do |f| %>
+              html: { class: "feed-form w-75" }, remote: true do |f| %>
               <%= f.hidden_field :commentable_type, value: "Announcement" %>
               <%= f.hidden_field :commentable_id, value: @announcement.id %>
-              <%= f.label :title, class: "sr-only" %>
-              <%= f.text_field :title, placeholder: "Type the title here" %>
+              <%#= f.label :title, class: "sr-only" %>
+              <%#= f.text_field :title, placeholder: "Type the title here" %>
               <%= f.label :body, class: "sr-only" %>
               <%= f.text_area :body, rows: 10, placeholder: "Type text", max: 200 %>
               <%= f.submit "ADD TO FEED", class: "btn c-btn-blue btn-wide" %>
