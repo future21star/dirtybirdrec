@@ -42,7 +42,10 @@
             </button>
           </div>
           <div class="modal-body">
-            <h5 class="modal-title">Add your topic to <%= @category.title %> </h5>
+            <h5 class="modal-title">
+              Add your topic to 
+              <span style="color: #e75e35;"><%= @category.title %></span>
+            </h5>
 
             <%= form_for @topic, 
               html: { class: "feed-form" }, remote: true do |f| %>
