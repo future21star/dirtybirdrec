@@ -39,11 +39,11 @@ class UsersController < ApplicationController
       else
         feed = StreamRails.feed_manager.get_user_feed(@user.id)
       end
+      results = feed.get()['results']
     rescue Faraday::Error::ConnectionFailed
       results = []
     end
 
-    results = feed.get()['results']
     @activities = @enricher.enrich_activities(results)
 
     # current_user.change_points( 'member over time' ) if current_user == @user

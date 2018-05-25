@@ -3,20 +3,27 @@
   <p class="feed-posted">Posted <%= time_ago_in_words(post.created_at) %> ago</p>
 
   <div class="feed-item-body">
-    <p id="feed-post-<%= post.id %>">
-      <b><%= post.user.name %>&nbsp;</b>
-      <%= post.text %>
-      <% if current_user.id == post.user_id %>
-        <%= link_to edit_post_path(post), remote: true do %>
-          <%= image_tag('icons/pencil.svg', class: "btn-post-edit") %>
-        <% end %>
+    <div id="feed-post-<%= post.id %>">
+      <p class="mb-1">
+        <b>
+          <%= link_to post.user.name.split.map(&:capitalize).join(' '), post.user %>&nbsp;
+        </b>
+      </p>
+      <p class="post-text">
+        <%= post.text %>
+          
+        <% if current_user.id == post.user_id %>
+          <%= link_to edit_post_path(post), remote: true do %>
+            <%= image_tag('icons/pencil.svg', class: "btn-post-edit") %>
+          <% end %>
 
-        <%= link_to post, method: :delete, remote: true, 
-          data: { confirm: "Are you sure you want to delete your post?" } do %>
-          <%= image_tag('icons/trash.svg', class: "btn-post-edit") %>
+          <%= link_to post, method: :delete, remote: true, 
+            data: { confirm: "Are you sure you want to delete your post?" } do %>
+            <%= image_tag('icons/trash.svg', class: "btn-post-edit") %>
+          <% end %>
         <% end %>
-      <% end %>
-    </p>
+      </p>
+    </div>
 
     <div class="comment-footer">
       <span>
@@ -25,7 +32,7 @@
 
       <div class="comment-footer-divider"></div>
 
-      <span>
+      <span class="scroll-bottom">
         <%= image_tag('icons/icon-comment.svg', title: 'Comments', class: "align-top") %>
         Comment (<span class="comments-count"><%= post.replies_count || 0 %></span>)
       </span>
@@ -34,10 +41,15 @@
 
 
   <div class="<%= 'feed-replies' unless (!current_user && post.replies.empty?) %>">
-    <%= (render partial: 'posts/reply', collection: post.replies.order(created_at: :asc)) if post.replies.any? %>
+    <% if post.replies_count.to_i > 3 %>
+      <a href="#" class="show-more-comments">View more comments (<%= post.replies_count - 3 %>)</a>
+    <% end %>
 
+    <div class="feed-replies-list">
+      <%= (render partial: 'posts/reply', collection: post.replies.order(created_at: :asc)) if post.replies.any? %>
+    </div>
+    
     <% if current_user %>
-
       <%= link_to "Reply", 
           post_reply_form_path( post_id: post.id, topic_id: @topic.id ), 
           remote: true, class: "btn c-btn-white btn-wide", id: "topic-post-#{post.id}" %>

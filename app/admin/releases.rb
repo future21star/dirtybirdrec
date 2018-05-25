@@ -6,7 +6,7 @@ ActiveAdmin.register Release do
   permit_params :title, :catalog, :text, :avatar, :facebook_img,
     :published_at, :upc_code, :compilation, :release_date, 
     user_ids: [], tracks_attributes: [:id, :title, :release, :track_number,
-    :genre, :isrc_code, :uri, :sample_uri, :_destroy, user_ids: []]
+    :genre, :isrc_code, :uri, :sample_uri, :artist, :_destroy, user_ids: []]
 
   config.sort_order = 'created_at_desc'
   jcropable
@@ -21,6 +21,26 @@ ActiveAdmin.register Release do
 
     actions do |release|
       item "Encode", encode_admin_release_path(release), class: "member_link"
+    end
+  end
+
+  show do
+    panel "Release" do
+      h3 release.title + ' - ' + release.artist
+
+      div do
+        img release.avatar
+      end
+      div 'Release date: ' + release.release_date.strftime('%D')
+      div 'Catalog: ' + release.catalog
+      div 'UPC code: ' + release.upc_code
+      div ('Text: ' + release.text).html_safe
+
+      table_for release.tracks do
+        column :track_number
+        column :title
+        column :artist
+      end
     end
   end
 
@@ -45,6 +65,7 @@ ActiveAdmin.register Release do
       f.has_many :tracks, class: "directUpload" do |t|
         t.input :track_number
         t.input :title
+        t.input :artist
         t.input :genre
         t.input :isrc_code
         t.input :uri, as: :file, label: "Track file (WAV Format)"

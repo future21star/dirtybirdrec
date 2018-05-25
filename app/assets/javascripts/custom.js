@@ -143,4 +143,14 @@ $(document).on('turbolinks:load', function() {
   $('.notice').click(function(){$(this).hide()});
   $('.alert').click(function(){$(this).hide()});
 
+  $('.scroll-bottom').click(function(){
+    $("html, body").animate({ scrollTop: $(document).height() }, 500);
+  });
+
+  $('.show-more-comments').click(function(){
+    $(this).siblings('.feed-replies-list').find('div').show();
+    $(this).hide();
+    return false;
+  });
+
 });

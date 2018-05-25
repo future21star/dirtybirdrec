@@ -14,7 +14,7 @@
             <li>
               <%= link_to chirp_path( category ) do %>
               <%= "#{category.title}" %>
-              <%= "<span class='topic-caption'> #{pluralize(category.topics.count, 'topic')}</span>".html_safe %>
+              <%= "<span class='topic-category-caption'> #{pluralize(category.topics.count, 'topic')}</span>".html_safe %>
               <% end %>
             </li>
           <% end %>

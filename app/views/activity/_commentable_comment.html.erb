@@ -3,6 +3,11 @@
   <p class="feed-posted">Posted <%= time_ago_in_words(activity['time'].in_time_zone) %> ago</p>
 
   <div class="feed-item-body">
+    <div>
+      <b>
+        <%= link_to activity['object'].user.name.split.map(&:capitalize).join(' '), activity['object'].user %>&nbsp;
+      </b>
+    </div>
     <h3><%= activity['object'].title %></h3>
     <p><%= activity['object'].body %></p>
 
@@ -23,7 +28,13 @@
 
   <div id="Comment-<%= activity['object'].id %>" class="<%= 'feed-replies' unless (!current_user && activity['object'].replies.empty?) %>">
     <% if activity['object'].replies.any? %>
-      <%= render activity['object'].replies.order(created_at: :asc) %>
+      <% if activity['object'].replies_count.to_i > 3 %>
+        <a href="#" class="show-more-comments">View more comments (<%= activity['object'].replies_count - 3 %>)</a>
+      <% end %>
+      
+      <div class="feed-replies-list">
+        <%= render activity['object'].replies.order(created_at: :asc) %>
+      </div>
     <% end %>
 
     <% if current_user %>

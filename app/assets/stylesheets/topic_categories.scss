@@ -26,9 +26,16 @@
   }
 }
 
-.topic-caption {
+.topic-category-caption {
   font-size: 12px;
   position: absolute;
   top: 35%;
+  right: 15px;
+}
+
+.topic-caption {
+  font-size: 10px;
+  position: absolute;
+  bottom: -15px;
   right: 15px;
 }
