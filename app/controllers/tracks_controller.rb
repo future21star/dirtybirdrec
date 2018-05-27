@@ -3,12 +3,21 @@ class TracksController < ApplicationController
     track = Track.find(params[:id])
     track_presenter = TrackPresenter.new(track, current_user)
 
+    if track_presenter.users.any?
+      artists = track_presenter.users.map(&:name).join(' feat. ')
+    else
+      artists = track_presenter.artist
+    end
+
     render json: { 
       track: { 
         id: track_presenter.id,
+        track_number: track_presenter.track_number,
         title: track_presenter.title, 
-        artists: track_presenter.users.map(&:name).join(' feat. '),
-        mp3: track_presenter.stream_uri
+        artists: artists,
+        mp3: track_presenter.stream_uri,
+        release_id: track_presenter.release_id,
+        waveform: track_presenter.waveform_image_uri
       } 
     }
   end
@@ -29,9 +38,13 @@ class TracksController < ApplicationController
         end
 
         tracks << {
-          title: track_presenter.title,
+          id: track_presenter.id,
+          track_number: track_presenter.track_number,
+          title: track_presenter.title, 
           artists: artists,
-          mp3: track_presenter.stream_uri
+          mp3: track_presenter.stream_uri,
+          release_id: track_presenter.release_id,
+          waveform: track_presenter.waveform_image_uri
         }
       end
 
@@ -51,7 +64,13 @@ class TracksController < ApplicationController
           artists = track_presenter.artist
         end
 
-        { title: track_presenter.title, artists: artists, mp3: track_presenter.stream_uri }
+        { id: track_presenter.id,
+          track_number: track_presenter.track_number,
+          title: track_presenter.title, 
+          artists: artists,
+          mp3: track_presenter.stream_uri,
+          release_id: track_presenter.release_id,
+          waveform: track_presenter.waveform_image_uri }
       end
 
       current_track = { index: 0, time: 0 }
