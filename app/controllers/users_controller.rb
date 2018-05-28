@@ -230,9 +230,7 @@ class UsersController < ApplicationController
     @followed_artists = @user.followed_users.with_role(:artist).limit(4)
 
     if @user.has_role? :admin
-      @user_position = 0
-    elsif @user.badge_points.blank?
-      @user_position = ''
+      @user_position = nil
     else
       @user_position = User
           .joins('LEFT OUTER JOIN badge_points on (users.id = badge_points.user_id)')

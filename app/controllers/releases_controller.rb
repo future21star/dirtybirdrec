@@ -86,5 +86,11 @@ class ReleasesController < ApplicationController
   def get_tracks
     release = Release.find(params[:id])
     @release_presenter = ReleasePresenter.new(release, current_user)
+
+    if current_user && current_user.playlist.present?
+      current_user.playlist.update_attributes(
+        tracks: @release_presenter.tracks.map{|t| t[:id]}.join(','),
+        current_track: "0:0")
+    end
   end
 end
