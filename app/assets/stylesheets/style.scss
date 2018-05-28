@@ -74,6 +74,14 @@ main > div.container {
   flex: 1;
 }
 
+button {
+  outline: none;
+
+  &:active, &:hover, &:focus {
+    outline: none;
+  }
+}
+
 .notice, .alert {
   cursor: pointer;
   font-size: 12px;
