@@ -1,12 +1,13 @@
 <div class="release-present">
-  <% if @release.avatar.present?
-       image = @release.avatar.url
-     elsif @release.image_uri.present?
+  <% if @release.image_uri.present?
        image = @release.image_uri
+     elsif @release.avatar.present?
+       image = @release.avatar.url
      else
-       image = nil
+       image = @release.avatar.url
      end %>
-  <%= image_tag(image, class: "release-avatar left-avatar") if image %>
+
+  <%= image_tag(image, class: "release-avatar left-avatar") %>
   
   <div class="release-bgrd">
     <%#= image_tag 'dj.jpg' %>

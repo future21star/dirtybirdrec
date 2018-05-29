@@ -63,16 +63,15 @@
   <div class="h-carousel mb-4">
     <% @releases.each do |release| %>
       <div class="item-wide">
-        <% if release.avatar.present?
-             image = release.avatar.url
-           elsif release.image_uri.present?
+        <% if release.image_uri.present?
              image = release.image_uri
+           elsif release.avatar.present?
+             image = release.avatar.url
            else
-             image = nil
+             image = release.avatar.url
            end %>
-        <% if image %>
-          <%= link_to image_tag(image), release, class: "item-avatar" %>
-        <% end %>
+        <%= link_to image_tag(image), release, class: "item-avatar" %>
+        
         <div class="item-body">
           <%= link_to image_tag('icons/icon-expand.svg'), release, class: "item-expand" %>
           <h3>
