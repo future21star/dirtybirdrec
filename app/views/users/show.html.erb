@@ -44,17 +44,19 @@
         <p>Member Since <%= @user.created_at.strftime("%Y") %></p>
       </div>
 
-      <div class="user-info-divider"></div>
+      <% unless @user.has_role?(:admin) %>
+        <div class="user-info-divider"></div>
 
-      <div class="fan-points">
-        <small>Fan Status</small>
-        <h4><%= @user.points %> POINTS&nbsp;&nbsp;/</h4>
-      </div>
+        <div class="fan-points">
+          <small>Fan Status</small>
+          <h4><%= @user.points %> POINTS&nbsp;&nbsp;/</h4>
+        </div>
 
-      <div class="fan-position">
-        <small>Leaderboard</small>
-        <h4><%= "##{user_position @user}" if user_position(@user).present? %></h4>
-      </div>
+        <div class="fan-position">
+          <small>Leaderboard</small>
+          <h4><%= "##{user_position @user}" %></h4>
+        </div>
+      <% end %>
     </div>
 
     <%= render 'follows/follow_button', target: @user %>
