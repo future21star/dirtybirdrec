@@ -131,11 +131,23 @@ header {
 
   .dropdown-menu {
     border: none;
-    background: asset-data-url("icons/login-bgrd.svg") no-repeat;
-    opacity: 0.95;
     padding: 55px 15px 10px;
     box-shadow: 0px 1px #80808052;
     border-radius: 10px;
+    background: none;
+    overflow: hidden;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: asset-data-url("icons/login-bgrd.svg") no-repeat;
+      opacity: 0.90;
+      z-index: -1;
+    }
   }
 }
 
@@ -180,6 +192,8 @@ header {
 
   .form-label-group {
     margin-bottom: 10px;
+    border-radius: 4px;
+    overflow: hidden;
   }
 
   input.form-control {
