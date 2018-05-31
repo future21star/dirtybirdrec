@@ -30,6 +30,7 @@ gem 'active_admin_jcrop'
 gem 'activeadmin_addons'
 gem 'active_admin_flat_skin'
 gem 'active_admin_datetimepicker'
+gem 'activeadmin_froala_editor'
 
 gem 'carrierwave', '~> 1.0'
 gem 'mini_magick'

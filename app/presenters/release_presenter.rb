@@ -41,7 +41,7 @@ class ReleasePresenter < SimpleDelegator
   end
 
   def tracks
-    release.tracks.map do |track|
+    release.tracks.order(track_number: :asc).map do |track|
       TrackPresenter.new(track, current_user)
     end
   end

@@ -52,7 +52,7 @@ ActiveAdmin.register Release do
       f.input :facebook_img
       f.input :title
       f.input :catalog
-      f.input :text
+      f.input :text, as: :froala_editor
       f.input :upc_code
       f.input :compilation
       f.input :release_date, as: :date_time_picker

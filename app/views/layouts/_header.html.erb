@@ -91,7 +91,7 @@
               <li class="nav-item dropdown dropdown-notify-menu">
                 <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <%= image_tag "icons/icon-notifications.svg" %>
-                  <% if @unseen_count > 0 %>
+                  <% if @unseen_count && @unseen_count > 0 %>
                     <span class="nav-notify-count"><%= @unseen_count %></span>
                   <% end %>
                 </a>

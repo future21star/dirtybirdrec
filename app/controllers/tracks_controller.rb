@@ -91,6 +91,12 @@ class TracksController < ApplicationController
         tracks: params[:tracks],
         current_track: "#{params[:current_track_id]}:#{params[:time] || 0}")
     end
+
+    render json: {}
+  end
+
+  def fill_track_title
+    @track = Track.find params[:track_id]
   end
 
   def download

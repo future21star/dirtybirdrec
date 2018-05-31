@@ -13,7 +13,9 @@
 <% end %>
 
 
-<% if current_user.nil? %>
+<% if current_user.nil? || 
+  (current_user && current_user.has_role?(:artist)) ||
+  (current_user && target == current_user)  %>
 
   &nbsp;
 
@@ -22,8 +24,6 @@
   <%= render partial: 'follows/unfollow', 
       locals: { target: target, text: text, classes: classes } %>
 
-<% elsif target == current_user %>
-  
 <% else %>
 
   <%= render partial: 'follows/follow', 

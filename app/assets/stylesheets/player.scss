@@ -90,7 +90,7 @@
 }
 
 .jp-volume {
-  margin-left: 15px;
+  margin: 2px 0 0 15px;
 }
 
 .jp-volume-btn {
@@ -106,7 +106,7 @@
 }
 
 .jp-volume-bar {
-  background: asset-data-url("jplayer/jplayer.pink.flag.jpg") 0px -300px repeat-x;  
+  background: gray 0px -300px repeat-x;  
   width: 100px;
   height: 10px;
   overflow: hidden;
@@ -114,7 +114,7 @@
 }
 
 .jp-volume-bar-value {
-  background: asset-data-url("jplayer/jplayer.pink.flag.jpg") 0px -320px repeat-x;
+  background: #e75e35 0px -320px repeat-x;
   height: 10px; 
 }
 

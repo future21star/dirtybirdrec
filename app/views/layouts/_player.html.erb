@@ -27,6 +27,11 @@
       
       <div class="jp-details">
         <div class="jp-title" aria-label="title">&nbsp;</div>
+
+        <%#= rating_for track, 'main', star: 3, cancel: true, 
+              disable_after_rate: false, star_path: '/images/rate/white' %>
+        &nbsp;
+        <%#= track.average('main').try(:avg) %>
         <!-- - <b><span class="jp-artists"></span>&nbsp;</b> -->
       </div>
 
@@ -75,7 +80,7 @@
   $.ajax( "/get_tracks" )
   .done(function(respond) {
     currentTrackIndex = respond.current_track.index;
-    time = respond.current_track.time;
+    var time = respond.current_track.time;
     setPlaylist(respond.tracks, false, currentTrackIndex, time);
   });
 
@@ -211,6 +216,8 @@
       $('.jp-play-release').addClass('jp-playing');
     }
 
+    syncPlaylist(playlist, currentTrackIndex);
+
     changePlayerTitle(playlist[currentTrack]);
   }
 
@@ -243,7 +250,6 @@
   }
 
   function playTrack(id) {
-    trackLoading(true);
 
     $('.jp-play-track').not(`[data-track=${id}]`).removeClass('jp-playing');
 
@@ -258,13 +264,11 @@
         $('.jp-audio .jp-play').addClass('jp-playing');
       }
     } else {
+      trackLoading(true);
       
       $.ajax( `/tracks/${id}` )
       .done(function(respond) {
         addToPlaylist([respond.track]);
-
-        changePlayerTitle(respond.track);
-
         $(`[data-track=${id}]`).addClass('jp-playing');
         $('.jp-audio .jp-play').addClass('jp-playing');
       });
@@ -273,28 +277,6 @@
 
   function playRelease(id) {
     $('.jp-play-release').not(`[data-release=${id}]`).removeClass('jp-playing');
-
-    // if(playlist[currentTrackIndex].id == id) {
-    //   if(cpAudio.isPlaying()) {
-    //     cpAudio.pause();
-    //     $(`[data-track=${id}]`).removeClass('jp-playing');
-    //     $('.jp-audio .jp-play').removeClass('jp-playing');
-    //   } else {
-    //     cpAudio.play();
-    //     $(`[data-track=${id}]`).addClass('jp-playing');
-    //     $('.jp-audio .jp-play').addClass('jp-playing');
-    //   }
-    // } else {
-    //   $.ajax( `/tracks/${id}` )
-    //   .done(function(respond) {
-    //     addToPlaylist([respond.track]);
-
-    //     $('.jp-title').text(respond.track['title']);
-    //     $('.jp-artists').text(respond.track['artists']);
-    //     $(`[data-track=${id}]`).addClass('jp-playing');
-    //     $('.jp-audio .jp-play').addClass('jp-playing');
-    //   });
-    // }
   }
 
   function addToPlaylist(tracks, play=true) {
@@ -333,6 +315,8 @@
               .text(secondsToHms(cpAudio.getDuration()));
           if(play) cpAudio.play();
         });
+
+        changePlayerTitle(track);
       }
     }
 
@@ -420,6 +404,7 @@
 
   function changePlayerTitle(t) {
     $('.jp-title').html('<a href="/releases/' + t.release_id + '">' + t.track_number + '. ' + t.title + ' - <b>' + t.artists + '</b></a>');
+    $.get('/fill_track_title', {track_id: t.id});
   }
 
   function trackLoading(state) {

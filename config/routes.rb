@@ -51,6 +51,7 @@ Rails.application.routes.draw do
   get '/tracks/:id/download', to: 'tracks#download', as: :track_download
   get "get_release_tracks/:id", to: "releases#get_tracks", as: "get_release_tracks"
   post "sync_playlist", to: "tracks#sync_playlist"
+  get "fill_track_title", to: "tracks#fill_track_title"
   get 'load_more_releases', to: 'releases#load_more'
 
   resources :tracks
