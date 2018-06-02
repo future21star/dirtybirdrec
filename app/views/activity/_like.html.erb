@@ -4,19 +4,37 @@
 </p>
 
 <%= link_to activity['actor'].name, activity['actor'] %>
-<em>likes <%= activity['object'].class.to_s.downcase %></em>
+<em>liked</em>
 
 <% if activity['object'].class == Release %>
+  <em>release</em>
   <%= link_to activity['object'].try(:title).try(:truncate, 25), activity['object'] %>
 <% end %>
 
 <% if activity['object'].class == Post %>
+  <em>post</em>
+  <%= activity['object'].text.truncate(20) %>
+  <em>on</em>
   <%= link_to activity['object'].topic.try(:title).try(:truncate, 25), activity['object'].topic %>
 <% end %>
 
 <% if activity['object'].class == Comment && activity['object'].commentable.class == User %>
-  <%= "on #{activity['object'].commentable.roles.first.name}" %>
-  <%= link_to activity['object'].commentable.try(:name), activity['object'] %>
+  <%= link_to activity['object'].user.name + '\'s', activity['object'].user %>
+  <em>comment</em>
+  <%= activity['object'].body.truncate(20) %>
+<% end %>
+
+<% if activity['object'].class == Comment && activity['object'].commentable.class != User %>
+  <% if activity['object'].user == activity['actor'] %>
+    <em>his</em>
+  <% else %>
+    <%= link_to activity['object'].user.name + '\'s', activity['object'].user %>
+  <% end %>
+
+  <em>comment</em>
+  <%= activity['object'].body.truncate(20) %>
+  <em>in</em>
+  <%= link_to activity['object'].commentable.try(:title), activity['object'].commentable %>
 <% end %>
 
 <hr class="feed-divider">

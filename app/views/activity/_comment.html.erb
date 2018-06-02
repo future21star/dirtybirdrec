@@ -2,15 +2,20 @@
   <%= time_ago_in_words(activity['time'].in_time_zone) %> ago.
 </p>
   
-<%= link_to activity['actor'].class, activity['actor'] %>
+<%= link_to activity['actor'].name, activity['actor'] %>
 <em>
-  commented
-  <%= activity['target'].class.to_s.downcase %>
+  has commented on
 </em>
-<% if activity['object'].class == Post %>
-  <%= link_to activity['target'].title, activity['target'] %>
+<% if activity['target'].class == User %>
+  <%= link_to activity['target'].name + '\'s', activity['target'] %>
+  <em>comment</em>
+  <%= activity['object'].parent.body.truncate(20) %>
 <% else %>
-  <%= link_to activity['target'].try(:title), activity['target'] %>
+  <% if activity['target'].try(:title) %>
+    <%= link_to activity['target'].title, activity['target'] %>
+  <% else %>
+    <%= link_to activity['target'].try(:body), activity['target'] %>
+  <% end %>
 <% end %>
 
 <hr class="feed-divider">

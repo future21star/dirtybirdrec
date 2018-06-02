@@ -95,7 +95,19 @@
             <div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
           </div>
 
-          <%= link_to image_tag('icons/icon-download.svg'), "#", class: "icon-download" %>
+
+          <% if release.download_uris.any? %>
+            <button class="release-icon" type="button" data-toggle="collapse" data-target="#release-download" aria-expanded="false" aria-controls="collapseExample">
+              <%= image_tag('icons/icon-download.svg', title: "Download full release", class: "icon-download") %>
+            </button>
+
+            <div id="release-download" class="collapse collapse-formats">
+              <% release.download_uris.each do |format, uri| %>
+                <a href="<%= uri %>" class="btn btn-danger"><%= format %></a>
+              <% end %>
+            </div>
+          <% end %>
+
           
           <a href="#" title="Share" tabindex="0" data-toggle="popover" data-placement="left" data-content="<%= (social_share_button_tag(release.title, desc: release.text)).gsub('\"','\'') %>" data-trigger="focus" data-html="true" onclick="return false;" class="icon-share">
             <%= image_tag('icons/icon-share.svg') %>

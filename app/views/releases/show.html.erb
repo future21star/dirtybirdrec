@@ -46,6 +46,10 @@
         </div>
       <% end %>
 
+      <%= link_to get_release_tracks_path(@release.id), 
+          class: "release-icon", remote: true do %>
+        <%= image_tag('icons/icon-play.svg', title: "Play release") %>
+      <% end %>
     </div>
   </div>
 </div>
@@ -148,13 +152,13 @@
                   <%= render 'likes/like_button', object: track %>
                 </h3>
 
-                <% if track.users.any?
+                <%# if track.users.any?
                      artists = track.users.map(&:name).join(' feat. ')
                    else
                      artists = track.artist
                    end %>
 
-                By <%= artists %>
+                By <%= track.artist %>
 
                 <div class="jp-controls">
                   <div class="jp-current-time-track" role="timer" aria-label="time">0:00</div>

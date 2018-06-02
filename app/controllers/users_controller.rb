@@ -219,7 +219,7 @@ class UsersController < ApplicationController
 
   def artist_vars
     @followers = @user.followers
-    @releases = @user.releases.released.limit(30)
+    @releases = ReleasePresenter.new(@user.releases.released.limit(30), current_user)
     @artist_video = @user.videos.last
     @followed_users = @user.followed_users.with_role(:fan).limit(4)
     @followed_artists = @user.followed_users.with_role(:artist).limit(4)

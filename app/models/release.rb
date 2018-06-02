@@ -129,12 +129,9 @@ class Release < ApplicationRecord
       path: "releases/${unique_prefix}/#{file_name}.${file.ext}"
     )
 
-    logger.warn "ZIP EXPORT #{zip_export_step}"
-
     zip_export_step.use(steps)
     steps.push(zip_export_step)
 
-    logger.warn "STEPS #{steps}"
     steps
   end
 

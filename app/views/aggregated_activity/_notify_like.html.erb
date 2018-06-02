@@ -5,7 +5,6 @@
 <% elsif activity['actor_count'] == 2 %>
   <%= activity['activities'][0]['actor'].name %>
   and
-  <% logger.warn activity['activities'].inspect %>
   <%= activity['activities'][1]['actor'].name %>
   liked
   <%= activity['activity_count'] %>

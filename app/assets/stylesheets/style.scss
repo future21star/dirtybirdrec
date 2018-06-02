@@ -74,7 +74,7 @@ main > div.container {
   flex: 1;
 }
 
-button {
+button, input[type=submit] {
   outline: none;
 
   &:active, &:hover, &:focus {

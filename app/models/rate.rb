@@ -7,6 +7,17 @@ class Rate < ActiveRecord::Base
   after_create :add_points
   after_destroy :remove_points
 
+  include StreamRails::Activity
+  as_activity
+
+  def activity_object
+    self.rateable
+  end
+
+  def activity_actor
+    rater
+  end
+
   private 
 
     def add_points

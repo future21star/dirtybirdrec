@@ -38,6 +38,7 @@ class User < ApplicationRecord
   has_many :tracks_users
   has_many :tracks, through: :tracks_users
   has_one :playlist
+  has_many :downloads
 
   include AlgoliaSearch
   include BadgeSystem
@@ -107,6 +108,9 @@ class User < ApplicationRecord
 
     #points #TODO BadgePoint(badge_id) not needed
     kind_name = case action_model
+    when "Comment"
+      types = ["Release", "Track"]
+      "music"
     when "Announcement"
       types = ["Release", "Track"]
       "music"

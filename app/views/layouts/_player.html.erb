@@ -266,7 +266,7 @@
     } else {
       trackLoading(true);
       
-      $.ajax( `/tracks/${id}` )
+      $.ajax({ url: `/tracks/${id}`, dataType: 'JSON' })
       .done(function(respond) {
         addToPlaylist([respond.track]);
         $(`[data-track=${id}]`).addClass('jp-playing');

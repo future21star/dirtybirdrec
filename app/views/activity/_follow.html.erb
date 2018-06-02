@@ -4,20 +4,15 @@
 </p>
 
 <%= link_to activity['actor'].name, activity['actor'] %> 
-<small><em>is watching</em></small>
-<% if activity['object'].class.to_s == "User" %>
-  <% if activity['object'].has_role?(:artist) %>
-    artist
-  <% elsif activity['object'].has_role?(:admin) %>
-    admin
-  <% else %>
-    user
-  <% end %>
+<em>
+  is now following
+</em>
+
+<% if activity['object'].try(:title) %>
+  <%= link_to activity['object'].title + '\'s', activity['object'] %>
+  feed
+<% elsif activity['object'].try(:name) %>
   <%= link_to activity['object'].name, activity['object'] %>
-<% elsif activity['object'].class.to_s == "Release" %>
-  release <%= link_to activity['object'].title, activity['object'] %>
-<% elsif activity['object'].class.to_s == "Announcement" %>
-  announcement <%= link_to activity['object'].title, activity['object'] %>
 <% end %>
 
 <hr class="feed-divider">

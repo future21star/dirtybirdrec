@@ -1,6 +1,5 @@
  <% for activity in @activities %>
    <div class="feed-item">
-    <% logger.warn activity %>
      <%= render_activity(activity, prefix: 'commentable') %>
    </div>
  <% end %>

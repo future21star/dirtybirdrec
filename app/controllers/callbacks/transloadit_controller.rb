@@ -3,7 +3,6 @@ class Callbacks::TransloaditController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def create
-    logger.warn "TRANSLOADITCONTROLLER"
     obj = JSON.parse(params['transloadit'])
 
     if obj['ok']
