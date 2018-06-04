@@ -4,8 +4,8 @@
 </p>
 
 <%= link_to activity['actor'] do %>
-  <%= activity['actor'].name %>
   <%= image_tag activity['actor'].avatar.url, class: "feed-avatar" %>
+  <%= activity['actor'].name %>
 <% end %>
 <em>
   is now following
@@ -17,7 +17,6 @@
 <% elsif activity['object'].try(:name) %>
   <%= link_to activity['object'] do %>
     <%= activity['object'].name %>
-    <%= image_tag activity['object'].avatar.url, class: "feed-avatar" %>
   <% end %>
 <% end %>
 

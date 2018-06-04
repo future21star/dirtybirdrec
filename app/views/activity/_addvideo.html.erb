@@ -2,7 +2,10 @@
   <%= time_ago_in_words(activity['time'].in_time_zone) %> ago.
 </p>
 
-<%= link_to activity['actor'].name, activity['actor'] %>
+<%= link_to activity['actor'] do %>
+  <%= image_tag activity['actor'].avatar.url, class: "feed-avatar" %>
+  <%= activity['actor'].name %>
+<% end %>
 <em>added video</em>
 
 <hr class="feed-divider">
