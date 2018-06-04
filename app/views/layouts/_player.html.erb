@@ -44,8 +44,8 @@
       </div>
     </div>
 
-    <div class="jp-playlist">
-      <ul style="display: none;">
+    <div class="jp-playlist" style="display: none;">
+      <ul >
       </ul>
     </div>
   </div>
@@ -489,7 +489,7 @@
   }
 
   $('#jp-playlist-btn').click(function() {
-    $('.jp-playlist ul').slideToggle(300, function() {
+    $('.jp-playlist').slideToggle(300, function() {
       if ($(this).is(':visible'))
           $(this).css('display','inline-block');
     });
@@ -503,7 +503,7 @@
     if (!document.getElementsByClassName('jp-playlist')[0].contains(e.target) &&
           !document.getElementById('jp-playlist-btn').contains(e.target) &&
           e.target.className != 'jp-playlist-item-remove' ){
-      $('.jp-playlist ul').slideUp(300);
+      $('.jp-playlist').slideUp(300);
     }
   });
 

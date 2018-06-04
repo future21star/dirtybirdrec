@@ -3,7 +3,11 @@
   <%= time_ago_in_words(activity['time'].in_time_zone) %> ago.
 </p>
 
-<%= link_to activity['actor'].name, activity['actor'] %>
+<%= link_to activity['actor'] do %>
+  <%= activity['actor'].name %>
+  <%= image_tag activity['actor'].avatar.url, class: "feed-avatar" %>
+<% end %>
+
 <em>liked</em>
 
 <% if activity['object'].class == Release %>
@@ -19,7 +23,10 @@
 <% end %>
 
 <% if activity['object'].class == Comment && activity['object'].commentable.class == User %>
-  <%= link_to activity['object'].user.name + '\'s', activity['object'].user %>
+  <%= link_to activity['object'].user do %>
+    <%= activity['object'].user.name + '\'s' %>
+    <%= image_tag activity['object'].user.avatar.url, class: "feed-avatar" %>
+  <% end %>
   <em>comment</em>
   <%= activity['object'].body.truncate(20) %>
 <% end %>
@@ -28,7 +35,11 @@
   <% if activity['object'].user == activity['actor'] %>
     <em>his</em>
   <% else %>
-    <%= link_to activity['object'].user.name + '\'s', activity['object'].user %>
+    <%= link_to activity['object'].user do %>
+      <%= activity['object'].user.name + '\'s' %>
+      <%= image_tag activity['object'].user.avatar.url, class: "feed-avatar" %>
+    <% end %>
+    <%#= link_to activity['object'].user.name + '\'s', activity['object'].user %>
   <% end %>
 
   <em>comment</em>

@@ -2,7 +2,10 @@
   <%= time_ago_in_words(activity['time'].in_time_zone) %> ago.
 </p>
 
-<%= link_to activity['actor'].name, activity['actor'] %>
+<%= link_to activity['actor'] do %>
+  <%= activity['actor'].name %>
+  <%= image_tag activity['actor'].avatar.url, class: "feed-avatar" %>
+<% end %>
 <em>has shared</em>
   
 <% if activity['target'].present? %>
