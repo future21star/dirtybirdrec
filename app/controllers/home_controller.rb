@@ -1,8 +1,9 @@
 class HomeController < ApplicationController
   include UsersHelper
+  include StreamRails::Activity
 
   before_action :authenticate_user!, 
-      except: [:index, :demo_index, :demo_login, :about, :birdfeed]
+      except: [:index, :demo_index, :demo_login, :about, :birdfeed, :share]
   before_action :set_notifications, only: [:about, :birdfeed]
 
   def index
@@ -49,6 +50,31 @@ class HomeController < ApplicationController
     
     @enricher = StreamRails::Enrich.new
     @activities = @enricher.enrich_activities(results)
+  end
+
+  def share
+    if current_user
+      feed = StreamRails.feed_manager.get_user_feed( current_user.id )
+
+      if params[:subtype] && params[:subtype_id]
+        target = "#{params[:subtype].capitalize}:#{params[:subtype_id]}"
+      else
+        target = ''
+      end
+
+      activity = {
+        actor: "User:#{current_user.id}",
+        verb: "Share",
+        object: "#{params[:type].capitalize}:#{params[:type_id]}",
+        foreign_id: "#{params[:type].capitalize}:#{params[:type_id]}",
+        target: target,
+        social: params[:social],
+        time: DateTime.now.iso8601
+      }
+      feed.add_activity(activity)
+    end
+
+    render json: {}
   end
 
 

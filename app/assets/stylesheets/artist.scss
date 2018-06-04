@@ -211,12 +211,27 @@
     left: 45%;
   }
 
-  .icon-share {
-    position: absolute;
-    bottom: 15px;
-    right: 15px;
-    z-index: 2;
-  }
+}
+
+.icon-share {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  z-index: 2;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+}
+
+.share-panel {
+  position: absolute; 
+  right: 10px; 
+  background-color: white; 
+  z-index: 1025; 
+  border-radius: 5px;
+  color: #222;
 }
 
 .icon-download {

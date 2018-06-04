@@ -6,7 +6,9 @@ class UsersController < ApplicationController
         :interviews_feed, :videos_feed, :others_feed, :artists, :leaderboard,
         :load_more]
   before_action :set_notifications, only: [:leaderboard, :index, :show, :home, 
-        :artist, :artists, :friends, :idols, :choose_profile]
+        :artist, :artists, :friends, :idols, :choose_profile, 
+        :announcement_feed, :release_feed, :chirp_feed, :artists_feed, 
+        :friends_feed, :others_feed]
 
   def leaderboard
     @leader_users = leaderboard_query(1, 5, true)

@@ -3,7 +3,7 @@ var tracks = [];
   <%# if track.users.any? %>
     <%# artists = track.users.map(&:name).join(' feat. ') %>
   <%# else %>
-    <% artists = track.artist %>
+    <%# artists = track.artist %>
   <%# end %>
 
   tracks.push({ 
@@ -11,7 +11,7 @@ var tracks = [];
     'track_number': '<%= track.track_number %>',
     'id': '<%= track.id %>',
     'title': '<%= track.title %>', 
-    'artists': '<%= artists %>', 
+    'artists': '<%= track.artist %>', 
     'mp3': '<%= track.stream_uri %>'
   });
 <% end %>

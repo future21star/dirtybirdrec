@@ -11,6 +11,14 @@
 
 <div class="h-carousel mb-4">
   <% @releases.each do |release| %>
+    <% if release.avatar.present?
+         image = release.avatar.url
+       elsif release.image_uri.present?
+         image = release.image_uri
+       else
+         image = nil
+       end %>
+     
     <div class="item-with-tongue">
       <div>
         <div class="item-body">
@@ -34,18 +42,19 @@
               <button class="jp-next" role="button" tabindex="2"></button>
             </div>
 
-            <a href="#" title="Share" tabindex="0" data-toggle="popover" data-placement="left" data-content="<%= (social_share_button_tag(release.title, desc: release.text)).gsub('\"','\'') %>" data-trigger="focus" data-html="true" onclick="return false;" class="c-link">
+            <a href="#" class="c-link share-link" data-toggle="collapse" data-target="#release<%= release.id %>-share" aria-expanded="false" aria-controls="collapseExample">
               Share
             </a>
+
+            <div id="release<%= release.id %>-share" class="collapse share-panel" style="bottom: 36px;">
+              <h5 class="mx-3 my-2">Share</h5>
+              <div class="mx-3 mb-3" data-object-type="release" data-object-id="<%= release.id %>">
+                <%= social_share_button_tag(strip_tags(release.title).gsub("\'",''), desc: strip_tags(release.text).gsub("\'",''), image: image) %>
+              </div>
+            </div>
+
           </div>
         </div>
-        <% if release.avatar.present?
-             image = release.avatar.url
-           elsif release.image_uri.present?
-             image = release.image_uri
-           else
-             image = nil
-           end %>
         <%= image_tag image if image %>
         <%= image_tag image, class: "item-blured-img" if image %>
       </div>

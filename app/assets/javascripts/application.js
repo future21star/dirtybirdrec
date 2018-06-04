@@ -17,6 +17,5 @@
 //= require popper
 //= require bootstrap-sprockets
 //= require algolia/v3/algoliasearch.min
-//= require social-share-button
 //= require jquery.Jcrop.min
 //= require_tree .

@@ -7,15 +7,30 @@
   has commented on
 </em>
 <% if activity['target'].class == User %>
-  <%= link_to activity['target'].name + '\'s', activity['target'] %>
-  <em>comment</em>
-  <%= activity['object'].parent.body.truncate(20) %>
+
+  <% if activity['object'].parent.present? %>
+    <%= link_to activity['target'].name + '\'s', activity['target'] %>
+    <em>comment</em>
+
+    <% if activity['object'].parent.try(:body).present? %>
+      <%= activity['object'].parent.body.truncate(20) %>
+    <% else %>
+      <%= activity['object'].parent.text.truncate(20) %>
+    <% end %>
+    
+  <% else %>
+    <em>his page</em>
+    <%= activity['object'].body.truncate(20) %>
+  <% end %>
+
 <% else %>
-  <% if activity['target'].try(:title) %>
+
+  <% if activity['target'].try(:title).present? %>
     <%= link_to activity['target'].title, activity['target'] %>
   <% else %>
     <%= link_to activity['target'].try(:body), activity['target'] %>
   <% end %>
+
 <% end %>
 
 <hr class="feed-divider">

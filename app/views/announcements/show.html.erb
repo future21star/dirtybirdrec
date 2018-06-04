@@ -21,6 +21,17 @@
       <div class="release-likes">
         <%= render partial: 'likes/like_button', locals: { object: @announcement,  style: 'release' } %>
       </div>
+
+      <button class="release-icon" type="button" data-toggle="collapse" data-target="#release-share" aria-expanded="false" aria-controls="collapseExample">
+        <%= image_tag('icons/icon-share.svg', title: "Share") %>
+      </button>
+
+      <div id="release-share" class="collapse share-panel">
+        <h5 class="mx-3 my-2">Share</h5>
+        <div class="mx-3 mb-3" data-object-type="announcement" data-object-id="<%= @announcement.id %>">
+          <%= social_share_button_tag(strip_tags(@announcement.title).gsub("\'",''), desc: strip_tags(@announcement.text).gsub("\'",''), img: image) %>
+        </div>
+      </div>
     </div>
   </div>
 </div>

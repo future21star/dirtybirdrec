@@ -78,10 +78,10 @@
   trackLoading(true);
   
   $.ajax( "/get_tracks" )
-  .done(function(respond) {
-    currentTrackIndex = respond.current_track.index;
-    var time = respond.current_track.time;
-    setPlaylist(respond.tracks, false, currentTrackIndex, time);
+    .done(function(respond) {
+      currentTrackIndex = respond.current_track.index;
+      var time = respond.current_track.time;
+      setPlaylist(respond.tracks, false, currentTrackIndex, time);
   });
 
   function timerAndLoadingForAudio(audio) {
@@ -210,6 +210,7 @@
     if(play) {
       cpAudio.on('ready', function(){
         cpAudio.play();
+        $(`[data-track=${playlist[currentTrack].id}]`).addClass('jp-playing');
       });
 
       $('.jp-audio .jp-play').addClass('jp-playing');
@@ -250,6 +251,7 @@
   }
 
   function playTrack(id) {
+    console.log(id);
 
     $('.jp-play-track').not(`[data-track=${id}]`).removeClass('jp-playing');
 

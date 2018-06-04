@@ -57,9 +57,6 @@ class ReleasesController < ApplicationController
     @releases = releases_query( @releases, params[:page], 16, false )
   end
 
-  # def download
-
-
   def download
     #TODO send to registration if no rights
     # redirect_to choose_profile_path and return if current_user.subscription_type.blank?

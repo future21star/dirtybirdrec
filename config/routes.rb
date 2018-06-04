@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   
   get 'about', to: 'home#about'
   get 'birdfeed', to: 'home#birdfeed'
+  post 'share', to: 'home#share'
 
   resources :contacts, only: [:index, :create]
   resources :slider_images

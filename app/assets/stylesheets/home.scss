@@ -190,12 +190,12 @@
     width: 100%;
     background-color: #3ed4e0;
 
-    & a:first-child {
+    & > a:first-child {
       float: left;
       margin-top: 5px;
     }
 
-    & a:last-child {
+    & > a.share-link {
       margin-top: 5px;
       float: right;
     }

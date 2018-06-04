@@ -49,7 +49,7 @@
     <% if @user.artist_info.present? && @user.artist_info.bio_short? %>
       <article><%= @user.artist_info.bio_short %></article>
       <a href="#" class="truncated-long">Read more</a>
-      <article><%= @user.artist_info.bio_long %></article>
+      <article><%= @user.artist_info.bio_long.html_safe %></article>
       <a href="#" class="truncated-short"><br><br>Read less</a>
     <% end %>
   </div>
@@ -95,23 +95,29 @@
             <div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
           </div>
 
-
           <% if release.download_uris.any? %>
-            <button class="release-icon" type="button" data-toggle="collapse" data-target="#release-download" aria-expanded="false" aria-controls="collapseExample">
+            <a class="" type="button" data-toggle="collapse" data-target="#release-download<%= release.id %>" aria-expanded="false" aria-controls="collapseExample">
               <%= image_tag('icons/icon-download.svg', title: "Download full release", class: "icon-download") %>
-            </button>
+            </a>
 
-            <div id="release-download" class="collapse collapse-formats">
+            <div id="release-download<%= release.id %>" class="collapse collapse-formats text-left" style="width: 241px; top: -20px;">
               <% release.download_uris.each do |format, uri| %>
                 <a href="<%= uri %>" class="btn btn-danger"><%= format %></a>
               <% end %>
             </div>
           <% end %>
 
-          
-          <a href="#" title="Share" tabindex="0" data-toggle="popover" data-placement="left" data-content="<%= (social_share_button_tag(release.title, desc: release.text)).gsub('\"','\'') %>" data-trigger="focus" data-html="true" onclick="return false;" class="icon-share">
-            <%= image_tag('icons/icon-share.svg') %>
-          </a>
+          <button class="icon-share" type="button" data-toggle="collapse" data-target="#release<%= release.id %>-share" aria-expanded="false" aria-controls="collapseExample">
+            <%= image_tag('icons/icon-share.svg', title: "Share") %>
+          </button>
+
+          <div id="release<%= release.id %>-share" class="collapse share-panel" style="bottom: 36px;">
+            <h5 class="mx-3 my-2">Share</h5>
+            <div class="mx-3 mb-3" data-object-type="release" data-object-id="<%= release.id %>">
+              <%= social_share_button_tag(strip_tags(release.title).gsub("\'",''), desc: strip_tags(release.text).gsub("\'",''), image: image) %>
+            </div>
+          </div>
+
         </div>
       </div>
     <% end %>
