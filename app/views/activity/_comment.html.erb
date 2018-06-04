@@ -32,9 +32,9 @@
 <% else %>
 
   <% if activity['target'].try(:title).present? %>
-    <%= link_to activity['target'].title, activity['target'] %>
+    <%= link_to activity['target'].title.truncate(20), activity['target'] %>
   <% else %>
-    <%= link_to activity['target'].try(:body), activity['target'] %>
+    <%= link_to activity['target'].try(:body).try(:truncate, 20), activity['target'] %>
   <% end %>
 
 <% end %>
