@@ -31,7 +31,7 @@ ActiveAdmin.register Release do
       div do
         img release.avatar
       end
-      div 'Release date: ' + release.release_date.strftime('%D')
+      div 'Release date: ' + release.release_date.strftime('%D') if release.release_date
       div 'Catalog: ' + release.catalog
       div 'UPC code: ' + release.upc_code
       div ('Text: ' + release.text).html_safe
@@ -40,6 +40,9 @@ ActiveAdmin.register Release do
         column :track_number
         column :title
         column :artist
+        column :uri
+        column :sample_uri
+        column (:downloads) { |obj| obj.downloads.count }
       end
     end
   end

@@ -15,6 +15,8 @@ class Release < ApplicationRecord
 
   accepts_nested_attributes_for :tracks
 
+  validates :title, :release_date, presence: true
+
   mount_uploader :avatar, ReleaseUploader
 
   ratyrate_rateable "main"
@@ -143,8 +145,12 @@ class Release < ApplicationRecord
     User.with_role(:admin).first
   end
 
-  def verb
+  def activity_verb
     "Announcement"
+  end
+
+  def activity_time
+    release_date.iso8601
   end
 
   private

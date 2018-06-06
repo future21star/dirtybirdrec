@@ -26,7 +26,7 @@
           <% end %>
 
           <% if current_user %>
-            <li class="nav-item">
+            <li class="nav-item <%= 'active' if current_page?(user_path(current_user)) %>">
               <a class="nav-link" href="/">
                 Home
               </a>
