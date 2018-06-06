@@ -31,7 +31,7 @@ class Release < ApplicationRecord
     # tags [self.published? ? 'published' : 'unpublished']
   end
 
-  scope :released, -> { where("release_date < ?", DateTime.now).order(release_date: :desc) }
+  scope :published, -> { where("published_at < ?", DateTime.now).order(release_date: :desc) }
 
   def user_allowed?(user)
     return false unless user

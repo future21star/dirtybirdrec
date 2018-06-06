@@ -41,7 +41,6 @@ class User < ApplicationRecord
   has_many :downloads
 
   include AlgoliaSearch
-  include BadgeSystem
 
   algoliasearch do
     attribute :first_name, :last_name

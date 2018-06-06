@@ -16,7 +16,7 @@ class HomeController < ApplicationController
                    .includes(:artist_info)
                    .limit(20)
 
-    @releases = Release.where(
+    @releases = Release.published.where(
       'published_at <= :now AND (published_at >= :user_max OR available_to_all = true)',
       now: DateTime.now,
       user_max: DateTime.now - 1.month

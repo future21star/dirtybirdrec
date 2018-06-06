@@ -21,7 +21,7 @@ class ReleasesController < ApplicationController
     filters = params[:filters]
     page = params[:page] || 1
 
-    @releases = Release.released
+    @releases = Release.published
 
     @releases = set_filters filters
 
@@ -52,7 +52,7 @@ class ReleasesController < ApplicationController
   end
 
   def load_more
-    @releases = Release.released
+    @releases = Release.published
     @releases = set_filters params[:filters]
     @releases = releases_query( @releases, params[:page], 16, false )
   end
