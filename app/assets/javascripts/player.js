@@ -1,5 +1,5 @@
 $(document).on('turbolinks:load', () => {
-  $('.navbar').css('top', '40px');
+  // $('.navbar').css('top', '40px');
   $('.main-container main').css('padding-top', '100px');
 
   $('.main-container main').on('click', '.jp-play-release', function(){

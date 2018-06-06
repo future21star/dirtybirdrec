@@ -3,7 +3,7 @@ ActiveAdmin.register Release do
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
-  permit_params :title, :catalog, :text, :avatar, :facebook_img,
+  permit_params :title, :artist, :catalog, :text, :avatar, :facebook_img,
     :published_at, :upc_code, :compilation, :release_date, 
     user_ids: [], tracks_attributes: [:id, :title, :release, :track_number,
     :genre, :isrc_code, :uri, :sample_uri, :artist, :_destroy, user_ids: []]
@@ -26,7 +26,7 @@ ActiveAdmin.register Release do
 
   show do
     panel "Release" do
-      h3 release.title + ' - ' + release.artist
+      h3 "#{release.title} - #{release.artist}"
 
       div do
         img release.avatar
@@ -69,7 +69,8 @@ ActiveAdmin.register Release do
         t.input :genre
         t.input :isrc_code
         t.input :uri, as: :file, label: "Track file (WAV Format)"
-        t.input :users, :as => :select, :input_html => {:multiple => true}
+        f.input :users, as: :select, label: "Artists",
+        collection: User.with_role(:artist).map {|a| [a.name, a.id] }
       end
     end
     f.actions
