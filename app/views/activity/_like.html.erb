@@ -10,7 +10,7 @@
 
 <em>liked</em>
 
-<% if activity['object'].class == Release %>
+<% if activity['object'].class == Release || activity['object'].class == Track %>
   <em>release</em>
   <%= link_to activity['object'].try(:title).try(:truncate, 25), activity['object'] %>
 <% end %>
