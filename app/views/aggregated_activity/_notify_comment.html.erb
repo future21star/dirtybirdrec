@@ -1,17 +1,41 @@
 <% if activity['actor_count'] == 1 %>
-  <%= activity['activities'][0]['actor'].name %>
+  <%= link_to activity['activities'][0]['actor'] do %>
+    <%= image_tag activity['activities'][0]['actor'].avatar.url, class: "feed-avatar" %>
+    <%= activity['activities'][0]['actor'].name %>
+  <% end %>
+
   added
   <%= pluralize(activity['activity_count'], 'comment') %>
 <% elsif activity['actor_count'] == 2 %>
-  <%= activity['activities'][0]['actor'].name %>
+
+  <%= link_to activity['activities'][0]['actor'] do %>
+    <%= image_tag activity['activities'][0]['actor'].avatar.url, class: "feed-avatar" %>
+    <%= activity['activities'][0]['actor'].name %>
+  <% end %>
+
   and
-  <%= activity['activities'][1]['actor'].name %>
+
+  <%= link_to activity['activities'][1]['actor'] do %>
+    <%= image_tag activity['activities'][1]['actor'].avatar.url, class: "feed-avatar" %>
+    <%= activity['activities'][1]['actor'].name %>
+  <% end %>
+
   added
   <%= activity['activity_count'] %>
   comments
 <% else %>
-  <%= activity['activities'][0]['actor'].name %>, 
-  <%= activity['activities'][1]['actor'].name %> 
+  <%= link_to activity['activities'][0]['actor'] do %>
+    <%= image_tag activity['activities'][0]['actor'].avatar.url, class: "feed-avatar" %>
+    <%= activity['activities'][0]['actor'].name %>
+  <% end %>
+
+  ,
+
+  <%= link_to activity['activities'][1]['actor'] do %>
+    <%= image_tag activity['activities'][1]['actor'].avatar.url, class: "feed-avatar" %>
+    <%= activity['activities'][1]['actor'].name %>
+  <% end %>
+
   and 
   <%= activity['actor_count'] - 2 %> 
   more added 

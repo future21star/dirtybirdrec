@@ -58,6 +58,7 @@ ActiveAdmin.register Release do
       f.input :text, as: :froala_editor
       f.input :upc_code
       f.input :compilation
+      f.input :published_at, as: :date_time_picker
       f.input :release_date, as: :date_time_picker
       f.input :artist
       f.input :users, as: :select, label: "Artists",

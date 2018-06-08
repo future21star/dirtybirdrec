@@ -1,17 +1,19 @@
 <% activity['activities'].each do |announcement| %>
-  <p class="feed-posted"> 
-    <%= time_ago_in_words(announcement['object'].created_at) %> ago.
-  </p>
+  <% if DateTime.parse( announcement['time'] ).in_time_zone < DateTime.now %>
+    <p class="feed-posted"> 
+      <%= time_ago_in_words(announcement['object'].created_at) %> ago.
+    </p>
 
-  <div>
-    <%= link_to announcement['object'] do %>
-      <% if announcement['object'].avatar.present? %>
-        <%= image_tag( announcement['object'].avatar.url, class: "announcement-feed-avatar" ) %>
-      <%end%>
+    <div>
+      <%= link_to announcement['object'] do %>
+        <% if announcement['object'].avatar.present? %>
+          <%= image_tag( announcement['object'].avatar.url, class: "announcement-feed-avatar" ) %>
+        <%end%>
 
-      <b><%= announcement['object'].title %></b>
-    <% end %>
-  </div>
+        <b><%= announcement['object'].title %></b>
+      <% end %>
+    </div>
 
-  <hr class="feed-divider">
+    <hr class="feed-divider">
+  <% end %>
 <% end %>

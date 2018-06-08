@@ -96,8 +96,7 @@
     color: #e75e35;
     box-shadow: 1px 1px #80808052;
     white-space: nowrap;
-
-
+    font-weight: bold;
   }
 
   & > div {
@@ -198,6 +197,10 @@
     & > a.share-link {
       margin-top: 5px;
       float: right;
+    }
+
+    .c-btn-white {
+      font-size: 12px;
     }
   }
 }

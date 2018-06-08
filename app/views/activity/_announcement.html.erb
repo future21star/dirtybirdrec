@@ -1,16 +1,17 @@
-<% unless activity['object'].try(:release_date) && activity['object'].published? %>
-<p class="feed-posted"> 
-  <%= time_ago_in_words(activity['time'].in_time_zone) %> ago.
-</p>
+<% if DateTime.parse( activity['time'] ).in_time_zone < DateTime.now %>
+  <p class="feed-posted"> 
+    <%= time_ago_in_words(activity['time'].in_time_zone) %> ago.
+  </p>
 
-<div>
-  <%= link_to activity['object'] do %>
-    <% if activity['object'].avatar.present? %>
-      <%= image_tag( activity['object'].avatar.url, class: "announcement-feed-avatar" ) %>
-    <%end%>
+  <div>
+    <%= link_to activity['object'] do %>
+      <% if activity['object'].avatar.present? %>
+        <%= image_tag( activity['object'].avatar.url, class: "announcement-feed-avatar" ) %>
+      <%end%>
 
-    <b><%= activity['object'].title %></b>
-  <% end %>
-</div>
+      <b><%= activity['object'].title %></b>
+    <% end %>
+  </div>
 
-<hr class="feed-divider">
+  <hr class="feed-divider">
+<% end %>

@@ -12,10 +12,11 @@ class Release < ApplicationRecord
   has_and_belongs_to_many :users
 
   after_create :feed_masterfeed
+  after_save :change_published_date, only: :update
 
   accepts_nested_attributes_for :tracks
 
-  validates :title, :release_date, presence: true
+  validates :title, :release_date, :published_at, presence: true
 
   mount_uploader :avatar, ReleaseUploader
 
@@ -137,10 +138,15 @@ class Release < ApplicationRecord
     steps
   end
 
+  def activity_notify
+    [StreamRails.feed_manager.get_feed( 'general_actions', 1 )]
+  end
+
   def activity_object
     self
   end
 
+  #because announcements shouldn't have a user
   def activity_actor
     User.with_role(:admin).first
   end
@@ -150,7 +156,7 @@ class Release < ApplicationRecord
   end
 
   def activity_time
-    release_date.iso8601
+    published_at.iso8601
   end
 
   private
@@ -159,5 +165,16 @@ class Release < ApplicationRecord
       feed = StreamRails.feed_manager.get_feed( 'masterfeed', 1 )
       activity = create_activity
       feed.add_activity(activity)
+    end
+
+    def change_published_date
+      if published_at_changed?
+        feed = StreamRails.feed_manager.get_feed( 'general_actions', 1 )
+        feed.remove_activity("Release:#{self.id}", foreign_id=true)
+
+        activity = create_activity
+
+        feed.add_activity(activity)
+      end
     end
 end

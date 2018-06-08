@@ -1,5 +1,5 @@
 <% for activity in @notify_activities %>
   <div class="nav-notify <%= 'notify-seen' if activity['is_seen'] == false %>">
-    <%= link_to render_activity(activity, prefix: 'notify'), others_feed_path(current_user, anchor: "user-feed") %>
+    <%= render_activity(activity, prefix: 'notify') %>
   </div>
 <% end %>

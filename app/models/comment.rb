@@ -22,8 +22,8 @@ class Comment < ApplicationRecord
       end
     elsif self.commentable.try(:user)
       [StreamRails.feed_manager.get_notification_feed(self.commentable.user.id)]
-    else
-      
+    elsif self.commentable_type == "User"
+      [StreamRails.feed_manager.get_notification_feed(self.commentable_id)]
     end
   end
 

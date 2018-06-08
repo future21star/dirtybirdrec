@@ -4,31 +4,60 @@ class Announcement < ApplicationRecord
   has_many :likes, as: :likeable
   has_many :comments, as: :commentable
 
-  # after_create :feed_masterfeed
+  after_create :feed_masterfeed
+  # after_save :change_published_date, only: :update
+
 
   mount_uploader :avatar, ReleaseUploader
 
   include StreamRails::Activity
+  as_activity
 
   def followers
     User.joins(:follows).where("follows.followable_id = ? AND follows.followable_type = 'Announcement'", self.id)
   end
 
-  # private
+  def activity_notify
+    [StreamRails.feed_manager.get_feed( 'general_actions', 1 )]
+  end
 
   def activity_object
     self
   end
 
+  def activity_notify
+    [StreamRails.feed_manager.get_feed( 'general_actions', 1 )]
+  end
+
+  def activity_object
+    self
+  end
+
+  #because announcements shouldn't have a user
+  def activity_actor
+    User.with_role(:admin).first
+  end
+
+  def activity_time
+    published_at.iso8601
+  end
+
+  private
+
     def feed_masterfeed
       feed = StreamRails.feed_manager.get_feed( 'masterfeed', 1 )
-      activity_actor_id = "User:#{self.user_id}"
-      activity_verb = "Announcement"
-      activity_object_id = "Announcement:#{self.id}"
-      activity_foreign_id = "Announcement:#{self.id}"
-      activity_target_id = nil
-      activity_time = created_at.iso8601
       activity = create_activity
       feed.add_activity(activity)
     end
+
+    # def change_published_date
+    #   if published_at_changed?
+    #     feed = StreamRails.feed_manager.get_feed( 'general_actions', 1 )
+    #     feed.remove_activity("Announcement:#{self.id}", foreign_id=true)
+
+    #     activity = create_activity
+        
+    #     feed.add_activity(activity)
+    #   end
+    # end
 end

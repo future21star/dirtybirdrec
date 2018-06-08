@@ -10,6 +10,7 @@ class User < ApplicationRecord
   ratyrate_rater
 
   before_create :set_default_avatar, only: :create
+  after_create :follow_general_actions, only: :create
 
   attr_accessor :subscription
   enum gender: [:female, :male]
@@ -330,9 +331,25 @@ class User < ApplicationRecord
     end
   end
 
+  def self.batch_follow_to_general_actions offset=0
+    users = all.offset(offset).limit(2500)
+    users = users.map do |user|
+      { source: "notification:#{user.id}", target: 'general_actions:1' }
+    end
+
+    StreamRails.feed_manager.client.follow_many(users)
+  end
+
   private
 
     def set_default_avatar
       self.avatar = primary_avatar(self.name)
+    end
+
+    def follow_general_actions
+      notification_feed = StreamRails.feed_manager.get_notification_feed(self.id)
+      news_feed = StreamRails.feed_manager.get_news_feeds(self.id)[:flat]
+      notification_feed.follow('general_actions', 1)
+      news_feed.follow('general_actions', 1)
     end
 end

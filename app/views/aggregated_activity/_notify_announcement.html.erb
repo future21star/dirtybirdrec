@@ -1,0 +1,17 @@
+<% activity['activities'].each do |announcement| %>
+  <% if DateTime.parse( announcement['time'] ).in_time_zone < DateTime.now %>
+
+    <b class="notify-caption"><%= announcement['object'].class.to_s %></b>
+
+    <%= link_to announcement['object'] do %>
+      <% if announcement['object'].avatar.present? %>
+        <%= image_tag( announcement['object'].avatar.url, class: "announcement-feed-avatar" ) %>
+      <%end%>
+
+      <b><%= announcement['object'].title %></b>
+    <% end %>
+
+    <%= time_ago_in_words(activity['updated_at'].in_time_zone) %> ago
+
+  <% end %>
+<% end %>
