@@ -237,6 +237,8 @@ button, input[type=submit], a {
 
   & + a, & + button {
     float: right;
+    position: relative;
+    z-index: 2;
   }
 }
 
