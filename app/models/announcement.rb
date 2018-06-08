@@ -38,9 +38,9 @@ class Announcement < ApplicationRecord
     User.with_role(:admin).first
   end
 
-  def activity_time
-    published_at.iso8601
-  end
+  # def activity_time
+    # published_at.iso8601
+  # end
 
   private
 
