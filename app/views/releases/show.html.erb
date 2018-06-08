@@ -25,8 +25,11 @@
 
       <div class="release-rate">
         RATE
-        <%= rating_for @release, 'main', star: 3, cancel: true, 
-              disable_after_rate: false, star_path: '/images/rate/yellow' %>
+        <% unless (current_user && current_user.has_role?(:artist)) %>
+          <%= rating_for @release, 'main', star: 3, cancel: true, 
+                disable_after_rate: false, star_path: '/images/rate/yellow'
+          %>
+        <% end %>
         <%= @release.average('main').try(:avg) %>
       </div>
 
