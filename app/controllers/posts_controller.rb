@@ -1,5 +1,11 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!
+
+  def show
+    post = Post.find params[:id]
+
+    redirect_to topic_path( post.topic, anchor: "message-#{post.id}" )
+  end
   
   def create
     @topic = Topic.find(params[:post][:topic_id])

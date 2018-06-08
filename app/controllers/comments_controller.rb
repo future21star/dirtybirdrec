@@ -1,6 +1,18 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!
 
+  def show
+    comment = Comment.find params[:id]
+
+    action = comment.commentable.try(:has_role?, :artist) ? 'artist' : 'show'
+
+    redirect_to( url_for(
+        controller: comment.commentable_type.pluralize.downcase, 
+        action: action,
+        id: comment.commentable_id,
+        anchor: "message-#{comment.id}" ) )
+  end
+
   def create
     @comment = Comment.new(comment_params)
 

@@ -1,5 +1,6 @@
 <div class="feed-item">
   <%= link_to image_tag(post.user.avatar.thumb.url, class: "post-user-avatar"), post.user, class: "post-owner" %>
+  <div id="message-<%= post.id %>"></div>
   <p class="feed-posted">Posted <%= time_ago_in_words(post.created_at) %> ago</p>
 
   <div class="feed-item-body">

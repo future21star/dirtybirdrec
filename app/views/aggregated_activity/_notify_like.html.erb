@@ -6,7 +6,10 @@
   <% end %>
 
   liked your
-  <%= activity['activities'].map {|a| a['object'].class.to_s.downcase}.uniq.join(', ') %>
+
+  <% for like in activity['activities'] %>
+    <%= link_to like['object'].class, like['object'] %>
+  <% end %>
 <% elsif activity['actor_count'] == 2 %>
   <%= link_to activity['activities'][0]['actor'] do %>
     <%= image_tag activity['activities'][0]['actor'].avatar.url, class: "feed-avatar" %>
@@ -21,8 +24,10 @@
   <% end %>
 
   liked
-  <%= activity['activity_count'] %>
-  things
+
+  <% for like in activity['activities'] %>
+    <%= link_to like['object'].likeable_type, like['object'] %>
+  <% end %>
 <% else %>
   <%= link_to activity['activities'][0]['actor'] do %>
     <%= image_tag activity['activities'][0]['actor'].avatar.url, class: "feed-avatar" %>
@@ -39,7 +44,9 @@
   and 
   <%= activity['actor_count'] - 2 %> 
   more liked 
-  <%= activity['activity_count'] %> 
+  <% for like in activity['activities'] %>
+    <%= link_to like['object'].likeable_type, like['object'] %>
+  <% end %>
   things
 <% end %>
 

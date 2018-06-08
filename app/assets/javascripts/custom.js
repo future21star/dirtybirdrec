@@ -153,4 +153,10 @@ $(document).on('turbolinks:load', function() {
     return false;
   });
 
+  if (window.location.hash !== "") {
+    $('html, body').animate({
+      scrollTop: $(window.location.hash).offset().top
+    }, 600, function(){});
+  }
+
 });

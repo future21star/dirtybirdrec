@@ -44,21 +44,21 @@
     content: '';
     position: absolute;
     width: 1px;
-    height: calc(100% + 11px);
+    height: calc(100% + 13px - 120px);
     left: -15.5px;
-    top: 16px;
+    top: 136px;
     z-index: 1;
     background-color: #222;
   }
 
-  &:last-child:before {
+  &:nth-last-child(2):before {
     display: none;
   }
 }
 
 .post-owner {
   position: absolute;
-  top: 28px;
+  top: 148px;
   left: 0;
 }
 
@@ -173,4 +173,12 @@
   height: 30px;
   border-radius: 16px;
   object-fit: cover;
+}
+
+[id^='message-']:before {
+  display: block; 
+  content: " "; 
+  margin-top: -120px;
+  height: 120px;
+  visibility: hidden; 
 }

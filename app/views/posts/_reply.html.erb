@@ -1,6 +1,6 @@
 <% if reply.parent && reply.user == reply.parent.user && reply.parent.parent_id.blank? %>
   
-  <div class="text-right">
+  <div class="text-right" id="message-<%= reply.id %>">
     <%= render partial: 'likes/like_button', locals: { object: reply,  style: 'thumbup-reply' } %>
 
     <%= link_to post_reply_form_path( post_id: reply.id, topic_id: @topic.id ), 
@@ -37,7 +37,7 @@
 
 <% else %>
 
-  <div class="nested-messages">
+  <div class="nested-messages" id="message-<%= reply.id %>">
     <%= link_to image_tag(reply.user.avatar.thumb, class: "post-user-avatar"), reply.user %>
     
     <p id="feed-post-<%= reply.id %>" class="feed-reply">

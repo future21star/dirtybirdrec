@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
     if current_user
       begin
         feed = StreamRails.feed_manager.get_notification_feed(current_user.id)
-        results = feed.get()['results']
+        results = feed.get(limit: 20)['results']
       rescue Faraday::Error::ConnectionFailed
         results = []
       end

@@ -1,6 +1,6 @@
 <% if comment.user == comment.commentable %>
 
-  <div class="text-right">
+  <div class="text-right" id="message-<%= comment.id %>">
     <%= render partial: 'likes/like_button', locals: { object: comment,  style: 'thumbup-reply' } %>
 
     <%= link_to comment_reply_form_path( comment_id: comment.id ),
@@ -37,7 +37,7 @@
 
 <% else %>
 
-  <div class="nested-messages">
+  <div class="nested-messages" id="message-<%= comment.id %>">
     <%= link_to image_tag(comment.user.avatar.thumb, class: "post-user-avatar"), comment.user %>
     <p class="feed-reply" id="Comment-<%= comment.id %>">
       <%= comment.body %>

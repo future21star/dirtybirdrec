@@ -6,6 +6,10 @@
 
   added
   <%= pluralize(activity['activity_count'], 'comment') %>
+
+  <% for comment in activity['activities'] %>
+    <%= link_to comment['object'].try(:body).try(:truncate, 10), comment['object'] %>
+  <% end %>
 <% elsif activity['actor_count'] == 2 %>
 
   <%= link_to activity['activities'][0]['actor'] do %>
@@ -23,6 +27,10 @@
   added
   <%= activity['activity_count'] %>
   comments
+
+  <% for comment in activity['activities'] %>
+    <%= link_to comment['object'].try(:body).try(:truncate, 10), comment['object'] %>
+  <% end %>
 <% else %>
   <%= link_to activity['activities'][0]['actor'] do %>
     <%= image_tag activity['activities'][0]['actor'].avatar.url, class: "feed-avatar" %>
@@ -41,6 +49,10 @@
   more added 
   <%= activity['activity_count'] %> 
   comments
+
+  <% for comment in activity['activities'] %>
+    <%= link_to comment['object'].try(:body).try(:truncate, 10), comment['object'] %>
+  <% end %>
 <% end %>
 
 <%= time_ago_in_words(activity['updated_at'].in_time_zone) %> ago
