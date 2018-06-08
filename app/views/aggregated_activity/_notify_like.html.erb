@@ -26,7 +26,7 @@
   liked
 
   <% for like in activity['activities'] %>
-    <%= link_to like['object'].likeable_type, like['object'] %>
+    <%= link_to like['object'].class, like['object'] %>
   <% end %>
 <% else %>
   <%= link_to activity['activities'][0]['actor'] do %>
@@ -45,7 +45,7 @@
   <%= activity['actor_count'] - 2 %> 
   more liked 
   <% for like in activity['activities'] %>
-    <%= link_to like['object'].likeable_type, like['object'] %>
+    <%= link_to like['object'].class, like['object'] %>
   <% end %>
   things
 <% end %>
