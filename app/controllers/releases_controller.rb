@@ -3,9 +3,13 @@ class ReleasesController < ApplicationController
   before_action :set_notifications, only: [:show, :index]
 
   def show
-    release = Release.find(params[:id])
-    @release = ReleasePresenter.new(release, current_user)
-
+    @release = Release.find(params[:id])
+    # @release = ReleasePresenter.new(release, current_user)
+    all_rates = Rate.where(rateable_id: params[:id])
+    @overall_score = 0
+    all_rates.each do |rate|
+      @overall_score += rate.stars
+    end
     begin
       feed = StreamRails.feed_manager.get_feed('release', @release.id)
       results = feed.get()['results']
