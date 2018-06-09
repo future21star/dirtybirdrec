@@ -14,7 +14,7 @@
         <ul>
           <% @artists.each do |user| %>
             <li class="filter-user">
-              <%= link_to releases_path( filters: { artist: user.id } ), class: "" do %>
+              <%= link_to releases_path( filters: { artist: user.id } ) do %>
                 <%= image_tag(user.avatar.thumb, class: "user-avatar") if user.avatar.present? %>
                 <div><%= user.name %></div>
                 <div><%= pluralize(user.artist_info.tracks_count, 'track') if user.artist_info %></div>
@@ -41,7 +41,7 @@
     </div>
 
     <%= link_to "Last 3 months", releases_path( filters: { three_months: true } ) %>
-    
+
     <% if current_user %>
       <%= link_to "Liked tracks", releases_path( filters: { liked: true } ) %>
     <% end%>
