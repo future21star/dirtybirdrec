@@ -343,6 +343,7 @@
 
     _fill: function(score) {
       var hash = 0;
+      $('.rate-number').html(score);
 
       for (var i = 1; i <= this.stars.length; i++) {
         var
