@@ -1,13 +1,13 @@
+<% form = escape_javascript(
+            render(partial:'topics/form', 
+              locals: { post: @new_post, topic_id: @topic_id, parent_id: @post_id })
+          ) %>
+
+$('.feed-item .feed-form').remove();
+$("[id^='topic-post']").show();
+
 <% if Post.find(@post_id).parent_id.blank? %>
-  $('#topic-post-<%= @post_id %>').hide().before(`
-      <%= escape_javascript(
-        render(partial:'topics/form', 
-          locals: { post: @new_post, topic_id: @topic_id, parent_id: @post_id })
-      ) %>`);
+  $('#topic-post-<%= @post_id %>').hide().before(`<%= form %>`);
 <% else %>
-  $('#feed-post-<%= @post_id %>').closest('div').append(`
-      <%= escape_javascript(
-        render(partial:'topics/form', 
-          locals: { post: @new_post, topic_id: @topic_id, parent_id: @post_id })
-      ) %>`);
+  $('#feed-post-<%= @post_id %>').closest('div').append(`<%= form %>`);
 <% end %>

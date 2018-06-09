@@ -1,13 +1,13 @@
+<% form = escape_javascript(
+            render(partial:'comments/form', 
+              locals: { post: @new_comment, parent_id: @comment_id })
+          ) %>
+
+$('.feed-item .feed-form').remove();
+$("[id^='comment-reply']").show();
+
 <% if Comment.find(@comment_id).parent_id.blank? %>
-  $('#comment-reply-<%= @comment_id %>').hide().before(`
-      <%= escape_javascript(
-        render(partial:'comments/form', 
-          locals: { post: @new_comment, parent_id: @comment_id })
-      ) %>`);
+  $('#comment-reply-<%= @comment_id %>').hide().before(`<%= form %>`);
 <% else %>
-  $('#Comment-<%= @comment_id %>').closest('div').append(`
-      <%= escape_javascript(
-        render(partial:'comments/form', 
-          locals: { post: @new_comment, parent_id: @comment_id })
-      ) %>`);
+  $('#Comment-<%= @comment_id %>').closest('div').append(`<%= form %>`);
 <% end %>
