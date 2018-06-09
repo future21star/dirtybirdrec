@@ -57,6 +57,7 @@ Rails.application.routes.draw do
 
   resources :tracks
   get 'get_tracks', to: 'tracks#get_tracks'
+  get 'get_artist_tracks/:id', to: 'users#get_tracks', as: 'get_artist_tracks'
 
   namespace :callbacks do
     post 'transloadit', to: 'transloadit#create'

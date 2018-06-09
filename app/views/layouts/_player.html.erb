@@ -201,6 +201,9 @@
       cpAudio.skip(currentTime);
       $('.jp-current-time').text(secondsToHms(currentTime));
       $('.jp-duration').text(secondsToHms(cpAudio.getDuration()));
+      $(`[data-track=${playlist[currentTrack].id}]`)
+          .siblings('.jp-duration-track')
+          .text(secondsToHms(cpAudio.getDuration()));
 
       if(playlist[currentTrack + 1] != undefined) {
         cpAudio2.load(playlist[currentTrack + 1].mp3);
@@ -251,8 +254,6 @@
   }
 
   function playTrack(id) {
-    console.log(id);
-
     $('.jp-play-track').not(`[data-track=${id}]`).removeClass('jp-playing');
 
     if(playlist[currentTrackIndex].id == id) {
@@ -273,6 +274,10 @@
         addToPlaylist([respond.track]);
         $(`[data-track=${id}]`).addClass('jp-playing');
         $('.jp-audio .jp-play').addClass('jp-playing');
+
+        $(`[data-track=${playlist[currentTrackIndex].id}]`)
+            .siblings('.jp-duration-track')
+            .text(secondsToHms(cpAudio.getDuration()));
       });
     }
   }
@@ -356,6 +361,10 @@
       }
     });
 
+    $(`[data-track=${playlist[currentTrackIndex].id}]`)
+        .siblings('.jp-duration-track')
+        .text(secondsToHms(cpAudio.getDuration()));
+
     if(!paused) {
       $('.jp-audio .jp-play').addClass('jp-playing');
       $('.jp-play-release').addClass('jp-playing');
@@ -395,6 +404,10 @@
       cpAudio.play();
       $('.jp-duration').text(secondsToHms(cpAudio.getDuration()));
     });
+
+    $(`[data-track=${playlist[currentTrackIndex].id}]`)
+        .siblings('.jp-duration-track')
+        .text(secondsToHms(cpAudio.getDuration()));
 
     $('.jp-audio .jp-play').addClass('jp-playing');
     $('.jp-play-release').addClass('jp-playing');
