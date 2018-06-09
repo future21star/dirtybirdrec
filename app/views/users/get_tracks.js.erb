@@ -1,0 +1,23 @@
+var tracks = [];
+<% @tracks.each do |track| %>
+  <%# if track.users.any? %>
+    <%# artists = track.users.map(&:name).join(' feat. ') %>
+  <%# else %>
+    <%# artists = track.artist %>
+  <%# end %>
+
+  tracks.push({ 
+    'release_id': '<%= track.release.id %>',
+    'track_number': '<%= track.track_number %>',
+    'id': '<%= track.id %>',
+    'title': '<%= track.title %>', 
+    'artists': '<%= track.artist %>', 
+    'mp3': '<%= track.stream_uri %>'
+  });
+<% end %>
+
+if (tracks.length > 0) {
+  setPlaylist(tracks, true);
+
+
+}

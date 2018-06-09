@@ -131,6 +131,11 @@
 
 .jp-title {
   display: inline-block;
+
+  a:hover {
+    color: #3ed4e0;
+    text-decoration: none;
+  }
 }
 
 .jp-progress-container {

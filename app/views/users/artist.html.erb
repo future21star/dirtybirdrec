@@ -205,6 +205,84 @@
           </ol>
         </div>
       <% end %>
+
+      <!-- TRACKS -->
+      <% if @user.tracks.any? %>
+        <div class="c-panel bg-white">
+          <div class="c-flag c-flag-inner mb-2"><b>TRACKS</b> OF THIS ARTIST</div>
+
+        <%= link_to get_artist_tracks_path(@user.id), 
+            style: "width: 40px; height: 40px;", remote: true do %>
+          <%= image_tag('icons/icon-play-black.svg', title: "Play artist tracks") %>
+        <% end %>
+
+          <ol class="list-unstyled mt-1">
+            <% @user.tracks.each do |track| %>
+              <li class="track-item">
+                <h3>
+                  <%= track.track_number %>.
+                  <%= track.title.truncate(70).upcase %>
+                  <%= render 'likes/like_button', object: track %>
+                </h3>
+
+                <%# if track.users.any?
+                     artists = track.users.map(&:name).join(' feat. ')
+                   else
+                     artists = track.artist
+                   end %>
+
+                By <%= track.artist %>
+
+                <div class="jp-controls">
+                  <div class="jp-current-time-track" role="timer" aria-label="time">0:00</div>
+                  <button class="jp-previous" role="button" tabindex="0"></button>
+                  <button class="jp-play jp-play-track" data-track="<%= track.id %>" role="button" tabindex="1"></button>
+                  <button class="jp-next" role="button" tabindex="2"></button>
+                  <div class="jp-duration-track" role="timer" aria-label="duration"></div><%# TODO get from database %>
+                  <% unless current_user && current_user.has_role?(:artist) %>
+                    <%= rating_for track, 'main', star: 3, cancel: true, 
+                        disable_after_rate: false, star_path: '/images/rate/white' %>
+                    &nbsp;
+                  <% end %>
+                  <%= track.average('main').try(:avg) %>
+                </div>
+
+                <% if track.user_allowed?(current_user) %>
+                  <button class="icon-download" type="button" data-toggle="collapse" data-target="#download-<%= track.id %>" aria-expanded="false" aria-controls="collapseExample">
+                    <%= image_tag('icons/icon-download.svg') %>
+                  </button>
+                <% end %>
+                <div id="download-<%= track.id %>" class="collapse collapse-track-formats">
+                    <% track.download_uris.each do |format, uri| %>
+                      <a href="<%= uri %>" class="btn btn-danger"><%= format %></a>
+                    <% end %>
+                </div>
+
+
+                <% if track.release.image_uri.present?
+                     image = track.release.image_uri
+                   elsif track.release.avatar.present?
+                     image = track.release.avatar.url
+                   else
+                     image = track.release.avatar.url
+                   end %>
+
+                <button class="icon-share" type="button" data-toggle="collapse" data-target="#track<%= track.id %>-share" aria-expanded="false" aria-controls="collapseExample">
+                  <%= image_tag('icons/icon-share.svg', title: "Share") %>
+                </button>
+
+                <div id="track<%= track.id %>-share" class="collapse share-panel" style="top: -11px;">
+                  <h5 class="mx-3 my-2">Share</h5>
+                  <div class="mx-3 mb-3" data-object-type="release" data-object-id="<%= track.release.id %>" data-object-subtype="track" data-object-subid="<%= track.id %>">
+                    <%= social_share_button_tag(strip_tags(track.release.title).gsub("\'",''), desc: strip_tags(track.release.text).gsub("\'",''), image: image) %>
+                  </div>
+                </div>
+        
+              </li>
+            <% end %>
+          </ol>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

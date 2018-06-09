@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   before_action :authenticate_user!, except: 
       [:index, :show, :parse_youtube, :artist, :announcements_feed,
         :interviews_feed, :videos_feed, :others_feed, :artists, :leaderboard,
-        :load_more]
+        :load_more, :get_tracks]
   before_action :set_notifications, only: [:leaderboard, :index, :show, :home, 
         :artist, :artists, :friends, :idols, :choose_profile, 
         :announcement_feed, :release_feed, :chirp_feed, :artists_feed, 
@@ -221,7 +221,8 @@ class UsersController < ApplicationController
 
   def artist_vars
     @followers = @user.followers
-    @releases = ReleasePresenter.new(@user.releases.published.limit(30), current_user)
+    @releases = @user.releases.published.limit(30)
+
     @artist_video = @user.videos.last
     @followed_users = @user.followed_users.with_role(:fan).limit(4)
     @followed_artists = @user.followed_users.with_role(:artist).limit(4)
@@ -270,6 +271,19 @@ class UsersController < ApplicationController
   def idols
     @user = User.find(params[:id])
     @idols = @user.followed_users.with_role(:artist)
+  end
+
+  def get_tracks
+    user = User.find(params[:id])
+    @tracks = user.tracks.order(track_number: :asc).map do |track|
+      TrackPresenter.new(track, current_user)
+    end
+
+    if current_user && current_user.playlist.present?
+      current_user.playlist.update_attributes(
+        tracks: user.tracks.map{|t| t[:id]}.join(','),
+        current_track: "0:0")
+    end
   end
 
   private
