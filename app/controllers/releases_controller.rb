@@ -44,6 +44,11 @@ class ReleasesController < ApplicationController
           @releases = @releases.joins(:releases_users).where("releases_users.user_id = ?", value)
         when 'not_downloaded' 
           @releases = @releases.where("release_date > ? OR release_date = NULL")
+        when 'liked'
+          tracks_likes = "SELECT release_id FROM tracks WHERE id IN (SELECT likeable_id FROM likes WHERE user_id = #{current_user.id} AND likeable_type = 'Track')"
+          releases_likes = "SELECT likeable_id FROM likes WHERE user_id = #{current_user.id} AND likeable_type = 'Release'"
+
+          @releases = @releases.where("id IN (#{tracks_likes} UNION #{releases_likes})")
         end
       end
     end

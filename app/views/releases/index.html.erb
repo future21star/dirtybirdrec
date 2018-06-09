@@ -41,6 +41,10 @@
     </div>
 
     <%= link_to "Last 3 months", releases_path( filters: { three_months: true } ) %>
+    
+    <% if current_user %>
+      <%= link_to "Liked tracks", releases_path( filters: { liked: true } ) %>
+    <% end%>
   </div>
 
     <%#= select_tag "filters[artist]", 
