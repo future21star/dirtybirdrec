@@ -1,0 +1,13 @@
+development:
+  S3_KEY: AKIAJV4DIJFOTQQQLSKA
+  S3_SECRET: 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
+  S3_REGION: us-east-2
+  S3_BUCKET_NAME: dirtybirdrec-dev
+  STREAM_API_KEY: zmgfjyzjs2g8
+  STREAM_API_SECRET: rzz8k2a3dng7udrxced7wbzptnbbcmhrm94ufs6hmzqj3463vrtx27jezkf6wje3
+  facebook_api_id: "1871825759517074"
+  facebook_api_secret: "141cade70c6af87515fbd44cb8a0a26e"
+  google_client_id: "937709975199-rtsc5ei9n64v6tpjel7bbv5cav1loihn.apps.googleusercontent.com"
+  google_client_secret: "-ZYEXZpN9FkZxFID0L_BzrGl"
+  TRANSLOADIT_AUTH_KEY: af7bef805c0f11e8bd924d7d90f0e8df
+  TRANSLOADIT_AUTH_SECRET: 7448b0342890907ae20ee4bbd301a9ec6f5c183a
