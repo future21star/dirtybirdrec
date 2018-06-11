@@ -8,8 +8,7 @@
   $('#topic-post-<%= @post.parent_id %>').show().siblings('.feed-form').remove();
 
 <% else %>
-
-  $('.feed-block .feed-form').before("<%= escape_javascript(render(@post)) %>");
+  $('.feed-block').prepend("<%= escape_javascript(render(@post)) %>");
   $('#post_text').val('').focus();
   
 <% end %>

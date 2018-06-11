@@ -203,6 +203,7 @@
 .follow-button-black {
   @include btn(#323333,white,#434444);
   position: absolute;
+  z-index: 2;
   top: 19px;
   right: 150px;
 }

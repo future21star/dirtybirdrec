@@ -4,7 +4,7 @@ class HomeController < ApplicationController
 
   before_action :authenticate_user!, 
       except: [:index, :demo_index, :demo_login, :about, :birdfeed, :share]
-  before_action :set_notifications, only: [:about, :birdfeed]
+  before_action :set_notifications, only: [:about, :birdfeed, :demo_index] #TODO remove demo_index
 
   def index
     @slider = SliderImage.all.ordered
@@ -81,8 +81,9 @@ class HomeController < ApplicationController
   #======================#TODO demo remove=========================
   def demo_index
     @users = User.all.order(id: :asc)
+      @other_user = User.find 37079
     if current_user
-      @other_user = @users.where.not(id: current_user.id).first
+      # @other_user = @users.where.not(id: current_user.id).first
 
       begin
         feed = StreamRails.feed_manager.get_user_feed(@other_user.id)

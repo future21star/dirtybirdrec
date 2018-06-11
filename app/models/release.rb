@@ -6,6 +6,7 @@ class Release < ApplicationRecord
   has_many :track_files, through: :tracks
   has_many :release_files
   has_many :downloads, through: :tracks
+
   enum encode_status: [:pending, :complete, :failed] # can be nil # TODO: remove this
 
   has_and_belongs_to_many :users
@@ -20,7 +21,6 @@ class Release < ApplicationRecord
   mount_uploader :avatar, ReleaseUploader
 
   ratyrate_rateable "main"
-
 
   include AlgoliaSearch
 

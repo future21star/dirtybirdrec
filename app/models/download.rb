@@ -16,7 +16,11 @@ class Download < ActiveRecord::Base
   end
 
   def activity_should_sync?
-    if self.user.downloads.where("release = TRUE AND created_at < ?", DateTime.now - 10.minutes).count > 0
+    if self.user
+        .downloads
+        .where("release = TRUE AND created_at > ?", 
+            DateTime.now.in_time_zone - 1.minute)
+        .count > 1
       false
     else
       true

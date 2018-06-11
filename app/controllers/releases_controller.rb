@@ -10,6 +10,7 @@ class ReleasesController < ApplicationController
     all_rates.each do |rate|
       @overall_score += rate.stars
     end
+
     begin
       feed = StreamRails.feed_manager.get_feed('release', @release.id)
       results = feed.get()['results']

@@ -1,7 +1,7 @@
 <div style="display:flex;">
   <span>Login as:&nbsp;</span>
   <%= button_to  User.with_role(:admin).first.name, demo_login_path, params: {user_id: User.with_role(:admin).first.id}, method: :post %>
-  <%= button_to  User.with_role(:artist).first.name, demo_login_path, params: {user_id: User.with_role(:artist).first.id}, method: :post %>
+  <%= button_to  @other_user.name, demo_login_path, params: {user_id: @other_user.id}, method: :post %>
 </div>
 
 <hr>
@@ -110,7 +110,7 @@
     </div>
     <div class="col">
       <h3>Other user's (<%= @other_user.name %>) feed:</h3>
-      <%= render 'feeds/user' %>
+      <%#= render 'feeds/user' %>
     </div>
   </div>
   

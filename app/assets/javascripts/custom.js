@@ -155,7 +155,7 @@ $(document).on('turbolinks:load', function() {
 
   if (window.location.hash !== "") {
     $('html, body').animate({
-      scrollTop: $(window.location.hash).offset().top
+      scrollTop: $(window.location.hash).offset().top - 120
     }, 600, function(){});
   }
 

@@ -39,6 +39,14 @@ class Comment < ApplicationRecord
     {'parent_id' => self.parent_id}
   end
 
+  def activity_should_sync?
+    if self.user.has_role?(:artist) && self.commentable_type == "User" && self.commentable_id == self.user_id
+      true
+    else
+      false
+    end
+  end
+
   private
 
     def add_points

@@ -17,6 +17,7 @@
 
   <div class="feed-block">
     <%= render @topic.posts.parents_posts.order(created_at: :desc) %>
-    <%= render 'form', parent_id: nil %>
   </div>
+
+  <%= render 'form', parent_id: nil %>
 </div>
