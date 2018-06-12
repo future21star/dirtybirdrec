@@ -11,3 +11,5 @@ $("[id^='topic-post']").show();
 <% else %>
   $('#feed-post-<%= @post_id %>').closest('div').append(`<%= form %>`);
 <% end %>
+
+$("#new_post-<%=@post_hash%> .emoji-area").emojioneArea();

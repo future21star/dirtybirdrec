@@ -11,3 +11,5 @@ $("[id^='comment-reply']").show();
 <% else %>
   $('#Comment-<%= @comment_id %>').closest('div').append(`<%= form %>`);
 <% end %>
+
+$("#new_comment-<%=@comment_hash%> .emoji-area").emojioneArea();

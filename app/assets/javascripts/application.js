@@ -18,4 +18,5 @@
 //= require bootstrap-sprockets
 //= require algolia/v3/algoliasearch.min
 //= require jquery.Jcrop.min
+//= require emojionearea.min
 //= require_tree .

@@ -159,4 +159,8 @@ $(document).on('turbolinks:load', function() {
     }, 600, function(){});
   }
 
+  $(document).ready(function() {
+    $(".emoji-area").emojioneArea();
+  });
+
 });

@@ -308,7 +308,8 @@
               <%= f.label :title, class: "sr-only" %>
               <%= f.text_field :title, placeholder: "Type the title here" %>
               <%= f.label :body, class: "sr-only" %>
-              <%= f.text_area :body, rows: 10, placeholder: "Type text", max: 200 %>
+              <%= f.text_area :body, rows: 10, placeholder: "Type text", 
+                  max: 200, class: "emoji-area" %>
               <%= f.submit "ADD TO FEED", class: "btn c-btn-blue btn-wide" %>
             <% end %>
 

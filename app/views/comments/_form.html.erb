@@ -7,7 +7,7 @@
     <%= f.hidden_field :commentable_type, value: @commentable_type %>
 
     <%= f.label :body, "Text", class: "sr-only" %>
-    <%= f.text_area :body, class: "form-control mb-1", required: true,
+    <%= f.text_area :body, class: "form-control mb-1 emoji-area", required: true,
           id: "comment_body#{('-'+parent_id) if parent_id}", 
           placeholder: "Leave a comment" %>
     <%= f.submit "Send", class: "btn c-btn-blue" %>
