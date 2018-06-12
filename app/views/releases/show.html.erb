@@ -114,7 +114,7 @@
       <!-- ARTISTS -->
       <div class="c-panel bg-dark mb-4">
         <div class="c-flag c-flag-inner mb-2">ARTISTS</div>
-
+        <input type="hidden" id="rate_number" value="<%= @release.average("main").try(:avg) %>"></span>
         <ol class="users-block list-unstyled mt-1">
           <% if @release.users.any? %>
             <% @release.users.each do |artist| %>
@@ -250,21 +250,3 @@
     </div>
   <% end %>
 <% end %>
-
-<script type="text/javascript">
-  $(function() {
-    let rate = '<%= @release.average("main").try(:avg) %>';
-    if (rate.trim() == "") {
-      $('.rate-stars').hide();
-      $('.rate-word').show();
-    } else {
-      $('.rate-stars').show();
-      $('.rate-word').hide();
-    }
-  })
-
-  $('.rate-word').click(function() {
-    $('.rate-stars').show();
-    $('.rate-word').hide();
-  })
-</script>
